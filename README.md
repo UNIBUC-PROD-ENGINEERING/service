@@ -1,0 +1,2 @@
+# service
+Example lab application
