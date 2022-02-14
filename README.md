@@ -1,11 +1,16 @@
-## Prerequisites
+# Prerequisites
 
-* Install OpenJDK 11
-* Install Docker
-* Install IntelliJ
-* Optional: VirtualBox/VMWare Fusion Player and a VM with linux
+Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a local virtual machine with Ubuntu, Docker, IntelliJ.
 
-## Run/debug code in IntelliJ
+# Access the code
+
+* Fork the code GitHub repository under your Organization
+  * https://github.com/UNIBUC-PROD-ENGINEERING/service
+* Clone the code repository:
+  * git@github.com:YOUR_ORG_NAME/service.git
+
+
+# Run/debug code in IntelliJ
 * Build the code
     * IntelliJ will build it automatically
     * If you want to build it from command line and also run unit tests, run: ```./gradlew build```
@@ -18,7 +23,7 @@
     * http://localhost:8080/hello-world
     * http://localhost:8080/info
 
-## Deploy and run the code locally as docker instance
+# Deploy and run the code locally as docker instance
 
 * Build the docker image of the hello world service
     * ```make build```
