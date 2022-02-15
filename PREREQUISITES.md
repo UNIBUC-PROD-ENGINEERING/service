@@ -24,7 +24,7 @@ If you DO NOT have one of those OSs installed we will use the following section 
 
 * Create a VMWare personal Account: https://customerconnect.vmware.com/web/vmware/evalcenter?p=fusion-player-personal
 * Register free Fusion Player license
-* Download and install Fusion Player (might need to install from Workspace One)
+* Download and install Fusion Player 
 * Download Fusion virtual disk image: https://www.osboxes.org/ubuntu/#ubuntu-21-04-vmware
 * Create a new virtual machine using the downloaded image: https://kb.vmware.com/s/article/1023555
 * Install VMWare Tools: `sudo apt-get install open-vm-tools open-vm-tools-desktop`. And reboot the VM
