@@ -17,7 +17,7 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
 * Create an IntelliJ run configuration for a Jar application
     * Add in the configuration the JAR path to the build folder `./build/libs/hello-0.0.1-SNAPSHOT.jar`
 * Start the MongoDB container using docker compose
-    * ```docker-compose up mongo -d```
+    * ```docker-compose up -d mongo```
 * Run/debug your IntelliJ run configuration
 * Open in your browser:
     * http://localhost:8080/hello-world
