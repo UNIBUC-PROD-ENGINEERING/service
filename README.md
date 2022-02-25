@@ -29,6 +29,14 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
     * ```make build```
 * Start all the containers
     * ```docker-compose up -d```
+
+* Verify that all containers started, by running
+     ```
+service git:(main)  $ docker ps
+CONTAINER ID   IMAGE           COMMAND                  CREATED             STATUS             PORTS                                           NAMES
+77edd8b15b19   mongo-express   "tini -- /docker-ent…"   57 minutes ago      Up 57 minutes      0.0.0.0:8090->8081/tcp, :::8090->8081/tcp       service_mongo-admin-ui_1
+9edd1afa25fd   mongo:5.0.2     "docker-entrypoint.s…"   About an hour ago   Up About an hour   0.0.0.0:27017->27017/tcp, :::27017->27017/tcp   service_mongo_1
+     ```
 * Open in your browser:
     * http://localhost:8080/hello-world
     * http://localhost:8080/info
