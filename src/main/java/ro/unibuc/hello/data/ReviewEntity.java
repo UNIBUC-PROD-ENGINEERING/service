@@ -14,16 +14,19 @@ public class ReviewEntity {
     private Integer score;
     @DBRef(lazy = true)
     private MovieEntity movie;
+    @DBRef(lazy = true)
+    private UserEntity user;
 
     public ReviewEntity(String comment, Integer score) {
         this.comment = comment;
         this.score = score;
     }
 
-    public ReviewEntity(String comment, Integer score, MovieEntity movie) {
+    public ReviewEntity(String comment, Integer score, MovieEntity movie, UserEntity user) {
         this.comment = comment;
         this.score = score;
         this.movie = movie;
+        this.user = user;
     }
 
     public ReviewEntity() {
@@ -59,6 +62,14 @@ public class ReviewEntity {
 
     public void setMovie(MovieEntity movie) {
         this.movie = movie;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     @Override

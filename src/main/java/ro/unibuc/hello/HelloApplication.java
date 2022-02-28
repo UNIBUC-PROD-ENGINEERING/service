@@ -31,9 +31,9 @@ public class HelloApplication {
 		UserEntity user1 = new UserEntity("Jack", "jack@wmail.com");
 		MovieEntity movie1 = new MovieEntity("Avatar", "James Cameron", "James Cameron", 2009, 162);
 		ReviewEntity review1 = new ReviewEntity("Great movie", 8);
-		ArrayList<ReviewEntity> reviews = new ArrayList<ReviewEntity>(){{ add(review1);}};
-		ArrayList<MovieEntity> movieWatchList = new ArrayList<MovieEntity>(){{ add(movie1);}};
-		ArrayList<UserEntity> userWatchList = new ArrayList<UserEntity>(){{ add(user1);}};
+		ArrayList<ReviewEntity> reviews = new ArrayList<>(){{ add(review1);}};
+		ArrayList<MovieEntity> movieWatchList = new ArrayList<>(){{ add(movie1);}};
+		ArrayList<UserEntity> userWatchList = new ArrayList<>(){{ add(user1);}};
 
 		movieRepository.deleteAll();
 		reviewRepository.deleteAll();
@@ -41,7 +41,7 @@ public class HelloApplication {
 
 //		userRepository.save(new UserEntity(user1.getName(), user1.getEmail(), reviews, movieWatchList));
 //		movieRepository.save(new MovieEntity(movie1.getTitle(), movie1.getDirector(), movie1.getWriter(), movie1.getYear(), movie1.getDuration(), reviews, userWatchList));
-//		reviewRepository.save(new ReviewEntity(review1.getComment(), review1.getScore(), movie1));
+//		reviewRepository.save(new ReviewEntity(review1.getComment(), review1.getScore(), movie1, user1));
 	}
 
 }
