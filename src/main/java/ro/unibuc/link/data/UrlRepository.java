@@ -1,6 +1,4 @@
-package ro.unibuc.hello.data;
-
-import java.util.List;
+package ro.unibuc.link.data;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -10,9 +8,5 @@ import org.springframework.stereotype.Repository;
  * Spring Data MongoDB automatically creates a class it implementing the interface when you run the application.
  */
 @Repository
-public interface InformationRepository extends MongoRepository<InformationEntity, String> {
-
-    public InformationEntity findByTitle(String title);
-    public List<InformationEntity> findByDescription(String description);
-
+public interface UrlRepository extends MongoRepository<UrlEntity, String> {
 }
