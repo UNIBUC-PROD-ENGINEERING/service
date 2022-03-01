@@ -55,32 +55,5 @@ public class WatchItemEntity {
         public void setUser(UserEntity user) {
             this.user = user;
         }
-
-        //        private String movieId;
-//        private String userId;
-//
-//        public CompositeKey(String movieId, String userId) {
-//            this.movieId = movieId;
-//            this.userId = userId;
-//        }
-//
-//        public CompositeKey() {
-//        }
-//
-//        public String getMovieId() {
-//            return movieId;
-//        }
-//
-//        public void setMovieId(String movieId) {
-//            this.movieId = movieId;
-//        }
-//
-//        public String getUserId() {
-//            return userId;
-//        }
-//
-//        public void setUserId(String userId) {
-//            this.userId = userId;
-//        }
     }
 }

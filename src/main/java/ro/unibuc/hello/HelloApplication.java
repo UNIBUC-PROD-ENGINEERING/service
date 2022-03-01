@@ -41,21 +41,20 @@ public class HelloApplication {
 		userRepository.deleteAll();
 		watchItemRepository.deleteAll();
 
-		UserEntity finalUser = user1 = userRepository.save(new UserEntity(user1.getName(), user1.getEmail()));
-		MovieEntity finalMovie = movie1 = movieRepository.save(new MovieEntity(movie1.getTitle(), movie1.getDirector(), movie1.getWriter(), movie1.getYear(), movie1.getDuration()));
+		user1 = userRepository.save(new UserEntity(user1.getName(), user1.getEmail()));
+		movie1 = movieRepository.save(new MovieEntity(movie1.getTitle(), movie1.getDirector(), movie1.getWriter(), movie1.getYear(), movie1.getDuration()));
 
-		UserEntity userEntity = userRepository.findById(String.valueOf(new ObjectId(finalUser.getId()))).orElse(null);
-		MovieEntity movieEntity = movieRepository.findById(String.valueOf(new ObjectId(finalMovie.getId()))).orElse(null);
-
-		if(movieEntity != null && userEntity != null)
-			watchItem1 = watchItemRepository.save(new WatchItemEntity(new WatchItemEntity.CompositeKey(movieEntity, userEntity)));
+		if(user1 != null && movie1 != null)
+			watchItem1 = watchItemRepository.save(new WatchItemEntity(new WatchItemEntity.CompositeKey(movie1, user1)));
 
 		WatchItemEntity finalWatchItem = watchItem1;
 		ArrayList<WatchItemEntity> watchItemEntityArrayList = new ArrayList<>(){{ add(finalWatchItem);}};
 
 		user1.setWatchItems(watchItemEntityArrayList);
+		movie1.setWatchItems(watchItemEntityArrayList);
 
 		userRepository.save(user1);
+		movieRepository.save(movie1);
 	}
 
 }
