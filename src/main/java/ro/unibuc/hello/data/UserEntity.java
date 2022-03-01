@@ -16,18 +16,18 @@ public class UserEntity {
     @DBRef(lazy = true)
     private ArrayList<ReviewEntity> reviews;
     @DBRef(lazy = true)
-    private ArrayList<MovieEntity> movieWatchList;
+    private ArrayList<WatchItemEntity> watchItems;
 
     public UserEntity(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public UserEntity(String name, String email, ArrayList<ReviewEntity> reviews, ArrayList<MovieEntity> movieWatchList) {
+    public UserEntity(String name, String email, ArrayList<ReviewEntity> reviews, ArrayList<WatchItemEntity> watchItems) {
         this.name = name;
         this.email = email;
         this.reviews = reviews;
-        this.movieWatchList = movieWatchList;
+        this.watchItems = watchItems;
     }
 
     public UserEntity() {
@@ -65,12 +65,12 @@ public class UserEntity {
         this.reviews = reviews;
     }
 
-    public ArrayList<MovieEntity> getMovieWatchList() {
-        return movieWatchList;
+    public ArrayList<WatchItemEntity> getWatchItems() {
+        return watchItems;
     }
 
-    public void setMovieWatchList(ArrayList<MovieEntity> movieWatchList) {
-        this.movieWatchList = movieWatchList;
+    public void setWatchItems(ArrayList<WatchItemEntity> watchItems) {
+        this.watchItems = watchItems;
     }
 
     @Override
