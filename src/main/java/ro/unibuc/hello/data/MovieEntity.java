@@ -19,7 +19,7 @@ public class MovieEntity {
     @DBRef(lazy = true)
     private ArrayList<ReviewEntity> reviews;
     @DBRef(lazy = true)
-    private ArrayList<UserEntity> userWatchList;
+    private ArrayList<WatchItemEntity> watchItems;
 
     public MovieEntity(String title, String director, String writer, Integer year, Integer duration) {
         this.title = title;
@@ -29,14 +29,14 @@ public class MovieEntity {
         this.duration = duration;
     }
 
-    public MovieEntity(String title, String director, String writer, Integer year, Integer duration, ArrayList<ReviewEntity> reviews, ArrayList<UserEntity> userWatchList) {
+    public MovieEntity(String title, String director, String writer, Integer year, Integer duration, ArrayList<ReviewEntity> reviews, ArrayList<WatchItemEntity> watchItems) {
         this.title = title;
         this.director = director;
         this.writer = writer;
         this.year = year;
         this.duration = duration;
         this.reviews = reviews;
-        this.userWatchList = userWatchList;
+        this.watchItems = watchItems;
     }
 
     public MovieEntity() {
@@ -98,12 +98,12 @@ public class MovieEntity {
         this.reviews = reviews;
     }
 
-    public ArrayList<UserEntity> getUserWatchList() {
-        return userWatchList;
+    public ArrayList<WatchItemEntity> getWatchItems() {
+        return watchItems;
     }
 
-    public void setUserWatchList(ArrayList<UserEntity> userWatchList) {
-        this.userWatchList = userWatchList;
+    public void setWatchItems(ArrayList<WatchItemEntity> watchItems) {
+        this.watchItems = watchItems;
     }
 
     @Override
@@ -127,9 +127,6 @@ public class MovieEntity {
                 ", director='" + director + '\'' +
                 ", writer='" + writer + '\'' +
                 ", year=" + year +
-                ", duration=" + duration + " minutes" +
-                ", reviews=" + reviews +
-                ", userWatchList=" + userWatchList +
-                '}';
+                ", duration=" + duration + " minutes";
     }
 }
