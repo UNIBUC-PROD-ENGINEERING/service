@@ -1,6 +1,5 @@
 package ro.unibuc.hello;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,8 +10,8 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = InformationRepository.class)
-public class HelloApplication {
+//@EnableMongoRepositories(basePackageClasses = MovieRepository.class)
+public class MainApplication {
 
 	@Autowired
 	private MovieRepository movieRepository;
@@ -27,7 +26,7 @@ public class HelloApplication {
 	private WatchItemRepository watchItemRepository;
 
 	public static void main(String[] args) {
-		SpringApplication.run(HelloApplication.class, args);
+		SpringApplication.run(MainApplication.class, args);
 	}
 
 	@PostConstruct
