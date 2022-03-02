@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArtworkRepository extends MongoRepository<ArtworkEntity, String> {
 
+    public List<ArtworkEntity> findByTitleContaining(String title);
     public ArtworkEntity findByTitle(String title);
     public List<ArtworkEntity> findByDescription(String description);
 

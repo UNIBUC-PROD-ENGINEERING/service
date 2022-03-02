@@ -24,7 +24,7 @@ public class HelloApplication {
 	@PostConstruct
 	public void runAfterObjectCreated() {
 		artworkRepository.deleteAll();
-		artworkRepository.save(new ArtworkEntity("The Scream",
+		artworkRepository.save(new ArtworkEntity("1","The Scream",
 				"Edvard Munch",
 				"Munch's The Scream is an icon of modern art, " +
 						"the Mona Lisa for our time. As Leonardo da Vinci " +
