@@ -8,8 +8,8 @@ import ro.unibuc.hello.data.InformationRepository;
 @SpringBootTest
 class HelloApplicationTests {
 
-	@MockBean
-	InformationRepository mockRepository;
+	//@MockBean
+	//InformationRepository mockRepository;
 
 	@Test
 	void contextLoads() {
