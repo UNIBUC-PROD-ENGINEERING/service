@@ -18,8 +18,9 @@ public class ProductController {
     @ResponseBody
     public ProductDto sayHello(@RequestParam(name="name", required=false, defaultValue="Test") String name) {
         var entity = productRepository.findByTitle(name);
-        if(entity != null)
+        if(entity != null) {
             return new ProductDto(entity);
+        }
         return null;
     }
 }

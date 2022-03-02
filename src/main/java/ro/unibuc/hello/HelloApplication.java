@@ -32,8 +32,9 @@ public class HelloApplication {
 				"This is an example of using a data storage engine running separately from our applications server"));
 
 		var x = productRepository.findByTitle("Test");
-		if(x == null)
+		if(x == null) {
 			productRepository.save(new ProductEntity("Test", "Test lung", 2));
+		}
 	}
 
 }
