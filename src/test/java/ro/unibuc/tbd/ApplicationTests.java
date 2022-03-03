@@ -7,9 +7,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 @SpringBootTest
 class ApplicationTests {
 
-	@MockBean
-	InformationRepository mockRepository;
-
 	@Test
 	void contextLoads() {
 	}

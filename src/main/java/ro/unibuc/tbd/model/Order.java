@@ -15,4 +15,20 @@ public class Order {
     public String clientId;
     public List<String> meals;
     public Float totalPrice;
+
+    public Order updateOrder(Order other) {
+        if (other.getClientId() != null) {
+            this.clientId = other.clientId;
+        }
+
+        if (other.getMeals() != null) {
+            this.meals = other.meals;
+        }
+
+        if (other.getTotalPrice() != null) {
+            this.totalPrice = other.totalPrice;
+        }
+
+        return this;
+    }
 }
