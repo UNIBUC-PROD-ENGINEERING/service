@@ -16,4 +16,24 @@ public class Meal {
     public List<String> ingredients;
     public Integer portionSize;
     public Float price;
+
+    public Meal updateMeal(Meal other) {
+        if (other.getName() != null) {
+            this.name = other.name;
+        }
+
+        if (other.getIngredients() != null) {
+            this.ingredients = other.ingredients;
+        }
+
+        if (other.getPortionSize() != null) {
+            this.portionSize = other.portionSize;
+        }
+
+        if (other.getPrice() != null) {
+            this.price = other.price;
+        }
+
+        return this;
+    }
 }

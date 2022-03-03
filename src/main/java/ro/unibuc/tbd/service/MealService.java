@@ -3,7 +3,9 @@ package ro.unibuc.tbd.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ro.unibuc.tbd.exception.NotFoundException;
 import ro.unibuc.tbd.model.Meal;
 import ro.unibuc.tbd.repository.MealRepository;
@@ -33,7 +35,7 @@ public class MealService {
             return meal.get();
         }
 
-        throw new NotFoundException("Meal not found.");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
     }
 
     public List<Meal> getAllMeals() {
@@ -47,16 +49,13 @@ public class MealService {
     public Meal updateMeal(String mealId, Meal request) {
         Optional<Meal> optionalMeal = repository.findById(mealId);
         if (optionalMeal.isEmpty()) {
-            throw new NotFoundException("Meal not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
         }
 
-        Meal Meal = optionalMeal.get();
-        Meal.setName(request.name);
-        Meal.setIngredients(request.ingredients);
-        Meal.setPortionSize(request.portionSize);
-        Meal.setPrice(request.price);
+        Meal meal = optionalMeal.get();
+        meal.updateMeal(request);
 
-        return repository.save(Meal);
+        return repository.save(meal);
     }
 
     public void deleteMealById(String mealId) {

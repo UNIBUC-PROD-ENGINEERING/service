@@ -3,8 +3,9 @@ package ro.unibuc.tbd.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import ro.unibuc.tbd.exception.NotFoundException;
+import org.springframework.web.server.ResponseStatusException;
 import ro.unibuc.tbd.model.Client;
 import ro.unibuc.tbd.repository.ClientRepository;
 
@@ -24,7 +25,7 @@ public class ClientService {
             return client.get();
         }
 
-        throw new NotFoundException("Client not found.");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found.");
     }
 
     public List<Client> getAllClients() {
@@ -38,14 +39,11 @@ public class ClientService {
     public Client updateClient(String clientId, Client request) {
         Optional<Client> optionalClient = repository.findById(clientId);
         if (optionalClient.isEmpty()) {
-            throw new NotFoundException("Client not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found.");
         }
 
         Client client = optionalClient.get();
-        client.setName(request.name);
-        client.setEmail(request.email);
-        client.setPhoneNumber(request.phoneNumber);
-        client.setAddress(request.address);
+        client.updateClient(request);
 
         return repository.save(client);
     }
