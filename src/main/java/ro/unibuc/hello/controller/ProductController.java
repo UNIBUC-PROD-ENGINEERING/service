@@ -1,12 +1,14 @@
 package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.ProductRepository;
+import ro.unibuc.hello.dto.ProductAddStockDto;
 import ro.unibuc.hello.dto.ProductDto;
+import ro.unibuc.hello.dto.ProductSellStockDto;
 
 @Controller
 public class ProductController {
@@ -22,5 +24,37 @@ public class ProductController {
             return new ProductDto(entity);
         }
         return null;
+    }
+
+    @PostMapping("/products/addStock")
+    public ResponseEntity<String> addProductStock(@RequestBody ProductAddStockDto model) {
+
+        if (model.quantity <= 0) {
+            return new ResponseEntity<>("negative quantity", HttpStatus.BAD_REQUEST);
+        }
+        var product = productRepository.findByTitle(model.title);
+        if (product == null) {
+            return new ResponseEntity<>("product not found", HttpStatus.NOT_FOUND);
+        }
+
+        product.quantity += model.quantity;
+        productRepository.save(product);
+        return new ResponseEntity<>("added", HttpStatus.OK);
+    }
+
+    @PostMapping("/products/sellStock")
+    public ResponseEntity<String> sellProductStock(@RequestBody ProductSellStockDto model) {
+
+        if (model.quantity <= 0) {
+            return new ResponseEntity<>("negative quantity", HttpStatus.BAD_REQUEST);
+        }
+        var product = productRepository.findByTitle(model.title);
+        if (product == null) {
+            return new ResponseEntity<>("product not found", HttpStatus.NOT_FOUND);
+        }
+
+        product.quantity -= model.quantity;
+        productRepository.save(product);
+        return new ResponseEntity<>("sold", HttpStatus.OK);
     }
 }
