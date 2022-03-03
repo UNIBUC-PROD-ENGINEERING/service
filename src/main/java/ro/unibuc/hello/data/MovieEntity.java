@@ -127,6 +127,6 @@ public class MovieEntity {
                 ", director='" + director + '\'' +
                 ", writer='" + writer + '\'' +
                 ", year=" + year +
-                ", duration=" + duration + " minutes";
+                ", duration=" + duration + " minutes}";
     }
 }
