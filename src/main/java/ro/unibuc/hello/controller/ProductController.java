@@ -6,9 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.ProductRepository;
+import ro.unibuc.hello.data.ProductEntity;
 import ro.unibuc.hello.dto.ProductAddStockDto;
 import ro.unibuc.hello.dto.ProductDto;
 import ro.unibuc.hello.dto.ProductSellStockDto;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProductController {
@@ -56,5 +59,20 @@ public class ProductController {
         product.quantity -= model.quantity;
         productRepository.save(product);
         return new ResponseEntity<>("sold", HttpStatus.OK);
+    }
+
+    @GetMapping("/products")
+    @ResponseBody
+    public List<ProductDto> getAllProducts() {
+        List<ProductDto> products = new ArrayList<ProductDto>();
+        var entities = productRepository.findAll();
+        if(!entities.isEmpty()) {
+            for(ProductEntity entity : entities)
+            {
+                products.add(new ProductDto(entity));
+            }
+            return products;
+        }
+        return new ArrayList<ProductDto>();
     }
 }
