@@ -69,10 +69,10 @@ public class MainApplication {
 		WatchItemEntity watchItem11 = null;
 		WatchItemEntity watchItem12 = null;
 
-//		movieRepository.deleteAll();
-//		reviewRepository.deleteAll();
-//		userRepository.deleteAll();
-//		watchItemRepository.deleteAll();
+		movieRepository.deleteAll();
+		reviewRepository.deleteAll();
+		userRepository.deleteAll();
+		watchItemRepository.deleteAll();
 
 		user1 = userRepository.save(new UserEntity(user1.getName(), user1.getEmail()));
 		user2 = userRepository.save(new UserEntity(user2.getName(), user2.getEmail()));
