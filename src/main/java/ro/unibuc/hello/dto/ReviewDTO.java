@@ -7,6 +7,7 @@ import ro.unibuc.hello.data.ReviewEntity;
 import java.util.Objects;
 
 public class ReviewDTO {
+
     @Id
     private String id;
     private String comment;

@@ -2,9 +2,11 @@ package ro.unibuc.hello.dto;
 
 import org.springframework.data.annotation.Id;
 import ro.unibuc.hello.data.MovieEntity;
+
 import java.util.Objects;
 
 public class MovieDTO {
+
     @Id
     private String id;
     private String title;
@@ -15,7 +17,6 @@ public class MovieDTO {
 
     public MovieDTO() {
     }
-
 
     public MovieDTO(MovieEntity movie){
         this.id = movie.getId();
@@ -79,7 +80,8 @@ public class MovieDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MovieDTO movieDTO = (MovieDTO) o;
-        return id.equals(movieDTO.id) && title.equals(movieDTO.title) && director.equals(movieDTO.director) && writer.equals(movieDTO.writer) && year.equals(movieDTO.year) && duration.equals(movieDTO.duration);
+        return id.equals(movieDTO.id) && title.equals(movieDTO.title) && director.equals(movieDTO.director) &&
+                writer.equals(movieDTO.writer) && year.equals(movieDTO.year) && duration.equals(movieDTO.duration);
     }
 
     @Override
