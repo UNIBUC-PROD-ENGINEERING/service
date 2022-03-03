@@ -9,6 +9,7 @@ import ro.unibuc.hello.data.ProductRepository;
 import ro.unibuc.hello.data.ProductEntity;
 import ro.unibuc.hello.dto.ProductAddStockDto;
 import ro.unibuc.hello.dto.ProductDto;
+import ro.unibuc.hello.dto.AddProductDto;
 import ro.unibuc.hello.dto.ProductSellStockDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,5 +75,16 @@ public class ProductController {
             return products;
         }
         return new ArrayList<ProductDto>();
+    }
+
+    @PostMapping("/products/addProduct")
+    public ResponseEntity<String> addProduct(@RequestBody AddProductDto model) {
+
+        if (model.quantity <= 0) {
+            return new ResponseEntity<>("negative quantity", HttpStatus.BAD_REQUEST);
+        }
+        ProductEntity product = new ProductEntity(model.title, model.description, model.quantity);
+        productRepository.save(product);
+        return new ResponseEntity<>("added", HttpStatus.OK);
     }
 }
