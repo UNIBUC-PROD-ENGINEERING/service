@@ -44,8 +44,12 @@ docker-compose --profile perf up -d --scale wrk-injector--perf=5
 
 # Monitoring
 
-App Metrics in Prometheus Exposition Format
-- [http://localhost:8080/actuator/prometheus)](http://localhost:8080/actuator/prometheus)
+App Metrics
+- prom metrics [http://localhost:8080/actuator/prometheus)](http://localhost:8080/actuator/prometheus)
+
+cAdvisor (container metrics exporter)
+- UI [http://localhost:8081/containers](http://localhost:8081/containers)
+- prom metrics [http://localhost:8081/metrics](http://localhost:8081/metrics)
 
 Prometheus
 - [http://localhost:9090/](http://localhost:9090/)

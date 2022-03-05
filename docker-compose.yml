@@ -29,6 +29,19 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.39.0
+    profiles: [ "monitoring" ]
+    container_name: cadvisor
+    ports:
+      - "8081:8080"
+    volumes:
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
   prometheus:
     image: prom/prometheus:v2.33.4
     profiles: ["monitoring"]
