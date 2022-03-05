@@ -2,6 +2,7 @@ version: '3.1'
 services:
   hello:
     image: hello-img
+    profiles: ["apps"]
     build: .
     ports:
       - 8080:8080
@@ -11,6 +12,7 @@ services:
     restart: always
   mongo:
     image: mongo:5.0.2
+    profiles: ["apps"]
     restart: always
     ports:
       - 27017:27017
@@ -19,6 +21,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
   mongo-admin-ui:
     image: mongo-express
+    profiles: ["apps"]
     restart: always
     ports:
       - 8090:8081
@@ -28,6 +31,7 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
   prometheus:
     image: prom/prometheus:v2.33.4
+    profiles: ["monitoring"]
     volumes:
       - ./monitoring/prometheus/:/etc/prometheus/
     command:
@@ -37,6 +41,7 @@ services:
       - 9090:9090
   grafana:
     image: grafana/grafana:8.4.3
+    profiles: ["monitoring"]
     volumes:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
       - ./monitoring/grafana/dashboards:/etc/grafana/dashboards
@@ -47,9 +52,9 @@ services:
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-#  wrk-injector-hello-functional:
-#    image: mtchavez/docker-wrk
-#    command: wrk -t4 -c10 -d3600 http://host.docker.internal:8080/hello-world
+  wrk-injector-hello-functional:
+    image: mtchavez/docker-wrk
+    command: wrk -t4 -c10 -d300s http://host.docker.internal:8080/hello-world
   wrk-injector-info-perf:
     image: mtchavez/docker-wrk
-    command: wrk -t4 -c100 -d60s --timeout 1s --latency http://host.docker.internal:8080/info
+    command: wrk -t4 -c1000 -d5m --timeout 1s --latency http://host.docker.internal:8080/info

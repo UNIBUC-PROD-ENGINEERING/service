@@ -37,7 +37,9 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
 
 # Deploy stack with monitoring
 ```
-docker-compose up -d --remove-orphans --scale wrk-injector-info-perf=0
+docker-compose --profile apps up -d
+docker-compose --profile monitoring up -d
+docker-compose --profile perf up -d --scale wrk-injector--perf=5
 ```
 
 # Monitoring
