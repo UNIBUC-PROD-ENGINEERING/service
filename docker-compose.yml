@@ -1,6 +1,6 @@
 version: '3.1'
 services:
-  hello:
+  hello: # stateless spring application
     image: hello-img
     profiles: ["apps"]
     build: .
@@ -10,7 +10,7 @@ services:
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always
-  mongo:
+  mongo: # mongo document DB
     image: mongo:5.0.2
     profiles: ["apps"]
     restart: always
@@ -19,7 +19,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-  mongo-admin-ui:
+  mongo-admin-ui: # mongoDB admin UI
     image: mongo-express
     profiles: ["apps"]
     restart: always
@@ -29,7 +29,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-  cadvisor:
+  cadvisor: # container metric prometheus exporter
     image: gcr.io/cadvisor/cadvisor:v0.39.0
     profiles: [ "monitoring" ]
     container_name: cadvisor
@@ -42,7 +42,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/machine-id:/etc/machine-id:ro
       - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
-  prometheus:
+  prometheus: # metrics aggregation and alert definition server (prometheus server)
     image: prom/prometheus:v2.33.4
     profiles: ["monitoring"]
     volumes:
@@ -52,7 +52,7 @@ services:
       - "--storage.tsdb.path=/etc/prometheus/durable"
     ports:
       - 9090:9090
-  alertmanager:
+  alertmanager: # alert manager (prometheus)
     image: prom/alertmanager:v0.23.0
     profiles: [ "monitoring" ]
     volumes:
@@ -60,7 +60,7 @@ services:
     command: --config.file=/config/alertmanager.yml --log.level=debug
     ports:
       - "9093:9093"
-  grafana:
+  grafana: # dashboard visualisation tool (metrics & logs)
     image: grafana/grafana:8.4.3
     profiles: ["monitoring"]
     volumes:
@@ -72,9 +72,9 @@ services:
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-  wrk-injector-hello-functional:
+  wrk-injector-hello-functional: # traffic injector (low)
     image: mtchavez/docker-wrk
     command: wrk -t4 -c10 -d300s http://host.docker.internal:8080/hello-world
-  wrk-injector-info-perf:
+  wrk-injector-info-perf: # traffic injector (high)
     image: mtchavez/docker-wrk
     command: wrk -t4 -c1000 -d5m --timeout 1s --latency http://host.docker.internal:8080/info
