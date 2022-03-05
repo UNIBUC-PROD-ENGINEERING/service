@@ -26,3 +26,16 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+  prometheus:
+    image: prom/prometheus:v2.33.4
+    volumes:
+      - ./monitoring/prometheus/:/etc/prometheus/
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    ports:
+      - 9090:9090
+  grafana:
+    image: grafana/grafana:8.4.3
+    ports:
+      - 3000:3000
