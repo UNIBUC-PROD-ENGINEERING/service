@@ -57,7 +57,10 @@ public class HelloWorldController {
                 entityList = taskRepository.findByDueDate(tmpDate).stream().map(taskEntity -> new TaskDTO(counter.incrementAndGet(), taskEntity)).
                         collect(Collectors.toList());
                 return new ResponseEntity<>(entityList, HttpStatus.OK);
-
+            case "isDone":
+                entityList = taskRepository.findByIsDone(Boolean.parseBoolean(value)).stream().map(taskEntity -> new TaskDTO(counter.incrementAndGet(), taskEntity)).
+                        collect(Collectors.toList());
+                return new ResponseEntity<>(entityList, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

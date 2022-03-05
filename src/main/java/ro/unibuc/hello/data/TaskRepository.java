@@ -11,4 +11,5 @@ public interface TaskRepository extends MongoRepository<TaskEntity, Object> {
     TaskEntity findByTitle(String title);
     List<TaskEntity> findByImportance(String importance);
     List<TaskEntity> findByDueDate(Date dueDate);
+    List<TaskEntity> findByIsDone(Boolean isDone);
 }
