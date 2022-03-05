@@ -19,3 +19,9 @@ rule_files:
   - app-alerts.yml
   - canary-alerts.yml
   - container-alerts.yml
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets: [ 'host.docker.internal:9093' ]

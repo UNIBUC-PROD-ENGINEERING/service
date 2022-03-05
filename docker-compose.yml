@@ -52,13 +52,20 @@ services:
       - "--storage.tsdb.path=/etc/prometheus/durable"
     ports:
       - 9090:9090
+  alertmanager:
+    image: prom/alertmanager:v0.23.0
+    profiles: [ "monitoring" ]
+    volumes:
+      - ./monitoring/alertmanager/:/config/
+    command: --config.file=/config/alertmanager.yml --log.level=debug
+    ports:
+      - "9093:9093"
   grafana:
     image: grafana/grafana:8.4.3
     profiles: ["monitoring"]
     volumes:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
       - ./monitoring/grafana/dashboards:/etc/grafana/dashboards
-
     ports:
       - 3000:3000
     environment:

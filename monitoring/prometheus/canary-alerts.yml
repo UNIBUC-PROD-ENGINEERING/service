@@ -8,4 +8,4 @@ groups:
           severity: warning
         annotations:
           summary: Increased info retrieval rate {{ $labels.value}} {{ $value }}
-          description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+          description: "There is no incoming canary traffic"
