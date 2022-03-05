@@ -1,0 +1,20 @@
+groups:
+  - name: AppAlerts
+    rules:
+      - alert: WARN-IncreaseInfoRetrievalRate
+        expr: rate(hello_info_count_total[5m]) > 10
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          summary: Increased info retrieval rate {{ $labels.value}} {{ $value }}
+          description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+      - alert: CRIT-IncreaseInfoRetrievalRate
+        expr: rate(hello_info_count_total[5m]) > 50
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: Increased info retrieval rate {{ $labels.value}} {{ $value }}
+          description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
