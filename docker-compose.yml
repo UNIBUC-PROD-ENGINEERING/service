@@ -37,5 +37,16 @@ services:
       - 9090:9090
   grafana:
     image: grafana/grafana:8.4.3
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/etc/grafana/dashboards
+
     ports:
       - 3000:3000
+    environment:
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+#  gatling-runner:
+#    image: gatling:2.3.0
+#    scale: 2
