@@ -34,3 +34,14 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
     * http://localhost:8080/info
 * You can access the MongoDB Admin UI at:
   * http://localhost:8090 
+
+# Monitoring
+
+App Metrics in Prometheus Exposition Format
+- [http://localhost:8080/actuator/prometheus)](http://localhost:8080/actuator/prometheus)
+
+Prometheus
+- [http://localhost:9090/](http://localhost:9090/)
+
+Grafana
+- [http://localhost:3000/](http://localhost:3000/)
