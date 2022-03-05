@@ -1,16 +1,20 @@
 package ro.unibuc.hello.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
-import com.github.cliftonlabs.json_simple.Jsoner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.TaskEntity;
 import ro.unibuc.hello.data.TaskRepository;
-import ro.unibuc.hello.dto.Greeting;
+import ro.unibuc.hello.dto.TaskDTO;
 
 @Controller
 public class HelloWorldController {
@@ -18,61 +22,82 @@ public class HelloWorldController {
     @Autowired
     private TaskRepository taskRepository;
 
-    private static final String helloTemplate = "Hello, %s!";
-    private static final String informationTemplate = "%s : %s!";
-    private final AtomicLong counter = new AtomicLong();
+    private static final String datePattern = "yyyy-MM-dd";
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
 
-    @GetMapping("/hello-world")
-    @ResponseBody
-    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(helloTemplate, name));
-    }
+    private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/tasks")
     @ResponseBody
-    public String listAll() {
+    public ResponseEntity<List<TaskDTO>> listAll(@RequestParam(required = false, name = "search-by") String search,
+                                                 @RequestParam(required = false, name = "value") String value) {
+        List<TaskDTO> entityList;
+        if (search == null) {
+            entityList = taskRepository.findAll().stream().map(taskEntity -> new TaskDTO(counter.incrementAndGet(), taskEntity)).
+                    collect(Collectors.toList());
+            return new ResponseEntity<>(entityList, HttpStatus.OK);
+        }
 
-        List<TaskEntity> entityList = taskRepository.findAll();
-        System.out.println(entityList.get(0).id);
-        String json = Jsoner.serialize(entityList);
-        return json;
+        switch (search)
+        {
+            case "importance":
+                entityList = taskRepository.findByImportance(value).stream().map(taskEntity -> new TaskDTO(counter.incrementAndGet(), taskEntity)).
+                        collect(Collectors.toList());
+                return new ResponseEntity<>(entityList, HttpStatus.OK);
+
+            case "date":
+                Date tmpDate;
+                try {
+                    tmpDate = dateFormat.parse(value);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+
+                List<TaskEntity> taskEntityList = taskRepository.findAllByDueDate(tmpDate);
+                entityList = taskRepository.findAllByDueDate(tmpDate).stream().map(taskEntity -> new TaskDTO(counter.incrementAndGet(), taskEntity)).
+                        collect(Collectors.toList());
+                return new ResponseEntity<>(entityList, HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/task")
     @ResponseBody
-    public String listById(String id) {
+    public ResponseEntity<TaskDTO> showById(String id) {
 
         TaskEntity entity = taskRepository.findById(id).orElse(null);
         if (entity == null) {
-            return "{ Error: This task was not found}";
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         else
         {
-            String json = Jsoner.serialize(entity);
-            return json;
+            return new ResponseEntity<>(new TaskDTO(counter.incrementAndGet(), entity), HttpStatus.OK);
         }
     }
 
     @PostMapping("/task")
     @ResponseBody
-    public String addTask(String title, String importance) {
-        taskRepository.save(new TaskEntity(title, importance));
-        TaskEntity entity = taskRepository.findByTitle(title);
-        String json = Jsoner.serialize(entity);
-        return json;
+    public ResponseEntity<TaskDTO> addTask(@RequestBody TaskEntity taskEntity) {
+        taskEntity.isDone = false;
+        taskRepository.save(taskEntity);
+        TaskDTO taskDTO = new TaskDTO(counter.incrementAndGet(), taskEntity);
+        return new ResponseEntity<>(taskDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/task")
+    @PutMapping("/task")
     @ResponseBody
-    public String endTask(String id) {
+    public ResponseEntity<TaskDTO> endTask(String id) {
         TaskEntity entity = taskRepository.findById(id).orElse(null);
         if (entity == null) {
-            return "{ Error: This task was not found}";
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         else
         {
             entity.isDone = true;
-            return Jsoner.serialize(entity);
+            taskRepository.save(entity);
+            return new ResponseEntity<>(new TaskDTO(counter.incrementAndGet(), entity), HttpStatus.ACCEPTED);
         }
     }
 

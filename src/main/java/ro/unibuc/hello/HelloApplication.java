@@ -24,6 +24,7 @@ public class HelloApplication {
 
 	@PostConstruct
 	public void runAfterObjectCreated() {
+		// entityRepository.deleteAll();
 		// entityRepository.save(new TaskEntity("Implement a functionality for the project", "high"));
 	}
 
