@@ -9,6 +9,7 @@ import ro.unibuc.hello.data.TaskRepository;
 import ro.unibuc.hello.data.TaskEntity;
 
 import javax.annotation.PostConstruct;
+import java.util.TimeZone;
 
 
 @SpringBootApplication
@@ -24,6 +25,7 @@ public class HelloApplication {
 
 	@PostConstruct
 	public void runAfterObjectCreated() {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		// entityRepository.deleteAll();
 		// entityRepository.save(new TaskEntity("Implement a functionality for the project", "high"));
 	}

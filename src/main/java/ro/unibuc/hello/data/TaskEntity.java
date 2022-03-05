@@ -1,14 +1,8 @@
 package ro.unibuc.hello.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.github.cliftonlabs.json_simple.JsonObject;
-import com.github.cliftonlabs.json_simple.Jsonable;
 import org.springframework.data.annotation.Id;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TaskEntity{
