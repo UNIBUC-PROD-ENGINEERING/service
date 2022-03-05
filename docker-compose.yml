@@ -10,6 +10,10 @@ services:
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   mongo: # mongo document DB
     image: mongo:5.0.2
     profiles: ["apps"]
@@ -19,6 +23,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   mongo-admin-ui: # mongoDB admin UI
     image: mongo-express
     profiles: ["apps"]
@@ -29,6 +37,10 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   cadvisor: # container metric prometheus exporter
     image: gcr.io/cadvisor/cadvisor:v0.39.0
     profiles: [ "monitoring" ]
@@ -42,6 +54,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/machine-id:/etc/machine-id:ro
       - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+  loki:
+    image: grafana/loki:2.4.1
+    ports:
+      - 3100:3100
+    volumes:
+      - ./monitoring/loki/:/etc/loki/
+    command: -config.file=/etc/loki/config.yaml
   prometheus: # metrics aggregation and alert definition server (prometheus server)
     image: prom/prometheus:v2.33.4
     profiles: ["monitoring"]
@@ -52,6 +71,10 @@ services:
       - "--storage.tsdb.path=/etc/prometheus/durable"
     ports:
       - 9090:9090
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   alertmanager: # alert manager (prometheus)
     image: prom/alertmanager:v0.23.0
     profiles: [ "monitoring" ]
@@ -60,6 +83,10 @@ services:
     command: --config.file=/config/alertmanager.yml --log.level=debug
     ports:
       - "9093:9093"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   grafana: # dashboard visualisation tool (metrics & logs)
     image: grafana/grafana:8.4.3
     profiles: ["monitoring"]
@@ -75,6 +102,14 @@ services:
   wrk-injector-hello-functional: # traffic injector (low)
     image: mtchavez/docker-wrk
     command: wrk -t4 -c10 -d300s http://host.docker.internal:8080/hello-world
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   wrk-injector-info-perf: # traffic injector (high)
     image: mtchavez/docker-wrk
     command: wrk -t4 -c1000 -d5m --timeout 1s --latency http://host.docker.internal:8080/info
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
