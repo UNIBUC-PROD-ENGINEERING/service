@@ -35,6 +35,11 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
 * You can access the MongoDB Admin UI at:
   * http://localhost:8090 
 
+# Deploy stack with monitoring
+```
+docker-compose up -d --remove-orphans --scale wrk-injector-info-perf=0
+```
+
 # Monitoring
 
 App Metrics in Prometheus Exposition Format
@@ -45,3 +50,9 @@ Prometheus
 
 Grafana
 - [http://localhost:3000/](http://localhost:3000/)
+
+# Perf test
+
+```
+docker-compose up -d --remove-orphans --scale wrk-injector-info-perf=5
+```

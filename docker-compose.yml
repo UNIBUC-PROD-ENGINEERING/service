@@ -47,6 +47,9 @@ services:
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-#  gatling-runner:
-#    image: gatling:2.3.0
-#    scale: 2
+#  wrk-injector-hello-functional:
+#    image: mtchavez/docker-wrk
+#    command: wrk -t4 -c10 -d3600 http://host.docker.internal:8080/hello-world
+  wrk-injector-info-perf:
+    image: mtchavez/docker-wrk
+    command: wrk -t4 -c100 -d60s --timeout 1s --latency http://host.docker.internal:8080/info
