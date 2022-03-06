@@ -13,7 +13,11 @@ scrape_configs:
     metrics_path: '/metrics'
     static_configs:
       - targets: ['host.docker.internal:8081']
-  - job_name: 'spring-monitoring-app'
+  - job_name: 'mongodb'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:9001']
+  - job_name: 'spring-hello-app'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['host.docker.internal:8080']

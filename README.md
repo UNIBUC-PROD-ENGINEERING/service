@@ -42,6 +42,12 @@ docker-compose --profile monitoring up -d
 docker-compose --profile perf up -d --scale wrk-injector--perf=5
 ```
 
+# Prereqs
+Install loki logging driver docker plugin
+```
+docker plugin install grafana/loki-docker-driver:2.4.1 --alias loki --grant-all-permissions
+```
+
 # Monitoring
 
 App Metrics
