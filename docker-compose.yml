@@ -2,7 +2,7 @@ version: '3.1'
 services:
   hello: # stateless spring application
     image: hello-img
-    profiles: ["apps"]
+    profiles: ["apps", "all"]
     build: .
     ports:
       - 8080:8080
@@ -16,7 +16,7 @@ services:
         loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   mongo: # mongo document DB
     image: mongo:5.0.2
-    profiles: ["apps"]
+    profiles: ["apps", "all"]
     restart: always
     ports:
       - 27017:27017
@@ -29,7 +29,7 @@ services:
         loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   mongo-admin-ui: # mongoDB admin UI
     image: mongo-express
-    profiles: ["apps"]
+    profiles: ["apps", "all"]
     restart: always
     ports:
       - 8090:8081
@@ -43,7 +43,7 @@ services:
         loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   cadvisor: # container metric prometheus exporter
     image: gcr.io/cadvisor/cadvisor:v0.39.0
-    profiles: [ "monitoring" ]
+    profiles: ["monitoring", "all"]
     container_name: cadvisor
     ports:
       - "8081:8080"
@@ -63,7 +63,7 @@ services:
     command: -config.file=/etc/loki/config.yaml
   prometheus: # metrics aggregation and alert definition server (prometheus server)
     image: prom/prometheus:v2.33.4
-    profiles: ["monitoring"]
+    profiles: ["monitoring", "all"]
     volumes:
       - ./monitoring/prometheus/:/etc/prometheus/
     command:
@@ -77,7 +77,7 @@ services:
         loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   alertmanager: # alert manager (prometheus)
     image: prom/alertmanager:v0.23.0
-    profiles: [ "monitoring" ]
+    profiles: ["monitoring", "all"]
     volumes:
       - ./monitoring/alertmanager/:/config/
     command: --config.file=/config/alertmanager.yml --log.level=debug
@@ -89,7 +89,7 @@ services:
         loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   grafana: # dashboard visualisation tool (metrics & logs)
     image: grafana/grafana:8.4.3
-    profiles: ["monitoring"]
+    profiles: ["monitoring", "all"]
     volumes:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
       - ./monitoring/grafana/dashboards:/etc/grafana/dashboards
