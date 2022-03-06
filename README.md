@@ -50,6 +50,8 @@ docker plugin install grafana/loki-docker-driver:2.4.1 --alias loki --grant-all-
 
 # Monitoring
 
+![Monitoring high level diagram](./docs/high-level-monitoring-diagram.png "Monitoring high level diagram")
+
 App Metrics
 - prom metrics [http://localhost:8080/actuator/prometheus)](http://localhost:8080/actuator/prometheus)
 
