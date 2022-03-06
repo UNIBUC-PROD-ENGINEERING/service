@@ -103,4 +103,17 @@ public class HelloWorldController {
         }
     }
 
+    @DeleteMapping("/task")
+    @ResponseBody
+    public ResponseEntity<TaskDTO> deleteTask(String id) {
+        TaskEntity entity = taskRepository.findById(id).orElse(null);
+        if (entity == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else
+        {
+            taskRepository.delete(entity);
+            return new ResponseEntity<>(new TaskDTO(counter.incrementAndGet(), entity), HttpStatus.OK);
+        }
+    }
 }

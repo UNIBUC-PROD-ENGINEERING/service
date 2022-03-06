@@ -27,7 +27,6 @@ public class HelloApplication {
 	public void runAfterObjectCreated() {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		// entityRepository.deleteAll();
-		// entityRepository.save(new TaskEntity("Implement a functionality for the project", "high"));
 	}
 
 }
