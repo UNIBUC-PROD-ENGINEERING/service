@@ -1,0 +1,11 @@
+groups:
+  - name: CanaryAlerts
+    rules:
+      - alert: WARN-NoInfoRetrieved
+        expr: rate(hello_info_count_total[5m]) == 0
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          summary: Increased info retrieval rate {{ $labels.value}} {{ $value }}
+          description: "There is no incoming canary traffic"

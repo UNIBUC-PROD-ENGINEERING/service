@@ -43,3 +43,39 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
     * http://localhost:8080/info
 * You can access the MongoDB Admin UI at:
   * http://localhost:8090 
+
+# Deploy stack with monitoring
+```
+docker-compose --profile apps up -d
+docker-compose --profile monitoring up -d
+docker-compose --profile perf up -d --scale wrk-injector--perf=5
+```
+
+# Prereqs
+Install loki logging driver docker plugin
+```
+docker plugin install grafana/loki-docker-driver:2.4.1 --alias loki --grant-all-permissions
+```
+
+# Monitoring
+
+![Monitoring high level diagram](./docs/high-level-monitoring-diagram.png "Monitoring high level diagram")
+
+App Metrics
+- prom metrics [http://localhost:8080/actuator/prometheus)](http://localhost:8080/actuator/prometheus)
+
+cAdvisor (container metrics exporter)
+- UI [http://localhost:8081/containers](http://localhost:8081/containers)
+- prom metrics [http://localhost:8081/metrics](http://localhost:8081/metrics)
+
+Prometheus
+- [http://localhost:9090/](http://localhost:9090/)
+
+Grafana
+- [http://localhost:3000/](http://localhost:3000/)
+
+# Perf test
+
+```
+docker-compose up -d --remove-orphans --scale wrk-injector-info-perf=5
+```
