@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.hello.data.ListingRepository;
+import ro.unibuc.hello.data.ProductRepository;
 import ro.unibuc.hello.dto.Listing;
+import ro.unibuc.hello.dto.Product;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ public class ListingController {
 
     @Autowired
     private ListingRepository listingRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @PostMapping("/post_listing")
     @ResponseBody
@@ -24,6 +28,16 @@ public class ListingController {
         return listing;
     }
 
+    @PostMapping("/register_product")
+    @ResponseBody
+    public Product registerProduct(@RequestBody Product product){
+        productRepository.save(product);
+        return product;
+    }
+
+    @GetMapping("/products")
+    @ResponseBody
+    public List<Product> getAllProducts(){return productRepository.findAll();}
 
     @GetMapping("/listings")
     @ResponseBody
