@@ -8,6 +8,7 @@ public class Listing {
 
     public User listingOwner;
     public Integer startingPrice;
+    public Integer currentPrice;
     public Product listedProduct;
 
     public Listing(){}
@@ -48,5 +49,13 @@ public class Listing {
 
     public void setListedProduct(Product listedProduct) {
         this.listedProduct = listedProduct;
+    }
+
+    public Integer getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(Integer currentPrice) {
+        this.currentPrice = currentPrice;
     }
 }
