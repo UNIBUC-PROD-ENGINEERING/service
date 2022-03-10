@@ -6,15 +6,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
+import ro.unibuc.hello.data.News;
+import ro.unibuc.hello.data.NewsRepository;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = InformationRepository.class)
+@EnableMongoRepositories(basePackageClasses = NewsRepository.class)
 public class HelloApplication {
 
 	@Autowired
 	private InformationRepository informationRepository;
+	@Autowired
+	private NewsRepository newsRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
@@ -22,9 +26,11 @@ public class HelloApplication {
 
 	@PostConstruct
 	public void runAfterObjectCreated() {
-		informationRepository.deleteAll();
+		/*informationRepository.deleteAll();
 		informationRepository.save(new InformationEntity("Overview",
-				"This is an example of using a data storage engine running separately from our applications server"));
+				"This is an example of using a data storage engine running separately from our applications server"));*/
+		// newsRepository.deleteAll();
+
 	}
 
 }

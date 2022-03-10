@@ -1,0 +1,15 @@
+News application
+
+Each News has id, title, description, published status.
+Apis helps to create, retrieve, update, delete News.
+Apis also support custom finder methods such as find by published status or by title.
+These are APIs that we need to provide:
+
+POST	/news	                create new News
+GET	    /news	                retrieve all News
+GET	    /news/:id	            retrieve News by :id
+PUT	    /news/:id	            update News by :id
+DELETE	/news:id	            delete News by :id
+DELETE	/news	                delete all News
+GET	    /news/published	        find all published News
+GET	    /news?title=[keyword]	find all News which title contains keyword
