@@ -1,22 +1,33 @@
 package ro.unibuc.tbd.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import ro.unibuc.tbd.model.CartDTO;
 import ro.unibuc.tbd.model.Client;
+import ro.unibuc.tbd.model.Meal;
+import ro.unibuc.tbd.model.Order;
 import ro.unibuc.tbd.repository.ClientRepository;
+import ro.unibuc.tbd.repository.MealRepository;
+
 
 @Service
 public class ClientService {
 
     private final ClientRepository repository;
+    private final MealRepository mealRepository;
+    private final OrderService orderService;
 
     @Autowired
-    ClientService(ClientRepository clientRepository) {
+    ClientService(ClientRepository clientRepository, MealRepository mealRepository,
+            OrderService orderService) {
         this.repository = clientRepository;
+        this.mealRepository = mealRepository;
+        this.orderService = orderService;
     }
 
     public Client getClientById(String clientId) {
@@ -33,6 +44,7 @@ public class ClientService {
     }
 
     public Client createClient(Client client) {
+        client.cart = new HashMap<>();
         return repository.save(client);
     }
 
@@ -48,7 +60,55 @@ public class ClientService {
         return repository.save(client);
     }
 
-    public void deleteClientById(String clientId) {
+    public Client deleteClientById(String clientId) {
+        Optional<Client> optionalClient = repository.findById(clientId);
+        if (optionalClient.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found.");
+        }
+
+        Client client = optionalClient.get();
+
         repository.deleteById(clientId);
+        return client;
+    }
+
+    public Client addToCart(String clientId, CartDTO mealDTO) {
+        Client client = this.getClientById(clientId);
+
+        Optional<Meal> optionalMeal = mealRepository.findById(mealDTO.mealId);
+
+        if (optionalMeal.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
+        }
+
+        Meal meal = optionalMeal.get();
+
+        client.cart.put(meal.id, client.cart.getOrDefault(meal.id, 0) + 1);
+        return repository.save(client);
+    }
+
+    public Client removeFromCart(String clientId, CartDTO mealDTO) {
+        Client client = this.getClientById(clientId);
+
+        client.cart.remove(mealDTO.mealId);
+        return repository.save(client);
+    }
+
+    public Client clearCart(String clientId) {
+        Client client = this.getClientById(clientId);
+
+        client.cart.clear();
+        return repository.save(client);
+    }
+
+    public Client placeOrder(String clientId) {
+        Client client = this.getClientById(clientId);
+
+        Order order = new Order();
+        order.setClientId(client.id);
+        order.setMeals(client.cart);
+
+        orderService.createOrder(order);
+        return this.clearCart(client.id);
     }
 }

@@ -12,12 +12,17 @@ public class Meal {
     @Id
     public String id;
 
+    public String restaurantId;
     public String name;
     public List<String> ingredients;
     public Integer portionSize;
     public Float price;
 
     public Meal updateMeal(Meal other) {
+        if (other.getRestaurantId() != null) {
+            this.restaurantId = other.restaurantId;
+        }
+
         if (other.getName() != null) {
             this.name = other.name;
         }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ro.unibuc.tbd.model.CartDTO;
 import ro.unibuc.tbd.model.Client;
 import ro.unibuc.tbd.service.ClientService;
 
@@ -39,13 +40,28 @@ public class ClientController {
         return clientService.createClient(client);
     }
 
+    @PostMapping("/{clientId}/cart")
+    public Client addToCart(@PathVariable String clientId, @RequestBody CartDTO mealId) {
+        return clientService.addToCart(clientId, mealId);
+    }
+
+    @DeleteMapping("/{clientId}/cart")
+    public Client removeFromCart(@PathVariable String clientId, @RequestBody CartDTO mealId) {
+        return clientService.removeFromCart(clientId, mealId);
+    }
+
+    @GetMapping("/{clientId}/place-order")
+    public Client placeOrder(@PathVariable String clientId) {
+        return clientService.placeOrder(clientId);
+    }
+
     @PatchMapping("/{clientId}")
     public Client updateClient(@PathVariable String clientId, @RequestBody Client client) {
         return clientService.updateClient(clientId, client);
     }
 
     @DeleteMapping("/{clientId}")
-    public void deleteClient(@PathVariable String clientId) {
-        clientService.deleteClientById(clientId);
+    public Client deleteClient(@PathVariable String clientId) {
+        return clientService.deleteClientById(clientId);
     }
 }

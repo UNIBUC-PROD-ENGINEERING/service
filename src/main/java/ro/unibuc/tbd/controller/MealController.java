@@ -50,7 +50,7 @@ public class MealController {
     }
 
     @DeleteMapping("/{mealId}")
-    public void deleteMeal(@PathVariable String mealId) {
-        mealService.deleteMealById(mealId);
+    public Meal deleteMeal(@PathVariable String mealId) {
+        return mealService.deleteMealById(mealId);
     }
 }

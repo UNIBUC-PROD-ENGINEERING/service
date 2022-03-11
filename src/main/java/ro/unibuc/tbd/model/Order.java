@@ -1,7 +1,9 @@
 package ro.unibuc.tbd.model;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,8 +15,11 @@ public class Order {
     public String id;
 
     public String clientId;
-    public List<String> meals;
+    public HashMap<String, Integer> meals;
     public Float totalPrice;
+
+    @CreatedDate
+    public LocalDateTime createdDate;
 
     public Order updateOrder(Order other) {
         if (other.getClientId() != null) {

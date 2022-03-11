@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import ro.unibuc.tbd.exception.NotFoundException;
 import ro.unibuc.tbd.model.Meal;
 import ro.unibuc.tbd.repository.MealRepository;
 
@@ -16,8 +15,8 @@ public class MealService {
     private final MealRepository repository;
 
     @Autowired
-    MealService(MealRepository MealRepository) {
-        this.repository = MealRepository;
+    MealService(MealRepository mealRepository) {
+        this.repository = mealRepository;
     }
 
     public Meal getMealById(String mealId) {
@@ -26,7 +25,7 @@ public class MealService {
             return meal.get();
         }
 
-        throw new NotFoundException("Meal not found.");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
     }
 
     public Meal getMealByName(String mealName) {
@@ -58,7 +57,15 @@ public class MealService {
         return repository.save(meal);
     }
 
-    public void deleteMealById(String mealId) {
+    public Meal deleteMealById(String mealId) {
+        Optional<Meal> optionalMeal = repository.findById(mealId);
+        if (optionalMeal.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
+        }
+
+        Meal meal = optionalMeal.get();
+
         repository.deleteById(mealId);
+        return meal;
     }
 }

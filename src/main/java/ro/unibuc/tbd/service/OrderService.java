@@ -1,5 +1,8 @@
 package ro.unibuc.tbd.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,9 +13,7 @@ import ro.unibuc.tbd.model.Order;
 import ro.unibuc.tbd.repository.ClientRepository;
 import ro.unibuc.tbd.repository.MealRepository;
 import ro.unibuc.tbd.repository.OrderRepository;
-
-import java.util.List;
-import java.util.Optional;
+import ro.unibuc.tbd.repository.RestaurantRepository;
 
 @Service
 public class OrderService {
@@ -20,12 +21,17 @@ public class OrderService {
     private final OrderRepository repository;
     private final ClientRepository clientRepository;
     private final MealRepository mealRepository;
+    private final RestaurantRepository restaurantRepository;
 
     @Autowired
-    OrderService(OrderRepository orderRepository, ClientRepository clientRepository, MealRepository mealRepository) {
+    OrderService(OrderRepository orderRepository,
+            ClientRepository clientRepository,
+            MealRepository mealRepository,
+            RestaurantRepository restaurantRepository) {
         this.repository = orderRepository;
         this.clientRepository = clientRepository;
         this.mealRepository = mealRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public Order getOrderById(String orderId) {
@@ -43,21 +49,27 @@ public class OrderService {
 
     public Order createOrder(Order order) {
         Optional<Client> optionalClient = clientRepository.findById(order.clientId);
-        if (!optionalClient.isPresent()) {
+        if (optionalClient.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found.");
         }
 
         if (order.meals.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "You can not place an order without any meals.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "You can not place an order without any meals.");
         }
 
         order.totalPrice = 0.0f;
-        for (String meal : order.meals) {
-            Optional<Meal> optionalMeal = mealRepository.findByName(meal);
-            if (!optionalMeal.isPresent()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, meal + "is not a valid meal.");
+        for (Map.Entry<String, Integer> item : order.meals.entrySet()) {
+            String mealId = item.getKey();
+            Integer quantity = item.getValue();
+
+            Optional<Meal> optionalMeal = mealRepository.findById(mealId);
+            if (optionalMeal.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        item.getKey() + " is not a valid meal.");
             }
-            order.totalPrice += optionalMeal.get().price;
+
+            order.totalPrice += optionalMeal.get().price * quantity;
         }
 
         return repository.save(order);
@@ -75,7 +87,15 @@ public class OrderService {
         return repository.save(order);
     }
 
-    public void deleteOrderById(String orderId) {
+    public Order deleteOrderById(String orderId) {
+        Optional<Order> optionalOrder = repository.findById(orderId);
+        if (optionalOrder.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found.");
+        }
+
+        Order order = optionalOrder.get();
+
         repository.deleteById(orderId);
+        return order;
     }
 }
