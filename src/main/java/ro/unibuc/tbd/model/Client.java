@@ -38,4 +38,12 @@ public class Client {
 
         return this;
     }
+
+    public void addToCart(String mealId) {
+        if (this.cart == null) {
+            this.cart = new HashMap<>();
+        }
+
+        this.cart.put(mealId, this.cart.getOrDefault(mealId, 0) + 1);
+    }
 }

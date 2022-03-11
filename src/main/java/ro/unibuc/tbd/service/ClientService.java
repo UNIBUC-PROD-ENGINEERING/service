@@ -83,7 +83,7 @@ public class ClientService {
 
         Meal meal = optionalMeal.get();
 
-        client.cart.put(meal.id, client.cart.getOrDefault(meal.id, 0) + 1);
+        client.addToCart(meal.id);
         return repository.save(client);
     }
 
