@@ -1,7 +1,6 @@
 package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.stereotype.Component;
 
 public class InformationEntity {
 
