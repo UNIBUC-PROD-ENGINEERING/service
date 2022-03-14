@@ -16,6 +16,7 @@ public class Listing {
     public Listing(User listingOwner, Integer startingPrice, Product listedProduct) {
         this.listingOwner = listingOwner;
         this.startingPrice = startingPrice;
+        this.currentPrice = startingPrice;
         this.listedProduct = listedProduct;
     }
 

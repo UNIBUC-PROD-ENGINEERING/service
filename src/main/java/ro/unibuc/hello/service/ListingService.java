@@ -12,8 +12,6 @@ import java.util.Optional;
 public class ListingService {
 
     @Autowired
-    Listing listing;
-    @Autowired
     ListingRepository listingRepository;
 
     public void increaseListingPrice(Integer value, String listingId){
