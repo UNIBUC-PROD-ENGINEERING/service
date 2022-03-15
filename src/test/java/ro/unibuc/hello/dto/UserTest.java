@@ -11,6 +11,14 @@ class UserTest {
 
     @Test
     void getUserId() {
+        user.setUserId("i123h1iwdbni12nie21ndi21n");
+        assertSame("i123h1iwdbni12nie21ndi21n", user.getUserId());
+    }
+
+    @Test
+    void setUserId(){
+        user.setUserId("kjh12312jkhbejh12bjh13bjh5b4");
+        assertSame("kjh12312jkhbejh12bjh13bjh5b4", user.getUserId());
     }
 
     @Test

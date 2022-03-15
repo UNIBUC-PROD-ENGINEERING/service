@@ -11,8 +11,6 @@ public class User {
     public String firstName;
     public String lastName;
 
-    public User(){}
-
     public User(String firstName, String lastName){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,6 +18,9 @@ public class User {
 
     public String getUserId() {
         return userId;
+    }
+    public void setUserId(String id){
+        this.userId=id;
     }
 
     public String getFirstName() {

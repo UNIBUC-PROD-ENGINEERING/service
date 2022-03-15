@@ -11,7 +11,6 @@ public class Listing {
     public Integer currentPrice;
     public Product listedProduct;
 
-    public Listing(){}
 
     public Listing(User listingOwner, Integer startingPrice, Product listedProduct) {
         this.listingOwner = listingOwner;
