@@ -13,7 +13,7 @@ import ro.unibuc.hello.dto.Greeting;
 class HelloWorldServiceTestIT {
 
     @Autowired
-    InformationRepository mockInformationRepository;
+    InformationRepository informationRepository;
 
     @Autowired
     HelloWorldService helloWorldService;
