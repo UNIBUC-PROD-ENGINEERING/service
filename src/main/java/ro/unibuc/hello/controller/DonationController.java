@@ -31,30 +31,31 @@ public class DonationController {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     }
-//    public ResponseEntity<List<Donation>> getSum(@RequestParam(required = false) String sender) {
-//        try {
-//            List<Donation> donations = new ArrayList<Donation>();
-//            Integer sum = 0;
-//            if (sender == null)
-//            {donationRepository.findAll().forEach(donations::add);
-//            for (int i = 0; i < donations.size(); i++) {
-//                sum += donations.get(i).getAmount();
-//            }
-//        }
-//            else
-//            {donationRepository.findBySender(sender).forEach(donations::add);
-//            for(int i=0;i<donations.size();i++)
-//            {
-//                sum+=donations.get(i).getAmount();
-//            }}
-//            if (donations.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity(sum, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @GetMapping("/sum")
+    public ResponseEntity<Integer> getSum(@RequestParam(required = false) String sender) {
+        try {
+            List<Donation> donations = new ArrayList<Donation>();
+            Integer sum = 0;
+            if (sender == null)
+            {donationRepository.findAll().forEach(donations::add);
+            for (int i = 0; i < donations.size(); i++) {
+                sum += donations.get(i).getAmount();
+            }
+        }
+            else
+            {donationRepository.findBySender(sender).forEach(donations::add);
+            for(int i=0;i<donations.size();i++)
+            {
+                sum+=donations.get(i).getAmount();
+            }}
+            if (donations.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity(sum, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping("/donations/{id}")
     public ResponseEntity<Donation> getDonationById(@PathVariable("id") String id) {
         Optional<Donation> donationData = donationRepository.findById(id);
