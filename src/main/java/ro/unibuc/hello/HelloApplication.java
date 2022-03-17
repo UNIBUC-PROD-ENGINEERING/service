@@ -26,5 +26,4 @@ public class HelloApplication {
 		informationRepository.save(new InformationEntity("Overview",
 				"This is an example of using a data storage engine running separately from our applications server"));
 	}
-
 }

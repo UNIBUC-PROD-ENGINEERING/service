@@ -7,7 +7,10 @@ default: build
 clean:
 	rm -rf build
 
-build: clean
+stop-docker:
+	docker-compose down
+
+build: stop-docker clean
 	# A separate image for build allows the process to avoid dependencies with the build machine.
 	docker build -t $(BUILDER_TAG) -f Dockerfile.build .
 	# Runs the image generated in the above step to create the actual deployable artifact (i.e. jar file).
@@ -21,6 +24,9 @@ build: clean
 	# Builds the docker image for running the service.
 	docker build -t $(IMAGE_TAG):$(IMAGE_VERSION) .
 	echo "Success"
+
+run: build
+	docker-compose up -d
 
 post-deploy-build:
 	echo "Nothing is defined in post-deploy-build step"
