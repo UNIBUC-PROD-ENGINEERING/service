@@ -46,4 +46,20 @@ public class Client {
 
         this.cart.put(mealId, this.cart.getOrDefault(mealId, 0) + 1);
     }
+
+    public void removeFromCart(String mealId) {
+        if (this.cart == null) {
+            this.cart = new HashMap<>();
+        }
+
+        this.cart.remove(mealId);
+    }
+
+    public void clearCart() {
+        if (this.cart == null) {
+            this.cart = new HashMap<>();
+        }
+
+        this.cart.clear();
+    }
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import ro.unibuc.tbd.model.CartDTO;
+import ro.unibuc.tbd.model.CartRequestDTO;
 import ro.unibuc.tbd.model.Client;
 import ro.unibuc.tbd.model.Meal;
 import ro.unibuc.tbd.model.Order;
@@ -72,10 +72,10 @@ public class ClientService {
         return client;
     }
 
-    public Client addToCart(String clientId, CartDTO mealDTO) {
+    public Client addToCart(String clientId, CartRequestDTO cartRequest) {
         Client client = this.getClientById(clientId);
 
-        Optional<Meal> optionalMeal = mealRepository.findById(mealDTO.mealId);
+        Optional<Meal> optionalMeal = mealRepository.findById(cartRequest.mealId);
 
         if (optionalMeal.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
@@ -87,17 +87,17 @@ public class ClientService {
         return repository.save(client);
     }
 
-    public Client removeFromCart(String clientId, CartDTO mealDTO) {
+    public Client removeFromCart(String clientId, CartRequestDTO cartRequest) {
         Client client = this.getClientById(clientId);
 
-        client.cart.remove(mealDTO.mealId);
+        client.removeFromCart(cartRequest.mealId);
         return repository.save(client);
     }
 
     public Client clearCart(String clientId) {
         Client client = this.getClientById(clientId);
 
-        client.cart.clear();
+        client.clearCart();
         return repository.save(client);
     }
 
