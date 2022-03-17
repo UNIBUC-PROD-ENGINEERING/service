@@ -1,7 +1,7 @@
 package ro.unibuc.tbd.model;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.Map;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -15,7 +15,7 @@ public class Order {
     public String id;
 
     public String clientId;
-    public HashMap<String, Integer> meals;
+    public Map<String, Integer> meals;
     public Float totalPrice;
 
     @CreatedDate

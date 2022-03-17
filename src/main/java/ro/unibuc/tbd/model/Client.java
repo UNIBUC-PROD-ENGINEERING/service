@@ -1,6 +1,7 @@
 package ro.unibuc.tbd.model;
 
 import java.util.HashMap;
+import java.util.Map;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,7 +18,7 @@ public class Client {
     public String phoneNumber;
     public String address;
 
-    public HashMap<String, Integer> cart;
+    public Map<String, Integer> cart;
 
     public Client updateClient(Client other) {
         if (other.getName() != null) {

@@ -1,17 +1,14 @@
 package ro.unibuc.tbd.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ro.unibuc.tbd.model.Client;
 import ro.unibuc.tbd.repository.ClientRepository;
@@ -19,6 +16,7 @@ import ro.unibuc.tbd.repository.MealRepository;
 
 @SpringBootTest
 class ClientServiceTest {
+
     @Mock
     ClientRepository clientRepository;
 
@@ -31,6 +29,19 @@ class ClientServiceTest {
     @InjectMocks
     ClientService clientService;
 
+    private Client client;
+
+    @BeforeEach
+    void setUp() {
+        client = new Client();
+        client.setId("gfdgdf4325s01583f06eff");
+        client.setName("John");
+        client.setEmail("john@gmail.com");
+        client.setAddress("284 Garfield Ave. Hackensack, NJ 07601");
+        client.setPhoneNumber("0762476343");
+        client.setCart(Map.of("622ac0a71068101583f06eff", 1));
+    }
+
     @Test
     void getClientById() {
     }
@@ -38,12 +49,6 @@ class ClientServiceTest {
     @Test
     void createClient() {
         // Arrange
-        Client client = new Client();
-        client.setName("John");
-        client.setEmail("john@gmail.com");
-        client.setAddress("284 Garfield Ave. Hackensack, NJ 07601");
-        client.setPhoneNumber("0762476343");
-
         when(clientRepository.save(client)).thenReturn(client);
 
         // Act
