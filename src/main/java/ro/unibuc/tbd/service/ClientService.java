@@ -45,28 +45,22 @@ public class ClientService {
 
     public Client createClient(Client client) {
         client.cart = new HashMap<>();
-        return repository.save(client);
+
+        repository.save(client);
+        return client;
     }
 
     public Client updateClient(String clientId, Client request) {
-        Optional<Client> optionalClient = repository.findById(clientId);
-        if (optionalClient.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found.");
-        }
+        Client client = this.getClientById(clientId);
 
-        Client client = optionalClient.get();
         client.updateClient(request);
 
-        return repository.save(client);
+        repository.save(client);
+        return client;
     }
 
     public Client deleteClientById(String clientId) {
-        Optional<Client> optionalClient = repository.findById(clientId);
-        if (optionalClient.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found.");
-        }
-
-        Client client = optionalClient.get();
+        Client client = this.getClientById(clientId);
 
         repository.deleteById(clientId);
         return client;
@@ -76,7 +70,6 @@ public class ClientService {
         Client client = this.getClientById(clientId);
 
         Optional<Meal> optionalMeal = mealRepository.findById(cartRequest.mealId);
-
         if (optionalMeal.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
         }
@@ -84,21 +77,27 @@ public class ClientService {
         Meal meal = optionalMeal.get();
 
         client.addToCart(meal.id);
-        return repository.save(client);
+
+        repository.save(client);
+        return client;
     }
 
     public Client removeFromCart(String clientId, CartRequestDTO cartRequest) {
         Client client = this.getClientById(clientId);
 
         client.removeFromCart(cartRequest.mealId);
-        return repository.save(client);
+
+        repository.save(client);
+        return client;
     }
 
     public Client clearCart(String clientId) {
         Client client = this.getClientById(clientId);
 
         client.clearCart();
-        return repository.save(client);
+
+        repository.save(client);
+        return client;
     }
 
     public Client placeOrder(String clientId) {
