@@ -2,7 +2,6 @@ version: '3.1'
 services:
   hello: # stateless spring application
     image: hello-img
-    profiles: ["apps", "all"]
     build: .
     ports:
       - 8080:8080
@@ -16,7 +15,6 @@ services:
         loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   mongo: # mongo document DB
     image: mongo:5.0.2
-    profiles: ["apps", "all"]
     restart: always
     ports:
       - 27017:27017
@@ -29,7 +27,6 @@ services:
         loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   mongo-admin-ui: # mongoDB admin UI
     image: mongo-express
-    profiles: ["apps", "all"]
     restart: always
     ports:
       - 8090:8081
