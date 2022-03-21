@@ -2,6 +2,7 @@ package ro.unibuc.hello.controller;
 
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ public class HelloWorldController {
     @Autowired
     private InformationRepository informationRepository;
 
+    @Autowired
+    MeterRegistry metricsRegistry;
+
     private static final String helloTemplate = "Hello, %s!";
     private static final String informationTemplate = "%s : %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -28,6 +32,7 @@ public class HelloWorldController {
     @Timed(value = "hello.greeting.time", description = "Time taken to return greeting")
     @Counted(value = "hello.greeting.count", description = "Times greeting was returned")
     public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
+        metricsRegistry.counter("my_non_aop_metric", "endpoint", "hello").increment(counter.incrementAndGet());
         return new Greeting(counter.incrementAndGet(), String.format(helloTemplate, name));
     }
 
