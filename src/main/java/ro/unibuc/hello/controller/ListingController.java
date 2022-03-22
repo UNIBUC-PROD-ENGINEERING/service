@@ -28,6 +28,17 @@ public class ListingController {
         return listing;
     }
 
+    @PostMapping("/bid_for_listing")
+    @ResponseBody
+    public Listing bidForListing(@RequestBody Listing listing, @RequestBody int price){
+        if(price <= listing.currentPrice)
+            System.out.println("Invalid price");
+        else
+            listing.setCurrentPrice(price);
+        listingRepository.save(listing);
+        return listing;
+    }
+
     @PostMapping("/register_product")
     @ResponseBody
     public Product registerProduct(@RequestBody Product product){
