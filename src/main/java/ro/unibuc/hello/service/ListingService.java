@@ -14,10 +14,15 @@ public class ListingService {
     @Autowired
     ListingRepository listingRepository;
 
-    public void increaseListingPrice(Integer value, String listingId){
+    public Listing increaseListingPrice(Integer value, String listingId){
         Listing listing = listingRepository.findListingById(listingId);
         Integer currPrice = listing.getCurrentPrice();
-        listing.setCurrentPrice(currPrice + value);
+        Integer newValue = currPrice + value;
+        listing.setCurrentPrice(newValue);
+        System.out.println(listing.getCurrentPrice());
         listingRepository.save(listing);
+        System.out.println(listing.getCurrentPrice());
+
+        return listing;
     }
 }

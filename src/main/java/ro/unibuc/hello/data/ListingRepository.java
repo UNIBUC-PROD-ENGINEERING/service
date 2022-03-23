@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ListingRepository extends MongoRepository<Listing, String> {
-    @Query(" 'listingId' : ?0 }")
+    @Query("{ 'listingId' : ?0 }")
     Listing findListingById(String listingId);
 }

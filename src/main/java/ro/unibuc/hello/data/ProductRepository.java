@@ -8,6 +8,6 @@ import ro.unibuc.hello.dto.Product;
 
 @Repository
 public interface ProductRepository extends MongoRepository<Product, String> {
-    @Query(" 'productId' : ?0 }")
+    @Query(" { 'productId' : ?0 }")
     Product findProductById(String productId);
 }

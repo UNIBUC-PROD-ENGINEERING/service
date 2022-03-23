@@ -1,33 +1,29 @@
-package ro.unibuc.hello.service;
+package ro.unibuc.hello.data;
 
 import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import ro.unibuc.hello.data.ListingRepository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.unibuc.hello.dto.Listing;
 import ro.unibuc.hello.dto.Product;
 import ro.unibuc.hello.dto.User;
+import ro.unibuc.hello.service.ListingService;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @SpringBootTest
-class ListingServiceTest {
-
-    @Mock
-    private ListingRepository listingRepository;
+class ListingRepositoryTest {
 
     @Autowired
-    ListingService listingService = new ListingService();
-
-
+    ListingRepository listingRepository;
 
     @BeforeEach
     public void dataSetup(){
@@ -40,22 +36,21 @@ class ListingServiceTest {
         listingRepository.save(listing);
     }
 
+
     @Test
-    void increaseListingPrice() {
+    void findListingById(){
         Product product = new Product("Yeezy 500","Tan",350);
         User user = new User("Alexandru", "Voiculescu");
         Listing listing = new Listing(user,650,product);
 
         listing.setListingId("1kl3j1j2lk3");
-        listingRepository.save(listing);
 
-        Integer value = 700;
+        Listing result = listingRepository.findListingById("1kl3j1j2lk3");
 
-        //when(listingRepository.findListingById("1kl3j1j2lk3")).thenReturn(listing);
-
-        Listing newListing = listingService.increaseListingPrice(100,listing.getListingId());
-
-        assertEquals(listing.getStartingPrice()+value,newListing.getCurrentPrice());
-
+        assertEquals(listing.getStartingPrice(),result.getStartingPrice());
+        assertEquals(listing.getListingId(),result.getListingId());
+        assertEquals(listing.getCurrentPrice(),result.getCurrentPrice());
     }
+
+
 }

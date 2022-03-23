@@ -8,6 +8,6 @@ import ro.unibuc.hello.dto.User;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
-    @Query(" 'userId' : ?0 }")
+    @Query("{ 'userId' : ?0 }")
     User findUserById(String userId);
 }
