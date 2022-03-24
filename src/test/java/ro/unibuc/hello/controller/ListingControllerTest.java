@@ -1,19 +1,88 @@
 package ro.unibuc.hello.controller;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import ro.unibuc.hello.data.ListingRepository;
 import ro.unibuc.hello.data.ProductRepository;
 import ro.unibuc.hello.dto.Listing;
 import ro.unibuc.hello.dto.Product;
 import ro.unibuc.hello.dto.User;
 
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.mockito.Mockito.when;
-
+//@WebMvcTest(ListingController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class ListingControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    ListingRepository listingRepository;
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @Test
+    void postListing() throws Exception {
+        Product product = new Product("Yeezy 500","Tan",350);
+        User user = new User("Alexandru", "Voiculescu");
+        Listing listing = new Listing(user,650,product);
+
+        mockMvc.perform(post("/post_listing")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(listing)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void registerProduct() throws Exception {
+        Product product = new Product("Yeezy 500","Tan",350);
+
+        mockMvc.perform(post("/register_product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(product)))
+                .andExpect(status().isOk());
+    }
+
+    public static String asJsonString(final Object obj) {
+        try{
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void getAllListings() throws Exception {
+        mockMvc.perform(get("/listings").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].listingId", is("6225ff22b5d5fc349f9d721b")));
+    }
+
+    @Test
+    public void getAllProducts() throws Exception {
+        mockMvc.perform(get("/products").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].productId", is("6225fedfb5d5fc349f9d721a")));
+    }
+
+
+
 /*
     @Mock
     ListingRepository mockListingRepository;
