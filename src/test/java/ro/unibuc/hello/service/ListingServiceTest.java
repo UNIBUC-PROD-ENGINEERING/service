@@ -49,7 +49,7 @@ class ListingServiceTest {
         listing.setListingId("1kl3j1j2lk3");
         listingRepository.save(listing);
 
-        Integer value = 700;
+        Integer value = 100;
 
         //when(listingRepository.findListingById("1kl3j1j2lk3")).thenReturn(listing);
 

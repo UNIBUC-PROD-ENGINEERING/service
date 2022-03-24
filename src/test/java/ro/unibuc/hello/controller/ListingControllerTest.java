@@ -31,11 +31,6 @@ class ListingControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    ListingRepository listingRepository;
-
-    @Autowired
-    ProductRepository productRepository;
 
     @Test
     void postListing() throws Exception {
