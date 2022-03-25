@@ -42,6 +42,7 @@ dependencyManagement {
 test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
+	exclude '**/IngredientControllerTestIT.class'
 }
 
 asciidoctor {
