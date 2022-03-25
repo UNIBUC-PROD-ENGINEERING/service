@@ -23,6 +23,24 @@ public class RecipeController {
 
     @Autowired
     private RecipeRepository recipeRepository;
+    private IngredientRepository ingredientRepository;
+
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/recipe")
+    @ResponseBody
+    public RecipeDto getRecipe(@RequestParam(name="name") String name) {
+        var entity = recipeRepository.findByName(name);
+        if(entity == null) {
+            throw new NotFoundException();
+        }
+
+//        for (int i = 0; i < entity.ingredientsNames.size(); i++) {
+//            System.out.println(entity.ingredientsNames.get(i));
+//        }
+        return new RecipeDto(entity);
+    }
+
     @PostMapping("/recipe/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addRecipe(@RequestBody AddRecipeDto model) {
@@ -31,6 +49,15 @@ public class RecipeController {
 //            throw new NotFoundException();
 //        }
 
+
+        for (int i = 0; i < model.ingredientsNames.size(); i++) {
+//            var entity = ingredientRepository.findByName("faina");
+//            if(entity == null) {
+//                throw new NotFoundException();
+//            }
+//            if(entity != null)
+            System.out.println(model.ingredientsNames.get(i));
+        }
         RecipeEntity recipe = new RecipeEntity(model.name, model.ingredientsNames);
         recipeRepository.save(recipe);
     }

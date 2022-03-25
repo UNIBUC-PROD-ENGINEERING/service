@@ -9,6 +9,7 @@ import ro.unibuc.hello.data.IngredientEntity;
 import ro.unibuc.hello.data.IngredientRepository;
 import ro.unibuc.hello.dto.AddIngredientDto;
 import ro.unibuc.hello.dto.IngredientDto;
+import ro.unibuc.hello.exception.BadRequestException;
 import ro.unibuc.hello.exception.NotFoundException;
 
 import java.util.HashMap;
@@ -50,8 +51,10 @@ public class IngredientController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addIngredient(@RequestBody AddIngredientDto model) {
 
-        if (model.price <= 0 && model.protein < 0) {
-            throw new NotFoundException();
+        if (model.price < 0) {
+            throw new BadRequestException(new HashMap<>() {{
+                put("price", "negative");
+            }});
         }
 
         IngredientEntity ingredient = new IngredientEntity(model.name, model.price, model.protein, model.carb, model.fat);

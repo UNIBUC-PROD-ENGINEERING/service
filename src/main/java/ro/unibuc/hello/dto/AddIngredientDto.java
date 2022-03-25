@@ -2,11 +2,11 @@ package ro.unibuc.hello.dto;
 
 public class AddIngredientDto {
     public String name;
-    public Integer price;
-    public Integer protein;
-    public Integer carb;
-    public Integer fat;
-    public AddIngredientDto(String name, Integer price, Integer protein, Integer carb, Integer fat) {
+    public int price;
+    public int protein;
+    public int carb;
+    public int fat;
+    public AddIngredientDto(String name, int price, int protein, int carb, int fat) {
         this.name = name;
         this.price = price;
         this.protein = protein;

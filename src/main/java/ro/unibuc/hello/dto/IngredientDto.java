@@ -6,10 +6,10 @@ public class IngredientDto {
 
     public String id;
     public String name;
-    public Integer price;
-    public Integer protein;
-    public Integer carb;
-    public Integer fat;
+    public int price;
+    public int protein;
+    public int carb;
+    public int fat;
 
     public IngredientDto(IngredientEntity entity) {
         this.id = entity.id;
