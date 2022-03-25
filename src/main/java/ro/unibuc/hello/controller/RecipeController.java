@@ -45,9 +45,9 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addRecipe(@RequestBody AddRecipeDto model) {
 
-//        if (model.price <= 0 && model.protein < 0) {
-//            throw new NotFoundException();
-//        }
+        if (model.ingredientsNames.size() == 0) {
+            throw new NotFoundException();
+        }
 
 
         for (int i = 0; i < model.ingredientsNames.size(); i++) {
