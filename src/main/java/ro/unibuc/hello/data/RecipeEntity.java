@@ -16,12 +16,4 @@ public class RecipeEntity {
         this.ingredientsNames = ingredientsNames;
     }
 
-    @Override
-    public String toString() {
-        return "RecipeEntity{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", ingredientsNames=" + ingredientsNames +
-                '}';
-    }
 }

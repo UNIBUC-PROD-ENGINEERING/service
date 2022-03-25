@@ -21,15 +21,4 @@ public class IngredientEntity {
         this.fat = fat;
     }
 
-    @Override
-    public String toString() {
-        return "IngredientEntity{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", protein=" + protein +
-                ", carb=" + carb +
-                ", fat=" + fat +
-                '}';
-    }
 }
