@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    hello-service: hello
+  name: hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      hello-service: hello
+  template:
+    metadata:
+      labels:
+        hello-service: hello
+    spec:
+      containers:
+        - env:
+            - name: ENVIRONMENT_NAME
+              value: local
+            - name: MONGODB_CONECTION_URL
+              value: mongodb://root:example@mongo:27017/
+          image: robertpoziumschi/hello-img-pipeline:v1.2.0
+          name: hello
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    hello-service: hello
+  name: hello
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+  selector:
+    hello-service: hello

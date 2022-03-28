@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    mongo-service: mongo
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      mongo-service: mongo
+  template:
+    metadata:
+      labels:
+        mongo-service: mongo
+    spec:
+      containers:
+        - env:
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: example
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+          image: mongo:5.0.2
+          name: mongo
+          ports:
+            - containerPort: 27017
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    mongo-service: mongo
+  name: mongo
+spec:
+  type: ClusterIP
+  ports:
+    - name: "27017"
+      port: 27017
+      targetPort: 27017
+  selector:
+    mongo-service: mongo
