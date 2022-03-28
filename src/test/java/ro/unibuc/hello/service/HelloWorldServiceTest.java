@@ -2,9 +2,10 @@ package ro.unibuc.hello.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.dto.Greeting;
@@ -12,7 +13,7 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
 class HelloWorldServiceTest {
 
     @Mock
