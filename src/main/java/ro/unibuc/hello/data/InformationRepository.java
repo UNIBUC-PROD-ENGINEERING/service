@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InformationRepository extends MongoRepository<InformationEntity, String> {
 
-    public InformationEntity findByTitle(String title);
-    public List<InformationEntity> findByDescription(String description);
+    InformationEntity findByTitle(String title);
+    List<InformationEntity> findByDescription(String description);
 
 }

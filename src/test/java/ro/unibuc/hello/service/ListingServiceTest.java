@@ -15,6 +15,8 @@ import ro.unibuc.hello.dto.Listing;
 import ro.unibuc.hello.dto.Product;
 import ro.unibuc.hello.dto.User;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -55,7 +57,7 @@ class ListingServiceTest {
 
         Listing newListing = listingService.increaseListingPrice(100,listing.getListingId());
 
-        assertEquals(listing.getStartingPrice()+value,newListing.getCurrentPrice());
+        assertEquals(listing.getStartingPrice()+value, Optional.ofNullable(newListing.getCurrentPrice()));
 
     }
 }
