@@ -46,7 +46,7 @@ class ListingTest {
     @Test
     void getStartingPrice() {
 
-        assertEquals(650, Optional.ofNullable(listing.getStartingPrice()));
+        assertEquals(Optional.of(650).get(), Optional.ofNullable(listing.getStartingPrice()).get());
 
     }
 
@@ -55,7 +55,7 @@ class ListingTest {
 
         listing.setStartingPrice(700);
 
-        assertEquals(700, Optional.ofNullable(listing.getStartingPrice()));
+        assertEquals(Optional.of(700).get(), Optional.ofNullable(listing.getStartingPrice()).get());
     }
 
     @Test
@@ -74,7 +74,7 @@ class ListingTest {
 
     @Test
     void getCurrentPrice() {
-        assertEquals(650, Optional.ofNullable(listing.getCurrentPrice()));
+        assertEquals(Optional.of(650).get(), Optional.ofNullable(listing.getCurrentPrice()).get());
     }
 
     @Test
@@ -82,6 +82,6 @@ class ListingTest {
 
         listing.setCurrentPrice(700);
 
-        assertEquals(700, Optional.ofNullable(listing.getCurrentPrice()));
+        assertEquals(Optional.of(700).get(), Optional.ofNullable(listing.getCurrentPrice()).get());
     }
 }

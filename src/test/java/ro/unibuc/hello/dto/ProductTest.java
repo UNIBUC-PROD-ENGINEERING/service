@@ -47,12 +47,12 @@ class ProductTest {
 
     @Test
     void getRetailPrice() {
-        Assertions.assertEquals(350, Optional.ofNullable(product.getRetailPrice()));
+        Assertions.assertEquals(Optional.of(350).get(), Optional.ofNullable(product.getRetailPrice()).get());
     }
 
     @Test
     void setRetailPrice() {
         product.setRetailPrice(250);
-        Assertions.assertEquals(250, Optional.ofNullable(product.getRetailPrice()));
+        Assertions.assertEquals(Optional.of(250).get(), Optional.ofNullable(product.getRetailPrice()).get());
     }
 }

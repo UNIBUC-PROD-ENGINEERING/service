@@ -57,7 +57,7 @@ class ListingServiceTest {
 
         Listing newListing = listingService.increaseListingPrice(100,listing.getListingId());
 
-        assertEquals(listing.getStartingPrice()+value, Optional.ofNullable(newListing.getCurrentPrice()));
+        assertEquals(Optional.of(listing.getStartingPrice()+value).get(), Optional.ofNullable(newListing.getCurrentPrice()).get());
 
     }
 }
