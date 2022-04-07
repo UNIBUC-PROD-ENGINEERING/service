@@ -23,6 +23,8 @@ public class RecipeController {
 
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
     private IngredientRepository ingredientRepository;
 
 
@@ -51,10 +53,10 @@ public class RecipeController {
 
 
         for (int i = 0; i < model.ingredientsNames.size(); i++) {
-//            var entity = ingredientRepository.findByName("faina");
-//            if(entity == null) {
-//                throw new NotFoundException();
-//            }
+            var entity = ingredientRepository.findByName(model.ingredientsNames.get(i));
+            if(entity == null) {
+                throw new NotFoundException();
+            }
 //            if(entity != null)
             System.out.println(model.ingredientsNames.get(i));
         }

@@ -1,5 +1,6 @@
 package ro.unibuc.hello.controller;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ class IngredientControllerTestIT {
         if(y != null)
             ingredientRepository.delete(y);
 
-        ingredientRepository.save(new IngredientEntity("Este", 2, 2, 2, 2));
+        ingredientRepository.save(new IngredientEntity("Este", 2, 2, 2, 2, 2));
     }
 
     @Test
@@ -52,10 +53,22 @@ class IngredientControllerTestIT {
     @Test
     @Order(2)
     void addIngredient() {
-        var ingredient = new AddIngredientDto("Nu Este", 5, 5, 5, 5);
+        var ingredient = new AddIngredientDto("Nu Este", 5, 5, 5, 5, 5);
 
         ingredientController.addIngredient(ingredient);
 
         Assertions.assertNotNull(ingredientRepository.findByName("Nu Este"));
     }
+
+    @AfterAll
+    public void clean() {
+        var x = ingredientRepository.findByName("Nu Este");
+        if(x != null)
+            ingredientRepository.delete(x);
+
+        var y = ingredientRepository.findByName("Este");
+        if(y != null)
+            ingredientRepository.delete(y);
+
+      }
 }

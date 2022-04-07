@@ -30,12 +30,13 @@ class IngredientControllerTest {
     @Test
     void getIngredient_Returns() {
 
-        when(mockRepository.findByName("Test")).thenReturn(new IngredientEntity("testescu", 1, 1, 1, 2));
+        when(mockRepository.findByName("Test")).thenReturn(new IngredientEntity("testescu", 1, 1, 1, 1, 2));
 
         var res = ingredientController.getIngredient("Test");
 
         Assertions.assertEquals("testescu", res.name);
         Assertions.assertEquals(1, res.price);
+        Assertions.assertEquals(1, res.calories);
         Assertions.assertEquals(1, res.protein);
         Assertions.assertEquals(1, res.carb);
         Assertions.assertEquals(2, res.fat);
@@ -71,9 +72,9 @@ class IngredientControllerTest {
     }
     @Test
     void getAllIngredients_Returns() {
-        when(mockRepository.findAll()).thenReturn(Arrays.asList(new IngredientEntity("a", 1, 1, 1, 1),
-                new IngredientEntity("b", 2, 2, 2, 2),
-                new IngredientEntity("c", 3, 3, 3, 3)));
+        when(mockRepository.findAll()).thenReturn(Arrays.asList(new IngredientEntity("a", 1, 1, 1, 1, 1),
+                new IngredientEntity("b", 2, 2, 2, 2, 2),
+                new IngredientEntity("c", 3, 2, 3, 3, 3)));
 
         var res = ingredientController.getAllIngredients();
 
@@ -82,7 +83,7 @@ class IngredientControllerTest {
 
     @Test
     void addIngredient() {
-        var Ingredient = new AddIngredientDto("name", 1, 1, 1, 1);
+        var Ingredient = new AddIngredientDto("name", 1, 1, 1, 1, 1);
         ingredientController.addIngredient(Ingredient);
 
         verify(mockRepository, times(1)).save(any());
@@ -90,7 +91,7 @@ class IngredientControllerTest {
 
     @Test
     void addIngredient_ThrowsBadRequest() {
-        var Ingredient = new AddIngredientDto("name", -500, 1, 1, 1);
+        var Ingredient = new AddIngredientDto("name", -500, 1, 1, 1, 1);
 
         try {
             ingredientController.addIngredient(Ingredient);

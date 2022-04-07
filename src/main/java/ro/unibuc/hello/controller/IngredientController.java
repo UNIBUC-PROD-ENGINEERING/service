@@ -57,7 +57,7 @@ public class IngredientController {
             }});
         }
 
-        IngredientEntity ingredient = new IngredientEntity(model.name, model.price, model.protein, model.carb, model.fat);
+        IngredientEntity ingredient = new IngredientEntity(model.name, model.price, model.calories, model.protein, model.carb, model.fat);
         ingredientRepository.save(ingredient);
     }
 

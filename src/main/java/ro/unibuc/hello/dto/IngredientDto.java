@@ -7,6 +7,7 @@ public class IngredientDto {
     public String id;
     public String name;
     public int price;
+    public int calories;
     public int protein;
     public int carb;
     public int fat;
@@ -15,6 +16,7 @@ public class IngredientDto {
         this.id = entity.id;
         this.name = entity.name;
         this.price = entity.price;
+        this.calories = entity.calories;
         this.protein = entity.protein;
         this.carb = entity.carb;
         this.fat = entity.fat;
