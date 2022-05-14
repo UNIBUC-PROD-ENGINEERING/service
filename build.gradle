@@ -5,6 +5,7 @@ plugins {
 	id 'java'
 }
 
+//noinspection GroovyUnusedAssignment
 group = 'ro.unibuc'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
@@ -30,15 +31,15 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.testcontainers:junit-jupiter'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
-	//	E2E tests
+	// E2E tests
 	runtimeOnly "org.junit.vintage:junit-vintage-engine:5.8.2"
-	testImplementation 'io.cucumber:cucumber-core:6.8.0'
-	testImplementation 'io.cucumber:cucumber-java:6.8.0'
-	testImplementation 'io.cucumber:cucumber-junit:6.8.0'
-	testImplementation 'io.cucumber:cucumber-spring:6.8.0'
+	testImplementation 'io.cucumber:cucumber-core:7.3.3'
+	testImplementation 'io.cucumber:cucumber-java:7.3.3'
+	testImplementation 'io.cucumber:cucumber-junit:7.3.3'
+	testImplementation 'io.cucumber:cucumber-spring:7.3.3'
 }
 
 dependencyManagement {
@@ -77,8 +78,9 @@ task testE2E() {
 			args = [
 					'--plugin', 'pretty',
 					'--plugin', 'html:target/cucumber-report.html',
-					'--glue', 'ro.unibuc.hello.e2e.steps',
-					'src/test/resources']
+					'--glue', 'ro.unibuc.slots.e2e.steps',
+					'src/test/resources'
+			]
 		}
 	}
 }
