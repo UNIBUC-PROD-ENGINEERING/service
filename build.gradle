@@ -7,7 +7,9 @@ plugins {
 
 //noinspection GroovyUnusedAssignment
 group = 'ro.unibuc'
+//noinspection GroovyUnusedAssignment
 version = '0.0.1-SNAPSHOT'
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = '11'
 
 repositories {
