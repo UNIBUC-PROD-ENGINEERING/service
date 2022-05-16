@@ -31,22 +31,22 @@ pipeline {
                         returnStdout: true
                     ]).trim()
                     env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
+
+                    sh([
+                        script: "docker build -t " + '$DOCKER_USR' + "/slots-img:${env.IMAGE_TAG} .",
+                        returnStdout: true
+                    ]).trim()
+
+                    sh([
+                        script: "git tag ${env.IMAGE_TAG}",
+                        returnStdout: true
+                    ]).trim()
+
+                    sh([
+                        script: "git push https://" + '$GITHUB' + "@github.com/pLuck-sTudios/slot-machine.git ${env.IMAGE_TAG}",
+                        returnStdout: true
+                    ]).trim()
                 }
-
-                sh([
-                    script: "docker build -t " + '$DOCKER_USR' + "/slots-img:${env.IMAGE_TAG} .",
-                    returnStdout: true
-                ]).trim()
-
-                sh([
-                    script: "git tag ${env.IMAGE_TAG}",
-                    returnStdout: true
-                ]).trim()
-
-                sh([
-                    script: "git push https://" + '$GITHUB' + "@github.com/pLuck-sTudios/slot-machine.git ${env.IMAGE_TAG}",
-                    returnStdout: true
-                ]).trim()
             }
         }
 
