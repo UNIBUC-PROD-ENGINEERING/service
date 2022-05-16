@@ -1,9 +1,8 @@
 version: '3.1'
 services:
   slots:
-    image: slots-img
+    image: ${DOCKER_USR}/slots-img:${IMAGE_TAG}
     restart: always
-    build: .
     ports:
       - "8080:8080"
     environment:
