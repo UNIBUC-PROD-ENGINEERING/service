@@ -20,22 +20,33 @@ pipeline {
 
                     env.MAJOR_VERSION = sh([
                         script: 'git tag | sort --version-sort | tail -1 | cut -d . -f 1',
-                        returnStdout: true]
-                    ).trim()
+                        returnStdout: true
+                    ]).trim()
                     env.MINOR_VERSION = sh([
                         script: 'git tag | sort --version-sort | tail -1 | cut -d . -f 2',
-                        returnStdout: true]
-                    ).trim()
+                        returnStdout: true
+                    ]).trim()
                     env.PATCH_VERSION = sh([
                         script: 'git tag | sort --version-sort | tail -1 | cut -d . -f 3',
-                        returnStdout: true]
-                    ).trim()
+                        returnStdout: true
+                    ]).trim()
                     env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
                 }
 
-                sh 'docker build -t $DOCKER_USR/slots-img:${env.IMAGE_TAG} .'
-                sh 'git tag ${env.IMAGE_TAG}'
-                sh 'git push https://$GITHUB@github.com/pLuck-sTudios/slot-machine.git ${env.IMAGE_TAG}'
+                sh([
+                    script: "docker build -t " + '$DOCKER_USR' + "/slots-img:${env.IMAGE_TAG} .",
+                    returnStdout: true
+                ]).trim()
+
+                sh([
+                    script: "git tag ${env.IMAGE_TAG}",
+                    returnStdout: true
+                ]).trim()
+
+                sh([
+                    script: "git push https://" + '$GITHUB' + "@github.com/pLuck-sTudios/slot-machine.git ${env.IMAGE_TAG}",
+                    returnStdout: true
+                ]).trim()
             }
         }
 
