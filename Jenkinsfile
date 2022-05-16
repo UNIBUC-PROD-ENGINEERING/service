@@ -53,7 +53,7 @@ pipeline {
         stage('Spawn service') {
             steps {
                 script {
-                    "IMAGE_TAG = ${env.IMAGE_TAG}" docker compose up -d slots
+                    IMAGE_TAG=${env.IMAGE_TAG} docker compose up -d slots
                 }
             }
         }
