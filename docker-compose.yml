@@ -3,8 +3,6 @@ services:
   slots:
     image: ${DOCKER_USR}/slots-img:${IMAGE_TAG}
     restart: always
-    depends_on:
-      - mongo
     ports:
       - "0.0.0.0:8080:8080"
     environment:
@@ -23,8 +21,6 @@ services:
   mongo-admin-ui:
     image: mongo-express
     restart: always
-    depends_on:
-      - mongo
     ports:
       - "0.0.0.0:8090:8081"
     environment:
