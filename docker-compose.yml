@@ -3,8 +3,10 @@ services:
   slots:
     image: ${DOCKER_USR}/slots-img:${IMAGE_TAG}
     restart: always
+    depends_on:
+      - mongo
     ports:
-      - "8080:8080"
+      - "0.0.0.0:8080:8080"
     environment:
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
@@ -13,7 +15,7 @@ services:
     image: mongo:5.0.2
     restart: always
     ports:
-      - "27017:27017"
+      - "0.0.0.0:27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -21,8 +23,10 @@ services:
   mongo-admin-ui:
     image: mongo-express
     restart: always
+    depends_on:
+      - mongo
     ports:
-      - "8090:8081"
+      - "0.0.0.0:8090:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
