@@ -15,7 +15,6 @@ services:
   mongo:
     image: mongo:5.0.2
     restart: always
-    network_mode: "host"
     ports:
       - "0.0.0.0:27017:27017"
     environment:
@@ -25,7 +24,6 @@ services:
   mongo-admin-ui:
     image: mongo-express
     restart: always
-    network_mode: "host"
     links:
       - mongo
     ports:
