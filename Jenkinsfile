@@ -30,7 +30,10 @@ pipeline {
                         script: 'git tag | sort --version-sort | tail -1 | cut -d . -f 3',
                         returnStdout: true
                     ]).trim()
-                    env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
+                    env.IMAGE_TAG = sh([
+                        script: 'echo ' + "${env.MAJOR_VERSION}" + '.\$((' + "${env.MINOR_VERSION}" + ' + 1)).' + "${env.PATCH_VERSION}",
+                        returnStdout: true
+                    ]).trim()
 
                     sh([
                         script: "docker build -t " + '$DOCKER_USR' + "/slots-img:${env.IMAGE_TAG} .",
@@ -51,10 +54,11 @@ pipeline {
         }
 
         stage('Spawn service') {
+            environment {
+                IMAGE_TAG="${env.IMAGE_TAG}"
+            }
             steps {
-                script {
-                    IMAGE_TAG="${env.IMAGE_TAG}" docker compose up -d slots
-                }
+                sh 'docker compose up -d slots'
             }
         }
 
