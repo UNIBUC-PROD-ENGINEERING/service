@@ -7,7 +7,6 @@ import org.springframework.web.client.RequestCallback;
 import java.util.Map;
 
 public class HeaderSetup implements RequestCallback {
-
     private final Map<String, String> requestHeaders;
 
     public HeaderSetup(final Map<String, String> headers) {

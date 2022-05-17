@@ -10,7 +10,6 @@ import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 import ro.unibuc.slots.dto.Greeting;
 import ro.unibuc.slots.e2e.util.HeaderSetup;
@@ -26,7 +25,6 @@ import static org.hamcrest.Matchers.is;
 @CucumberContextConfiguration
 @SpringBootTest()
 public class HelloWorldSteps {
-
     public static ResponseResults latestResponse = null;
 
     @Autowired
@@ -39,14 +37,16 @@ public class HelloWorldSteps {
 
     @Then("^the client receives status code of (\\d+)$")
     public void the_client_receives_status_code_of(int statusCode) throws Throwable {
-        final HttpStatus currentStatusCode = latestResponse.getTheResponse().getStatusCode();
-        assertThat("status code is incorrect : " + latestResponse.getBody(), currentStatusCode.value(), is(statusCode));
+        assertThat(
+                "status code is incorrect : " + latestResponse.getBody(),
+                latestResponse.getTheResponse().getStatusCode().value(),
+                is(statusCode)
+        );
     }
 
     @And("^the client receives response (.+)$")
     public void the_client_receives_response(String response) throws JsonProcessingException {
-        String latestResponseBody = latestResponse.getBody();
-        Greeting greeting = new ObjectMapper().readValue(latestResponseBody, Greeting.class);
+        final Greeting greeting = new ObjectMapper().readValue(latestResponse.getBody(), Greeting.class);
         assertThat("Response received is incorrect", greeting.getContent(), is(response));
     }
 
@@ -57,13 +57,11 @@ public class HelloWorldSteps {
         final ResponseErrorHandler errorHandler = new ResponseErrorHandler();
 
         restTemplate.setErrorHandler(errorHandler);
-        latestResponse = restTemplate.execute(url, HttpMethod.GET, requestCallback, response -> {
-            if (errorHandler.getHadError()) {
-                return (errorHandler.getResults());
-            } else {
-                return (new ResponseResults(response));
-            }
-        });
+        latestResponse = restTemplate.execute(
+                url,
+                HttpMethod.GET,
+                requestCallback,
+                response -> errorHandler.getHadError() ? errorHandler.getResults() : new ResponseResults(response)
+        );
     }
-
 }

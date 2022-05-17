@@ -13,22 +13,20 @@ import java.util.Collections;
 
 @Configuration
 public class MongoConfig extends AbstractMongoClientConfiguration {
-
     @Value("${mongodb.connection.url}")
     private String connectionURL;
 
     @Override
     protected String getDatabaseName() {
-        return "test";
+        return "slots";
     }
 
     @Override
     public MongoClient mongoClient() {
-        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+        return MongoClients.create(MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(connectionURL))
-                .build();
-
-        return MongoClients.create(mongoClientSettings);
+                .build()
+        );
     }
 
     @Override

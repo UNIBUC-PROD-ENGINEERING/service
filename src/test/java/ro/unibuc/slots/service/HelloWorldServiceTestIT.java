@@ -11,7 +11,6 @@ import ro.unibuc.slots.dto.Greeting;
 @SpringBootTest
 @Tag("IT")
 class HelloWorldServiceTestIT {
-
     @Autowired
     InformationRepository informationRepository;
 
@@ -21,10 +20,10 @@ class HelloWorldServiceTestIT {
     @Test
     void test_buildGreetingFromInfo_returnsGreetingWithInformation() {
         // Arrange
-        String title = "Overview";
+        final String title = "Overview";
 
         // Act
-        Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
+        final Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
 
         // Assert
         Assertions.assertEquals(1, greeting.getId());

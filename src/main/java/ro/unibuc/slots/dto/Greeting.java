@@ -1,23 +1,23 @@
 package ro.unibuc.slots.dto;
 
-public class Greeting {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class Greeting {
     private long id;
     private String content;
 
-    public Greeting() {
-    }
-
-    public Greeting(long id, String content) {
+    @JsonCreator
+    public Greeting(@JsonProperty("id") final long id, @JsonProperty("content") final String content) {
         this.id = id;
         this.content = content;
     }
 
-    public void setId(long id) {
+    public void setId(final long id) {
         this.id = id;
     }
 
-    public void setContent(String content) {
+    public void setContent(final String content) {
         this.content = content;
     }
 
@@ -28,5 +28,4 @@ public class Greeting {
     public String getContent() {
         return content;
     }
-
 }

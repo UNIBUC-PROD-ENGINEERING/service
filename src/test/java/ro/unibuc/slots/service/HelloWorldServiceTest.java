@@ -1,10 +1,12 @@
 package ro.unibuc.slots.service;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.unibuc.slots.data.InformationEntity;
 import ro.unibuc.slots.data.InformationRepository;
@@ -15,20 +17,29 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class HelloWorldServiceTest {
-
     @Mock
     InformationRepository mockInformationRepository;
 
     @InjectMocks
-    HelloWorldService helloWorldService = new HelloWorldService();
+    HelloWorldService helloWorldService;
+
+    @Before
+    public void init() {
+        try (final var mocks = MockitoAnnotations.openMocks(this)) {
+            System.out.println(mocks);
+        }
+        catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
-    void test_hello_returnsGreeting(){
+    void test_hello_returnsGreeting() {
         // Arrange
-        String name = "John";
+        final String name = "John";
 
         // Act
-        Greeting greeting = helloWorldService.hello(name);
+        final Greeting greeting = helloWorldService.hello(name);
 
         // Assert
         Assertions.assertEquals(1, greeting.getId());
@@ -36,11 +47,11 @@ class HelloWorldServiceTest {
     }
 
     @Test
-    void test_hello_returnsGreeting_whenNameNull(){
+    void test_hello_returnsGreeting_whenNameNull() {
         // Arrange
 
         // Act
-        Greeting greeting = helloWorldService.hello(null);
+        final Greeting greeting = helloWorldService.hello(null);
 
         // Assert
         Assertions.assertEquals(1, greeting.getId());
@@ -50,13 +61,13 @@ class HelloWorldServiceTest {
     @Test
     void test_buildGreetingFromInfo_returnsGreetingWithInformation() {
         // Arrange
-        String title = "someTitle";
-        InformationEntity informationEntity = new InformationEntity(title, "someDescription");
+        final String title = "someTitle";
+        final InformationEntity informationEntity = new InformationEntity(title, "someDescription");
 
         when(mockInformationRepository.findByTitle(title)).thenReturn(informationEntity);
 
         // Act
-        Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
+        final Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
 
         // Assert
         Assertions.assertEquals(1, greeting.getId());
@@ -66,18 +77,17 @@ class HelloWorldServiceTest {
     @Test
     void test_buildGreetingFromInfo_throwsEntityNotFoundException_whenInformationNull() {
         // Arrange
-        String title = "someTitle";
+        final String title = "someTitle";
 
         when(mockInformationRepository.findByTitle(title)).thenReturn(null);
 
         try {
             // Act
-            Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
-        } catch (Exception ex) {
+            helloWorldService.buildGreetingFromInfo(title);
+        } catch (final Exception ex) {
             // Assert
             Assertions.assertEquals(ex.getClass(), EntityNotFoundException.class);
             Assertions.assertEquals(ex.getMessage(), "Entity: someTitle was not found");
         }
     }
-
 }
