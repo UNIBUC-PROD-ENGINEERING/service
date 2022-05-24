@@ -1,7 +1,8 @@
-package ro.unibuc.slots.data;
+package ro.unibuc.slots.repo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+import ro.unibuc.slots.model.InformationEntity;
 
 /**
  * No need to implement this interface.

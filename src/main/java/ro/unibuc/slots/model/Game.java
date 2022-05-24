@@ -1,17 +1,16 @@
-package com.slots.app.model;
+package ro.unibuc.slots.model;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 @Document
 public class Game {
-
 	@Id
-	private String gameId;
+	private String id;
 
 	private Date creationDate = new Date();
 	//	private Map<String, String> userSettings = new HashMap<>();
@@ -19,12 +18,12 @@ public class Game {
 
 	private Double currentBuget;
 
-	public String getGameId() {
-		return gameId;
+	public String getId() {
+		return id;
 	}
 
-	public void setGameId(String gameId) {
-		this.gameId = gameId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Date getCreationDate() {

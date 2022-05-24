@@ -1,4 +1,4 @@
-package ro.unibuc.slots.data;
+package ro.unibuc.slots.model;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;

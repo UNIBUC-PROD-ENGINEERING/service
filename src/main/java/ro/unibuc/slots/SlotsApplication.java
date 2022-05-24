@@ -3,20 +3,33 @@ package ro.unibuc.slots;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ro.unibuc.slots.data.InformationEntity;
-import ro.unibuc.slots.data.InformationRepository;
+import ro.unibuc.slots.repo.GameRepository;
+import ro.unibuc.slots.repo.InformationRepository;
+import ro.unibuc.slots.repo.TurnRepository;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = InformationRepository.class)
+@EnableMongoRepositories(basePackageClasses = {
+		GameRepository.class,
+		InformationRepository.class,
+		TurnRepository.class
+})
 public class SlotsApplication {
 	private static long frameCount = 0;
 
+	private final GameRepository gameRepository;
 	private final InformationRepository informationRepository;
+	private final TurnRepository turnRepository;
 
-	public SlotsApplication(final InformationRepository informationRepository) {
+	public SlotsApplication(
+			final GameRepository gameRepository,
+			final InformationRepository informationRepository,
+			final TurnRepository turnRepository
+	) {
+		this.gameRepository = gameRepository;
 		this.informationRepository = informationRepository;
+		this.turnRepository = turnRepository;
 	}
 
 	public static void main(String[] args) {
@@ -29,11 +42,8 @@ public class SlotsApplication {
 
 	@PostConstruct
 	public void runAfterObjectCreated() {
-		informationRepository.deleteAll();
-		informationRepository.save(new InformationEntity(
-				"Overview",
-				"This is an example of using a data storage engine " +
-						"running separately from our applications server"
-		));
+		System.out.println("Game count: " + gameRepository.count());
+		System.out.println("Information count: " + informationRepository.count());
+		System.out.println("Turn count: " + turnRepository.count());
 	}
 }

@@ -1,4 +1,4 @@
-package com.slots.app.model;
+package ro.unibuc.slots.model;
 
 import java.util.ArrayList;
 import java.util.List;

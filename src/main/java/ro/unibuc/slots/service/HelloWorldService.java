@@ -1,10 +1,10 @@
 package ro.unibuc.slots.service;
 
 import org.springframework.stereotype.Component;
-import ro.unibuc.slots.data.InformationEntity;
-import ro.unibuc.slots.data.InformationRepository;
 import ro.unibuc.slots.dto.Greeting;
 import ro.unibuc.slots.exception.EntityNotFoundException;
+import ro.unibuc.slots.model.InformationEntity;
+import ro.unibuc.slots.repo.InformationRepository;
 
 import java.util.concurrent.atomic.AtomicLong;
 

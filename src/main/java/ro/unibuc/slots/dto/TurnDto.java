@@ -1,7 +1,7 @@
-package com.slots.app.dto;
+package ro.unibuc.slots.dto;
 
-import com.slots.app.model.Turn;
-import com.slots.app.model.WinningCombination;
+import ro.unibuc.slots.model.Turn;
+import ro.unibuc.slots.model.WinningCombination;
 
 public class TurnDto {
 	private Turn turn;
