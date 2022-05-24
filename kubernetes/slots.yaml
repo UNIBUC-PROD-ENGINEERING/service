@@ -25,7 +25,7 @@ spec:
               value: local
             - name: MONGODB_CONECTION_URL
               value: mongodb://root:example@mongo:27017/
-          image: robertpoziumschi/slots-img-pipeline:v1.2.0
+          image: pepega3/slots-img-pipeline:v1.2.0
           name: slots
           ports:
             - containerPort: 8080
