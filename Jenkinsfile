@@ -58,7 +58,7 @@ pipeline {
                 IMAGE_TAG="${env.IMAGE_TAG}"
             }
             steps {
-                sh 'docker compose up -d slots'
+                sh 'kubectl apply -f kubernetes/slots.yaml'
             }
         }
 
