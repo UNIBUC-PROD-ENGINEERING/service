@@ -1,9 +1,10 @@
-package ro.unibuc.hello.data;
+package ro.unibuc.hello.repositories;
 
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+import ro.unibuc.hello.models.InformationEntity;
 
 /**
  * No need to implement this interface.
