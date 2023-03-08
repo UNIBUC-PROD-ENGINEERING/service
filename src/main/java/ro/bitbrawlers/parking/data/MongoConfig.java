@@ -1,4 +1,4 @@
-package ro.unibuc.hello.data;
+package ro.bitbrawlers.parking.data;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -20,7 +20,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        return "test";
+        return "parking";
     }
 
     @Override
