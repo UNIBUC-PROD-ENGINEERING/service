@@ -1,6 +1,10 @@
 package ro.unibuc.hello.controller;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +30,13 @@ public class HelloWorldController {
     @ResponseBody
     public Greeting info(@RequestParam(name="title", required=false, defaultValue="Overview") String title) throws EntityNotFoundException {
         return helloWorldService.buildGreetingFromInfo(title);
+    }
+
+
+    @GetMapping("/sal")
+    @ResponseBody
+    public Greeting salut(@RequestParam(name="title", required=false, defaultValue="Overview") String title) throws EntityNotFoundException {
+        return helloWorldService.hello("sal");
     }
 
 }

@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'java'
+	id 'io.swagger.core.v3.swagger-gradle-plugin' version '2.2.0'
 }
 
 group = 'ro.unibuc'
@@ -32,6 +33,11 @@ dependencies {
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+	implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+
 
 	//	E2E tests
 	runtimeOnly "org.junit.vintage:junit-vintage-engine:5.8.2"
