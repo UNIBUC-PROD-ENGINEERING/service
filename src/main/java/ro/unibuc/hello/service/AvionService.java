@@ -44,4 +44,22 @@ public class AvionService {
         avionRepository.deleteByNumber(number);
     }
 
+    public InfoAvion updateAvion(String number, Avion avion) throws EntityNotFoundException  {
+        Avion entity = avionRepository.findByNumber(number);
+        if (entity == null) {
+            throw new EntityNotFoundException(number);
+        }
+        if(avion.getNumber()!=null && !entity.getNumber().equals(avion.getNumber())){
+            entity.setNumber(avion.getNumber());
+        }
+        if(avion.getFrom()!=null && !entity.getFrom().equals(avion.getFrom())){
+            entity.setFrom(avion.getFrom());
+        }
+        if(avion.getTo()!=null && !entity.getTo().equals(avion.getTo())){
+            entity.setTo(avion.getTo());
+        }
+
+        Avion newEntity= avionRepository.save(entity);
+        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,newEntity.number, newEntity.from, newEntity.to));
+    }
 }
