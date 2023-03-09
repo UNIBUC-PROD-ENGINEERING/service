@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-./gradlew clean test build
+./gradlew clean build
