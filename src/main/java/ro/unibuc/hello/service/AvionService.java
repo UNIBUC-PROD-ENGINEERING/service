@@ -35,4 +35,13 @@ public class AvionService {
         Avion entity = avionRepository.save(avion);
         return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
+
+    public void removeAvion(String number) throws EntityNotFoundException  {
+        Avion entity = avionRepository.findByNumber(number);
+        if (entity == null) {
+            throw new EntityNotFoundException(number);
+        }
+        avionRepository.deleteByNumber(number);
+    }
+
 }
