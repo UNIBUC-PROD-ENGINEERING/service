@@ -1,4 +1,4 @@
-package ro.unibuc.hello.data;
+/*package ro.unibuc.hello.data;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -35,4 +35,4 @@ public class MongoConfigOld extends AbstractMongoClientConfiguration {
     public Collection getMappingBasePackages() {
         return Collections.singleton("ro.unibuc.hello.data");
     }
-}
+}*/
