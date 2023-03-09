@@ -47,9 +47,9 @@ public class MenuEntity {
 
     @Override
     public String toString() {
-        String[] menuItems = Arrays.stream(this.dishes)
-                                   .map(dish -> dish.toString())
-                                   .toArray();
+        String[] menuItems = (String[]) Arrays.stream(this.dishes.toArray())
+                .map(dish -> dish.toString())
+                .toArray();
 
         return String.format(
                 "Menu[restaurant='%s', dishes:\n'%s']",
