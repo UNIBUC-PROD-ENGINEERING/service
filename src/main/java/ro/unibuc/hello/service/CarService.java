@@ -15,6 +15,7 @@ public class CarService {
 	@Autowired
 	private CarsRepository carsRepository;
 
+
 	public Car findByNumarInmatriculare(String numarInmatriculare) {
 		return carsRepository.findByNumarInmatriculare(numarInmatriculare);
 	}
