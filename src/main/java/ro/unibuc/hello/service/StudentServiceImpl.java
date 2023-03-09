@@ -8,6 +8,7 @@ import ro.unibuc.hello.repositories.StudentRepository;
 import ro.unibuc.hello.dto.SubjectGrade;
 import ro.unibuc.hello.models.CatalogEntity;
 import ro.unibuc.hello.repositories.CatalogRepository;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,10 @@ public class StudentServiceImpl implements StudentService {
     private final CatalogRepository catalogRepository;
 
 
-    public StudentServiceImpl(CatalogRepository catalogRepository, StudentRepository studentRepository) {
+    public StudentServiceImpl(ModelMapper modelMapper,
+                              CatalogRepository catalogRepository,
+                              StudentRepository studentRepository) {
+        this.modelMapper = modelMapper;
         this.catalogRepository = catalogRepository;
         this.studentRepository = studentRepository;
     }

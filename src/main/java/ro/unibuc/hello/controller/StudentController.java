@@ -1,11 +1,13 @@
 package ro.unibuc.hello.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.StudentDto;
+import ro.unibuc.hello.dto.SubjectGrade;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.service.StudentService;
+
+import java.util.List;
 
 @RestController
 public class StudentController {
@@ -19,6 +21,8 @@ public class StudentController {
     @PostMapping("/student")
     public StudentEntity addStudent(@RequestBody StudentDto dto) {
         return studentService.addStudent(dto);
+    }
+
     @GetMapping("{studentId}/grades")
     public ResponseEntity<List<SubjectGrade>> getStudentGrades(@PathVariable String studentId) {
         return ResponseEntity.ok(studentService.getGradesByStudentId(studentId));
