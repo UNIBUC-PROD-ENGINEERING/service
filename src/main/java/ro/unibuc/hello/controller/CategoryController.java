@@ -21,4 +21,10 @@ public class CategoryController {
         CategoryDTO categoryDTO = CategoryDTO.builder().build();
         categoryService.addCategory(categoryDTO);
     }
+
+    @GetMapping("/getCategories")
+    List<CategoryDTO> getAllCategories() {
+
+        return categoryService.getCategories();
+    }
 }
