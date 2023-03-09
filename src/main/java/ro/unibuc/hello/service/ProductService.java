@@ -33,12 +33,9 @@ public class ProductService {
                     .price(product.getPrice())
                     //.categoryDTO(CategoryDTO.builder().categoryName(product.getCategory().getName()).build())
                     .stock(product.getStock()).build());
-
         });
-        System.out.println(productsDto);
         return productsDto;
     }
-
 
     private ProductEntity getMockProduct() {
         ProductEntity productEntity = new ProductEntity();
