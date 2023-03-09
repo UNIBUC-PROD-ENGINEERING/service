@@ -42,9 +42,7 @@ public class OrderEntity {
         this.user = user;
     }
 
-    public RestaurantEntity getRestaurant() {
-        return restaurant;
-    }
+
 
     public void setRestaurant(RestaurantEntity restaurant) {
         this.restaurant = restaurant;
@@ -56,6 +54,13 @@ public class OrderEntity {
 
     public void setDishes(ArrayList<DishesEntity> dishes) {
         this.dishes = dishes;
+    }
+
+    public RestaurantEntity getRestaurant() {
+        return this.restaurant;
+    }
+    public ClientEntity getClient(){
+        return this.user;
     }
 
     @Override
