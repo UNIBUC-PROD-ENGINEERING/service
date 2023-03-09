@@ -26,5 +26,17 @@ public class AvionController {
         InfoAvion newAvion=avionService.addAvion(avion);
         return newAvion;
     }
+
+    @DeleteMapping("/avion/{number}")
+    @ResponseBody
+    public void removeAvion(@PathVariable("number") String number) throws EntityNotFoundException {
+        avionService.removeAvion(number);
+    }
+
+    @PutMapping("/avion/{number}")
+    @ResponseBody
+    public InfoAvion updateAvion(@PathVariable("number") String number, @RequestBody Avion avion) throws EntityNotFoundException {
+        return avionService.updateAvion(number,avion);
+    }
 }
 

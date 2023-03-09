@@ -13,5 +13,6 @@ import java.util.List;
 public interface AvionRepository extends MongoRepository<Avion, String> {
 
     Avion findByNumber(String number);
+    void deleteByNumber(String number);
 
 }
