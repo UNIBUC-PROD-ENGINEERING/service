@@ -29,5 +29,12 @@ public class CategoryService {
         categoryEntity.setName("Tilifoane");
         return categoryEntity;
     }
-
+    public List<CategoryDTO> getCategories() {
+        List<CategoryEntity> categories = categoryRepository.findAll();
+        List<CategoryDTO> categoriesDto = new ArrayList<>();
+        categories.forEach(category -> {
+            categoriesDto.add(CategoryDTO.builder().categoryName(category.getName()).build());
+        });
+        return categoriesDto;
+    }
 }
