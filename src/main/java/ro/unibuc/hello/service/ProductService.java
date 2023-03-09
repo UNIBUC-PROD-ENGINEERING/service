@@ -1,11 +1,16 @@
 package ro.unibuc.hello.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import ro.unibuc.hello.dto.CategoryDTO;
 import ro.unibuc.hello.dto.ProductDTO;
 import ro.unibuc.hello.entity.CategoryEntity;
 import ro.unibuc.hello.entity.ProductEntity;
 import ro.unibuc.hello.repository.ProductRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -16,6 +21,20 @@ public class ProductService {
     public void addProduct(ProductDTO productDTO) {
         ProductEntity productEntity = getMockProduct();
         productRepository.save(productEntity);
+    }
+
+    public List<ProductDTO> getProducts() {
+        List<ProductEntity> products = productRepository.findAll();
+        List<ProductDTO> productsDto = new ArrayList<>();
+        products.forEach(product -> {
+            productsDto.add(ProductDTO.builder().productName(product.getProductName())
+                    .productDescription(product.getProductDescription())
+                    .brandName(product.getBrandName())
+                    .price(product.getPrice())
+                    //.categoryDTO(CategoryDTO.builder().categoryName(product.getCategory().getName()).build())
+                    .stock(product.getStock()).build());
+        });
+        return productsDto;
     }
 
     private ProductEntity getMockProduct() {

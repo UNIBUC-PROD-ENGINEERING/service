@@ -2,8 +2,15 @@ package ro.unibuc.hello.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Builder
-public class ProductDTO {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class ProductDTO implements Serializable {
     private String productName;
     private String productDescription;
     private float price;
