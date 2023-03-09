@@ -25,4 +25,9 @@ public class AvionService {
         }
         return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
+
+    public InfoAvion addAvion(Avion avion)  {
+        Avion entity = avionRepository.save(avion);
+        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
+    }
 }
