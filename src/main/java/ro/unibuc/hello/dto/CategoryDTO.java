@@ -1,8 +1,15 @@
 package ro.unibuc.hello.dto;
 
-import lombok.Builder;
+import lombok.*;
+
+import java.io.Serializable;
 
 @Builder
-public class CategoryDTO {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class CategoryDTO implements Serializable {
     private String categoryName;
 }
