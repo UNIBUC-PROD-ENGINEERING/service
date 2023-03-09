@@ -1,6 +1,8 @@
 package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import java.util.ArrayList;
 
 public class RestaurantEntity {

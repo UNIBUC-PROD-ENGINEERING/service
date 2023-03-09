@@ -2,6 +2,9 @@ package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 import java.util.ArrayList;
+import java.util.Arrays;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 
 public class OrderEntity {
 
@@ -9,7 +12,7 @@ public class OrderEntity {
     private String id;
 
     @DBRef(lazy = true)
-    private UserEntity user;
+    private ClientEntity user;
 
     @DBRef(lazy = true)
     private RestaurantEntity restaurant;
@@ -17,7 +20,7 @@ public class OrderEntity {
     @DBRef(lazy = true)
     private ArrayList<DishesEntity> dishes;
 
-    public OrderEntity(UserEntity user, RestaurantEntity restaurant, DishesEntity dishes) {
+    public OrderEntity(ClientEntity user, RestaurantEntity restaurant, ArrayList<DishesEntity> dishes) {
         this.user = user;
         this.restaurant = restaurant;
         this.dishes = dishes;
@@ -31,11 +34,11 @@ public class OrderEntity {
         this.id = id;
     }
 
-    public UserEntity getUser() {
+    public ClientEntity getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(ClientEntity user) {
         this.user = user;
     }
 
@@ -57,12 +60,12 @@ public class OrderEntity {
 
     @Override
     public String toString() {
-        String[] orderItems = Arrays.stream(dishes)
-                .map(dish -> dish.toString)
+        String[] orderItems = (String[]) Arrays.stream(this.dishes.toArray())
+                .map(dish -> dish.toString())
                 .toArray();
 
         return String.format(
                 "Order[user='%s', restaurant='%s', dishes:\n'%s']",
-                user.getName, restaurant.getName(), String.join("\n", orderItems));
+                user.getName(), restaurant.getName(), String.join("\n", orderItems));
     }
 }
