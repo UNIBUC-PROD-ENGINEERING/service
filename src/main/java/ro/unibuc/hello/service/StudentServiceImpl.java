@@ -1,22 +1,24 @@
 package ro.unibuc.hello.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import ro.unibuc.hello.dto.StudentDto;
+import ro.unibuc.hello.models.StudentEntity;
+import ro.unibuc.hello.repositories.StudentRepository;
 import ro.unibuc.hello.dto.SubjectGrade;
 import ro.unibuc.hello.models.CatalogEntity;
-import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.repositories.CatalogRepository;
-import ro.unibuc.hello.repositories.StudentRepository;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
+    private final ModelMapper modelMapper;
+    private final StudentRepository studentRepository;
+
     private final CatalogRepository catalogRepository;
 
-
-    private final StudentRepository studentRepository;
 
     public StudentServiceImpl(CatalogRepository catalogRepository, StudentRepository studentRepository) {
         this.catalogRepository = catalogRepository;
@@ -24,6 +26,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public StudentEntity addStudent(StudentDto student) {
+        StudentEntity newStudent = modelMapper.map(student, StudentEntity.class);
+        studentRepository.save(newStudent);
+        return newStudent;
+    }
+
     public List<SubjectGrade> getGradesByStudentId(String studentId) {
         Optional<StudentEntity> student = studentRepository.findById(studentId);
         CatalogEntity catalog = new CatalogEntity();
