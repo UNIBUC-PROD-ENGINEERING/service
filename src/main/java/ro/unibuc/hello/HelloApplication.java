@@ -24,6 +24,7 @@ public class HelloApplication {
 		SpringApplication.run(HelloApplication.class, args);
 	}
 
+
 	@PostConstruct
 	public void runAfterObjectCreated() {
 		informationRepository.deleteAll();
