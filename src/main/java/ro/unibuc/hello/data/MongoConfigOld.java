@@ -12,14 +12,14 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Configuration
-public class MongoConfig extends AbstractMongoClientConfiguration {
+public class MongoConfigOld extends AbstractMongoClientConfiguration {
 
     @Value("${mongodb.connection.url}")
     private String connectionURL;
 
     @Override
     protected String getDatabaseName() {
-        return "ProductionEngineering";
+        return "test";
     }
 
     @Override
