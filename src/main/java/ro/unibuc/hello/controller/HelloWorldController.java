@@ -28,4 +28,10 @@ public class HelloWorldController {
         return helloWorldService.buildGreetingFromInfo(title);
     }
 
+    @GetMapping("/hello-world-2")
+    @ResponseBody
+    public Greeting sayHello2(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
+        return helloWorldService.hello(name);
+    }
+
 }
