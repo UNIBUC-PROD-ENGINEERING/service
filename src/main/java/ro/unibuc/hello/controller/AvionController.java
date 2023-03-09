@@ -19,5 +19,12 @@ public class AvionController {
     public InfoAvion getAvion(@RequestParam(name = "number", required = false, defaultValue = "1") String number) throws EntityNotFoundException {
         return avionService.getAvionInfoByNumber(number);
     }
+
+    @PostMapping("/avion")
+    @ResponseBody
+    public InfoAvion addAvion(@RequestBody Avion avion) throws EntityNotFoundException {
+        InfoAvion newAvion=avionService.addAvion(avion);
+        return newAvion;
+    }
 }
 

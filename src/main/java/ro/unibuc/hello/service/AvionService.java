@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ro.unibuc.hello.data.Avion;
 import ro.unibuc.hello.data.AvionRepository;
 import ro.unibuc.hello.dto.InfoAvion;
+import ro.unibuc.hello.exception.DuplicateException;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,6 +24,15 @@ public class AvionService {
         if (entity == null) {
             throw new EntityNotFoundException(number);
         }
+        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
+    }
+
+    public InfoAvion addAvion(Avion avion)  throws DuplicateException {
+        Avion dupEntity = avionRepository.findByNumber(avion.number);
+        if (dupEntity != null) {
+            throw new DuplicateException(avion.number);
+        }
+        Avion entity = avionRepository.save(avion);
         return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 }
