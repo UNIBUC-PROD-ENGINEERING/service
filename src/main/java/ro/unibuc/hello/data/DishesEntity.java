@@ -3,7 +3,7 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import java.util.ArrayList;
 
-public class ClientEntity {
+public class DishesEntity {
 
     @Id
     private String id;

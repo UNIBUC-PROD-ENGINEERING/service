@@ -1,6 +1,7 @@
 package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,9 +14,9 @@ public class MenuEntity {
     private RestaurantEntity restaurant;
 
     @DBRef(lazy = true)
-    private ArrayList<DishEntity> dishes;
+    private ArrayList<DishesEntity> dishes;
 
-    public MenuEntity(RestaurantEntity restaurant, ArrayList<DishEntity> dishes) {
+    public MenuEntity(RestaurantEntity restaurant, ArrayList<DishesEntity> dishes) {
         this.restaurant = restaurant;
         this.dishes = dishes;
     }
@@ -36,18 +37,18 @@ public class MenuEntity {
         this.restaurant = restaurant;
     }
 
-    public ArrayList<DishEntity> getDishes() {
+    public ArrayList<DishesEntity> getDishes() {
         return dishes;
     }
 
-    public void setDishes(ArrayList<DishEntity> dishes) {
+    public void setDishes(ArrayList<DishesEntity> dishes) {
         this.dishes = dishes;
     }
 
     @Override
     public String toString() {
-        String[] menuItems = Arrays.stream(dishes)
-                                   .map(dish -> dish.toString)
+        String[] menuItems = Arrays.stream(this.dishes)
+                                   .map(dish -> dish.toString())
                                    .toArray();
 
         return String.format(
