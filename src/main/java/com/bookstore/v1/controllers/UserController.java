@@ -1,6 +1,6 @@
 package com.bookstore.v1.controllers;
 
-import com.bookstore.v1.models.User;
+import com.bookstore.v1.data.User;
 import com.bookstore.v1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
