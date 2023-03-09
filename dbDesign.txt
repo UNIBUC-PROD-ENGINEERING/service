@@ -1,0 +1,24 @@
+USER
+id (PK)
+name
+email
+password
+
+PROJECT
+id (PK)
+user_id (FK)
+name
+description
+
+APPLICATION
+id (PK)
+project_id (FK)
+user_id (FK)
+status
+
+
+
+
+
+
+
