@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
                 catalogRepository.save(catalog);
             } else {
                 catalog = new CatalogEntity();
-                catalog.student = student.get();
+                catalog.setStudent(student.get());
                 catalog.addGrade(dto.getGrade());
                 catalogRepository.save(catalog);
             }

@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.ResponseDto;
 import ro.unibuc.hello.dto.StudentDto;
+import ro.unibuc.hello.dto.StudentGradeDto;
 import ro.unibuc.hello.dto.SubjectGradeDto;
 import ro.unibuc.hello.models.CatalogEntity;
 import ro.unibuc.hello.models.StudentEntity;

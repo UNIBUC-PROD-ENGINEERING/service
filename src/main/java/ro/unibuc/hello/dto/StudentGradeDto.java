@@ -7,7 +7,5 @@ import lombok.Setter;
 @Setter
 public class StudentGradeDto {
     private String studentId;
-    private SubjectGrade grade;
-
-
+    private SubjectGradeDto grade;
 }
