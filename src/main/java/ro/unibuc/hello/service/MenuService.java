@@ -72,7 +72,7 @@ public class MenuService {
             if(dishesIds != null && !dishesIds.isEmpty()) {
                 ArrayList<DishesEntity> dishesEntities = new ArrayList<>();
 
-                dishesIds.forEach(id -> dishesEntities.add(dishesRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
+                dishesIds.forEach(dishesId -> dishesEntities.add(dishesRepository.findById(String.valueOf(new ObjectId(dishesId))).orElse(null)));
                 if(!dishesEntities.isEmpty())
                     menu.setDishes(dishesEntities);
             }
