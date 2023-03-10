@@ -24,6 +24,10 @@ public class CarService {
 		return carsRepository.findAllByParcarePlatita(platit);
 	}
 
+	public Car saveCar(Car car) {
+		return carsRepository.save(car);
+	}
+
 //	public List<Car> findAllByValabilitateParcareDesc() {
 //		return carsRepository.findAllByValabilitateParcareDesc();
 //	}

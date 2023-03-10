@@ -1,10 +1,10 @@
 package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.Car;
 import ro.unibuc.hello.service.CarService;
 
@@ -26,5 +26,10 @@ public class CarController {
 	@ResponseBody
 	public List<Car> getParcarePlatita(@RequestParam(name="platit", required=false, defaultValue="true") Boolean platit) {
 		return carService.findAllByParcarePlatita(platit);
+	}
+
+	@PostMapping("/save")
+	public ResponseEntity<Car> saveCar(@RequestBody Car car) {
+		return new ResponseEntity<>(carService.saveCar(car), HttpStatus.OK);
 	}
 }
