@@ -22,22 +22,40 @@ public class ProdusService {
     private final AtomicLong counter = new AtomicLong();
 
     public Optional<ProdusDTO> getProdus(String id) {
-
       return produsRepository.findById(id);
     }
 
     public void createProdus(ProdusDTO produs) {
-        produsRepository.save(produs);
-
+      produsRepository.save(produs);
     }
 
     public List<ProdusDTO> getAll() {
-        return produsRepository.findAll();
+      return produsRepository.findAll();
 
-      }
+    }
 
     public Produs toEntity(ProdusDTO produsDTO) {
-        Produs produs = new Produs(produsDTO.getId(), produsDTO.getNume(), produsDTO.getPret());
-        return produs;
+      Produs produs = new Produs(produsDTO.getId(), produsDTO.getNume(), produsDTO.getPret());
+      return produs;
+    }
+
+    public boolean updateProdus(ProdusDTO produsDTO) {
+      ProdusDTO found = produsRepository.findById(produsDTO.getId()).orElse(null);
+      if(found != null) {
+        found.setNume(produsDTO.getNume());
+        found.setPret(produsDTO.getPret());
+        produsRepository.save(found);
+        return true;
+      }
+      return false;
+    }
+
+    public boolean deleteProdus(String id) {
+      ProdusDTO found = produsRepository.findById(id).orElse(null);
+      if(found != null) {
+        produsRepository.delete(found);
+        return true;
+      }
+      return false;
     }
 }
