@@ -1,5 +1,6 @@
 package ro.unibuc.hello.dto;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.models.TeacherEntity;
 
 import java.time.LocalDate;
