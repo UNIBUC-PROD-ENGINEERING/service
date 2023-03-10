@@ -18,9 +18,9 @@ import ro.unibuc.hello.service.UserService;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserSignupController {
+public class UserController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserSignupController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
