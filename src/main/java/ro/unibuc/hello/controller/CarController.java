@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.hello.data.Car;
 import ro.unibuc.hello.service.CarService;
 
+import java.util.List;
+
 @Controller
 public class CarController {
 
@@ -18,5 +20,11 @@ public class CarController {
 	@ResponseBody
 	public Car checkByNumarInmatriculare(@RequestParam(name="numar", required=false, defaultValue="B100ABC") String numar) {
 		return carService.findByNumarInmatriculare(numar);
+	}
+
+	@GetMapping("/parcare-platita")
+	@ResponseBody
+	public List<Car> getParcarePlatita(@RequestParam(name="platit", required=false, defaultValue="true") Boolean platit) {
+		return carService.findAllByParcarePlatita(platit);
 	}
 }

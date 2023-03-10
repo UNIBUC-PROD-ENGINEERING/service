@@ -20,8 +20,8 @@ public class CarService {
 		return carsRepository.findByNumarInmatriculare(numarInmatriculare);
 	}
 
-	public Car findByParcarePlatita(boolean platit) {
-		return carsRepository.findByParcarePlatita(platit);
+	public List<Car> findAllByParcarePlatita(boolean platit) {
+		return carsRepository.findAllByParcarePlatita(platit);
 	}
 
 //	public List<Car> findAllByValabilitateParcareDesc() {

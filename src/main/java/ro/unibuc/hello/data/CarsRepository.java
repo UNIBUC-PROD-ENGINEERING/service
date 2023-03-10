@@ -10,7 +10,7 @@ public interface CarsRepository extends MongoRepository<Car, String> {
 
 	Car findByNumarInmatriculare(String numarInmatriculare);
 
-	Car findByParcarePlatita(boolean platit);
+	List<Car> findAllByParcarePlatita(boolean platit);
 
-//	List<Car> findAllByValabilitateParcareDesc();
+	List<Car> findAllByValabilitateParcare(String valabilitateParcare);
 }
