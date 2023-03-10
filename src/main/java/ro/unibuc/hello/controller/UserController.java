@@ -13,6 +13,8 @@ import ro.unibuc.hello.dto.UserDto;
 import ro.unibuc.hello.entity.UserEntity;
 import ro.unibuc.hello.service.UserService;
 
+import java.util.Map;
+
 
 @Slf4j
 @RestController
@@ -32,6 +34,19 @@ public class UserController {
         UserEntity user = userService.saveUser(userDto);
 
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String password = request.get("password");
+
+        UserEntity foundUser = userService.getUserByEmail(email);
+        if (foundUser != null && foundUser.getPassword().equals(password)) {
+            return ResponseEntity.ok(foundUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
     }
 
     @RequestMapping(method = {RequestMethod.GET}, value="/{id}")

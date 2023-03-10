@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -26,6 +27,7 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String password;
+    @Indexed
     private String email;
 
     public String getId() {

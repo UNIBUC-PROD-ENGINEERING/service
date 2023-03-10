@@ -38,5 +38,7 @@ public class UserService {
         return user.get();
     }
 
-
+    public UserEntity getUserByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail);
+    }
 }
