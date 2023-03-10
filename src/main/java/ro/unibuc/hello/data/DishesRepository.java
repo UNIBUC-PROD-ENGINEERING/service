@@ -5,6 +5,6 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 @Repository
-public interface DishesRepository extends MongoRepository<DishesRepository, String>{
+public interface DishesRepository extends MongoRepository<DishesEntity, String>{
 
 }
