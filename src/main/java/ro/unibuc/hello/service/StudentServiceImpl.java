@@ -2,7 +2,10 @@ package ro.unibuc.hello.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import ro.unibuc.hello.dto.ResponseDto;
 import ro.unibuc.hello.dto.StudentDto;
+import ro.unibuc.hello.dto.StudentGradeDto;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.repositories.StudentRepository;
 import ro.unibuc.hello.dto.SubjectGradeDto;
@@ -34,6 +37,26 @@ public class StudentServiceImpl implements StudentService {
         StudentEntity newStudent = modelMapper.map(student, StudentEntity.class);
         studentRepository.save(newStudent);
         return newStudent;
+    }
+
+    @Override
+    public ResponseDto addGrade(StudentGradeDto dto) {
+        Optional<StudentEntity> student = studentRepository.findById(dto.getStudentId());
+        if (student.isPresent()) {
+            CatalogEntity catalog = catalogRepository.findByStudent(student.get());
+            if (catalog != null) {
+                catalog.addGrade(dto.getGrade());
+                catalogRepository.save(catalog);
+            } else {
+                catalog = new CatalogEntity();
+                catalog.student = student.get();
+                catalog.addGrade(dto.getGrade());
+                catalogRepository.save(catalog);
+            }
+            return new ResponseDto(true, "Grade added successfully");
+        } else {
+            throw new EntityNotFoundException(dto.getStudentId());
+        }
     }
 
     public List<SubjectGradeDto> getGradesByStudentId(String studentId) {
