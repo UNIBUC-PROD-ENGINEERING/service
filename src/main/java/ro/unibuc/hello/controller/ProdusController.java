@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.hello.dto.Greeting;
@@ -27,7 +29,7 @@ public class ProdusController {
     }
     @PostMapping("/createProdus")
     @ResponseBody
-    public void createProdus( ProdusDTO produs) {
+    public void createProdus(ProdusDTO produs) {
          produsService.createProdus(produs);
     }
     @GetMapping("/getAllProduse")
@@ -35,6 +37,15 @@ public class ProdusController {
     public List<ProdusDTO> getAll() {
         return produsService.getAll();
     }
+    @PutMapping("/putProdus")
+    @ResponseBody
+    public boolean updateProdus(ProdusDTO produs) {
+        return produsService.updateProdus(produs);
+    }
 
-
+    @DeleteMapping("/deleteProdus")
+    @ResponseBody
+    public boolean deleteProdus(String id) {
+        return produsService.deleteProdus(id);
+    }
 }

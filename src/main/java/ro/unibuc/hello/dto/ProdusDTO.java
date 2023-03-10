@@ -40,6 +40,4 @@ public class ProdusDTO {
     public void setPret(String pret) {
         this.pret = pret;
     }
-
-
 }
