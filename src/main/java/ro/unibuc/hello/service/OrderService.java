@@ -39,19 +39,24 @@ public class OrderService {
         }
     }
 
-    public OrderDTO insertOrder(String restaurantId, String clientId, ArrayList<String> dishesId) {
+    public OrderDTO insertOrder(String restaurantId, String clientId, List<String> dishesId) {
         ArrayList<OrderEntity> orderEntities = new ArrayList<>();
-
         ArrayList<DishesEntity> dishesEntities = new ArrayList<>();
+        ClientEntity client = clientRepository.findById(String.valueOf(new ObjectId(clientId))).orElse(null);
+        RestaurantEntity restaurant = restaurantRepository.findById(String.valueOf(new ObjectId(restaurantId))).orElse(null);
+        OrderEntity order = new OrderEntity(client, restaurant, dishesEntities);
+
+
         if (!dishesId.isEmpty() && dishesId != null) {
             dishesId.forEach(id -> dishesEntities.add(dishesRepository.findById(
                     String.valueOf(new ObjectId(id))).orElse(null)));
         } else {
-            dishesEntities = null;
+            order.setDishes(null);
         }
-        ClientEntity client = clientRepository.findById(String.valueOf(new ObjectId(clientId))).orElse(null);
-        RestaurantEntity restaurant = restaurantRepository.findById(String.valueOf(new ObjectId(restaurantId))).orElse(null);
-        OrderEntity order = new OrderEntity(client, restaurant, dishesEntities);
+
+        if(!dishesEntities.isEmpty() && dishesEntities != null)
+            order.setDishes(dishesEntities);
+
 
         return new OrderDTO(order);
     }
@@ -67,9 +72,11 @@ public class OrderService {
             if (!dishesId.isEmpty() && dishesId != null) {
                 dishesId.forEach(id -> dishesEntities.add(dishesRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
             } else {
-                dishesEntities = null;
-                order.setDishes(dishesEntities);
+                order.setDishes(null);
             }
+
+            if(!dishesEntities.isEmpty() && dishesEntities != null)
+                order.setDishes(dishesEntities);
 
             return new OrderDTO(order);}
         else
