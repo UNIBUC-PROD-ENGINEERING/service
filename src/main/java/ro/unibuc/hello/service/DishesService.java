@@ -9,7 +9,6 @@ import ro.unibuc.hello.data.DishesEntity;
 import ro.unibuc.hello.data.DishesRepository;
 
 import ro.unibuc.hello.dto.DishesDTO;
-import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.List;
 import java.util.ArrayList;
