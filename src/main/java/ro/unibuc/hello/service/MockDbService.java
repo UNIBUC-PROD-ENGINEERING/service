@@ -1,12 +1,11 @@
 package ro.unibuc.hello.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unibuc.hello.repositories.*;
 import ro.unibuc.hello.models.CatalogEntity;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.models.TeacherEntity;
-import ro.unibuc.hello.dto.SubjectGrade;
+import ro.unibuc.hello.dto.SubjectGradeDto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,13 +14,17 @@ import java.util.Random;
 
 @Service
 public class MockDbService {
+    private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
+    private final CatalogRepository catalogRepository;
 
-    @Autowired
-    private TeacherRepository teacherRepository;
-    @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private CatalogRepository catalogRepository;
+    public MockDbService(TeacherRepository teacherRepository,
+                         StudentRepository studentRepository,
+                         CatalogRepository catalogRepository) {
+        this.teacherRepository = teacherRepository;
+        this.studentRepository = studentRepository;
+        this.catalogRepository = catalogRepository;
+    }
 
     /**
      * Initialize database with one teacher, 3 students, and 3 catalogues with 1 grade each.
@@ -44,8 +47,8 @@ public class MockDbService {
         List<CatalogEntity> cataloguesToAdd = new ArrayList<>();
         for (StudentEntity student : studentsToAdd) {
             CatalogEntity catalog = new CatalogEntity();
-            catalog.student = student;
-            catalog.addGrade(new SubjectGrade(teacher, rand.nextInt(10) + 1, LocalDate.now()));
+            catalog.setStudent(student);
+            catalog.addGrade(new SubjectGradeDto(teacher, rand.nextInt(10) + 1, LocalDate.now()));
             cataloguesToAdd.add(catalog);
         }
         catalogRepository.saveAll(cataloguesToAdd);

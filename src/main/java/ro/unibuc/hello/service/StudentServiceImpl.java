@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ro.unibuc.hello.dto.StudentDto;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.repositories.StudentRepository;
-import ro.unibuc.hello.dto.SubjectGrade;
+import ro.unibuc.hello.dto.SubjectGradeDto;
 import ro.unibuc.hello.models.CatalogEntity;
 import ro.unibuc.hello.repositories.CatalogRepository;
 
@@ -36,13 +36,13 @@ public class StudentServiceImpl implements StudentService {
         return newStudent;
     }
 
-    public List<SubjectGrade> getGradesByStudentId(String studentId) {
+    public List<SubjectGradeDto> getGradesByStudentId(String studentId) {
         Optional<StudentEntity> student = studentRepository.findById(studentId);
         CatalogEntity catalog = new CatalogEntity();
         if (student.isPresent()) {
             catalog = catalogRepository.findByStudent(student.get());
         }
 
-        return catalog.grades;
+        return catalog.getGrades();
     }
 }

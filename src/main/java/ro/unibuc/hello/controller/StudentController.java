@@ -3,7 +3,7 @@ package ro.unibuc.hello.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.StudentDto;
-import ro.unibuc.hello.dto.SubjectGrade;
+import ro.unibuc.hello.dto.SubjectGradeDto;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.service.StudentService;
 
@@ -24,7 +24,7 @@ public class StudentController {
     }
 
     @GetMapping("{studentId}/grades")
-    public ResponseEntity<List<SubjectGrade>> getStudentGrades(@PathVariable String studentId) {
+    public ResponseEntity<List<SubjectGradeDto>> getStudentGrades(@PathVariable String studentId) {
         return ResponseEntity.ok(studentService.getGradesByStudentId(studentId));
     }
 }

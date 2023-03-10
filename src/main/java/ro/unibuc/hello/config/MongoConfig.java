@@ -11,7 +11,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import ro.unibuc.hello.converters.date.LocalDateReadingConverter;
-import ro.unibuc.hello.converters.date.LocalDateWritingConvertor;
+import ro.unibuc.hello.converters.date.LocalDateWritingConverter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +47,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     public MongoCustomConversions customConversions() {
         List<Converter<?, ?>> converters = new ArrayList<>();
         converters.add(new LocalDateReadingConverter());
-        converters.add(new LocalDateWritingConvertor());
+        converters.add(new LocalDateWritingConverter());
         return new MongoCustomConversions(converters);
     }
 }
