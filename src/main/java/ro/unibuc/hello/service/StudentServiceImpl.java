@@ -8,7 +8,7 @@ import ro.unibuc.hello.dto.StudentGradeDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.repositories.StudentRepository;
-import ro.unibuc.hello.dto.SubjectGrade;
+import ro.unibuc.hello.dto.SubjectGradeDto;
 import ro.unibuc.hello.models.CatalogEntity;
 import ro.unibuc.hello.repositories.CatalogRepository;
 
@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
                 catalogRepository.save(catalog);
             } else {
                 catalog = new CatalogEntity();
-                catalog.student = student.get();
+                catalog.setStudent(student.get());
                 catalog.addGrade(dto.getGrade());
                 catalogRepository.save(catalog);
             }
@@ -59,13 +59,13 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-    public List<SubjectGrade> getGradesByStudentId(String studentId) {
+    public List<SubjectGradeDto> getGradesByStudentId(String studentId) {
         Optional<StudentEntity> student = studentRepository.findById(studentId);
         CatalogEntity catalog = new CatalogEntity();
         if (student.isPresent()) {
             catalog = catalogRepository.findByStudent(student.get());
         }
 
-        return catalog.grades;
+        return catalog.getGrades();
     }
 }

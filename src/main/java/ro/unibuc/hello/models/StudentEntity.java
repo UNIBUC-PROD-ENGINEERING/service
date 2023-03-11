@@ -10,12 +10,11 @@ import java.time.LocalDate;
 @Setter
 public class StudentEntity {
     @Id
-    public String id;
-
-    public String firstName;
-    public String lastName;
-    public String className;
-    public LocalDate birthDay;
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String className;
+    private LocalDate birthDay;
 
     public StudentEntity() {}
 

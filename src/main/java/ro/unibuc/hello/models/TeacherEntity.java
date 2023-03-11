@@ -1,14 +1,17 @@
 package ro.unibuc.hello.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
+@Getter
+@Setter
 public class TeacherEntity {
     @Id
-    public String id;
-
-    public String firstName;
-    public String lastName;
-    public String subject;
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String subject;
 
     public TeacherEntity() {}
 

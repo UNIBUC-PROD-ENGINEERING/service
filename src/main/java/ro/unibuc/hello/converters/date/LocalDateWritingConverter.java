@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @WritingConverter
-public class LocalDateWritingConvertor implements Converter<LocalDate, Date> {
+public class LocalDateWritingConverter implements Converter<LocalDate, Date> {
     @Override
     public Date convert(LocalDate localDate) {
         return new Date(localDate.atStartOfDay(ZoneId.of("UTC")).toEpochSecond() * 1000);
