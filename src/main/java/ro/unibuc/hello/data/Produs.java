@@ -7,10 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Produs {
 
     @Id
-    public String id;
+    private String id;
 
-    public String nume;
-    public String pret;
+    private String nume;
+    private String pret;
 
     public Produs() {
     }

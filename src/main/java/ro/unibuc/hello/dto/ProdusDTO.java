@@ -3,10 +3,10 @@ package ro.unibuc.hello.dto;
 import ro.unibuc.hello.data.Produs;
 
 public class ProdusDTO {
-    public String id;
+    private String id;
 
-    public String nume;
-    public String pret;
+    private String nume;
+    private String pret;
 
     public ProdusDTO() {
     }
