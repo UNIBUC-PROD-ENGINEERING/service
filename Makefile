@@ -17,7 +17,7 @@ build: clean
 	# please use the following command instead. This will ensure, a docker volume is
 	# responsible for incrementally saving the dependencies and avoids the time taken to download
 	# all dependencies every time.
-	docker run -v m2:/root/.m2 -v `pwd`:/build $(BUILDER_TAG)
+	docker run -v "m2:/root/.m2" -v "`pwd`:/build" $(BUILDER_TAG)
 	# Builds the docker image for running the service.
 	docker build -t $(IMAGE_TAG):$(IMAGE_VERSION) .
 	echo "Success"
