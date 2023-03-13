@@ -1,14 +1,8 @@
-# Prerequisites
-
-Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a local virtual machine with Ubuntu, Docker, IntelliJ.
-
 # Access the code
+ * https://github.com/UNIBUC-The-Storm-Dragonflies/PE_project
 
-* Fork the code GitHub repository under your Organization
-  * https://github.com/UNIBUC-PROD-ENGINEERING/service
-* Clone the code repository:
-  * git@github.com:YOUR_ORG_NAME/service.git
-
+# View main tasks for lab 2 and lab 3
+ * https://docs.google.com/document/d/1PrYXFn5UZpq5lIftO8U_N_aXQviP4BULu61HN0vfc8g/edit?usp=sharing
 
 # Run/debug code in IntelliJ
 * Build the code
@@ -43,3 +37,5 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
     * http://localhost:8080/info
 * You can access the MongoDB Admin UI at:
   * http://localhost:8090 
+
+
