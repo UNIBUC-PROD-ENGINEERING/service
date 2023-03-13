@@ -14,12 +14,17 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public Movie getMovieDescription(String title) throws EntityNotFoundException {
+    public Movie getMovieByTitle(String title) throws EntityNotFoundException {
         MovieEntity entity = movieRepository.findByTitle(title);
         if(entity == null){
             throw new EntityNotFoundException(title);
         }
-        return new Movie(entity.id, entity.title, entity.description, entity.runtime);
+        return new Movie(entity.title, entity.description, entity.runtime);
+    }
+    public boolean addMovie(Movie movie){
+        MovieEntity entity = new MovieEntity(movie.title, movie.description, movie.runtime);
+        movieRepository.save(entity);
+        return true;
     }
 
 }
