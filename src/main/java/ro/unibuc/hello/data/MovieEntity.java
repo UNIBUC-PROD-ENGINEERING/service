@@ -7,9 +7,7 @@ public class MovieEntity {
     public String id;
 
     public String title;
-
     public String description;
-
     public Integer runtime; // duration of the movie will be shown in minutes
 
     public MovieEntity(String title, String description, Integer runtime){
