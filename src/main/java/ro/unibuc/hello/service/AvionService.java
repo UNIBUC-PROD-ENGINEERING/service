@@ -30,7 +30,7 @@ public class AvionService {
         if (entity == null) {
             throw new EntityNotFoundException(number);
         }
-        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
+        return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
     public InfoAvion addAvion(Avion avion)  throws DuplicateException {
@@ -39,7 +39,7 @@ public class AvionService {
             throw new DuplicateException(avion.number);
         }
         Avion entity = avionRepository.save(avion);
-        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
+        return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
     public void removeAvion(String number) throws EntityNotFoundException  {
@@ -66,7 +66,7 @@ public class AvionService {
         }
 
         Avion newEntity= avionRepository.save(entity);
-        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,newEntity.number, newEntity.from, newEntity.to));
+        return new InfoAvion(String.format(avionTemplate,newEntity.number, newEntity.from, newEntity.to));
     }
 
     public List<Avion> fetchAvionByProperty(String from, String to) {
