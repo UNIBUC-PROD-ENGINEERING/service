@@ -10,7 +10,7 @@ import java.util.List;
  * Spring Data MongoDB automatically creates a class it implementing the interface when you run the application.
  */
 @Repository
-public interface AvionRepository extends MongoRepository<Avion, String> {
+public interface AvionRepository extends MongoRepository<Avion, String>, AvionCustomRepository {
 
     Avion findByNumber(String number);
     void deleteByNumber(String number);
