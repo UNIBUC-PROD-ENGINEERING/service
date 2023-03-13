@@ -1,17 +1,18 @@
 package com.bookstore.v1.dto;
+
 import org.springframework.data.annotation.Id;
-import com.bookstore.v1.dto.data.User;
+import com.bookstore.v1.data.User;
 
 import java.util.Objects;
 
-public class UserDTO{
+public class UserDTO {
     @Id
     private String id;
     private String userName;
     private String email;
     private String phoneNumber;
 
-    public UserDTO() { }
+    public UserDTO() {}
 
     public UserDTO(User user) {
         this.id = user.getId();
@@ -58,9 +59,9 @@ public class UserDTO{
         if (!super.equals(object)) return false;
         UserDTO userDTO = (UserDTO) object;
         return id.equals(userDTO.id) &&
-                java.util.Objects.equals(userName, userDTO.userName) &&
-                java.util.Objects.equals(email, userDTO.email) &&
-                java.util.Objects.equals(phoneNumber, userDTO.phoneNumber);
+               java.util.Objects.equals(userName, userDTO.userName) &&
+               java.util.Objects.equals(email, userDTO.email) &&
+               java.util.Objects.equals(phoneNumber, userDTO.phoneNumber);
     }
 
     public int hashCode() {
@@ -70,10 +71,10 @@ public class UserDTO{
     @java.lang.Override
     public java.lang.String toString() {
         return "UserDTO{" +
-                "id='" + id + '\'' +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+               "id='" + id + '\'' +
+               ", userName='" + userName + '\'' +
+               ", email='" + email + '\'' +
+               ", phoneNumber='" + phoneNumber + '\'' +
+               '}';
     }
 }
