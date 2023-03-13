@@ -1,6 +1,9 @@
 package ro.unibuc.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.data.Avion;
 import ro.unibuc.hello.data.AvionRepository;
@@ -9,12 +12,15 @@ import ro.unibuc.hello.exception.DuplicateException;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.*;
 
 @Component
 public class AvionService {
 
     @Autowired
     private AvionRepository avionRepository;
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     private final AtomicLong counter = new AtomicLong();
     private static final String avionTemplate = "%s : %s -> %s";
@@ -61,5 +67,20 @@ public class AvionService {
 
         Avion newEntity= avionRepository.save(entity);
         return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,newEntity.number, newEntity.from, newEntity.to));
+    }
+
+    public List<Avion> fetchAvionByProperty(String from, String to) {
+
+        final Query query = new Query();
+        final List<Criteria> criteria = new ArrayList<>();
+        if (from != null && !from.isEmpty())
+            criteria.add(Criteria.where("from").is(from));
+        if (to != null && !to.isEmpty())
+            criteria.add(Criteria.where("to").is(to));
+
+        if (!criteria.isEmpty())
+            query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
+        List<Avion> avions = mongoTemplate.find(query, Avion.class);
+        return  avions;
     }
 }

@@ -1,6 +1,7 @@
 package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.InfoAvion;
@@ -37,6 +38,11 @@ public class AvionController {
     @ResponseBody
     public InfoAvion updateAvion(@PathVariable("number") String number, @RequestBody Avion avion) throws EntityNotFoundException {
         return avionService.updateAvion(number,avion);
+    }
+
+    @GetMapping("/avionfilter")
+    public ResponseEntity<?> getAvioaneByProperties(@RequestParam(name = "from",required = false) String from, @RequestParam(name = "to",required = false) String to) {
+        return ResponseEntity.ok().body(avionService.fetchAvionByProperty(from, to));
     }
 }
 
