@@ -6,7 +6,6 @@ import com.bookstore.v1.data.User;
 import java.util.Objects;
 
 public class UserDTO {
-    @Id
     private String id;
     private String userName;
     private String email;
