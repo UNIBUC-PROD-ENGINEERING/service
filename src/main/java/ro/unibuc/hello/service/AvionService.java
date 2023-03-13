@@ -70,17 +70,6 @@ public class AvionService {
     }
 
     public List<Avion> fetchAvionByProperty(String from, String to) {
-
-        final Query query = new Query();
-        final List<Criteria> criteria = new ArrayList<>();
-        if (from != null && !from.isEmpty())
-            criteria.add(Criteria.where("from").is(from));
-        if (to != null && !to.isEmpty())
-            criteria.add(Criteria.where("to").is(to));
-
-        if (!criteria.isEmpty())
-            query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
-        List<Avion> avions = mongoTemplate.find(query, Avion.class);
-        return  avions;
+        return avionRepository.findAvionByProperties(from, to);
     }
 }
