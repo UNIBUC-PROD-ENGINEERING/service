@@ -34,7 +34,7 @@ public class UserService {
 
         UserValidations.validateUserDTO(userUpdateDTO, true);
 
-        Optional<User> oldUserOpt = UserRepository.findById(userUpdateDTO.getId());
+        Optional<User> oldUserOpt = userRepository.findById(userUpdateDTO.getId());
         if (oldUserOpt.isEmpty()) {
             throw new EntityNotFoundException("user");
         }

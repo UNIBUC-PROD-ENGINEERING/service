@@ -52,6 +52,17 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
+    public User toUser(Boolean withoutId) {
+        User user = new User();
+        if (!withoutId) {
+            user.setId(id);
+        }
+        user.setUserName(userName);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        return user;
+    }
+
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
