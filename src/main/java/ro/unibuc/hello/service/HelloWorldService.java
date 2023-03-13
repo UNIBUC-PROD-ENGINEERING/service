@@ -5,7 +5,10 @@ import org.springframework.stereotype.Component;
 
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
+import ro.unibuc.hello.data.MovieEntity;
+import ro.unibuc.hello.data.MovieRepository;
 import ro.unibuc.hello.dto.Greeting;
+import ro.unibuc.hello.dto.Movie;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -15,6 +18,8 @@ public class HelloWorldService {
 
     @Autowired
     private InformationRepository informationRepository;
+
+
 
     private final AtomicLong counter = new AtomicLong();
     private static final String helloTemplate = "Hello, %s!";
@@ -31,4 +36,7 @@ public class HelloWorldService {
         }
         return new Greeting(counter.incrementAndGet(), String.format(informationTemplate, entity.title, entity.description));
     }
+
+
+
 }
