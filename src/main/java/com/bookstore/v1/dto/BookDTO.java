@@ -79,4 +79,17 @@ public class BookDTO {
     public void setPublishedDate(LocalDate publishedDate) {
         this.publishedDate = publishedDate;
     }
+
+    public Book toBook(Boolean withoutId) {
+        Book book = new Book();
+        if (!withoutId) {
+            book.setId(id);
+        }
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setPublisher(publisher);
+        book.setIsbn(isbn);
+        book.setPublisherDate(publisherDate);
+        return book;
+    }
 }
