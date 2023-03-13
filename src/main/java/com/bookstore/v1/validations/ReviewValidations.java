@@ -7,7 +7,7 @@ import com.bookstore.v1.exception.InvalidDoubleRange;
 
 public class ReviewValidations {
     public static void validateReviewCreationDTO(ReviewCreationDTO reviewCreationDTO, Boolean validateId) throws
-            EmptyFieldException, InvalidDoubleRange, EntityNotFoundException {
+            EmptyFieldException, InvalidDoubleRange {
         if (validateId) {
             if (reviewCreationDTO.getId() == null) {
                 throw new EmptyFieldException("id");
