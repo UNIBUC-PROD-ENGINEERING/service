@@ -41,22 +41,24 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public ResponseDto addGrade(StudentGradeDto dto) {
-        Optional<StudentEntity> student = studentRepository.findById(dto.getStudentId());
-        if (student.isPresent()) {
-            CatalogEntity catalog = catalogRepository.findByStudent(student.get());
-            if (catalog != null) {
-                catalog.addGrade(dto.getGrade());
-                catalogRepository.save(catalog);
-            } else {
-                catalog = new CatalogEntity();
-                catalog.setStudent(student.get());
-                catalog.addGrade(dto.getGrade());
-                catalogRepository.save(catalog);
-            }
-            return new ResponseDto(true, "Grade added successfully");
-        } else {
-            throw new EntityNotFoundException(dto.getStudentId());
+        studentRepository.findById(dto.getStudentId())
+                .ifPresentOrElse(
+                        student -> handleStudent(student, dto),
+                        () -> {
+                            throw new EntityNotFoundException(dto.getStudentId());
+                        }
+                );
+        return new ResponseDto(true, "Grade added successfully");
+    }
+
+    private void handleStudent(StudentEntity student, StudentGradeDto dto) {
+        CatalogEntity catalog = catalogRepository.findByStudent(student);
+        if (catalog == null) {
+            catalog = new CatalogEntity();
+            catalog.setStudent(student);
         }
+        catalog.addGrade(dto.getGrade());
+        catalogRepository.save(catalog);
     }
 
     public List<SubjectGradeDto> getGradesByStudentId(String studentId) {
