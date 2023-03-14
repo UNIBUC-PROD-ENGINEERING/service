@@ -14,17 +14,17 @@ import javax.annotation.PostConstruct;
 public class HelloApplication {
 
 	@Autowired
-	private InformationRepository informationRepository;
+	// private InformationRepository informationRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
 
-	@PostConstruct
+	/*@PostConstruct
 	public void runAfterObjectCreated() {
 		informationRepository.deleteAll();
 		informationRepository.save(new InformationEntity("Overview",
 				"This is an example of using a data storage engine running separately from our applications server"));
-	}
+	}*/
 
 }
