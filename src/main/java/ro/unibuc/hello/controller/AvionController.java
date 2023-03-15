@@ -18,7 +18,12 @@ public class AvionController {
     @GetMapping("/avion")
     @ResponseBody
     public ResponseEntity<?> getAvion(@RequestParam(name = "number", required = false, defaultValue = "1") String number) throws EntityNotFoundException {
-        return ResponseEntity.ok().body(avionService.getAvionInfoByNumber(number));
+        try {
+            return ResponseEntity.ok().body(avionService.getAvionInfoByNumber(number));
+        }
+        catch (EntityNotFoundException exception) {
+            return ResponseEntity.ok().body("Avion entity with the requested number not found.");
+        }
     }
 
     @PostMapping("/avion")
