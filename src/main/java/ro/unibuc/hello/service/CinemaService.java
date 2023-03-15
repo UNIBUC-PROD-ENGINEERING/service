@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.management.Query;
 
 
 @Component 
@@ -61,5 +62,27 @@ public class CinemaService{
         return new CinemaDTO(newCinema);
     }
 
+    public CinemaDTO getCinemaByName(String name)throws EntityNotFoundException{
+        Optional <Cinema> cinema = cinemaRepository.findByName(name);
+        
+        if (cinema.isEmpty()){
+            throw new EntityNotFoundException("cinema");
 
+        }
+
+        return new CinemaDTO(cinema.get());
+
+    }
+
+    public CinemaDTO getCinemaByCity(String city)throws EntityNotFoundException{
+        Optional <Cinema> cinema = cinemaRepository.findByCity(city);
+        
+        if (cinema.isEmpty()){
+            throw new EntityNotFoundException("cinema");
+
+        }
+
+        return new CinemaDTO(cinema.get());
+
+    }
 }

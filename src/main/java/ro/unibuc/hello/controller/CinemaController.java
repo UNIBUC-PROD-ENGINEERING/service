@@ -41,7 +41,15 @@ public class CinemaController {
         return cinemaService.updateCinema(cinemaUpdatedDTO);
     }
 
-  
+    @GetMapping("cinema/{name}")
+    @ResponseBody
+    public CinemaDTO getCinemaByName(@PathVariable String name) throws EntityNotFoundException{
+        return cinemaService.getCinemaByName(name);
+    }
 
-
+    @GetMapping("cinema/{city}")
+    @ResponseBody
+    public CinemaDTO getCinemaByCity(@PathVariable String city) throws EntityNotFoundException{
+        return cinemaService.getCinemaByCity(city);
+    }
 }
