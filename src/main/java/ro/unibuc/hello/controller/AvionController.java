@@ -9,16 +9,24 @@ import ro.unibuc.hello.data.Avion;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.AvionService;
 
+import java.util.List;
+
 @Controller
 public class AvionController {
 
     @Autowired
     private AvionService avionService;
 
+    @GetMapping("/avion/{number}")
+    @ResponseBody
+    public InfoAvion getAvion(@PathVariable("number") String number) throws EntityNotFoundException {
+        return avionService.getAvionInfoByNumber(number);
+    }
+
     @GetMapping("/avion")
     @ResponseBody
-    public InfoAvion getAvion(@RequestParam(name = "number", required = false, defaultValue = "1") String number) throws EntityNotFoundException {
-        return avionService.getAvionInfoByNumber(number);
+    public ResponseEntity<List<Avion>> getAllAvioane() {
+        return ResponseEntity.ok().body(avionService.getAllAvioane());
     }
 
     @PostMapping("/avion")
