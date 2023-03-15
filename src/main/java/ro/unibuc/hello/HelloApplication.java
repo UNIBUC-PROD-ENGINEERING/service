@@ -72,44 +72,100 @@ public class HelloApplication {
 		dish5 = dishesRepository.save(new DishesEntity(dish5.getName(), dish5.getQuantity(), dish5.getPrice()));
 
 		RestaurantEntity restaurant1 = new RestaurantEntity("Maestro", "maestro@gmail.com", "Sector 4 Bucuresti", null);
-
-		ArrayList<DishesEntity> dishesList1 = new ArrayList<>(Arrays.asList(dish1, dish2, dish3));
-		OrderEntity order1_res1 = new OrderEntity(client1, restaurant1, dishesList1);
-
-		ArrayList<DishesEntity> dishesList2 = new ArrayList<>(Arrays.asList(dish3, dish5));
-		OrderEntity order2_res1 = new OrderEntity(client3, restaurant1, dishesList2);
-
-		ArrayList<DishesEntity> dishesList3 = new ArrayList<>(Arrays.asList(dish1, dish5, dish3));
-		OrderEntity order3_res1 = new OrderEntity(client2, restaurant1, dishesList3);
-
-		ArrayList<OrderEntity> ordersForRestaurant1 = new ArrayList<>(Arrays.asList(order1_res1, order2_res1, order3_res1));
-		restaurant1.setOrders(ordersForRestaurant1);
-
-		order1_res1 = orderRepository.save(new OrderEntity(order1_res1.getClient(), order1_res1.getRestaurant(), order1_res1.getDishes()));
-		order2_res1 = orderRepository.save(new OrderEntity(order2_res1.getClient(), order2_res1.getRestaurant(), order2_res1.getDishes()));
-		order3_res1 = orderRepository.save(new OrderEntity(order3_res1.getClient(), order3_res1.getRestaurant(), order3_res1.getDishes()));
+		RestaurantEntity restaurant2 = new RestaurantEntity("PizzaHut", "pizzahut@gmail.com", "Sector 1 Bucuresti", null);
+		RestaurantEntity restaurant3 = new RestaurantEntity("Pizza Bonita", "bonita@gmail.com", "Sector 2 Bucuresti", null);
+		RestaurantEntity restaurant4 = new RestaurantEntity("Dominos's", "domino@gmail.com", "Sector 1 Bucuresti", null);
 
 		restaurant1 = restaurantRepository.save(new RestaurantEntity(restaurant1.getName(), restaurant1.getEmail(), restaurant1.getAddress(), restaurant1.getOrders()));
+		restaurant2 = restaurantRepository.save(new RestaurantEntity(restaurant2.getName(), restaurant2.getEmail(), restaurant2.getAddress(), restaurant2.getOrders()));
+		restaurant3 = restaurantRepository.save(new RestaurantEntity(restaurant3.getName(), restaurant3.getEmail(), restaurant3.getAddress(), restaurant3.getOrders()));
+		restaurant4 = restaurantRepository.save(new RestaurantEntity(restaurant4.getName(), restaurant4.getEmail(), restaurant4.getAddress(), restaurant4.getOrders()));
 
-		RestaurantEntity restaurant2 = new RestaurantEntity("Maestroooo", "maestrooooo@gmail.com", "Sector 2 Bucuresti", null);
+		final DishesEntity finalDish1 = dish1;
+		final DishesEntity finalDish2 = dish2;
+		final DishesEntity finalDish3 = dish3;
+		final DishesEntity finalDish4 = dish4;
+		final DishesEntity finalDish5 = dish5;
 
-		ArrayList<DishesEntity> dishesList4 = new ArrayList<>(Arrays.asList(dish4));
-		OrderEntity order1_res2 = new OrderEntity(client1, restaurant2, dishesList4);
+		ArrayList<DishesEntity> dishesList1 = new ArrayList<>(){{
+			add(finalDish1);
+			add(finalDish2);
+			add(finalDish3);
+		}};
 
-		ArrayList<DishesEntity> dishesList5 = new ArrayList<>(Arrays.asList(dish4, dish1));
-		OrderEntity order2_res2 = new OrderEntity(client3, restaurant2, dishesList5);
+		ArrayList<DishesEntity> dishesList2 = new ArrayList<>(){{
+			add(finalDish1);
+			add(finalDish2);
+			add(finalDish3);
+			add(finalDish4);
+		}};
 
-		ArrayList<DishesEntity> dishesList6 = new ArrayList<>(Arrays.asList(dish1, dish2, dish5));
-		OrderEntity order3_res2 = new OrderEntity(client2, restaurant2, dishesList6);
+		ArrayList<DishesEntity> dishesList3 = new ArrayList<>(){{
+			add(finalDish1);
+			add(finalDish2);
+			add(finalDish4);
+		}};
 
-		ArrayList<OrderEntity> ordersForRestaurant2 = new ArrayList<>(Arrays.asList(order1_res2, order2_res2, order3_res2));
+		ArrayList<DishesEntity> dishesList4 = new ArrayList<>(){{
+			add(finalDish1);
+			add(finalDish4);
+			add(finalDish5);
+		}};
+
+		OrderEntity order1_res1 = new OrderEntity(client1, restaurant1, dishesList1);
+		order1_res1 = orderRepository.save(new OrderEntity(order1_res1.getClient(), order1_res1.getRestaurant(), order1_res1.getDishes()));
+
+		OrderEntity order2_res1 = new OrderEntity(client2, restaurant2, dishesList2);
+		order2_res1 = orderRepository.save(new OrderEntity(order2_res1.getClient(), order2_res1.getRestaurant(), order2_res1.getDishes()));
+
+		OrderEntity order3_res1 = new OrderEntity(client3, restaurant3, dishesList3);
+		order3_res1 = orderRepository.save(new OrderEntity(order3_res1.getClient(), order3_res1.getRestaurant(), order3_res1.getDishes()));
+
+		OrderEntity order4_res1 = new OrderEntity(client2, restaurant4, dishesList4);
+		order4_res1 = orderRepository.save(new OrderEntity(order4_res1.getClient(), order4_res1.getRestaurant(), order4_res1.getDishes()));
+
+
+		final OrderEntity finalOrder1 = order1_res1;
+		final OrderEntity finalOrder2 = order2_res1;
+		final OrderEntity finalOrder3 = order3_res1;
+		final OrderEntity finalOrder4 = order4_res1;
+
+
+		ArrayList<OrderEntity> ordersForRestaurant2 = new ArrayList<>(){{
+			add(finalOrder1);
+			add(finalOrder4);
+			add(finalOrder3);
+		}};
+
+		ArrayList<OrderEntity> ordersForRestaurant1 = new ArrayList<>(){{
+			add(finalOrder1);
+			add(finalOrder4);
+			add(finalOrder3);
+			add(finalOrder2);
+		}};
+
+		ArrayList<OrderEntity> ordersForRestaurant3 = new ArrayList<>(){{
+			add(finalOrder1);
+			add(finalOrder4);
+		}};
+
+		ArrayList<OrderEntity> ordersForRestaurant4 = new ArrayList<>(){{
+			add(finalOrder1);
+			add(finalOrder2);
+			add(finalOrder3);
+		}};
+
+
 		restaurant2.setOrders(ordersForRestaurant2);
+		restaurant3.setOrders(ordersForRestaurant3);
+		restaurant1.setOrders(ordersForRestaurant1);
+		restaurant4.setOrders(ordersForRestaurant4);
 
-		order1_res2 = orderRepository.save(new OrderEntity(order1_res2.getClient(), order1_res2.getRestaurant(), order1_res2.getDishes()));
-		order2_res2 = orderRepository.save(new OrderEntity(order2_res2.getClient(), order2_res2.getRestaurant(), order2_res2.getDishes()));
-		order3_res2 = orderRepository.save(new OrderEntity(order3_res2.getClient(), order3_res2.getRestaurant(), order3_res2.getDishes()));
 
 		restaurant2 = restaurantRepository.save(new RestaurantEntity(restaurant2.getName(), restaurant2.getEmail(), restaurant2.getAddress(), restaurant2.getOrders()));
+		restaurant3 = restaurantRepository.save(new RestaurantEntity(restaurant3.getName(), restaurant3.getEmail(), restaurant3.getAddress(), restaurant3.getOrders()));
+		restaurant4 = restaurantRepository.save(new RestaurantEntity(restaurant4.getName(), restaurant4.getEmail(), restaurant4.getAddress(), restaurant4.getOrders()));
+		restaurant1 = restaurantRepository.save(new RestaurantEntity(restaurant1.getName(), restaurant1.getEmail(), restaurant1.getAddress(), restaurant1.getOrders()));
 
 		ArrayList<DishesEntity> menu1_dishes = new ArrayList<>(Arrays.asList(dish1, dish2, dish3, dish4, dish5));
 		MenuEntity menu1 = new MenuEntity(restaurant1, menu1_dishes);
@@ -120,6 +176,8 @@ public class HelloApplication {
 		MenuEntity menu2 = new MenuEntity(restaurant2, menu2_dishes);
 
 		menu2 = menuRepository.save(new MenuEntity(menu2.getRestaurant(), menu2.getDishes()));
+
+
 	}
 
 }
