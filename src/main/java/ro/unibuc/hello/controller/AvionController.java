@@ -17,6 +17,8 @@ public class AvionController {
 
     @Autowired
     private AvionService avionService;
+    private static final String duplicateExceptionMessage = "An avion entity with the same number already exists so the state of the DB wasn't modified.";
+    private static final String entityNotFoundExceptionMessage = "Avion entity with the requested number was not found so the state of the DB wasn't modified.";
 
     @GetMapping("/avion/{number}")
     @ResponseBody
@@ -43,7 +45,7 @@ public class AvionController {
             return ResponseEntity.ok().body(newAvion);
         }
         catch (DuplicateException exception) {
-            return ResponseEntity.ok().body("An avion entity with the same number already exists so the state of the DB wasn't modified.");
+            return ResponseEntity.ok().body(duplicateExceptionMessage);
         }
     }
 
@@ -54,7 +56,7 @@ public class AvionController {
             return ResponseEntity.ok().body(avionService.removeAvion(number));
         }
         catch (EntityNotFoundException exception) {
-            return ResponseEntity.ok().body("Avion entity with the requested number was not found so the state of the DB wasn't modified.");
+            return ResponseEntity.ok().body(entityNotFoundExceptionMessage);
         }
     }
 
@@ -65,7 +67,7 @@ public class AvionController {
             return ResponseEntity.ok().body(avionService.updateAvion(number, avion));
         }
         catch (EntityNotFoundException exception) {
-            return ResponseEntity.ok().body("Avion entity with the requested number was not found so the state of the DB wasn't modified.");
+            return ResponseEntity.ok().body(entityNotFoundExceptionMessage);
         }
     }
 
