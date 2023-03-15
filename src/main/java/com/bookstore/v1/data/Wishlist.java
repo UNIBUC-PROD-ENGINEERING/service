@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ public class Wishlist {
     @DBRef(lazy = true)
     User user;
     @DBRef(lazy = true)
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public Wishlist() {}
 
@@ -59,6 +60,10 @@ public class Wishlist {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public void addBook(Book book) {
+        this.books.add(book);
     }
 
     @Override
