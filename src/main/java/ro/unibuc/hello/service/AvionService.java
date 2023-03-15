@@ -33,9 +33,9 @@ public class AvionService {
         return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
-    public List<Avion> getAllAvioane() {
+    public List<InfoAvion> getAllAvioane() {
         List<Avion> entities = avionRepository.findAll();
-        return entities;
+        return convertAvionToInfoAvion(entities);
     }
 
     public InfoAvion addAvion(Avion avion)  throws DuplicateException {
@@ -75,7 +75,13 @@ public class AvionService {
         return new InfoAvion(String.format(avionTemplate,newEntity.number, newEntity.from, newEntity.to));
     }
 
-    public List<Avion> fetchAvionByProperty(String from, String to) {
-        return avionRepository.findAvionByProperties(from, to);
+    public List<InfoAvion> fetchAvionByProperty(String from, String to) {
+        return convertAvionToInfoAvion(avionRepository.findAvionByProperties(from, to));
+    }
+
+    public List<InfoAvion> convertAvionToInfoAvion (List<Avion> avioane){
+        List<InfoAvion> infoAvionList=new ArrayList<InfoAvion>();
+        avioane.forEach( (avion -> infoAvionList.add(new InfoAvion(String.format(avionTemplate,avion.number, avion.from, avion.to)))));
+        return infoAvionList;
     }
 }

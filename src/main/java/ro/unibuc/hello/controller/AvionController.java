@@ -31,7 +31,7 @@ public class AvionController {
 
     @GetMapping("/avion")
     @ResponseBody
-    public ResponseEntity<List<Avion>> getAllAvioane() {
+    public ResponseEntity<List<InfoAvion>> getAllAvioane() {
         return ResponseEntity.ok().body(avionService.getAllAvioane());
     }
 
