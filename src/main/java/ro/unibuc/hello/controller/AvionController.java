@@ -17,27 +17,27 @@ public class AvionController {
 
     @GetMapping("/avion")
     @ResponseBody
-    public InfoAvion getAvion(@RequestParam(name = "number", required = false, defaultValue = "1") String number) throws EntityNotFoundException {
-        return avionService.getAvionInfoByNumber(number);
+    public ResponseEntity<?> getAvion(@RequestParam(name = "number", required = false, defaultValue = "1") String number) throws EntityNotFoundException {
+        return ResponseEntity.ok().body(avionService.getAvionInfoByNumber(number));
     }
 
     @PostMapping("/avion")
     @ResponseBody
-    public InfoAvion addAvion(@RequestBody Avion avion) throws EntityNotFoundException {
+    public ResponseEntity<?>  addAvion(@RequestBody Avion avion) throws EntityNotFoundException {
         InfoAvion newAvion=avionService.addAvion(avion);
-        return newAvion;
+        return ResponseEntity.ok().body(newAvion);
     }
 
     @DeleteMapping("/avion/{number}")
     @ResponseBody
-    public void removeAvion(@PathVariable("number") String number) throws EntityNotFoundException {
-        avionService.removeAvion(number);
+    public ResponseEntity<?> removeAvion(@PathVariable("number") String number) throws EntityNotFoundException {
+        return ResponseEntity.ok().body(avionService.removeAvion(number));
     }
 
     @PutMapping("/avion/{number}")
     @ResponseBody
-    public InfoAvion updateAvion(@PathVariable("number") String number, @RequestBody Avion avion) throws EntityNotFoundException {
-        return avionService.updateAvion(number,avion);
+    public ResponseEntity<?> updateAvion(@PathVariable("number") String number, @RequestBody Avion avion) throws EntityNotFoundException {
+        return ResponseEntity.ok().body(avionService.updateAvion(number,avion));
     }
 
     @GetMapping("/avionfilter")

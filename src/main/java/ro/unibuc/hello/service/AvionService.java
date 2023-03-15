@@ -42,12 +42,13 @@ public class AvionService {
         return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
-    public void removeAvion(String number) throws EntityNotFoundException  {
+    public InfoAvion removeAvion(String number) throws EntityNotFoundException  {
         Avion entity = avionRepository.findByNumber(number);
         if (entity == null) {
             throw new EntityNotFoundException(number);
         }
         avionRepository.deleteByNumber(number);
+        return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
     public InfoAvion updateAvion(String number, Avion avion) throws EntityNotFoundException  {
