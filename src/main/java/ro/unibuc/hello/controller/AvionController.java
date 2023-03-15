@@ -40,14 +40,19 @@ public class AvionController {
             return ResponseEntity.ok().body(avionService.removeAvion(number));
         }
         catch (EntityNotFoundException exception) {
-            return ResponseEntity.ok().body("Avion entity with the requested number not found so the state of the DB wasn't modified.");
+            return ResponseEntity.ok().body("Avion entity with the requested number was not found so the state of the DB wasn't modified.");
         }
     }
 
     @PutMapping("/avion/{number}")
     @ResponseBody
     public ResponseEntity<?> updateAvion(@PathVariable("number") String number, @RequestBody Avion avion) throws EntityNotFoundException {
-        return ResponseEntity.ok().body(avionService.updateAvion(number,avion));
+        try {
+            return ResponseEntity.ok().body(avionService.updateAvion(number, avion));
+        }
+        catch (EntityNotFoundException exception) {
+            return ResponseEntity.ok().body("Avion entity with the requested number was not found so the state of the DB wasn't modified.");
+        }
     }
 
     @GetMapping("/avionfilter")
