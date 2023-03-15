@@ -20,6 +20,9 @@ public class HelloApplication {
 	@Autowired
 	private TicketRespository ticketRespository;
 
+	@Autowired
+	private CinemaRoomRepository cinemaRoomRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
@@ -57,20 +60,33 @@ public class HelloApplication {
 		ticketRespository.save(new TicketEntity(movie2, 20, 4, 2023, 18,30));
 		ticketRespository.save(new TicketEntity(movie3, 3,5,2023,15,20));
 
-		locationRepository.deleteAll();
-		locationRepository.save(new LocationEntity("Bulevardul General Paul Teodorescu 4, București 061344",
+			
+		LocationEntity location1 = (new LocationEntity("Bulevardul General Paul Teodorescu 4, București 061344",
 				"Afi Cotroceni Cinema City", "037 283 9065"));
-		locationRepository.save(new LocationEntity("Bulevardul Pierre de Coubertin 3-5, București 021901",
+		LocationEntity location2 = (new LocationEntity("Bulevardul Pierre de Coubertin 3-5, București 021901",
 				"Mega Mall Cinema City", "037 283 9066"));
-		locationRepository.save(new LocationEntity("Calea Moșilor 127, București 020854",
+		LocationEntity location3 = (new LocationEntity("Calea Moșilor 127, București 020854",
 				"Cinema Europa", "021 367 2567"));
-		locationRepository.save(new LocationEntity("Liberty Center, Etaj 2, Strada Progresului 151-171, București 050696",
+		LocationEntity location4 = (new LocationEntity("Liberty Center, Etaj 2, Strada Progresului 151-171, București 050696",
 				"Happy Cinema", "031 426 0536"));
-		locationRepository.save(new LocationEntity("Strada Ion Câmpineanu 21, București 010033",
+		LocationEntity location5 = (new LocationEntity("Strada Ion Câmpineanu 21, București 010033",
 				"Cinema Union", "021 313 9289"));
-		locationRepository.save(new LocationEntity("București Mall, Etaj 2, Calea Vitan 55-59, București 031281",
+		LocationEntity location6 = (new LocationEntity("București Mall, Etaj 2, Calea Vitan 55-59, București 031281",
 				"Hollywood Multiplex", "021 327 7020"));
-//		informationRepository.deleteAll();
+
+		locationRepository.deleteAll();
+		locationRepository.save(location1);
+		locationRepository.save(location2);
+		locationRepository.save(location3);
+		locationRepository.save(location4);
+		locationRepository.save(location5);
+		locationRepository.save(location6);
+
+		cinemaRoomRepository.deleteAll();
+		cinemaRoomRepository.save(new CinemaRoomEntity(location1, 10));
+		cinemaRoomRepository.save(new CinemaRoomEntity(location3, 5));
+		cinemaRoomRepository.save(new CinemaRoomEntity(location6, 2));
+		//		informationRepository.deleteAll();
 //		informationRepository.save(new InformationEntity("Overview",
 //				"This is an example of using a data storage engine running separately from our applications server"));
 	}
