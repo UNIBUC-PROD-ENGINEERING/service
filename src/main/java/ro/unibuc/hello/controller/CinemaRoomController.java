@@ -1,29 +1,27 @@
 package ro.unibuc.hello.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ro.unibuc.hello.data.MovieRepository;
+import ro.unibuc.hello.data.LocationRepository;
 import ro.unibuc.hello.dto.Greeting;
-import ro.unibuc.hello.dto.Movie;
-import ro.unibuc.hello.dto.Ticket;
+import ro.unibuc.hello.dto.Location;
+import ro.unibuc.hello.dto.CinemaRoom;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.HelloWorldService;
-import ro.unibuc.hello.service.MovieService;
-import ro.unibuc.hello.service.TicketService;
-
+import ro.unibuc.hello.service.LocationService;
+import ro.unibuc.hello.service.CinemaRoomService;
 @Controller
-public class TicketController {
+public class CinemaRoomController {
 
     @Autowired
-    private TicketService ticketService;
+    public CinemaRoomService cinemaRoomService;
 
-    @GetMapping("/getTicketById")
+    @GetMapping("/getCinemaRoomByNumber")
     @ResponseBody
-    public Ticket getTicketById(@RequestParam(name="id", required=true) String id) throws EntityNotFoundException{
-        return ticketService.getTicketById(id);
+    public CinemaRoom getCinemaRoomByNumber(@RequestParam(name="number", required = true) String number) throws EntityNotFoundException{
+        return cinemaRoomService.getCinemaRoomByNumber(number);
     }
 }
