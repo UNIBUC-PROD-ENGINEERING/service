@@ -26,6 +26,9 @@ public class HelloApplication {
 	@Autowired
 	private TicketRespository ticketRespository;
 
+	@Autowired
+	private CustomerRepository customerRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
@@ -90,11 +93,20 @@ public class HelloApplication {
 		cinemaRoomRepository.save(new CinemaRoomEntity(location3, 5));
 		cinemaRoomRepository.save(new CinemaRoomEntity(location6, 2));
 		//		informationRepository.deleteAll();
+		TicketEntity ticket1 = new TicketEntity(movie1, 10,10,2023, 19,20);
+		TicketEntity ticket2 = new TicketEntity(movie2, 20, 4, 2023, 18,30);
+		TicketEntity ticket3 = new TicketEntity(movie3, 3,5,2023,15,20);
 
 		ticketRespository.deleteAll();
-		ticketRespository.save(new TicketEntity(movie1, 10,10,2023, 19,20));
-		ticketRespository.save(new TicketEntity(movie2, 20, 4, 2023, 18,30));
-		ticketRespository.save(new TicketEntity(movie3, 3,5,2023,15,20));
+		ticketRespository.save(ticket1);
+		ticketRespository.save(ticket2);
+		ticketRespository.save(ticket3);
+
+		customerRepository.deleteAll();
+		customerRepository.save(new CustomerEntity("Andrei", 20, ticket1));
+		customerRepository.save(new CustomerEntity("Luca", 22, ticket2));
+		customerRepository.save(new CustomerEntity("Petru", 19, ticket1));
+		customerRepository.save(new CustomerEntity("Gigi", 25, ticket3));
 
 //		informationRepository.deleteAll();
 //		informationRepository.save(new InformationEntity("Overview",

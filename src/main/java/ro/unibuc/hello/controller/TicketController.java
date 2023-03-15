@@ -26,6 +26,4 @@ public class TicketController {
     public Ticket getTicketById(@RequestParam(name="id", required=true) String id) throws EntityNotFoundException{
         return ticketService.getTicketById(id);
     }
-
-
 }
