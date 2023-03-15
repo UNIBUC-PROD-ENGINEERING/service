@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ro.unibuc.hello.data.InformationEntity;
-import ro.unibuc.hello.data.InformationRepository;
-import ro.unibuc.hello.data.MovieEntity;
-import ro.unibuc.hello.data.MovieRepository;
+import ro.unibuc.hello.data.*;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +16,9 @@ public class HelloApplication {
 //	private InformationRepository informationRepository;
 	@Autowired
 	private MovieRepository movieRepository;
+
+	@Autowired
+	private LocationRepository locationRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
@@ -45,6 +45,20 @@ public class HelloApplication {
 		movieRepository.save(new MovieEntity("Bullet Train",
 				"Five assassins aboard a swiftly-moving bullet train find out that their missions have something in common."
 				,126));
+
+		locationRepository.deleteAll();
+		locationRepository.save(new LocationEntity("Bulevardul General Paul Teodorescu 4, București 061344",
+				"Afi Cotroceni Cinema City", "037 283 9065"));
+		locationRepository.save(new LocationEntity("Bulevardul Pierre de Coubertin 3-5, București 021901",
+				"Mega Mall Cinema City", "037 283 9066"));
+		locationRepository.save(new LocationEntity("Calea Moșilor 127, București 020854",
+				"Cinema Europa", "021 367 2567"));
+		locationRepository.save(new LocationEntity("Liberty Center, Etaj 2, Strada Progresului 151-171, București 050696",
+				"Happy Cinema", "031 426 0536"));
+		locationRepository.save(new LocationEntity("Strada Ion Câmpineanu 21, București 010033",
+				"Cinema Union", "021 313 9289"));
+		locationRepository.save(new LocationEntity("București Mall, Etaj 2, Calea Vitan 55-59, București 031281",
+				"Hollywood Multiplex", "021 327 7020"));
 //		informationRepository.deleteAll();
 //		informationRepository.save(new InformationEntity("Overview",
 //				"This is an example of using a data storage engine running separately from our applications server"));
