@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.server.ResponseStatusException;
+import ro.unibuc.hello.dto.UpdateProjectDto;
 import ro.unibuc.hello.entity.ProjectEntity;
 import ro.unibuc.hello.dto.ProjectDto;
+import ro.unibuc.hello.exception.ProjectNotFoundException;
 import ro.unibuc.hello.service.ProjectService;
 
 import java.util.List;
@@ -32,6 +34,12 @@ public class ProjectController {
 
        return ResponseEntity.ok(project);
    }
+
+   @PutMapping("/update/{id}")
+   public void updateProjectById(@PathVariable("id") String id, @RequestBody UpdateProjectDto updateProjectDto) throws ProjectNotFoundException {
+       projectService.updateProjectById(id, updateProjectDto);
+   }
+
 
     @RequestMapping(method = {RequestMethod.GET}, value="/{id}")
     @ResponseBody
