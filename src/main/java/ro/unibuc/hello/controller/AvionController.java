@@ -10,21 +10,29 @@ import ro.unibuc.hello.exception.DuplicateException;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.AvionService;
 
+import java.util.List;
+
 @Controller
 public class AvionController {
 
     @Autowired
     private AvionService avionService;
 
-    @GetMapping("/avion")
+    @GetMapping("/avion/{number}")
     @ResponseBody
-    public ResponseEntity<?> getAvion(@RequestParam(name = "number", required = false, defaultValue = "1") String number) throws EntityNotFoundException {
+    public ResponseEntity<?> getAvion(@PathVariable("number") String number) throws EntityNotFoundException {
         try {
             return ResponseEntity.ok().body(avionService.getAvionInfoByNumber(number));
         }
         catch (EntityNotFoundException exception) {
             return ResponseEntity.ok().body("Avion entity with the requested number not found.");
         }
+    }
+
+    @GetMapping("/avion")
+    @ResponseBody
+    public ResponseEntity<List<Avion>> getAllAvioane() {
+        return ResponseEntity.ok().body(avionService.getAllAvioane());
     }
 
     @PostMapping("/avion")
