@@ -47,4 +47,9 @@ public class ProjectController {
 
     @GetMapping("/get-all")
     public List<ProjectEntity> getAllProjects() { return projectService.getAllProjects();}
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteProjectById(@PathVariable("id") String id){
+       projectService.deleteProjectById(id);
+    }
 }

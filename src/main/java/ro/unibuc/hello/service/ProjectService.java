@@ -34,4 +34,8 @@ public class ProjectService {
     public List<ProjectEntity> getAllProjects() {
         return projectRepository.findAll();
     }
+
+    public void deleteProjectById(String id) {
+        projectRepository.deleteById(id);
+    }
 }
