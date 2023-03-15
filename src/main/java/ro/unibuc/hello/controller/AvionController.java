@@ -35,7 +35,7 @@ public class AvionController {
             return ResponseEntity.ok().body(newAvion);
         }
         catch (DuplicateException exception) {
-            return ResponseEntity.ok().body("This avion entity already exists so the state of the DB wasn't modified.");
+            return ResponseEntity.ok().body("An avion entity with the same number already exists so the state of the DB wasn't modified.");
         }
     }
 
