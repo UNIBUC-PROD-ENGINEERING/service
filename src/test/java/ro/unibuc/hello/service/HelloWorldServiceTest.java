@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ro.unibuc.hello.data.InformationEntity;
+import ro.unibuc.hello.entity.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.exception.EntityNotFoundException;

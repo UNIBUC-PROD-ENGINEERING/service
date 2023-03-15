@@ -10,8 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.server.ResponseStatusException;
-import ro.unibuc.hello.data.ProjectEntity;
-import ro.unibuc.hello.data.ProjectRepository;
+import ro.unibuc.hello.entity.ProjectEntity;
 import ro.unibuc.hello.dto.ProjectDto;
 import ro.unibuc.hello.service.ProjectService;
 

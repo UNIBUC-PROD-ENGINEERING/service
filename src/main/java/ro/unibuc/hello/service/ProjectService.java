@@ -2,7 +2,7 @@ package ro.unibuc.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.unibuc.hello.data.ProjectEntity;
+import ro.unibuc.hello.entity.ProjectEntity;
 import ro.unibuc.hello.data.ProjectRepository;
 import ro.unibuc.hello.dto.ProjectDto;
 

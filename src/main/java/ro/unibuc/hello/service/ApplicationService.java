@@ -1,7 +1,7 @@
 package ro.unibuc.hello.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ro.unibuc.hello.data.ApplicationEntity;
+import ro.unibuc.hello.entity.ApplicationEntity;
 import ro.unibuc.hello.data.ApplicationRepository;
 import java.util.List;
 
