@@ -27,4 +27,8 @@ public class MovieService {
         return true;
     }
 
+    public boolean deleteMovie(String title){
+        movieRepository.deleteByTitle(title);
+        return true;
+    }
 }
