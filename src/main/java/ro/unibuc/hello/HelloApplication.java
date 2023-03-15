@@ -37,7 +37,6 @@ public class HelloApplication {
 		carRepository.save(new CarEntity( "Renault", "Sedan", 2022, "Euro6",18000));
 		carRepository.save(new CarEntity( "Mercedes", "Sedan", 2022, "Euro6",90000));
 		carRepository.save(new CarEntity( "Dacia", "SUV", 2022, "Euro6",15000));
-		carRepository.save(new CarEntity( "Dacia", "Sedan", 2022, "Euro6",10000));
 
 
 	}
