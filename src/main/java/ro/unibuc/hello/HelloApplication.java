@@ -57,6 +57,19 @@ public class HelloApplication {
 		ticketRespository.save(new TicketEntity(movie2, 20, 4, 2023, 18,30));
 		ticketRespository.save(new TicketEntity(movie3, 3,5,2023,15,20));
 
+		locationRepository.deleteAll();
+		locationRepository.save(new LocationEntity("Bulevardul General Paul Teodorescu 4, București 061344",
+				"Afi Cotroceni Cinema City", "037 283 9065"));
+		locationRepository.save(new LocationEntity("Bulevardul Pierre de Coubertin 3-5, București 021901",
+				"Mega Mall Cinema City", "037 283 9066"));
+		locationRepository.save(new LocationEntity("Calea Moșilor 127, București 020854",
+				"Cinema Europa", "021 367 2567"));
+		locationRepository.save(new LocationEntity("Liberty Center, Etaj 2, Strada Progresului 151-171, București 050696",
+				"Happy Cinema", "031 426 0536"));
+		locationRepository.save(new LocationEntity("Strada Ion Câmpineanu 21, București 010033",
+				"Cinema Union", "021 313 9289"));
+		locationRepository.save(new LocationEntity("București Mall, Etaj 2, Calea Vitan 55-59, București 031281",
+				"Hollywood Multiplex", "021 327 7020"));
 //		informationRepository.deleteAll();
 //		informationRepository.save(new InformationEntity("Overview",
 //				"This is an example of using a data storage engine running separately from our applications server"));
