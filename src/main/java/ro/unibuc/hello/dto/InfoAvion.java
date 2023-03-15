@@ -2,22 +2,22 @@ package ro.unibuc.hello.dto;
 
 public class InfoAvion {
 
-    private String content;
+    private String flight;
 
     public InfoAvion() {
     }
 
-    public InfoAvion(String content) {
-        this.content = content;
+    public InfoAvion(String flight) {
+        this.flight = flight;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setFlight(String flight) {
+        this.flight = flight;
     }
 
 
-    public String getContent() {
-        return content;
+    public String getFlight() {
+        return flight;
     }
 
 }
