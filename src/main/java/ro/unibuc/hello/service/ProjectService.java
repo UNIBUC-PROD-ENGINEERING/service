@@ -6,6 +6,7 @@ import ro.unibuc.hello.entity.ProjectEntity;
 import ro.unibuc.hello.data.ProjectRepository;
 import ro.unibuc.hello.dto.ProjectDto;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ProjectService {
@@ -28,5 +29,9 @@ public class ProjectService {
     public ProjectEntity getProjectById(String projectId) {
         Optional<ProjectEntity> project = projectRepository.findById(projectId);
         return project.get();
+    }
+
+    public List<ProjectEntity> getAllProjects() {
+        return projectRepository.findAll();
     }
 }

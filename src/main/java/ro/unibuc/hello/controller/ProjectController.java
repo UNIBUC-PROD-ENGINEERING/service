@@ -14,6 +14,8 @@ import ro.unibuc.hello.entity.ProjectEntity;
 import ro.unibuc.hello.dto.ProjectDto;
 import ro.unibuc.hello.service.ProjectService;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/projects")
@@ -42,4 +44,7 @@ public class ProjectController {
            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource Not Found", exc);
        }
     }
+
+    @GetMapping("/get-all")
+    public List<ProjectEntity> getAllProjects() { return projectService.getAllProjects();}
 }
