@@ -29,6 +29,9 @@ public class HelloApplication {
 	@Autowired
 	private LocationRepository locationRepository;
 
+	@Autowired
+	private VipLoungeRepository vipLoungeRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
@@ -92,7 +95,7 @@ public class HelloApplication {
 		cinemaRoomRepository.save(new CinemaRoomEntity(location1, 10));
 		cinemaRoomRepository.save(new CinemaRoomEntity(location3, 5));
 		cinemaRoomRepository.save(new CinemaRoomEntity(location6, 2));
-		//		informationRepository.deleteAll();
+
 		TicketEntity ticket1 = new TicketEntity(movie1, 10,10,2023, 19,20);
 		TicketEntity ticket2 = new TicketEntity(movie2, 20, 4, 2023, 18,30);
 		TicketEntity ticket3 = new TicketEntity(movie3, 3,5,2023,15,20);
@@ -107,6 +110,14 @@ public class HelloApplication {
 		customerRepository.save(new CustomerEntity("Luca", 22, ticket2));
 		customerRepository.save(new CustomerEntity("Petru", 19, ticket1));
 		customerRepository.save(new CustomerEntity("Gigi", 25, ticket3));
+
+		vipLoungeRepository.deleteAll();
+		vipLoungeRepository.save(new VipLoungeEntity("150lei", location2));
+		vipLoungeRepository.save(new VipLoungeEntity("200lei", location3));
+		vipLoungeRepository.save(new VipLoungeEntity("130lei", location6));
+		vipLoungeRepository.save(new VipLoungeEntity("150lei", location4));
+		vipLoungeRepository.save(new VipLoungeEntity("220lei", location2));
+		vipLoungeRepository.save(new VipLoungeEntity("140lei", location5));
 
 //		informationRepository.deleteAll();
 //		informationRepository.save(new InformationEntity("Overview",
