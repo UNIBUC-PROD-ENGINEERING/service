@@ -18,6 +18,7 @@ public class HelloApplication {
 	@Autowired
 	private InformationRepository informationRepository;
 
+	@Autowired
 	private CarRepository carRepository;
 
 	public static void main(String[] args) {
@@ -29,21 +30,13 @@ public class HelloApplication {
 		informationRepository.deleteAll();
 		informationRepository.save(new InformationEntity("Overview",
 				"This is an example of using a data storage engine running separately from our applications server"));
-//		carRepository.deleteAll();
 
-		CarEntity car1 = new CarEntity("1", "BMW", "Sedan", 2022, "Euro6",30000);
-//		CarEntity car2 = new CarEntity("2", "Volvo", "SUV", 2022, "Euro6",50000);
-//		CarEntity car3 = new CarEntity("3", "Renault", "Sedan", 2022, "Euro6",18000);
-//		CarEntity car4 = new CarEntity("4", "Mercedes", "Sedan", 2022, "Euro6",90000);
-//		CarEntity car5 = new CarEntity("5", "Dacia", "SUV", 2022, "Euro6",15000);
-//
-//
-//
-//		car1 = carRepository.save(car1);
-//		car2 = carRepository.save(car2);
-//		car3 = carRepository.save(car3);
-//		car4 = carRepository.save(car4);
-//		car5 = carRepository.save(car5);
+		carRepository.deleteAll();
+		carRepository.save(new CarEntity( "BMW", "Sedan", 2022, "Euro6",30000));
+		carRepository.save(new CarEntity( "Volvo", "SUV", 2022, "Euro6",50000));
+		carRepository.save(new CarEntity( "Renault", "Sedan", 2022, "Euro6",18000));
+		carRepository.save(new CarEntity( "Mercedes", "Sedan", 2022, "Euro6",90000));
+		carRepository.save(new CarEntity( "Dacia", "SUV", 2022, "Euro6",15000));
 
 	}
 

@@ -30,13 +30,12 @@ public class CarController {
 
     @PostMapping("/car/insert")
     @ResponseBody
-    public CarsDTO insertCar(@RequestParam(name="carId") String carId,
-                            @RequestParam(name="carMaker") String carMaker,
+    public CarsDTO insertCar(@RequestParam(name="carMaker") String carMaker,
                             @RequestParam(name="carType") String carType,
                             @RequestParam(name="carYear") Integer carYear,
                             @RequestParam(name="carEuro") String carEuro,
                             @RequestParam(name="carPrice") Integer carPrice) {
-        return carService.insertCar(carId, carMaker, carType, carYear, carEuro, carPrice);
+        return carService.insertCar(carMaker, carType, carYear, carEuro, carPrice);
     }
 
     @PutMapping("/car/update")
@@ -55,6 +54,18 @@ public class CarController {
     public String deleteCar(@RequestParam(name="carId") String id) {
         return carService.deleteCar(id);
 
+    }
+
+    @GetMapping("/car/filterByCarType")
+    @ResponseBody
+    public List<CarsDTO> filterCarsByCarType(@RequestParam(name = "carType") String carType){
+        return carService.filterCarsByCarTypeFilterCarsByCarType(carType);
+    }
+
+    @GetMapping("/car/orderAscendingByCarPrice")
+    @ResponseBody
+    public List<CarsDTO> orderCarsAscendingByCarPrice(){
+        return carService.OrderCarsByPriceAscending();
     }
 
 

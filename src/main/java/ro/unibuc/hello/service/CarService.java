@@ -2,14 +2,15 @@ package ro.unibuc.hello.service;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 
 import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.CarsDTO;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class CarService {
@@ -33,13 +34,12 @@ public class CarService {
             return null;
     }
 
-    public CarsDTO insertCar(String carId,
-                             String carMaker,
+    public CarsDTO insertCar(String carMaker,
                              String carType,
                              Integer carYear,
                              String carEuro,
                              Integer carPrice){
-        CarEntity car=new CarEntity(carId,carMaker,carType,carYear,carEuro,carPrice);
+        CarEntity car=new CarEntity(carMaker,carType,carYear,carEuro,carPrice);
 
 
         return new CarsDTO(carRepository.save(car));
@@ -77,5 +77,30 @@ public class CarService {
 
         return "Car with id " + id + " was deleted!";
     }
+
+    public List<CarsDTO> OrderCarsByPriceAscending(){
+        List<CarsDTO> carsMapped = new ArrayList<> ();
+        carRepository.findAll().forEach(x -> carsMapped.add(new CarsDTO(x)));
+
+         carsMapped.sort(Comparator.comparing(CarsDTO::getCarPrice));
+
+         return carsMapped;
+
+    }
+
+    public List<CarsDTO>  filterCarsByCarTypeFilterCarsByCarType(String carType){
+        List<CarEntity> cars = carRepository.findAll();
+        List<CarsDTO> carsMapped = new ArrayList<> ();
+
+        for(int i = 0; i < cars.size(); i++){
+            if (Objects.equals(cars.get(i).getCarType(), carType)) {
+                carsMapped.add(new CarsDTO(cars.get(i)));
+            }
+        }
+
+        return carsMapped;
+    }
+
+
 
 }

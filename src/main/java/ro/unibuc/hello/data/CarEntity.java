@@ -3,6 +3,7 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -24,8 +25,7 @@ public class CarEntity {
     public CarEntity(){
     }
 
-    public CarEntity(String carId, String carMaker, String carType, Integer carYear, String carEuro, Integer carPrice) {
-        this.carId= carId; //id of the car in the database
+    public CarEntity(String carMaker, String carType, Integer carYear, String carEuro, Integer carPrice) {
         this.carMaker= carMaker;//Volvo, BMW, Renault, etc
         this.carType= carType; //sedan, SUV, StationWagen
         this.carYear= carYear; //year the car is produced
