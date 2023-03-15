@@ -36,7 +36,12 @@ public class AvionController {
     @DeleteMapping("/avion/{number}")
     @ResponseBody
     public ResponseEntity<?> removeAvion(@PathVariable("number") String number) throws EntityNotFoundException {
-        return ResponseEntity.ok().body(avionService.removeAvion(number));
+        try {
+            return ResponseEntity.ok().body(avionService.removeAvion(number));
+        }
+        catch (EntityNotFoundException exception) {
+            return ResponseEntity.ok().body("Avion entity with the requested number not found so the state of the DB wasn't modified.");
+        }
     }
 
     @PutMapping("/avion/{number}")
