@@ -52,7 +52,7 @@ public class CarController {
 
     @DeleteMapping("/car/delete")
     @ResponseBody
-    public String deleteCar(@RequestParam(name="id") String id) {
+    public String deleteCar(@RequestParam(name="carId") String id) {
         return carService.deleteCar(id);
 
     }

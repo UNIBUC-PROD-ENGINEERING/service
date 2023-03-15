@@ -25,7 +25,7 @@ public class CarService {
     }
 
     public CarsDTO getCar(String id) {
-        CarEntity car = carRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
+        CarEntity car = carRepository.findById(id).orElse(null);
 
         if (car!=null)
             return new CarsDTO(car);
@@ -51,7 +51,7 @@ public class CarService {
                             Integer carYear,
                             String carEuro,
                             Integer carPrice){
-        CarEntity car= carRepository.findById(String.valueOf(new ObjectId(carId))).orElse(null);
+        CarEntity car= carRepository.findById(carId).orElse(null);
         if(car!=null)
         {
             if(carId!=null)
@@ -73,7 +73,7 @@ public class CarService {
     }
 
         public String deleteCar(String id){
-        carRepository.deleteById(String.valueOf(new ObjectId(id)));
+        carRepository.deleteById(id);
 
         return "Car with id " + id + " was deleted!";
     }
