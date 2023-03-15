@@ -24,10 +24,10 @@ public class HelloApplication {
 	private CinemaRoomRepository cinemaRoomRepository;
 
 	@Autowired
-	private TicketRespository ticketRespository;
+	private CustomerRepository customerRepository;
 
 	@Autowired
-	private CustomerRepository customerRepository;
+	private LocationRepository locationRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
