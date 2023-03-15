@@ -33,6 +33,11 @@ public class AvionService {
         return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
+    public List<Avion> getAllAvioane() {
+        List<Avion> entities = avionRepository.findAll();
+        return entities;
+    }
+
     public InfoAvion addAvion(Avion avion)  throws DuplicateException {
         Avion dupEntity = avionRepository.findByNumber(avion.number);
         if (dupEntity != null) {
