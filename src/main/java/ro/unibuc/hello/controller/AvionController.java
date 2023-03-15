@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.InfoAvion;
 import ro.unibuc.hello.data.Avion;
+import ro.unibuc.hello.exception.DuplicateException;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.AvionService;
 
@@ -29,8 +30,13 @@ public class AvionController {
     @PostMapping("/avion")
     @ResponseBody
     public ResponseEntity<?>  addAvion(@RequestBody Avion avion) throws EntityNotFoundException {
-        InfoAvion newAvion=avionService.addAvion(avion);
-        return ResponseEntity.ok().body(newAvion);
+        try {
+            InfoAvion newAvion=avionService.addAvion(avion);
+            return ResponseEntity.ok().body(newAvion);
+        }
+        catch (DuplicateException exception) {
+            return ResponseEntity.ok().body("This avion entity already exists so the state of the DB wasn't modified.");
+        }
     }
 
     @DeleteMapping("/avion/{number}")
