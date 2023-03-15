@@ -9,17 +9,17 @@ public class BookDTO {
     private String title;
     private String author;
     private String publisher;
-    private String isban;
+    private String isbn;
     private LocalDate publishedDate;
 
     public BookDTO() {}
 
-    public BookDTO(String id, String title, String author, String publisher, String isban, LocalDate publishedDate) {
+    public BookDTO(String id, String title, String author, String publisher, String isbn, LocalDate publishedDate) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
-        this.isban = isban;
+        this.isbn = isbn;
         this.publishedDate = publishedDate;
     }
 
@@ -28,7 +28,7 @@ public class BookDTO {
         this.title = book.getTitle();
         this.author = book.getAuthor();
         this.publisher = book.getPublisher();
-        this.isban = book.getIsbn();
+        this.isbn = book.getIsbn();
         this.publishedDate = book.getPublishedDate();
     }
 
@@ -64,12 +64,12 @@ public class BookDTO {
         this.publisher = publisher;
     }
 
-    public String getIsban() {
-        return isban;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setIsban(String isban) {
-        this.isban = isban;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public LocalDate getPublishedDate() {
@@ -89,7 +89,7 @@ public class BookDTO {
         book.setAuthor(author);
         book.setPublisher(publisher);
         book.setIsbn(isbn);
-        book.setPublisherDate(publisherDate);
+        book.setPublishedDate(publishedDate);
         return book;
     }
 }

@@ -1,6 +1,7 @@
 package com.bookstore.v1.services;
 
 import com.bookstore.v1.data.*;
+import com.bookstore.v1.dto.BookDTO;
 import com.bookstore.v1.exception.DuplicateObjectException;
 import com.bookstore.v1.exception.EmptyFieldException;
 import com.bookstore.v1.exception.EntityNotFoundException;
@@ -40,11 +41,11 @@ public class BookService {
         }
 
         Book newBook = oldBookOpt.get();
-        newBook.setBookTitle(bookUpdateDTO.getBookTitle());
+        newBook.setTitle(bookUpdateDTO.getTitle());
         newBook.setAuthor(bookUpdateDTO.getAuthor());
         newBook.setPublisher(bookUpdateDTO.getPublisher());
         newBook.setIsbn(bookUpdateDTO.getIsbn());
-        newBook.setPublisherDate(bookUpdateDTO.getPublisherDate());
+        newBook.setPublishedDate(bookUpdateDTO.getPublishedDate());
         bookRepository.save(newBook);
 
         return new BookDTO(newBook);
