@@ -23,6 +23,9 @@ public class HelloApplication {
 	@Autowired
 	private CinemaRoomRepository cinemaRoomRepository;
 
+	@Autowired
+	private TicketRespository ticketRespository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
@@ -87,6 +90,13 @@ public class HelloApplication {
 		cinemaRoomRepository.save(new CinemaRoomEntity(location3, 5));
 		cinemaRoomRepository.save(new CinemaRoomEntity(location6, 2));
 		//		informationRepository.deleteAll();
+
+		ticketRespository.deleteAll();
+		ticketRespository.save(new TicketEntity(movie1, 10,10,2023, 19,20));
+		ticketRespository.save(new TicketEntity(movie2, 20, 4, 2023, 18,30));
+		ticketRespository.save(new TicketEntity(movie3, 3,5,2023,15,20));
+
+//		informationRepository.deleteAll();
 //		informationRepository.save(new InformationEntity("Overview",
 //				"This is an example of using a data storage engine running separately from our applications server"));
 	}
