@@ -2,31 +2,22 @@ package ro.unibuc.hello.dto;
 
 public class InfoAvion {
 
-    private long id;
-    private String content;
+    private String flight;
 
     public InfoAvion() {
     }
 
-    public InfoAvion(long id, String content) {
-        this.id = id;
-        this.content = content;
+    public InfoAvion(String flight) {
+        this.flight = flight;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setFlight(String flight) {
+        this.flight = flight;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
+    public String getFlight() {
+        return flight;
     }
 
 }

@@ -21,8 +21,9 @@ public class HelloApplication {
 
 	@PostConstruct
 	public void runAfterObjectCreated() {
-		avionRepository.deleteAll();
-		avionRepository.save(new Avion("1","Bucharest","Honolulu"));
+		if(avionRepository.findAll().isEmpty()) {
+			avionRepository.save(new Avion("1", "Bucharest", "Honolulu"));
+		}
 	}
 
 }

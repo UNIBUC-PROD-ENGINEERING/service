@@ -30,12 +30,12 @@ public class AvionService {
         if (entity == null) {
             throw new EntityNotFoundException(number);
         }
-        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
+        return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
-    public List<Avion> getAllAvioane() {
+    public List<InfoAvion> getAllAvioane() {
         List<Avion> entities = avionRepository.findAll();
-        return entities;
+        return convertAvionToInfoAvion(entities);
     }
 
     public InfoAvion addAvion(Avion avion)  throws DuplicateException {
@@ -44,15 +44,16 @@ public class AvionService {
             throw new DuplicateException(avion.number);
         }
         Avion entity = avionRepository.save(avion);
-        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,entity.number, entity.from, entity.to));
+        return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
-    public void removeAvion(String number) throws EntityNotFoundException  {
+    public InfoAvion removeAvion(String number) throws EntityNotFoundException  {
         Avion entity = avionRepository.findByNumber(number);
         if (entity == null) {
             throw new EntityNotFoundException(number);
         }
         avionRepository.deleteByNumber(number);
+        return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
     public InfoAvion updateAvion(String number, Avion avion) throws EntityNotFoundException  {
@@ -71,10 +72,16 @@ public class AvionService {
         }
 
         Avion newEntity= avionRepository.save(entity);
-        return new InfoAvion(counter.incrementAndGet(), String.format(avionTemplate,newEntity.number, newEntity.from, newEntity.to));
+        return new InfoAvion(String.format(avionTemplate,newEntity.number, newEntity.from, newEntity.to));
     }
 
-    public List<Avion> fetchAvionByProperty(String from, String to) {
-        return avionRepository.findAvionByProperties(from, to);
+    public List<InfoAvion> fetchAvionByProperty(String from, String to) {
+        return convertAvionToInfoAvion(avionRepository.findAvionByProperties(from, to));
+    }
+
+    public List<InfoAvion> convertAvionToInfoAvion (List<Avion> avioane){
+        List<InfoAvion> infoAvionList=new ArrayList<InfoAvion>();
+        avioane.forEach( (avion -> infoAvionList.add(new InfoAvion(String.format(avionTemplate,avion.number, avion.from, avion.to)))));
+        return infoAvionList;
     }
 }
