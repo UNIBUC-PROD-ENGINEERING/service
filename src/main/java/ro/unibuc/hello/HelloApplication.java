@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ro.unibuc.hello.data.InformationEntity;
-import ro.unibuc.hello.data.InformationRepository;
-import ro.unibuc.hello.data.MovieEntity;
-import ro.unibuc.hello.data.MovieRepository;
+import ro.unibuc.hello.data.*;
 
 import javax.annotation.PostConstruct;
 
@@ -20,22 +17,30 @@ public class HelloApplication {
 	@Autowired
 	private MovieRepository movieRepository;
 
+	@Autowired
+	private TicketRespository ticketRespository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
 
 	@PostConstruct
 	public void runAfterObjectCreated() {
-		movieRepository.deleteAll();
-		movieRepository.save(new MovieEntity("Avatar",
+
+		MovieEntity movie1 = new MovieEntity("Avatar",
 				"Jake Sully lives with his newfound family formed on the extrasolar moon Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their home.",
-				192));
-		movieRepository.save(new MovieEntity("Ford v Ferrari",
+				192);
+		MovieEntity movie2 = new MovieEntity("Ford v Ferrari",
 				"American car designer Carroll Shelby and driver Ken Miles battle corporate interference and the laws of physics to build a revolutionary race car for Ford in order to defeat Ferrari at the 24 Hours of Le Mans in 1966",
-				152));
-		movieRepository.save(new MovieEntity("Titanic",
+				152);
+		MovieEntity movie3 = new MovieEntity("Titanic",
 				"A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
-				196));
+				196);
+
+		movieRepository.deleteAll();
+		movieRepository.save(movie1);
+		movieRepository.save(movie2);
+		movieRepository.save(movie3);
 		movieRepository.save(new MovieEntity("Dunkirk",
 				"Allied soldiers from Belgium, the British Commonwealth and Empire, and France are surrounded by the German Army and evacuated during a fierce battle in World War II.",
 				106));
@@ -45,6 +50,13 @@ public class HelloApplication {
 		movieRepository.save(new MovieEntity("Bullet Train",
 				"Five assassins aboard a swiftly-moving bullet train find out that their missions have something in common."
 				,126));
+
+
+		ticketRespository.deleteAll();
+		ticketRespository.save(new TicketEntity(movie1, 10,10,2023, 19,20));
+		ticketRespository.save(new TicketEntity(movie2, 20, 4, 2023, 18,30));
+		ticketRespository.save(new TicketEntity(movie3, 3,5,2023,15,20));
+
 //		informationRepository.deleteAll();
 //		informationRepository.save(new InformationEntity("Overview",
 //				"This is an example of using a data storage engine running separately from our applications server"));
