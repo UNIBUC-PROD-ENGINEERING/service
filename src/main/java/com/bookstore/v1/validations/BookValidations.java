@@ -24,7 +24,7 @@ public class BookValidations {
         if (bookDTO.getIsbn() == null || bookDTO.getIsbn().isEmpty()) {
             throw new EmptyFieldException("isbn");
         }
-        if (bookDTO.getPublisherDate() == null || bookDTO.getPublisherDate().isEmpty()) {
+        if (bookDTO.getPublishedDate() == null) {
             throw new EmptyFieldException("publisher date");
         }
     }
