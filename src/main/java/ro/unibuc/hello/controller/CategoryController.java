@@ -23,4 +23,9 @@ public class CategoryController {
     public List<CategoryDTO> getAllCategories() {
         return categoryService.getCategories();
     }
+
+    @DeleteMapping("/deleteCategory/{id}")
+    public void deleteCategoryById(@PathVariable String id) {
+        categoryService.deleteCategoryById(id);
+    }
 }
