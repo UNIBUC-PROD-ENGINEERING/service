@@ -44,4 +44,9 @@ public class ProductController {
     public List<ProductDTO> getProductsByPriceBetween(@RequestParam Float lowerBoundPrice, @RequestParam Float upperBoundPrice) {
         return productService.getProductsByPriceBetween(lowerBoundPrice, upperBoundPrice);
     }
+
+    @DeleteMapping("/deleteProduct/{id}")
+    public void deleteProductById(@PathVariable String id) {
+        productService.deleteProductById(id);
+    }
 }
