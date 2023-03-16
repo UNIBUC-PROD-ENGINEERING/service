@@ -40,7 +40,6 @@ public class ProjectController {
        projectService.updateProjectById(id, updateProjectDto);
    }
 
-
     @RequestMapping(method = {RequestMethod.GET}, value="/{id}")
     @ResponseBody
     public ResponseEntity<?> getProject(@PathVariable("id") String id){

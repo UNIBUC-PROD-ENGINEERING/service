@@ -7,8 +7,8 @@ public class ApplicationDto {
     @Id
     public String id;
 
-    public String project_id;
-    public String user_id;
+    public String projectId;
+    public String userId;
 
     /*
      *
@@ -19,9 +19,9 @@ public class ApplicationDto {
      * */
     public Integer status;
 
-    public ApplicationDto(String project_id, String user_id, Integer status) {
-        this.project_id = project_id;
-        this.user_id = user_id;
+    public ApplicationDto(String projectId, String userId, Integer status) {
+        this.projectId = projectId;
+        this.userId = userId;
         this.status = status;
     }
 
@@ -33,20 +33,20 @@ public class ApplicationDto {
         this.id = id;
     }
 
-    public String getProject_id() {
-        return project_id;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setProject_id(String project_id) {
-        this.project_id = project_id;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String user_id) {
+        this.userId = userId;
     }
 
     public Integer getStatus() {

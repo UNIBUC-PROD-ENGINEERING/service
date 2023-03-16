@@ -1,15 +1,16 @@
 package ro.unibuc.hello.entity;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "applications")
+@Document(collection = "applicationEntity")
 public class ApplicationEntity {
 
     @Id
     public String id;
-
-    public String project_id;
-    public String user_id;
+    @Indexed
+    public String projectId;
+    public String userId;
 
     /*
     *
@@ -22,9 +23,9 @@ public class ApplicationEntity {
 
     public ApplicationEntity() {}
 
-    public ApplicationEntity(String project_id, String user_id, Integer status) {
-        this.project_id = project_id;
-        this.user_id = user_id;
+    public ApplicationEntity(String projectId, String userId, Integer status) {
+        this.projectId = projectId;
+        this.userId = userId;
         this.status = status;
     }
 
@@ -36,20 +37,20 @@ public class ApplicationEntity {
         this.id = id;
     }
 
-    public String getProject_id() {
-        return project_id;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setProject_id(String project_id) {
-        this.project_id = project_id;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Integer getStatus() {
@@ -63,8 +64,8 @@ public class ApplicationEntity {
     @Override
     public String toString() {
         return "ApplicationEntity{" +
-                "project_id='" + project_id + '\'' +
-                ", user_id='" + user_id + '\'' +
+                "projectId='" + projectId + '\'' +
+                ", userId='" + userId + '\'' +
                 ", status=" + status +
                 '}';
     }
