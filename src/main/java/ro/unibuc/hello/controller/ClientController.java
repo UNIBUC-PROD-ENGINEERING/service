@@ -10,18 +10,19 @@ import ro.unibuc.hello.dto.ClientDTO;
 import ro.unibuc.hello.service.ClientService;
 
 @RestController
+@RequestMapping("/client")
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
 
-    @GetMapping("/client/getAll")
+    @GetMapping("/get-all")
     @ResponseBody
-    public List<ClientDTO> getRestaurants() {
+    public List<ClientDTO> getClients() {
         return clientService.getClients();
     }
 
-    @GetMapping("/client/get")
+    @GetMapping("/get")
     @ResponseBody
     public ClientDTO getClient(@RequestParam(name="id") String id)
     {
@@ -29,7 +30,7 @@ public class ClientController {
     }
 
 
-    @PostMapping("/client/insert")
+    @PostMapping("/insert")
     @ResponseBody
     public ClientDTO insertClient(@RequestParam(name = "name") String name,
                                   @RequestParam(name = "address") String address,
@@ -37,7 +38,7 @@ public class ClientController {
                                   @RequestParam(name = "ordersId") List<String> ordersID) {
         return clientService.insertClient(name, address, email, ordersID);
     }
-        @PutMapping("/client/update")
+        @PutMapping("/update")
         @ResponseBody
         public ClientDTO updateClient(@RequestParam(name = "id") String id,
                 @RequestParam(name = "name") String name,
@@ -46,7 +47,7 @@ public class ClientController {
                 @RequestParam(name = "ordersId") List<String> ordersID){
             return clientService.updateClient(id,name,address,email,ordersID);
         }
-        @DeleteMapping("/client/delete")
+        @DeleteMapping("/delete")
         @ResponseBody
         public String deleteClient(@RequestParam(name = "id") String id){
         return clientService.deleteClient(id);
