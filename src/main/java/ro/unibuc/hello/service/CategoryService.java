@@ -28,6 +28,10 @@ public class CategoryService {
         return categoryDTOS;
     }
 
+    public void deleteCategoryById(String id) {
+        categoryRepository.deleteById(id);
+    }
+
     private CategoryDTO getCategoryDTOFromEntity(CategoryEntity category) {
         return CategoryDTO.builder().categoryName(category.getName()).build();
     }

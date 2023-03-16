@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends MongoRepository<CategoryEntity, String> {
     Optional<CategoryEntity> findByNameEquals(String categoryName);
+    void deleteById(String id);
 }
