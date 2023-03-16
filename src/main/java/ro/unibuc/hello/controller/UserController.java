@@ -10,9 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.unibuc.hello.dto.UserDto;
+import ro.unibuc.hello.entity.ProjectEntity;
 import ro.unibuc.hello.entity.UserEntity;
 import ro.unibuc.hello.service.UserService;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -53,7 +55,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> getUser(@PathVariable("id") String id) {
         try {
-            LOGGER.info("TasksController::: " + id);
+            LOGGER.info("UserController::GetById::" + id);
 
             UserEntity task = userService.getUser(id);
 
@@ -62,5 +64,11 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource Not Found", exc);
         }
     }
+
+    @GetMapping("/get-all")
+    public List<UserEntity> getAllProjects() {
+        return userService.getAllUsers();
+    }
+
 }
 
