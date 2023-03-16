@@ -1,12 +1,9 @@
 package ro.unibuc.hello.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.dto.CategoryDTO;
-import ro.unibuc.hello.dto.ProductDTO;
 import ro.unibuc.hello.entity.CategoryEntity;
-import ro.unibuc.hello.entity.ProductEntity;
 import ro.unibuc.hello.repository.CategoryRepository;
 
 
@@ -20,21 +17,24 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public void addCategory(CategoryDTO categoryDTO) {
-        CategoryEntity categoryEntity = getMockCategory();
+        CategoryEntity categoryEntity = getCategoryEntityFromDTO(categoryDTO);
         categoryRepository.save(categoryEntity);
     }
 
-    private CategoryEntity getMockCategory() {
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setName("Tilifoane");
-        return categoryEntity;
-    }
     public List<CategoryDTO> getCategories() {
-        List<CategoryEntity> categories = categoryRepository.findAll();
-        List<CategoryDTO> categoriesDto = new ArrayList<>();
-        categories.forEach(category -> {
-            categoriesDto.add(CategoryDTO.builder().categoryName(category.getName()).build());
-        });
-        return categoriesDto;
+        List<CategoryEntity> categoryEntities = categoryRepository.findAll();
+        List<CategoryDTO> categoryDTOS = new ArrayList<>();
+        categoryEntities.forEach(categoryEntity -> categoryDTOS.add(getCategoryDTOFromEntity(categoryEntity)));
+        return categoryDTOS;
+    }
+
+    private CategoryDTO getCategoryDTOFromEntity(CategoryEntity category) {
+        return CategoryDTO.builder().categoryName(category.getName()).build();
+    }
+
+    private CategoryEntity getCategoryEntityFromDTO(CategoryDTO categoryDTO) {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setName(categoryDTO.getCategoryName());
+        return categoryEntity;
     }
 }
