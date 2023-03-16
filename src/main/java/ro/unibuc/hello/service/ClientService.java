@@ -14,6 +14,8 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class ClientService {
@@ -24,10 +26,13 @@ public class ClientService {
     private OrderRepository orderRepository;
 
     public List<ClientDTO> getClients() {
-        ArrayList<ClientDTO> clientDTOS = new ArrayList<>();
-        clientRepository.findAll().forEach(clientEntity -> clientDTOS.add(new ClientDTO(clientEntity)));
-        return clientDTOS;
+        return clientRepository
+                .findAll()
+                .stream()
+                .map(client -> new ClientDTO(client))
+                .collect(Collectors.toList());
     }
+
 
     public ClientDTO getClient(String id) {
         ClientEntity client = clientRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);

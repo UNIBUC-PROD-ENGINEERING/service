@@ -1,18 +1,17 @@
 package ro.unibuc.hello.dto;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import ro.unibuc.hello.data.ClientEntity;
 
 
 import java.util.Objects;
 
 public class ClientDTO {
-    @Id
     private String id;
-
     private String name;
     private String email;
     private String address;
+
+    public ClientDTO() {}
 
     public ClientDTO(ClientEntity client){
         id = client.getId();
