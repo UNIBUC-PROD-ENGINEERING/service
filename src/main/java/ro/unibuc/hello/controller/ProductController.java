@@ -24,4 +24,24 @@ public class ProductController {
     public List<ProductDTO> getAllProducts() {
         return productService.getProducts();
     }
+
+    @GetMapping("/{productId}")
+    public ProductDTO getProductById(@PathVariable String productId) throws EntityNotFoundException {
+        return productService.getProductById(productId);
+    }
+
+    @GetMapping("/filterByNameContains")
+    public List<ProductDTO> getProductsByNameContains(@RequestParam String name) {
+        return productService.getProductsByNameContains(name);
+    }
+
+    @GetMapping("/filterByCategory")
+    public List<ProductDTO> getProductsByCategory(@RequestParam String categoryName) {
+        return productService.getProductsByCategory(categoryName);
+    }
+
+    @GetMapping("/filterByPriceBetween")
+    public List<ProductDTO> getProductsByPriceBetween(@RequestParam Float lowerBoundPrice, @RequestParam Float upperBoundPrice) {
+        return productService.getProductsByPriceBetween(lowerBoundPrice, upperBoundPrice);
+    }
 }
