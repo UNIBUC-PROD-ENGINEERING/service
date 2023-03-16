@@ -16,5 +16,5 @@ public class ProductDTO implements Serializable {
     private float price;
     private String brandName;
     private Long stock;
-    private CategoryDTO categoryDTO;
+    private CategoryDTO category;
 }

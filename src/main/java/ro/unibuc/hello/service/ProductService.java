@@ -1,16 +1,18 @@
 package ro.unibuc.hello.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.dto.CategoryDTO;
 import ro.unibuc.hello.dto.ProductDTO;
 import ro.unibuc.hello.entity.CategoryEntity;
 import ro.unibuc.hello.entity.ProductEntity;
+import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.repository.CategoryRepository;
 import ro.unibuc.hello.repository.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -18,34 +20,45 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public void addProduct(ProductDTO productDTO) {
-        ProductEntity productEntity = getMockProduct();
-        productRepository.save(productEntity);
+    private final CategoryRepository categoryRepository;
+
+    public void addProduct(ProductDTO productDTO) throws EntityNotFoundException{
+        String productName = productDTO.getCategory().getCategoryName();
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByNameEquals(productName);
+        if (categoryOptional.isEmpty()) {
+            throw new EntityNotFoundException(productName);
+        } else {
+            CategoryEntity categoryEntity = categoryOptional.get();
+            ProductEntity productEntity = getProductEntityFromDTO(productDTO);
+            productEntity.setCategory(categoryEntity);
+            productRepository.save(productEntity);
+        }
     }
 
     public List<ProductDTO> getProducts() {
-        List<ProductEntity> products = productRepository.findAll();
-        List<ProductDTO> productsDto = new ArrayList<>();
-        products.forEach(product -> {
-            productsDto.add(ProductDTO.builder().productName(product.getProductName())
-                    .productDescription(product.getProductDescription())
-                    .brandName(product.getBrandName())
-                    .price(product.getPrice())
-                    //.categoryDTO(CategoryDTO.builder().categoryName(product.getCategory().getName()).build())
-                    .stock(product.getStock()).build());
-        });
-        return productsDto;
+        List<ProductEntity> productEntities = productRepository.findAll();
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        productEntities.forEach(product -> productDTOS.add(getProductDTOFromEntity(product)));
+        return productDTOS;
     }
 
-    private ProductEntity getMockProduct() {
+    private ProductDTO getProductDTOFromEntity(ProductEntity product) {
+        return ProductDTO.builder().productName(product.getProductName())
+                .productDescription(product.getProductDescription())
+                .brandName(product.getBrandName())
+                .price(product.getPrice())
+                .category(CategoryDTO.builder().categoryName(product.getCategory().getName()).build())
+                .stock(product.getStock()).build();
+    }
+
+    private ProductEntity getProductEntityFromDTO(ProductDTO productDTO) {
         ProductEntity productEntity = new ProductEntity();
-        productEntity.setProductName("Telefon Smasone 2300");
-        productEntity.setId("mama");
-        productEntity.setProductDescription("cel mai bun tlf face de mancare");
-        productEntity.setPrice(10000.0F);
-        productEntity.setBrandName("SAMSONE");
-        productEntity.setStock(20L);
-        productEntity.setCategory(new CategoryEntity("miau", "nume"));
+        productEntity.setProductName(productDTO.getProductName());
+        productEntity.setProductDescription(productDTO.getProductDescription());
+        productEntity.setPrice(productDTO.getPrice());
+        productEntity.setBrandName(productDTO.getBrandName());
+        productEntity.setStock(productDTO.getStock());
+        productEntity.setCategory(new CategoryEntity(productDTO.getCategory().getCategoryName()));
         return productEntity;
     }
 
