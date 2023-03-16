@@ -35,6 +35,42 @@ public class ProductService {
         }
     }
 
+    public ProductDTO getProductById(String productId) throws EntityNotFoundException {
+        Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
+        if (productEntityOptional.isEmpty()) {
+            throw new EntityNotFoundException(productId);
+        } else {
+            ProductEntity productEntity = productEntityOptional.get();
+            return getProductDTOFromEntity(productEntity);
+        }
+    }
+
+    public List<ProductDTO> getProductsByNameContains(String name) {
+        List<ProductEntity> productEntities = productRepository.findByProductNameContainsIgnoreCase(name);
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        productEntities.forEach(product -> productDTOS.add(getProductDTOFromEntity(product)));
+        return productDTOS;
+    }
+
+    public List<ProductDTO> getProductsByCategory(String categoryName) {
+        List<ProductEntity> productEntities = productRepository.findAll();
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        productEntities.forEach(productEntity -> {
+            if (productEntity.getCategory().getName().equals(categoryName)) {
+                productDTOS.add(getProductDTOFromEntity(productEntity));
+            }
+        });
+        return productDTOS;
+    }
+
+    public List<ProductDTO> getProductsByPriceBetween(Float lowerBoundPrice, Float upperBoundPrice) {
+        List<ProductEntity> productEntities =
+                productRepository.findByPriceBetween(lowerBoundPrice, upperBoundPrice);
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        productEntities.forEach(product -> productDTOS.add(getProductDTOFromEntity(product)));
+        return productDTOS;
+    }
+
     public List<ProductDTO> getProducts() {
         List<ProductEntity> productEntities = productRepository.findAll();
         List<ProductDTO> productDTOS = new ArrayList<>();
