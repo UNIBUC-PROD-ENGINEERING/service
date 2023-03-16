@@ -3,7 +3,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import ro.unibuc.hello.data.RestaurantEntity;
 public class RestaurantDTO {
-    @Id
+
     private String id;
 
     private String name;
@@ -16,6 +16,8 @@ public class RestaurantDTO {
         email = restaurant.getEmail();
         address = restaurant.getAddress();
     }
+    public RestaurantDTO(){}
+
     public String getId() {
         return id;
     }

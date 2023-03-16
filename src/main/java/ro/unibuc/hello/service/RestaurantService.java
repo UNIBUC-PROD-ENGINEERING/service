@@ -8,6 +8,8 @@ import ro.unibuc.hello.dto.RestaurantDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class RestaurantService {
@@ -19,10 +21,12 @@ public class RestaurantService {
     private OrderRepository orderRepository;
 
     public List<RestaurantDTO> getRestaurants() {
-        ArrayList<RestaurantDTO> restaurantDTOs = new ArrayList<>();
 
-        restaurantRepository.findAll().forEach(restaurantEntity -> restaurantDTOs.add(new RestaurantDTO(restaurantEntity)));
-        return restaurantDTOs;
+        return  restaurantRepository
+                .findAll()
+                .stream()
+                .map(restaurant -> new RestaurantDTO(restaurant))
+                .collect(Collectors.toList());
     }
 
     public RestaurantDTO getRestaurant(String id) {
