@@ -13,4 +13,7 @@ public interface ProductRepository extends MongoRepository<ProductEntity, String
     Optional<ProductEntity> findById(String id);
     List<ProductEntity> findByProductNameContainsIgnoreCase(String name);
     List<ProductEntity> findByPriceBetween(Float lower, Float upper);
+    void deleteById(String id);
 }
+
+

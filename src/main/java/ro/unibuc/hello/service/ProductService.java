@@ -2,6 +2,7 @@ package ro.unibuc.hello.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import ro.unibuc.hello.dto.CategoryDTO;
 import ro.unibuc.hello.dto.ProductDTO;
 import ro.unibuc.hello.entity.CategoryEntity;
@@ -76,6 +77,10 @@ public class ProductService {
         List<ProductDTO> productDTOS = new ArrayList<>();
         productEntities.forEach(product -> productDTOS.add(getProductDTOFromEntity(product)));
         return productDTOS;
+    }
+
+    public void deleteProductById(String id) {
+        productRepository.deleteById(id);
     }
 
     private ProductDTO getProductDTOFromEntity(ProductEntity product) {
