@@ -88,13 +88,13 @@ public class CarService {
 
     }
 
-    public List<CarsDTO>  filterCarsByCarTypeFilterCarsByCarType(String carType){
+    public List<CarsDTO>  filterCarsByCarType(String carType){
         List<CarEntity> cars = carRepository.findAll();
         List<CarsDTO> carsMapped = new ArrayList<> ();
 
-        for(int i = 0; i < cars.size(); i++){
-            if (Objects.equals(cars.get(i).getCarType(), carType)) {
-                carsMapped.add(new CarsDTO(cars.get(i)));
+        for (var car : cars) {
+            if (Objects.equals(car.getCarType(), carType)){
+                carsMapped.add(new CarsDTO((car)));
             }
         }
 

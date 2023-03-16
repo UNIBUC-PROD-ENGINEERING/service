@@ -59,7 +59,7 @@ public class CarController {
     @GetMapping("/car/filterByCarType")
     @ResponseBody
     public List<CarsDTO> filterCarsByCarType(@RequestParam(name = "carType") String carType){
-        return carService.filterCarsByCarTypeFilterCarsByCarType(carType);
+        return carService.filterCarsByCarType(carType);
     }
 
     @GetMapping("/car/orderAscendingByCarPrice")
