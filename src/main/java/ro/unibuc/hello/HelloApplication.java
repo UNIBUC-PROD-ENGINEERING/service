@@ -162,10 +162,10 @@ public class HelloApplication {
 		restaurant4.setOrders(ordersForRestaurant4);
 
 
-		restaurant2 = restaurantRepository.save(new RestaurantEntity(restaurant2.getName(), restaurant2.getEmail(), restaurant2.getAddress(), restaurant2.getOrders()));
-		restaurant3 = restaurantRepository.save(new RestaurantEntity(restaurant3.getName(), restaurant3.getEmail(), restaurant3.getAddress(), restaurant3.getOrders()));
-		restaurant4 = restaurantRepository.save(new RestaurantEntity(restaurant4.getName(), restaurant4.getEmail(), restaurant4.getAddress(), restaurant4.getOrders()));
-		restaurant1 = restaurantRepository.save(new RestaurantEntity(restaurant1.getName(), restaurant1.getEmail(), restaurant1.getAddress(), restaurant1.getOrders()));
+		restaurant2 = restaurantRepository.save(restaurant2);
+		restaurant3 = restaurantRepository.save(restaurant3);
+		restaurant4 = restaurantRepository.save(restaurant4);
+		restaurant1 = restaurantRepository.save(restaurant1);
 
 		ArrayList<DishesEntity> menu1_dishes = new ArrayList<>(Arrays.asList(dish1, dish2, dish3, dish4, dish5));
 		MenuEntity menu1 = new MenuEntity(restaurant1, menu1_dishes);
