@@ -31,11 +31,11 @@ public class StudentController {
     public Student editStudent(@RequestParam(name="id") String id, @RequestParam(name="name") String name, @RequestParam(name="email") String email, @RequestParam(name="age") int age) {
         Student student = studentRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
         if(student != null) {
-            if(student != null)
+            if(name != null)
                 student.setName(name);
-            if(author != null)
+            if(email != null)
                 student.setEmail(email);
-            if(genre != null)
+            if(age)
                 student.setAge(age);
             return studentRepository.save(student);
         } else

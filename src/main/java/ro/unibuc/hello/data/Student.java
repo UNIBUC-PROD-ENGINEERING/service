@@ -30,7 +30,7 @@ public class Student {
         this.email = email;
     }
 
-    public void setId(int age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
