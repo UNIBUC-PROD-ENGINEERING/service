@@ -16,6 +16,8 @@ public class MenuEntity {
     @DBRef(lazy = true)
     private ArrayList<DishesEntity> dishes;
 
+    public MenuEntity() {}
+
     public MenuEntity(RestaurantEntity restaurant, ArrayList<DishesEntity> dishes) {
         this.restaurant = restaurant;
         this.dishes = dishes;
