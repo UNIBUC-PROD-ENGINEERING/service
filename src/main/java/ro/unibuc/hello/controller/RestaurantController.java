@@ -11,6 +11,7 @@ import ro.unibuc.hello.dto.RestaurantDTO;
 import ro.unibuc.hello.service.RestaurantService;
 
 @RestController
+@RequestMapping("/restaurant")
 public class RestaurantController {
 
     @Autowired
