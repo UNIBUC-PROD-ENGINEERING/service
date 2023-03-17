@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 public class CarController {
     @Autowired
-    public CarService carService;
+    private CarService carService;
 
 
     @GetMapping("/car/getAll")

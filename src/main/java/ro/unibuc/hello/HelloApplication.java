@@ -21,6 +21,9 @@ public class HelloApplication {
 	@Autowired
 	private CarRepository carRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
@@ -39,6 +42,11 @@ public class HelloApplication {
 		carRepository.save(new CarEntity( "Dacia", "SUV", 2022, "Euro6",15000));
 		carRepository.save(new CarEntity( "Dacia", "Sedan", 2022, "Euro6",10000));
 
+		userRepository.deleteAll();
+		userRepository.save(new UserEntity("Mary", "Johnson", "mary", "admin"));
+		userRepository.save(new UserEntity("Anne", "Johnson", "anny", "admin"));
+		userRepository.save(new UserEntity("Jon", "Mark","jonny", "admin"));
+		userRepository.save(new UserEntity("Danny", "Moore", "dan","admin"));
 
 	}
 
