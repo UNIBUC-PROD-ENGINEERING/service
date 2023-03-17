@@ -23,7 +23,7 @@ public class StudentController {
     @PostMapping("/student/create")
     @ResponseBody
     public Student createStudent(@RequestParam(name="name") String name, @RequestParam(name="email") String email, @RequestParam(name="age") int age) {
-        return studentRepository.save(new Student(name, email, age));
+        return studentRepository.save(new Student(name, email, age));}
 
 
     @PutMapping("/student/edit")
