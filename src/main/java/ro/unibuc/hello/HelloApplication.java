@@ -1,5 +1,7 @@
 package ro.unibuc.hello;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,7 +33,7 @@ public class HelloApplication {
 		informationRepository.save(new InformationEntity("Overview",
 				"This is an example of using a data storage engine running separately from our applications server"));
 
-		mockDbService.mockDatabase();
+		mockDbService.checkDatabase();
 	}
 
 }
