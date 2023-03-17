@@ -4,10 +4,13 @@ import  org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 import  ro.unibuc.hello.data.*;
+import ro.unibuc.hello.dto.ClientDTO;
 import ro.unibuc.hello.dto.OrderDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class OrderService {
     @Autowired
@@ -23,11 +26,11 @@ public class OrderService {
     private DishesRepository dishesRepository;
 
     public List<OrderDTO> getOrders() {
-        ArrayList<OrderDTO> orderDTOs = new ArrayList<>();
-
-        orderRepository.findAll().forEach(orderEntity -> orderDTOs.add(new OrderDTO(orderEntity)));
-
-        return orderDTOs;
+        return orderRepository
+                .findAll()
+                .stream()
+                .map(order -> new OrderDTO(order))
+                .collect(Collectors.toList());
     }
 
     public OrderDTO getOrder(String id) {
@@ -61,7 +64,7 @@ public class OrderService {
         return new OrderDTO(order);
     }
 
-    public OrderDTO updateOrder(String orderId, String restaurantId, String clientId, ArrayList<String> dishesId) {
+    public OrderDTO updateOrder(String orderId, String restaurantId, String clientId, List<String> dishesId) {
         OrderEntity order = orderRepository.findById(String.valueOf(new ObjectId(orderId))).orElse(null);
         if (order != null) {
             ClientEntity client = clientRepository.findById(String.valueOf(new ObjectId(clientId))).orElse(null);
