@@ -35,7 +35,7 @@ public class StudentController {
                 student.setName(name);
             if(email != null)
                 student.setEmail(email);
-            if(age)
+            if(age>0)
                 student.setAge(age);
             return studentRepository.save(student);
         } else
