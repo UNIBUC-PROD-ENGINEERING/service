@@ -19,9 +19,28 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
+
+    @PutMapping("/student/edit")
+    @ResponseBody
+    public Student editStudent(@RequestParam(name="id") String id, @RequestParam(name="name") String name, @RequestParam(name="email") String email, @RequestParam(name="age") int age) {
+        Student student = studentRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
+        if(student != null) {
+            if(student != null)
+                student.setName(name);
+            if(author != null)
+                student.setEmail(email);
+            if(genre != null)
+                student.setAge(age);
+            return studentRepository.save(student);
+        } else
+            return  null;
+    }
+
+
     @DeleteMapping("/student/delete")
     @ResponseBody
     public void deleteStudent(@RequestParam(name="id") String id) {
         studentRepository.deleteById(String.valueOf(new ObjectId(id)));
     }
+
 }
