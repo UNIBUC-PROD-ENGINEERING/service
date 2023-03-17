@@ -5,11 +5,11 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import ro.unibuc.hello.data.ClientEntity;
 import ro.unibuc.hello.data.RestaurantEntity;
 import ro.unibuc.hello.data.OrderEntity;
-
+import ro.unibuc.hello.data.*;
+import java.util.*;
 import java.util.Arrays;
 
 public class OrderDTO {
-    @Id
     private String id;
 
     @DBRef(lazy = true)
@@ -18,16 +18,21 @@ public class OrderDTO {
     @DBRef(lazy = true)
     private RestaurantDTO restaurant;
 
+    @DBRef(lazy = true)
+    private List<DishesDTO> dishes;
+    public OrderDTO() {}
     public OrderDTO(OrderEntity order) {
         id = order.getId();
-        RestaurantDTO restaurantDTO = new RestaurantDTO(order.getRestaurant());
-        ClientDTO clientDTO = new ClientDTO(order.getClient());
-        if (restaurant != null) {
-            restaurant = restaurantDTO;
+        restaurant =  new RestaurantDTO(order.getRestaurant());
+        user = new ClientDTO(order.getClient());
+        List<DishesEntity> dishesEntitties = order.getDishes();
+        List<DishesDTO> dishesDTOs = new ArrayList<DishesDTO>();
+        for(int i = 0; i<dishesEntitties.size(); i++){
+            DishesDTO  dishDTO = new DishesDTO(dishesEntitties.get(i));
+            dishesDTOs.add(dishDTO);
         }
-        if (user != null) {
-            user = clientDTO;
-        }
+        dishes = dishesDTOs;
+
     }
 
         public String getId() {

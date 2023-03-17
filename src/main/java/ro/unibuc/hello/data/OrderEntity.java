@@ -26,6 +26,17 @@ public class OrderEntity {
         this.dishes = dishes;
     }
 
+    public OrderEntity(String id,ClientEntity user, RestaurantEntity restaurant, ArrayList<DishesEntity> dishes) {
+        this.id = id;
+        this.user = user;
+        this.restaurant = restaurant;
+        this.dishes = dishes;
+    }
+
+
+    public OrderEntity() {}
+
+
     public String getId() {
         return id;
     }
@@ -62,6 +73,8 @@ public class OrderEntity {
     public ClientEntity getClient(){
         return this.user;
     }
+
+
 
     @Override
     public String toString() {
