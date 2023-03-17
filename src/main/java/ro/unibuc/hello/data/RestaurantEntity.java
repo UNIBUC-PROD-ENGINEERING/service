@@ -17,7 +17,11 @@ public class RestaurantEntity {
     @DBRef(lazy = true)
     private ArrayList<OrderEntity> orders;
 
-
+    public RestaurantEntity(String name, String email, String address) {
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
 
     public RestaurantEntity(String name, String email, String address, ArrayList<OrderEntity> orders) {
         this.name = name;

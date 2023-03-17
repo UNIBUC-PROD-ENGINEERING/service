@@ -16,7 +16,7 @@ public class RestaurantDTO {
         email = restaurant.getEmail();
         address = restaurant.getAddress();
     }
-    public RestaurantDTO(){}
+    public RestaurantDTO() {}
 
     public String getId() {
         return id;
