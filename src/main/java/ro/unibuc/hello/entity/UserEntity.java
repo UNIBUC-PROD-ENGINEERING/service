@@ -27,7 +27,7 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String password;
-    @Indexed
+    @Indexed(unique = true)
     private String email;
 
     public String getId() {
