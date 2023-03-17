@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ro.unibuc.hello.data.InformationEntity;
-import ro.unibuc.hello.data.InformationRepository;
-import ro.unibuc.hello.data.MedicamentEntity;
-import ro.unibuc.hello.data.MedicamentRepository;
+import ro.unibuc.hello.data.*;
+import ro.unibuc.hello.dto.Customer;
 import ro.unibuc.hello.dto.Medicament;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +20,8 @@ public class HelloApplication {
 	private InformationRepository informationRepository;
 	@Autowired
 	private MedicamentRepository medicamentRepository;
+	@Autowired
+	private CustomerRepository customerRepository;
 
 
 	public static void main(String[] args) {
@@ -36,6 +36,9 @@ public class HelloApplication {
 				);
 		medicamentRepository.deleteAll();
 		medicamentRepository.save(new MedicamentEntity("Medicamente",new ArrayList<Medicament>()));
+
+		customerRepository.deleteAll();
+		customerRepository.save(new CustomerEntity("Customers", new ArrayList<Customer>()));
 
 	}
 
