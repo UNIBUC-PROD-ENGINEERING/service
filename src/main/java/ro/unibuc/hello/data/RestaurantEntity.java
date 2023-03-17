@@ -31,12 +31,14 @@ public class RestaurantEntity {
     }
 
     public RestaurantEntity(){}
-    public RestaurantEntity(String id, String name, String email, String address) {
+    public RestaurantEntity(String id, String name, String email, String address, ArrayList<OrderEntity> orders) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.address = address;
     }
+
+
 
     public String getId() {
         return id;
