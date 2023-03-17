@@ -101,6 +101,19 @@ public class CarService {
         return carsMapped;
     }
 
+    public List<CarsDTO>  filterCarsByCarPrice(int carPrice){
+        List<CarEntity> cars = carRepository.findAll();
+        List<CarsDTO> carsMapped = new ArrayList<> ();
+
+        for (var car : cars) {
+            if (car.getCarPrice() >= carPrice){
+                carsMapped.add(new CarsDTO((car)));
+            }
+        }
+
+        return carsMapped;
+    }
+
 
 
 }

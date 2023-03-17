@@ -62,11 +62,19 @@ public class CarController {
         return carService.filterCarsByCarType(carType);
     }
 
+    @GetMapping("/car/filterByCarPrice")
+    @ResponseBody
+    public List<CarsDTO> filterCarsByCarType(@RequestParam(name = "carPrice") int carPrice){
+        return carService.filterCarsByCarPrice(carPrice);
+    }
+
     @GetMapping("/car/orderAscendingByCarPrice")
     @ResponseBody
     public List<CarsDTO> orderCarsAscendingByCarPrice(){
         return carService.OrderCarsByPriceAscending();
     }
+
+
 
 
 }
