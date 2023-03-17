@@ -34,7 +34,7 @@ public class UserService {
         if (user == null)
             throw new EntityNotFoundException(id);
         else
-            return new UserDTO(user.firstName, user.lastName);
+            return new UserDTO(id, user.getFirstName(), user.getLastName());
 
     }
 

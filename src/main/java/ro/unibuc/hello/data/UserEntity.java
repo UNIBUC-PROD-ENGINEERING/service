@@ -24,7 +24,7 @@ public class UserEntity {
     }
 
     public String getName(){
-        return String.format("firstName='%s', lastName='%s']", firstName, lastName);
+        return String.format("firstName='%s', lastName='%s'", firstName, lastName);
     }
     public void setUserName(String userName){
         this.userName = userName;

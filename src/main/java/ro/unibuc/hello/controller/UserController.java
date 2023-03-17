@@ -25,8 +25,9 @@ public class UserController {
 
     @GetMapping("/user/get")
     @ResponseBody
-    public UserDTO getCar(@RequestParam(name="userId") String id) {
-        return userService.getUserById(id);
+    public UserDTO getUserById(@RequestParam(name="id") String id) {
+        UserDTO userDTO = userService.getUserById(id);
+        return userDTO;
     }
 
     @PostMapping("/user/register")
@@ -48,7 +49,7 @@ public class UserController {
 
     @DeleteMapping("/user/delete")
     @ResponseBody
-    public void deleteUser(@RequestParam(name="carId") String id) {
+    public void deleteUser(@RequestParam(name="id") String id) {
         userService.deleteUserById(id);
     }
 }
