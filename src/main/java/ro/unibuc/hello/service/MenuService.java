@@ -18,6 +18,8 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class MenuService {
@@ -32,10 +34,11 @@ public class MenuService {
     private DishesRepository dishesRepository;
 
     public List<MenuDTO> getMenus() {
-        ArrayList<MenuDTO> menus = new ArrayList<>();
-
-        menuRepository.findAll().forEach(menuEntity -> menus.add(new MenuDTO(menuEntity)));
-        return menus;
+        return menuRepository
+                .findAll()
+                .stream()
+                .map(menu -> new MenuDTO(menu))
+                .collect(Collectors.toList());
     }
 
     public MenuDTO getMenu(String id) {
