@@ -23,14 +23,34 @@ public class ProductService {
         List<ProductDTO> products = new ArrayList<>();
         for (ProductEntity productEntity : productEntities) {
 
-            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription()));
+            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory()));
         }
 
         return products;
     }
 
-    public void uploadProduct(ProductDTO productDTO){
-        productRepository.save(new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription()));
+    public boolean uploadProduct(ProductDTO productDTO){
+        try{
+            productRepository.save(new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory()));
+        }catch(Exception e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
+
+    public List<ProductDTO> findAllProducts(){
+        List<ProductEntity> productEntities =  productRepository.findAll();
+        if(productEntities == null){
+            throw new EntityNotFoundException("Cant find products");
+        }
+        List<ProductDTO> products = new ArrayList<>();
+        for (ProductEntity productEntity : productEntities) {
+
+            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory()));
+        }
+
+        return products;
     }
 
 }

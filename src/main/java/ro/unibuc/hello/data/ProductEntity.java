@@ -3,21 +3,33 @@ package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.Random;
+
 public class ProductEntity {
     @Id
-    private long id;
+    private long id = new Random().nextLong();
     private String name;
     private int quantity;
     private String description;
+    private String category;
 
     public ProductEntity() {
     }
 
-    public ProductEntity(long id, String name, int quantity, String description) {
+    public ProductEntity(long id, String name, int quantity, String description, String category) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public long getId() {
