@@ -20,16 +20,17 @@ public class MenuDTO {
     public MenuDTO(MenuEntity menu){
         id = menu.getId();
 
-//        List<DishesEntity> dishesEntities = menu.getDishes();
-//
-//        List<DishesDTO> dishesDTOs = new ArrayList<DishesDTO>();
-//        for(int i = 0; i < dishesEntities.size(); i++) {
-//            DishesDTO dishDTO = new DishesDTO(dishesEntities.get(i));
-//
-//            dishesDTOs.add(dishDTO);
-//        }
-//
-//        dishes = dishesDTOs;
+        restaurant = new RestaurantDTO(menu.getRestaurant());
+        List<DishesEntity> dishesEntities = menu.getDishes();
+
+        List<DishesDTO> dishesDTOs = new ArrayList<DishesDTO>();
+        for(int i = 0; i < dishesEntities.size(); i++) {
+            DishesDTO dishDTO = new DishesDTO(dishesEntities.get(i));
+
+            dishesDTOs.add(dishDTO);
+        }
+
+        dishes = dishesDTOs;
     }
 
     public String getId() {
