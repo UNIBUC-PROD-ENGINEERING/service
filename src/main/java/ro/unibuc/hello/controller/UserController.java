@@ -1,5 +1,6 @@
 package ro.unibuc.hello.controller;
 
+import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import ro.unibuc.hello.dto.UserDto;
 import ro.unibuc.hello.entity.ProjectEntity;
@@ -33,11 +35,16 @@ public class UserController {
     @PostMapping(path = "/register")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
 
-        LOGGER.info("RegisterController: " + userDto);
+        LOGGER.info("RegisterController::TryingToRegisterNewUser");
 
-        UserEntity user = userService.saveUser(userDto);
-
-        return ResponseEntity.ok(user);
+        try {
+            UserEntity user = userService.saveUser(userDto);
+            LOGGER.info("RegisterController::UserRegisterSuccess::" + user.getId());
+            return ResponseEntity.ok(user);
+        } catch (DuplicateKeyException isexc) {
+            LOGGER.info("RegisterController::UserRegisterFail::EmailExistent::");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+        }
     }
 
     @PostMapping(path = "/login")
