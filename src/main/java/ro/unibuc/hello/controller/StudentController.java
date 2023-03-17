@@ -20,6 +20,12 @@ public class StudentController {
     private StudentRepository studentRepository;
 
 
+    @PostMapping("/student/create")
+    @ResponseBody
+    public Student createStudent(@RequestParam(name="name") String name, @RequestParam(name="email") String email, @RequestParam(name="age") int age) {
+        return studentRepository.save(new Student(name, email, age));
+
+
     @PutMapping("/student/edit")
     @ResponseBody
     public Student editStudent(@RequestParam(name="id") String id, @RequestParam(name="name") String name, @RequestParam(name="email") String email, @RequestParam(name="age") int age) {
@@ -41,6 +47,7 @@ public class StudentController {
     @ResponseBody
     public void deleteStudent(@RequestParam(name="id") String id) {
         studentRepository.deleteById(String.valueOf(new ObjectId(id)));
+
     }
 
 }
