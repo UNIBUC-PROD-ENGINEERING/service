@@ -28,6 +28,9 @@ public class CarService {
 		return carsRepository.save(car);
 	}
 
+	public List<Car> findAllByValabilitateParcareIsLessThan60() {
+		return carsRepository.findAllByValabilitateParcareIsLessThan60();
+	}
 //	public List<Car> findAllByValabilitateParcareDesc() {
 //		return carsRepository.findAllByValabilitateParcareDesc();
 //	}
