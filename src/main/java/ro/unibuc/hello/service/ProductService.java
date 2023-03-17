@@ -2,7 +2,6 @@ package ro.unibuc.hello.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 import ro.unibuc.hello.dto.CategoryDTO;
 import ro.unibuc.hello.dto.ProductDTO;
 import ro.unibuc.hello.entity.CategoryEntity;
@@ -23,7 +22,7 @@ public class ProductService {
 
     private final CategoryRepository categoryRepository;
 
-    public void addProduct(ProductDTO productDTO) throws EntityNotFoundException{
+    public void addProduct(ProductDTO productDTO) throws EntityNotFoundException {
         String productName = productDTO.getCategory().getCategoryName();
         Optional<CategoryEntity> categoryOptional = categoryRepository.findByNameEquals(productName);
         if (categoryOptional.isEmpty()) {
@@ -33,6 +32,24 @@ public class ProductService {
             ProductEntity productEntity = getProductEntityFromDTO(productDTO);
             productEntity.setCategory(categoryEntity);
             productRepository.save(productEntity);
+        }
+    }
+
+    public void editProduct(ProductDTO productDTO) throws EntityNotFoundException {
+        Optional<ProductEntity> productEntityOptional = productRepository.findById(productDTO.getProductId());
+        if (productEntityOptional.isEmpty()) {
+            throw new EntityNotFoundException(productDTO.getProductId());
+        } else {
+            Optional<CategoryEntity> categoryOptional = categoryRepository.findByNameEquals(productDTO.getCategory().getCategoryName());
+            if (categoryOptional.isEmpty()) {
+                throw new EntityNotFoundException(productDTO.getCategory().getCategoryName());
+            } else {
+                CategoryEntity categoryEntity = categoryOptional.get();
+                ProductEntity newProductEntity = getProductEntityFromDTO(productDTO);
+                newProductEntity.setId(productDTO.getProductId());
+                newProductEntity.setCategory(categoryEntity);
+                productRepository.save(newProductEntity);
+            }
         }
     }
 
@@ -84,7 +101,9 @@ public class ProductService {
     }
 
     private ProductDTO getProductDTOFromEntity(ProductEntity product) {
-        return ProductDTO.builder().productName(product.getProductName())
+        return ProductDTO.builder()
+                .productId(product.getId())
+                .productName(product.getProductName())
                 .productDescription(product.getProductDescription())
                 .brandName(product.getBrandName())
                 .price(product.getPrice())

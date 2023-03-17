@@ -20,6 +20,11 @@ public class ProductController {
         productService.addProduct(productDTO);
     }
 
+    @PutMapping("/editProduct")
+    public void editProduct(@RequestBody ProductDTO productDTO) throws EntityNotFoundException {
+        productService.editProduct(productDTO);
+    }
+
     @GetMapping("/getProducts")
     public List<ProductDTO> getAllProducts() {
         return productService.getProducts();
