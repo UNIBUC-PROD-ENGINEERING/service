@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.exception.EntityNotFoundException;
-
+import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,27 +62,27 @@ public class CinemaService{
         return new CinemaDTO(newCinema);
     }
 
-    public CinemaDTO getCinemaByName(String name)throws EntityNotFoundException{
-        Optional <Cinema> cinema = cinemaRepository.findByName(name);
+    public ResponseEntity <Cinema> getCinemaByName(String name)throws EntityNotFoundException{
+        Cinema cinema = cinemaRepository.findByName(name).orElse(null);
         
-        if (cinema.isEmpty()){
+        if (cinema == null){
             throw new EntityNotFoundException("cinema");
 
         }
 
-        return new CinemaDTO(cinema.get());
+        return ResponseEntity.ok().body(cinema);
 
     }
 
-    public CinemaDTO getCinemaByCity(String city)throws EntityNotFoundException{
-        Optional <Cinema> cinema = cinemaRepository.findByCity(city);
+    public ResponseEntity <Cinema> getCinemaByCity(String city)throws EntityNotFoundException{
+        Cinema cinema = cinemaRepository.findByCity(city).orElse(null);
         
-        if (cinema.isEmpty()){
+        if (cinema == null){
             throw new EntityNotFoundException("cinema");
 
         }
 
-        return new CinemaDTO(cinema.get());
+        return ResponseEntity.ok().body(cinema);
 
     }
 }
