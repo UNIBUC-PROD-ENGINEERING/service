@@ -47,6 +47,32 @@ public class MedicamentService {
         medicamentRepository.save(entity);
     }
 
+    public void editMedicament(String db, String name, String[] ingredients, long id){
+
+        MedicamentEntity entity = medicamentRepository.findByName(db);
+        if (entity == null) {
+            throw new EntityNotFoundException(db);
+        }
+        for (Medicament m: entity.getMedicamente()) {
+            if(m.getId()==id){
+                m.setIngredients(ingredients);
+                m.setName(name);
+            }
+        }
+        medicamentRepository.save(entity);
+    }
+
+    public void delMedicamente(String name){
+
+        MedicamentEntity entity = medicamentRepository.findByName(name);
+        if (entity == null) {
+            throw new EntityNotFoundException(name);
+        }
+        entity.delMedicamente();
+        medicamentRepository.deleteAll();
+        medicamentRepository.save(entity);
+    }
+
     public String addMedicamente(String db, String name, String[] ingredients){
 
         Medicament m = new Medicament(name,ingredients);
