@@ -2,11 +2,11 @@ package ro.unibuc.hello.dto;
 
 public class Movie {
 
-    public String title;
+    private String title;
 
-    public String description;
+    private String description;
 
-    public Integer runtime;
+    private Integer runtime;
 
     public Movie() {
 

@@ -22,7 +22,7 @@ public class MovieService {
         return new Movie(entity.title, entity.description, entity.runtime);
     }
     public boolean addMovie(Movie movie){
-        MovieEntity entity = new MovieEntity(movie.title, movie.description, movie.runtime);
+        MovieEntity entity = new MovieEntity(movie.getTitle(), movie.getDescription(), movie.getRuntime());
         movieRepository.save(entity);
         return true;
     }
