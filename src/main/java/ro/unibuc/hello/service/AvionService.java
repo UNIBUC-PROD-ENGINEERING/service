@@ -2,8 +2,6 @@ package ro.unibuc.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.data.Avion;
 import ro.unibuc.hello.data.AvionRepository;
@@ -56,10 +54,14 @@ public class AvionService {
         return new InfoAvion(String.format(avionTemplate,entity.number, entity.from, entity.to));
     }
 
-    public InfoAvion updateAvion(String number, Avion avion) throws EntityNotFoundException  {
+    public InfoAvion updateAvion(String number, Avion avion) {
         Avion entity = avionRepository.findByNumber(number);
         if (entity == null) {
             throw new EntityNotFoundException(number);
+        }
+        Avion dupEntity = avionRepository.findByNumber(avion.getNumber());
+        if (dupEntity != null) {
+            throw new DuplicateException(avion.number);
         }
         if(avion.getNumber()!=null && !entity.getNumber().equals(avion.getNumber())){
             entity.setNumber(avion.getNumber());
