@@ -9,6 +9,9 @@ import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.data.MedicamentEntity;
 import ro.unibuc.hello.data.MedicamentRepository;
 import ro.unibuc.hello.dto.Medicament;
+import ro.unibuc.hello.data.FarmacistEntity;
+import ro.unibuc.hello.data.FarmacistRepository;
+import ro.unibuc.hello.dto.Farmacist;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -22,6 +25,8 @@ public class HelloApplication {
 	private InformationRepository informationRepository;
 	@Autowired
 	private MedicamentRepository medicamentRepository;
+	@Autowired
+	private FarmacistRepository farmacistRepository;
 
 
 	public static void main(String[] args) {
@@ -36,6 +41,8 @@ public class HelloApplication {
 				);
 		medicamentRepository.deleteAll();
 		medicamentRepository.save(new MedicamentEntity("Medicamente",new ArrayList<Medicament>()));
+		farmacistRepository.deleteAll();
+		farmacistRepository.save(new FarmacistEntity("Farmacisti",new ArrayList<Farmacist>()));
 
 	}
 
