@@ -2,7 +2,6 @@ package com.bookstore.v1.validations;
 
 import com.bookstore.v1.dto.ReviewCreationDTO;
 import com.bookstore.v1.exception.EmptyFieldException;
-import com.bookstore.v1.exception.EntityNotFoundException;
 import com.bookstore.v1.exception.InvalidDoubleRange;
 
 public class ReviewValidations {

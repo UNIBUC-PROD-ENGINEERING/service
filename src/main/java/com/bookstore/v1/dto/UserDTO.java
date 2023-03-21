@@ -1,6 +1,5 @@
 package com.bookstore.v1.dto;
 
-import org.springframework.data.annotation.Id;
 import com.bookstore.v1.data.User;
 
 import java.util.Objects;
@@ -63,10 +62,10 @@ public class UserDTO {
         return user;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
         UserDTO userDTO = (UserDTO) object;
         return id.equals(userDTO.id) &&
                java.util.Objects.equals(userName, userDTO.userName) &&
@@ -74,11 +73,12 @@ public class UserDTO {
                java.util.Objects.equals(phoneNumber, userDTO.phoneNumber);
     }
 
+    @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, userName, email, phoneNumber);
+        return Objects.hash(id, userName, email, phoneNumber);
     }
 
-    @java.lang.Override
+    @Override
     public java.lang.String toString() {
         return "UserDTO{" +
                "id='" + id + '\'' +

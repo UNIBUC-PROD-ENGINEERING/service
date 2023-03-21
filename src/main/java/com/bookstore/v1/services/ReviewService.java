@@ -25,7 +25,7 @@ public class ReviewService {
     private BookRepository bookRepository;
 
     public ReviewDTO addReview(ReviewCreationDTO reviewCreationDTO) throws EmptyFieldException, InvalidDoubleRange,
-            EntityNotFoundException {
+            EntityNotFoundException, DuplicateObjectException {
         // validate review creation dto without the id since it will be auto-generated
         ReviewValidations.validateReviewCreationDTO(reviewCreationDTO, false);
 
@@ -47,7 +47,7 @@ public class ReviewService {
 
         review.setUser(user.get());
         review.setBook(book.get());
-        reviewRepository.save(review);
+        review = reviewRepository.save(review);
 
         return new ReviewDTO(review, true, true);
     }
