@@ -15,8 +15,8 @@ public class Ticket {
 
 
     public Ticket(MovieEntity movieEntity, LocalDateTime dateTime){
-        Movie movie1 = new Movie(movieEntity.title, movie.description, movie.runtime);
-        movie = movie1;
+        Movie movie1 = new Movie(movieEntity.title, movieEntity.description, movieEntity.runtime);
+        this.movie = movie1;
 
         this.dateTime = dateTime;
 
