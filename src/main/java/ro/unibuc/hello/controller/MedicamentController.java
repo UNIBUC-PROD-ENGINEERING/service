@@ -19,7 +19,7 @@ public class MedicamentController {
 
     @GetMapping("/medicamente")
     @ResponseBody
-    public String getMedicament(@RequestParam(name="title", required=false, defaultValue="Medicamente") String title)  throws EntityNotFoundException {
+    public String getMedicamente(@RequestParam(name="title", required=false, defaultValue="Medicamente") String title)  throws EntityNotFoundException {
         return medicamentService.getMedicamente(title);
     }
 
