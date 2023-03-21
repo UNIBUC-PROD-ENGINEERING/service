@@ -2,6 +2,7 @@ package com.bookstore.v1.controllers;
 
 import com.bookstore.v1.dto.ReviewCreationDTO;
 import com.bookstore.v1.dto.ReviewDTO;
+import com.bookstore.v1.exception.DuplicateObjectException;
 import com.bookstore.v1.exception.EmptyFieldException;
 import com.bookstore.v1.exception.EntityNotFoundException;
 import com.bookstore.v1.exception.InvalidDoubleRange;
@@ -20,7 +21,7 @@ public class ReviewController {
     @PostMapping("/add-review")
     @ResponseBody
     public ReviewDTO addReview(@RequestBody ReviewCreationDTO reviewCreationDTO) throws EmptyFieldException,
-            InvalidDoubleRange, EntityNotFoundException {
+            InvalidDoubleRange, EntityNotFoundException, DuplicateObjectException {
         return reviewService.addReview(reviewCreationDTO);
     }
 

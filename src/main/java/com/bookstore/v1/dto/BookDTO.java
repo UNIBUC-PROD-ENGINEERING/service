@@ -3,6 +3,7 @@ package com.bookstore.v1.dto;
 import com.bookstore.v1.data.Book;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class BookDTO {
     private String id;
@@ -92,4 +93,20 @@ public class BookDTO {
         book.setPublishedDate(publishedDate);
         return book;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDTO bookDTO = (BookDTO) o;
+        return Objects.equals(id, bookDTO.id) && Objects.equals(title, bookDTO.title) &&
+               Objects.equals(author, bookDTO.author) && Objects.equals(publisher, bookDTO.publisher) &&
+               Objects.equals(isbn, bookDTO.isbn) && Objects.equals(publishedDate, bookDTO.publishedDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, publisher, isbn, publishedDate);
+    }
+
 }

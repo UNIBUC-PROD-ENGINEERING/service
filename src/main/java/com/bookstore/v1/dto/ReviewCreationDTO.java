@@ -2,6 +2,8 @@ package com.bookstore.v1.dto;
 
 import com.bookstore.v1.data.Review;
 
+import java.util.Objects;
+
 public class ReviewCreationDTO {
     private String id;
     private String title;
@@ -95,5 +97,20 @@ public class ReviewCreationDTO {
 
     public void setBookId(String bookId) {
         this.bookId = bookId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReviewCreationDTO that = (ReviewCreationDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) &&
+               Objects.equals(description, that.description) && Objects.equals(rating, that.rating) &&
+               Objects.equals(userId, that.userId) && Objects.equals(bookId, that.bookId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, rating, userId, bookId);
     }
 }
