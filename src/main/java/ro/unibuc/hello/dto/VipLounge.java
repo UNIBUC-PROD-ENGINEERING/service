@@ -8,6 +8,8 @@ public class VipLounge {
 
     Location location;
 
+    public VipLounge() {};
+
     public VipLounge(String entryPrice, LocationEntity locationEntity) {
         Location location1 = new Location(locationEntity.address, locationEntity.name, locationEntity.phoneNumber);
         location = location1;
@@ -27,7 +29,8 @@ public class VipLounge {
         return location;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocation(LocationEntity locationEntity) {
+        Location location1 = new Location(locationEntity.address, locationEntity.name, locationEntity.phoneNumber);
+        location = location1;
     }
 }
