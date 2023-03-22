@@ -19,6 +19,13 @@ public class UserDTO {
         this.phoneNumber = user.getPhoneNumber();
     }
 
+    public UserDTO(String id, String userName, String email, String phoneNumber) {
+        this.id = id;
+        this.userName = userName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getId() {
         return id;
     }
