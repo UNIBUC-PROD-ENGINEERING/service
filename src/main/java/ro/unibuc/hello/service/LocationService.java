@@ -20,7 +20,7 @@ public class LocationService {
         return new Location(entity.address, entity.name, entity.phoneNumber);
     }
     public boolean addLocation (Location location){
-        LocationEntity entity = new LocationEntity(location.address, location.name, location.phoneNumber);
+        LocationEntity entity = new LocationEntity(location.getAddress(), location.getName(), location.getPhoneNumber());
         locationRepository.save(entity);
         return true;
     }

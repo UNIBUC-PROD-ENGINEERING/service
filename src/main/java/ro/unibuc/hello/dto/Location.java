@@ -2,11 +2,11 @@ package ro.unibuc.hello.dto;
 
 public class Location {
 
-    public String address;
+    private String address;
 
-    public String name;
+    private String name;
 
-    public String phoneNumber;
+    private String phoneNumber;
 
     public Location() {
 

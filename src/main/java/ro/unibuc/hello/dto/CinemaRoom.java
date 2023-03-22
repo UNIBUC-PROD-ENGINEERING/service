@@ -9,9 +9,11 @@ public class CinemaRoom {
 
     Location location;
 
+    public CinemaRoom(){};
+
     public CinemaRoom(LocationEntity locationEntity, Integer number){
         Location location1 = new Location(locationEntity.address, locationEntity.name, locationEntity.phoneNumber);
-        location = location1;
+        this.location = location1;
 
         this.number = number;
     }
@@ -21,5 +23,14 @@ public class CinemaRoom {
 
     public Integer getNumber() {
         return number;
+    }
+
+    public void setNumber(Integer number){
+        this.number = number;
+    }
+
+    public void setLocation(LocationEntity locationEntity) {
+        Location location1 = new Location(locationEntity.address, locationEntity.name, locationEntity.phoneNumber);
+        this.location = location1;
     }
 }
