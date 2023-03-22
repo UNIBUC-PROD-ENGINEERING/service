@@ -10,6 +10,8 @@ public class Customer {
 
     private Ticket ticket;
 
+    public Customer() {};
+
     public Customer(String name, Integer age, TicketEntity ticketEntity) {
         Ticket ticket1 = new Ticket(ticketEntity.movie, ticketEntity.dateTime);
         ticket = ticket1;
@@ -37,7 +39,8 @@ public class Customer {
         return ticket;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setTicket(TicketEntity ticketEntity) {
+        Ticket ticket1 = new Ticket(ticketEntity.movie, ticketEntity.dateTime);
+        ticket = ticket1;
     }
 }
