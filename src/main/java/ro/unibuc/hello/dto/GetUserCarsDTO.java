@@ -22,39 +22,20 @@ public class GetUserCarsDTO {
         return UserId;
     }
 
-    public void setUserId(String userId) {
-        UserId = userId;
-    }
-
     public String getCarId() {
         return CarId;
-    }
-
-    public void setCarId(String carId) {
-        CarId = carId;
     }
 
     public String getCarMaker() {
         return CarMaker;
     }
 
-    public void setCarMaker(String carMaker) {
-        CarMaker = carMaker;
-    }
-
     public int getCarYear() {
         return CarYear;
-    }
-
-    public void setCarYear(int carYear) {
-        CarYear = carYear;
     }
 
     public int getCarPrice() {
         return CarPrice;
     }
 
-    public void setCarPrice(int carPrice) {
-        CarPrice = carPrice;
-    }
 }

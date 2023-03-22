@@ -16,15 +16,8 @@ public class BuyCarDTO {
         return UserId;
     }
 
-    public void setUserId(String userId) {
-        UserId = userId;
-    }
-
     public String getCarId() {
         return CarId;
     }
 
-    public void setCarId(String carId) {
-        CarId = carId;
-    }
 }
