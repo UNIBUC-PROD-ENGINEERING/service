@@ -1,21 +1,19 @@
 package ro.unibuc.hello.dto;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import ro.unibuc.hello.data.LocationEntity;
-
-public class VipLoungeTest {
-
+public class CinemaRoomTest {
     LocationEntity newLocationEntity = new LocationEntity("Drumul Taberei nr.5", "Multicinema", "0777777777");
-    VipLounge myVipLounge = new VipLounge("350lei", newLocationEntity);
+
+    CinemaRoom cinemaRoom = new CinemaRoom(newLocationEntity, 10);
 
     @Test
-    public void testAll() {
-        VipLounge test = new VipLounge();
-        test.setEntryPrice("350lei");
+    public void testAll(){
+        CinemaRoom test = new CinemaRoom();
+        test.setNumber(10);
         test.setLocation(newLocationEntity);
-        Assertions.assertSame(myVipLounge.getEntryPrice(), test.entryPrice);
+        Assertions.assertSame(cinemaRoom.getNumber(), test.number);
         Assertions.assertSame(newLocationEntity.name, test.getLocation().getName());
         Assertions.assertSame(newLocationEntity.address, test.getLocation().getAddress());
         Assertions.assertSame(newLocationEntity.phoneNumber, test.getLocation().getPhoneNumber());
