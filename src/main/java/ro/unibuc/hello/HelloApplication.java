@@ -24,6 +24,9 @@ public class HelloApplication {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private CarXUserRepository carXUserRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
@@ -48,6 +51,7 @@ public class HelloApplication {
 		userRepository.save(new UserEntity("Jon", "Mark","jonny", "admin"));
 		userRepository.save(new UserEntity("Danny", "Moore", "dan","admin"));
 
+		carXUserRepository.deleteAll();
 	}
 
 }
