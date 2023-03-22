@@ -34,4 +34,20 @@ public class Student {
         this.age = age;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getAge() {
+       return age;
+    }
+
 }
