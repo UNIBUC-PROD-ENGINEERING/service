@@ -22,9 +22,14 @@ public class CarXUserService {
     private CarRepository carRepository;
 
     public String buyCar(BuyCarDTO model){
-        carXUserRepository.save(new CarXUserEntity(model.getUserId(), model.getCarId()));
+        if (model.getUserId() != null && model.getCarId() != null){
+            carXUserRepository.save(new CarXUserEntity(model.getUserId(), model.getCarId()));
 
-        return "Acquisition was completed successfully";
+            return "Acquisition was completed successfully";
+        }
+
+        return "Acquisition failed";
+
     }
 
     public List<GetUserCarsDTO> GetCarsByUser(String userId){
