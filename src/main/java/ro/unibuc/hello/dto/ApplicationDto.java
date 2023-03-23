@@ -45,7 +45,7 @@ public class ApplicationDto {
         return userId;
     }
 
-    public void setUserId(String user_id) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
