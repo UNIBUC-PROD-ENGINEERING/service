@@ -20,6 +20,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.modelMapper = modelMapper;
     }
 
+    //TODO Validari
     @Override
     public TeacherEntity updateTeacherData(TeacherDto dto, String teacherId) {
         Optional<TeacherEntity> teacher = teacherRepository.findById(teacherId);

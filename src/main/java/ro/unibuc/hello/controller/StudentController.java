@@ -22,8 +22,12 @@ public class StudentController {
     }
 
     @PostMapping("/student")
-    public ResponseEntity<StudentEntity> addStudent(@RequestBody StudentDto dto) {
-        return ResponseEntity.ok(studentService.addStudent(dto));
+    public ResponseEntity<ResponseDto> addStudent(@RequestBody StudentDto dto) {
+        StudentEntity student = studentService.addStudent(dto);
+        if (student == null) {
+            return ResponseEntity.badRequest().body(new ResponseDto(false, "Invalid student provided"));
+        }
+        return ResponseEntity.ok(new ResponseDto(true, student.toString()));
     }
 
     @PostMapping("/add-grade")
