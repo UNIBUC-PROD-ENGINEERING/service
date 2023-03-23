@@ -13,7 +13,7 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+
 class HelloWorldServiceTest {
 
     @Mock
