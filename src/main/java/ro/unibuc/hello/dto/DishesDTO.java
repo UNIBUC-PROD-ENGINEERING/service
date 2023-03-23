@@ -19,6 +19,7 @@ public class DishesDTO {
         quantity = dish.getQuantity();
         price = dish.getPrice();
     }
+    public DishesDTO() {}
     public String getId() {
         return id;
     }

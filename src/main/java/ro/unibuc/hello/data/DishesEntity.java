@@ -22,6 +22,8 @@ public class DishesEntity {
         return id;
     }
 
+    public DishesEntity() {}
+
     public void setId(String id) {
         this.id = id;
     }
