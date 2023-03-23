@@ -9,6 +9,12 @@ public class ProjectDto {
 
     private String description;
 
+    public ProjectDto(String userId, String name, String description) {
+        this.userId = userId;
+        this.name = name;
+        this.description = description;
+    }
+
     public String getId() {
         return id;
     }
