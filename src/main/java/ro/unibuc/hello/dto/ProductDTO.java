@@ -11,7 +11,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ProductDTO implements Serializable {
     @JsonInclude(Include.NON_NULL)
     private String productId;
