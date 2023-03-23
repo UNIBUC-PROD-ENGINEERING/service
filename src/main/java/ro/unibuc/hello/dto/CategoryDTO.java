@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class CategoryDTO implements Serializable {
     private String categoryName;
 }
