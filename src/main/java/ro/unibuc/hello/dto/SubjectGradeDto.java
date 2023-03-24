@@ -23,36 +23,4 @@ public class SubjectGradeDto {
         this.date = date;
     }
 
-
-    public TeacherEntity getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(TeacherEntity teacher) {
-        this.teacher = teacher;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
 }
