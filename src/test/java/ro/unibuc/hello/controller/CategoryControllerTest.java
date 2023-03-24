@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,6 +18,12 @@ import ro.unibuc.hello.dto.CategoryDTO;
 import ro.unibuc.hello.service.CategoryService;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 public class CategoryControllerTest {
 
@@ -52,7 +59,23 @@ public class CategoryControllerTest {
 
         Assertions.assertTrue(result.getResponse().getContentAsString().isEmpty());
     }
+    @Test
+    void test_getCategories() throws Exception{
+        List<CategoryDTO> listCategories= new ArrayList<CategoryDTO>();
+        CategoryDTO categoryDTO = CategoryDTO.builder()
+                .categoryName("Test Category").build();
+        listCategories.add(categoryDTO);
 
+        Mockito.when(categoryService.getCategories()).thenReturn(listCategories);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.get("/categories/getCategories")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(mockRequest)
+                .andExpect(status().isOk()).andReturn();
+
+        Assertions.assertEquals(result.getResponse().getContentAsString(),objectMapper.writeValueAsString(listCategories));
+    }
     @Test
     void test_deleteCategory() throws Exception{
         CategoryDTO categoryDTO = CategoryDTO.builder()
@@ -68,5 +91,5 @@ public class CategoryControllerTest {
                 .andExpect(status().isOk()).andReturn();
 
         Assertions.assertTrue(result.getResponse().getContentAsString().isEmpty());
-}
+    }
 }
