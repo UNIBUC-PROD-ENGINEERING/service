@@ -18,6 +18,10 @@ public class DishesEntity {
         this.price = price;
     }
 
+    public DishesEntity() {
+
+    }
+
     public String getId() {
         return id;
     }
