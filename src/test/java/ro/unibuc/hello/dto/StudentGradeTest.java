@@ -22,7 +22,7 @@ public class StudentGradeTest {
 
     @Test
     public void test_teacher() {
-        Assertions.assertSame(teacher, subjectGradeDto.getTeacher());
+        Assertions.assertEquals(teacher, subjectGradeDto.getTeacher());
     }
 
 }
