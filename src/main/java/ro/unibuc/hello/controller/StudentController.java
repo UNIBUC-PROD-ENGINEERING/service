@@ -49,5 +49,16 @@ public class StudentController {
         studentRepository.deleteById(String.valueOf(new ObjectId(id)));
 
     }
+    
+    @GetMapping("/student/get")
+    @ResponseBody
+    public Student getStudent(@RequestParam(name="id") String id) {
+        return studentRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
+    }
+    @GetMapping("/student/getAll")
+    @ResponseBody
+    public List<Student> getStudents() {
+        return studentRepository.findAll();
+    }
 
 }
