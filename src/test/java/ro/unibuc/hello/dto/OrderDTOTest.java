@@ -43,6 +43,7 @@ public class OrderDTOTest {
         Assertions.assertEquals("Pizza Margherita", orderDTO.getDishes().get(0).getName());
         Assertions.assertEquals("Pizza Carnivora", orderDTO.getDishes().get(1).getName());
     }
+
     @Test
     public void testGetId() {
         OrderDTO orderDTO = new OrderDTO();
