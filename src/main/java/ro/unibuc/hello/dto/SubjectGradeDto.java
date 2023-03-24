@@ -22,4 +22,5 @@ public class SubjectGradeDto {
         this.grade = grade;
         this.date = date;
     }
+
 }
