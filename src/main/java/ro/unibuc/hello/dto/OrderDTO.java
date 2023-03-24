@@ -6,6 +6,8 @@ import ro.unibuc.hello.data.ClientEntity;
 import ro.unibuc.hello.data.RestaurantEntity;
 import ro.unibuc.hello.data.OrderEntity;
 import ro.unibuc.hello.data.*;
+
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.Arrays;
 
@@ -19,15 +21,15 @@ public class OrderDTO {
     private RestaurantDTO restaurant;
 
     @DBRef(lazy = true)
-    private List<DishesDTO> dishes;
+    private ArrayList<DishesDTO> dishes;
     public OrderDTO() {}
     public OrderDTO(OrderEntity order) {
         id = order.getId();
         restaurant =  new RestaurantDTO(order.getRestaurant());
         user = new ClientDTO(order.getClient());
         List<DishesEntity> dishesEntitties = order.getDishes();
-        List<DishesDTO> dishesDTOs = new ArrayList<DishesDTO>();
-        for(int i = 0; i<dishesEntitties.size(); i++){
+        ArrayList<DishesDTO> dishesDTOs = new ArrayList<DishesDTO>();
+        for(int i = 0; i< dishesEntitties.size(); i++){
             DishesDTO  dishDTO = new DishesDTO(dishesEntitties.get(i));
             dishesDTOs.add(dishDTO);
         }
@@ -51,11 +53,16 @@ public class OrderDTO {
             this.user = user;
         }
 
-
+        public RestaurantDTO getRestaurant() { return restaurant; }
 
         public void setRestaurant(RestaurantDTO restaurant) {
             this.restaurant = restaurant;
         }
+
+        public void setDishes(ArrayList<DishesDTO> dishes) { this.dishes = dishes; }
+
+        public ArrayList<DishesDTO> getDishes() { return dishes; }
+
     @Override
     public String toString() {
 

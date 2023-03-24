@@ -13,6 +13,8 @@ public class DishesDTO {
     private int quantity;
     private float price;
 
+    public DishesDTO() {}
+
     public DishesDTO(DishesEntity dish){
         id = dish.getId();
         name = dish.getName();
