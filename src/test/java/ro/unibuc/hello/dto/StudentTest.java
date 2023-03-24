@@ -16,4 +16,13 @@ public class StudentTest {
     public void test_id() {
         Assertions.assertSame("1", student.getId());
     }
+    @Test
+    public void test_last_name() {
+        Assertions.assertSame("Buiciuc", student.getLastName());
+    }
+    @Test
+    public void test_date_of_birth() {
+        LocalDate expectedDate = LocalDate.of(2000, 12, 06);
+        Assertions.assertEquals(expectedDate, student.getBirthDay());
+    }
 }
