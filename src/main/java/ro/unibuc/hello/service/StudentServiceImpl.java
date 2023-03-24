@@ -1,11 +1,16 @@
 package ro.unibuc.hello.service;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ro.unibuc.hello.dto.ResponseDto;
 import ro.unibuc.hello.dto.StudentDto;
 import ro.unibuc.hello.dto.StudentGradeDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.exception.InvalidModelException;
+import ro.unibuc.hello.helpers.RegexFormatters;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.repositories.StudentRepository;
 import ro.unibuc.hello.dto.SubjectGradeDto;
@@ -23,6 +28,8 @@ public class StudentServiceImpl implements StudentService {
 
     private final CatalogRepository catalogRepository;
 
+    private Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
+
 
     public StudentServiceImpl(ModelMapper modelMapper,
                               CatalogRepository catalogRepository,
@@ -35,37 +42,52 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentEntity addStudent(StudentDto student) {
         StudentEntity newStudent = modelMapper.map(student, StudentEntity.class);
-        studentRepository.save(newStudent);
-        return newStudent;
+        if (StudentEntity.validateStudent(newStudent)) {
+            return studentRepository.save(newStudent);
+        } else if (newStudent == null) {
+                logger.error("Invalid model provided", new InvalidModelException(null));
+                return null;
+        } else {
+                logger.error("Invalid model provided", new InvalidModelException(newStudent.toString()));
+                return null;
+        }
     }
 
+    //TODO Faceti validator pe StudentGradeDto ->
+    // Aici ar trebui intors altceva cand studentul nu exista
+    // *vedeti cum am implementat mai sus
+    // restul detaliez la handle.
     @Override
     public ResponseDto addGrade(StudentGradeDto dto) {
-        Optional<StudentEntity> student = studentRepository.findById(dto.getStudentId());
-        if (student.isPresent()) {
-            CatalogEntity catalog = catalogRepository.findByStudent(student.get());
-            if (catalog != null) {
-                catalog.addGrade(dto.getGrade());
-                catalogRepository.save(catalog);
-            } else {
-                catalog = new CatalogEntity();
-                catalog.setStudent(student.get());
-                catalog.addGrade(dto.getGrade());
-                catalogRepository.save(catalog);
-            }
-            return new ResponseDto(true, "Grade added successfully");
-        } else {
-            throw new EntityNotFoundException(dto.getStudentId());
+        studentRepository.findById(dto.getStudentId())
+                .ifPresentOrElse(
+                        student -> handleStudent(student, dto),
+                        () -> {
+                            throw new EntityNotFoundException(dto.getStudentId());
+                        }
+                );
+        return new ResponseDto(true, "Grade added successfully");
+    }
+
+    //TODO De validat daca exista profesorul, nota e in formatul corect etc
+    private void handleStudent(StudentEntity student, StudentGradeDto dto) {
+        CatalogEntity catalog = catalogRepository.findByStudent(student);
+        if (catalog == null) {
+            catalog = new CatalogEntity();
+            catalog.setStudent(student);
         }
+        catalog.addGrade(dto.getGrade());
+        catalogRepository.save(catalog);
     }
 
     public List<SubjectGradeDto> getGradesByStudentId(String studentId) {
         Optional<StudentEntity> student = studentRepository.findById(studentId);
-        CatalogEntity catalog = new CatalogEntity();
         if (student.isPresent()) {
-            catalog = catalogRepository.findByStudent(student.get());
+            CatalogEntity catalog = catalogRepository.findByStudent(student.get());
+            if (catalog != null) {
+                return catalog.getGrades();
+            }
         }
-
-        return catalog.getGrades();
+        return null;
     }
 }
