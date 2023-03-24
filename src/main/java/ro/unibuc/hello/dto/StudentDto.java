@@ -13,4 +13,15 @@ public class StudentDto {
     private String lastName;
     private String className;
     private LocalDate birthDay;
+
+    public StudentDto() {
+    }
+
+    public StudentDto(String id, String firstName, String lastName, String className, LocalDate birthDay) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.className = className;
+        this.birthDay = birthDay;
+    }
 }
