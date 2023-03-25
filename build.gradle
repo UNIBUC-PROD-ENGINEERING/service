@@ -63,6 +63,7 @@ jacocoTestReport {
 
 task testIT(type: Test) {
 	outputs.dir snippetsDir
+	outputs.upToDateWhen { false }
 
 	useJUnitPlatform {
 		includeTags "IT"
@@ -84,7 +85,7 @@ task testE2E() {
 			args = [
 					'--plugin', 'pretty',
 					'--plugin', 'html:target/cucumber-report.html',
-					'--glue', 'ro.unibuc.hello.e2e.steps',
+					'--glue', 'com.bookstore.v1.e2e.steps',
 					'src/test/resources']
 		}
 	}

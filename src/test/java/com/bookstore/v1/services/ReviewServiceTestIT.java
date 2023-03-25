@@ -1,354 +1,198 @@
 package com.bookstore.v1.services;
 
 import com.bookstore.v1.data.*;
+import com.bookstore.v1.dto.BookDTO;
 import com.bookstore.v1.dto.ReviewCreationDTO;
 import com.bookstore.v1.dto.ReviewDTO;
-import com.bookstore.v1.exception.DuplicateObjectException;
-import com.bookstore.v1.exception.EntityNotFoundException;
+import com.bookstore.v1.dto.UserDTO;
 import org.junit.jupiter.api.*;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 @Tag("IT")
-class ReviewServiceTestIT {
-    @Mock
-    private ReviewRepository mockReviewRepository;
-    @Mock
-    private UserRepository mockUserRepository;
-    @Mock
-    private BookRepository mockBookRepository;
-    @InjectMocks
-    private ReviewService reviewServiceUnderTest;
+@DisplayName("Review Service Integration Test")
+public class ReviewServiceTestIT {
+    @Autowired
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private ReviewService reviewService;
 
-    @Nested
-    @DisplayName("Tests for addReview method")
-    class TestAddReviewMethod {
-        @Test
-        @DisplayName("Test should add review for valid review creation dto")
-        void test_addReview_willPassForValidRequest() {
-            String userId = "userId";
-            String bookId = "bookId";
-            ReviewCreationDTO reviewCreationDTO = new ReviewCreationDTO("title", "description", 5.0, userId, bookId);
-            User user = new User(userId, "userName", "email", "phoneNumber");
-            Book book = new Book(bookId, "title", "author", "publisher", "isbn", LocalDate.now());
-            Review createdReview = new Review("reviewId", "title", "description", 5.0);
-            createdReview.setUser(user);
-            createdReview.setBook(book);
-            ReviewDTO expectedReviewDTO = new ReviewDTO(createdReview, true, true);
+    User user;
+    Book book;
+    String reviewId;
 
-            when(mockUserRepository.findById(userId)).thenReturn(Optional.of(user));
-            when(mockBookRepository.findById(bookId)).thenReturn(Optional.of(book));
-            when(mockReviewRepository.findByUserAndBook(user, book)).thenReturn(Optional.empty());
-            when(mockReviewRepository.save(any(Review.class))).thenReturn(createdReview);
-
-            ReviewDTO actualReviewDTO = reviewServiceUnderTest.addReview(reviewCreationDTO);
-
-            Assertions.assertEquals(expectedReviewDTO, actualReviewDTO);
-        }
-
-        @Test
-        @DisplayName("Test should throw entity not found exception for nonexistent user")
-        void test_addReview_willThrowEntityNotFoundExceptionForNonexistentUser() {
-            String userId = "userId";
-            String bookId = "bookId";
-            ReviewCreationDTO reviewCreationDTO = new ReviewCreationDTO("title", "description", 5.0, userId, bookId);
-
-            when(mockUserRepository.findById(userId)).thenReturn(Optional.empty());
-
-            EntityNotFoundException actualException = Assertions.assertThrows(EntityNotFoundException.class,
-                    () -> reviewServiceUnderTest.addReview(reviewCreationDTO));
-            Assertions.assertEquals("Entity: user was not found", actualException.getMessage());
-        }
-
-        @Test
-        @DisplayName("Test should throw entity not found exception for nonexistent book")
-        void test_addReview_willThrowEntityNotFoundExceptionForNonexistentBook() {
-            String userId = "userId";
-            String bookId = "bookId";
-            ReviewCreationDTO reviewCreationDTO = new ReviewCreationDTO("title", "description", 5.0, userId, bookId);
-            User user = new User(userId, "userName", "email", "phoneNumber");
-
-            when(mockUserRepository.findById(userId)).thenReturn(Optional.of(user));
-            when(mockBookRepository.findById(bookId)).thenReturn(Optional.empty());
-
-            EntityNotFoundException actualException = Assertions.assertThrows(EntityNotFoundException.class,
-                    () -> reviewServiceUnderTest.addReview(reviewCreationDTO));
-            Assertions.assertEquals("Entity: book was not found", actualException.getMessage());
-        }
-
-        @Test
-        @DisplayName("Test should throw duplicate object exception for duplicate review by user for book")
-        void test_addReview_willThrowDuplicateObjectExceptionForDuplicateReviewByUserForBook() {
-            String userId = "userId";
-            String bookId = "bookId";
-            ReviewCreationDTO reviewCreationDTO = new ReviewCreationDTO("title", "description", 5.0, userId, bookId);
-            User user = new User(userId, "userName", "email", "phoneNumber");
-            Book book = new Book(bookId, "title", "author", "publisher", "isbn", LocalDate.now());
-
-            when(mockUserRepository.findById(userId)).thenReturn(Optional.of(user));
-            when(mockBookRepository.findById(bookId)).thenReturn(Optional.of(book));
-            when(mockReviewRepository.findByUserAndBook(user, book)).thenReturn(Optional.of(new Review()));
-
-            DuplicateObjectException actualException = Assertions.assertThrows(DuplicateObjectException.class,
-                    () -> reviewServiceUnderTest.addReview(reviewCreationDTO));
-            Assertions.assertEquals("Object: review already exists", actualException.getMessage());
-        }
+    @BeforeEach
+    void setUp() {
+        user = userRepository.save(new User("username", "email", "phoneNumber"));
+        book = bookRepository.save(new Book("title", "author", "publisher", "isbn", LocalDate.now()));
     }
 
-    @Nested
-    @DisplayName("Tests for updateReview method")
-    class TestUpdateReviewMethod {
-        @Test
-        @DisplayName("Test should update review for valid review creation dto")
-        void test_updateReview_willPassForValidRequest() {
-            String reviewId = "reviewId";
-            ReviewCreationDTO reviewCreationDTO = new ReviewCreationDTO(reviewId, "newTitle", "newDescription", 1.0,
-                    null, null);
-            User user = new User("userId", "userName", "email", "phoneNumber");
-            Book book = new Book("bookId", "title", "author", "publisher", "isbn", LocalDate.now());
-            Review existingReview = new Review(reviewId, "title", "description", 5.0);
-            existingReview.setUser(user);
-            existingReview.setBook(book);
-            Review updatedReview = new Review(reviewId, "newTitle", "newDescription", 1.0);
-            updatedReview.setUser(user);
-            updatedReview.setBook(book);
-
-            when(mockReviewRepository.findById(reviewId)).thenReturn(Optional.of(existingReview));
-            when(mockReviewRepository.save(any(Review.class))).thenReturn(updatedReview);
-
-            ReviewDTO actualReviewDTO = reviewServiceUnderTest.updateReview(reviewCreationDTO);
-
-            Assertions.assertEquals(updatedReview.getTitle(), actualReviewDTO.getTitle());
+    @AfterEach
+    void tearDown() {
+        if (reviewId != null) {
+            reviewRepository.deleteById(reviewId);
         }
-
-        @Test
-        @DisplayName("Test should throw entity not found exception for nonexistent review")
-        void test_updateReview_willThrowEntityNotFoundExceptionForNonexistentReview() {
-            String reviewId = "reviewId";
-            ReviewCreationDTO reviewCreationDTO = new ReviewCreationDTO(reviewId, "newTitle", "newDescription", 1.0,
-                    null, null);
-
-            when(mockReviewRepository.findById(reviewId)).thenReturn(Optional.empty());
-
-            EntityNotFoundException actualException = Assertions.assertThrows(EntityNotFoundException.class,
-                    () -> reviewServiceUnderTest.updateReview(reviewCreationDTO));
-            Assertions.assertEquals("Entity: review was not found", actualException.getMessage());
-        }
+        bookRepository.delete(book);
+        userRepository.delete(user);
     }
 
-    @Nested
-    @DisplayName("Tests for deleteReview method")
-    class TestDeleteReviewMethod {
-        @Test
-        @DisplayName("Test should delete review for existent review")
-        void test_deleteReview_willPassForExistentReview() {
-            String reviewId = "reviewId";
-            Review existentReview = new Review(reviewId, "title", "description", 5.0);
+    @Test
+    @DisplayName("Test should add review for valid review creation dto")
+    void test_addReview_shouldAddReviewForValidReviewCreationDto() {
+        ReviewCreationDTO reviewCreationDto = new ReviewCreationDTO("title", "description", 5.0, user.getId(),
+                book.getId());
 
-            when(mockReviewRepository.findById(reviewId)).thenReturn(Optional.of(existentReview));
+        ReviewDTO actualReviewDTO = reviewService.addReview(reviewCreationDto);
 
-            reviewServiceUnderTest.deleteReviewById(reviewId);
-        }
+        Assertions.assertNotNull(actualReviewDTO.getId());
+        Assertions.assertEquals(reviewCreationDto.getTitle(), actualReviewDTO.getTitle());
+        Assertions.assertEquals(reviewCreationDto.getDescription(), actualReviewDTO.getDescription());
+        Assertions.assertEquals(reviewCreationDto.getRating(), actualReviewDTO.getRating());
+        Assertions.assertEquals(reviewCreationDto.getUserId(), actualReviewDTO.getUserId());
+        Assertions.assertEquals(reviewCreationDto.getBookId(), actualReviewDTO.getBookId());
+        Assertions.assertEquals(new UserDTO(user), actualReviewDTO.getUser());
+        Assertions.assertEquals(new BookDTO(book), actualReviewDTO.getBook());
 
-        @Test
-        @DisplayName("Test should throw entity not found exception for nonexistent review")
-        void test_deleteReview_willThrowEntityNotFoundExceptionForNonexistentReview() {
-            String reviewId = "reviewId";
-
-            when(mockReviewRepository.findById(reviewId)).thenReturn(Optional.empty());
-
-            EntityNotFoundException actualException = Assertions.assertThrows(EntityNotFoundException.class,
-                    () -> reviewServiceUnderTest.deleteReviewById(reviewId));
-            Assertions.assertEquals("Entity: review was not found", actualException.getMessage());
-        }
+        reviewId = actualReviewDTO.getId();
     }
 
-    @Nested
-    @DisplayName("Tests for getReviewById method")
-    class TestGetReviewByIdMethod {
-        @Test
-        @DisplayName("Test should return review for existent review")
-        void test_getReviewById_willReturnReviewForExistentReview() {
-            String reviewId = "reviewId";
-            User user = new User("userId", "userName", "email", "phoneNumber");
-            Book book = new Book("bookId", "title", "author", "publisher", "isbn", LocalDate.now());
-            Review existentReview = new Review(reviewId, "title", "description", 5.0);
-            existentReview.setUser(user);
-            existentReview.setBook(book);
-            ReviewDTO expectedReviewDTO = new ReviewDTO(existentReview, true, true);
+    @Test
+    @DisplayName("Test should uodate review for valid review creation dto")
+    void test_updateReview_shouldUpdateReviewForValidReviewCreationDto() {
+        ReviewCreationDTO reviewCreationDto = new ReviewCreationDTO("title", "description", 5.0, user.getId(),
+                book.getId());
+        ReviewDTO createdReviewDTO = reviewService.addReview(reviewCreationDto);
+        reviewCreationDto.setId(createdReviewDTO.getId());
+        reviewCreationDto.setTitle("new title");
+        reviewCreationDto.setDescription("new description");
+        reviewCreationDto.setRating(4.0);
 
-            when(mockReviewRepository.findById(reviewId)).thenReturn(Optional.of(existentReview));
+        ReviewDTO updatedReviewDTO = reviewService.updateReview(reviewCreationDto);
 
-            ReviewDTO actualReviewDTO = reviewServiceUnderTest.getReviewById(reviewId);
-            Assertions.assertEquals(expectedReviewDTO, actualReviewDTO);
-        }
+        Assertions.assertEquals(reviewCreationDto.getId(), updatedReviewDTO.getId());
+        Assertions.assertEquals(reviewCreationDto.getTitle(), updatedReviewDTO.getTitle());
+        Assertions.assertEquals(reviewCreationDto.getDescription(), updatedReviewDTO.getDescription());
+        Assertions.assertEquals(reviewCreationDto.getRating(), updatedReviewDTO.getRating());
+        Assertions.assertEquals(reviewCreationDto.getUserId(), updatedReviewDTO.getUserId());
+        Assertions.assertEquals(reviewCreationDto.getBookId(), updatedReviewDTO.getBookId());
+        Assertions.assertEquals(new UserDTO(user), updatedReviewDTO.getUser());
+        Assertions.assertEquals(new BookDTO(book), updatedReviewDTO.getBook());
 
-        @Test
-        @DisplayName("Test should throw entity not found exception for nonexistent review")
-        void test_getReviewById_willThrowEntityNotFoundExceptionForNonexistentReview() {
-            String reviewId = "reviewId";
-
-            when(mockReviewRepository.findById(reviewId)).thenReturn(Optional.empty());
-
-            EntityNotFoundException actualException = Assertions.assertThrows(EntityNotFoundException.class,
-                    () -> reviewServiceUnderTest.getReviewById(reviewId));
-            Assertions.assertEquals("Entity: review was not found", actualException.getMessage());
-        }
+        reviewId = updatedReviewDTO.getId();
     }
 
-    @Nested
-    @DisplayName("Tests for getReviews method")
-    class TestGetReviews {
-        @Test
-        @DisplayName("Test should return empty list of reviews")
-        void test_getReviews_willReturnEmptyListOfReviews() {
-            when(mockReviewRepository.findAll()).thenReturn(new ArrayList<>());
+    @Test
+    @DisplayName("Test should delete review for valid review id")
+    void test_deleteReview_shouldDeleteReviewForValidReviewId() {
+        ReviewCreationDTO reviewCreationDto = new ReviewCreationDTO("title", "description", 5.0, user.getId(),
+                book.getId());
+        ReviewDTO createdReviewDTO = reviewService.addReview(reviewCreationDto);
+        String reviewId = createdReviewDTO.getId();
 
-            List<ReviewDTO> actualReviewDTOs = reviewServiceUnderTest.getReviews();
-            Assertions.assertTrue(actualReviewDTOs.isEmpty());
-        }
+        reviewService.deleteReviewById(reviewId);
 
-        @Test
-        @DisplayName("Test should return list of reviews")
-        void test_getReviews_willReturnListOfReviews() {
-            List<Review> existingReviews = new ArrayList<>();
-            Review review1 = new Review("reviewId1", "title1", "description1", 5.0);
-            review1.setUser(new User("userId1", "userName1", "email1", "phoneNumber1"));
-            review1.setBook(new Book("bookId1", "title1", "author1", "publisher1", "isbn1", LocalDate.now()));
-            Review review2 = new Review("reviewId2", "title2", "description2", 5.0);
-            review2.setUser(new User("userId2", "userName2", "email2", "phoneNumber2"));
-            review2.setBook(new Book("bookId2", "title2", "author2", "publisher2", "isbn2", LocalDate.now()));
-            existingReviews.add(review1);
-            existingReviews.add(review2);
-            List<ReviewDTO> expectedReviewDTOs = new ArrayList<>();
-            expectedReviewDTOs.add(new ReviewDTO(review1, true, true));
-            expectedReviewDTOs.add(new ReviewDTO(review2, true, true));
-
-            when(mockReviewRepository.findAll()).thenReturn(existingReviews);
-
-            List<ReviewDTO> actualReviewDTOs = reviewServiceUnderTest.getReviews();
-            Assertions.assertEquals(existingReviews.size(), actualReviewDTOs.size());
-        }
+        Assertions.assertFalse(reviewRepository.existsById(reviewId));
     }
 
-    @Nested
-    @DisplayName("Tests for getBookReviews method")
-    class TestGetBookReviewsMethod {
-        @Test
-        @DisplayName("Test should return empty list of reviews for existent book without reviews")
-        void test_getBookReviews_willReturnEmptyListOfReviewsForExistentBookWithoutReviews() {
-            String bookId = "bookId";
-            Book book = new Book(bookId, "title", "author", "publisher", "isbn", LocalDate.now());
+    @Test
+    @DisplayName("Test should get review for valid review id")
+    void test_getReview_shouldGetReviewForValidReviewId() {
+        ReviewCreationDTO reviewCreationDto = new ReviewCreationDTO("title", "description", 5.0, user.getId(),
+                book.getId());
+        ReviewDTO createdReviewDTO = reviewService.addReview(reviewCreationDto);
 
-            when(mockBookRepository.findById(bookId)).thenReturn(Optional.of(book));
-            when(mockReviewRepository.findAllByBook(book)).thenReturn(new ArrayList<>());
+        ReviewDTO actualReviewDTO = reviewService.getReviewById(createdReviewDTO.getId());
 
-            List<ReviewDTO> actualReviewDTOs = reviewServiceUnderTest.getBookReviews(bookId);
-            Assertions.assertTrue(actualReviewDTOs.isEmpty());
-        }
+        Assertions.assertEquals(createdReviewDTO.getId(), actualReviewDTO.getId());
+        Assertions.assertEquals(createdReviewDTO.getTitle(), actualReviewDTO.getTitle());
+        Assertions.assertEquals(createdReviewDTO.getDescription(), actualReviewDTO.getDescription());
+        Assertions.assertEquals(createdReviewDTO.getRating(), actualReviewDTO.getRating());
+        Assertions.assertEquals(createdReviewDTO.getUserId(), actualReviewDTO.getUserId());
+        Assertions.assertEquals(createdReviewDTO.getBookId(), actualReviewDTO.getBookId());
+        Assertions.assertEquals(new UserDTO(user), actualReviewDTO.getUser());
+        Assertions.assertEquals(new BookDTO(book), actualReviewDTO.getBook());
 
-        @Test
-        @DisplayName("Test should return list of reviews for existent book with reviews")
-        void test_getBookReviews_willReturnListOfReviewsForExistentBookWithReviews() {
-            String bookId = "bookId";
-            Book book = new Book(bookId, "title", "author", "publisher", "isbn", LocalDate.now());
-            List<Review> existentReviews = new ArrayList<>();
-            Review review1 = new Review("reviewId1", "title1", "description1", 5.0);
-            review1.setBook(book);
-            review1.setUser(new User("userId1", "userName1", "email1", "phoneNumber1"));
-            existentReviews.add(review1);
-            Review review2 = new Review("reviewId2", "title2", "description2", 5.0);
-            review2.setBook(book);
-            review2.setUser(new User("userId2", "userName2", "email2", "phoneNumber2"));
-            existentReviews.add(review2);
-            List<ReviewDTO> expectedReviewDTOs = new ArrayList<>();
-            expectedReviewDTOs.add(new ReviewDTO(review1, true, false));
-            expectedReviewDTOs.add(new ReviewDTO(review2, true, false));
-
-            when(mockBookRepository.findById(bookId)).thenReturn(Optional.of(book));
-            when(mockReviewRepository.findAllByBook(book)).thenReturn(existentReviews);
-
-            List<ReviewDTO> actualReviewDTOs = reviewServiceUnderTest.getBookReviews(bookId);
-
-            Assertions.assertEquals(expectedReviewDTOs, actualReviewDTOs);
-        }
-
-        @Test
-        @DisplayName("Test should throw entity not found exception for nonexistent book")
-        void test_getBookReviews_willThrowEntityNotFoundExceptionForNonexistentBook() {
-            String bookId = "bookId";
-
-            when(mockBookRepository.findById(bookId)).thenReturn(Optional.empty());
-
-            EntityNotFoundException actualException = Assertions.assertThrows(EntityNotFoundException.class,
-                    () -> reviewServiceUnderTest.getBookReviews(bookId));
-            Assertions.assertEquals("Entity: book was not found", actualException.getMessage());
-        }
+        reviewId = actualReviewDTO.getId();
     }
 
-    @Nested
-    @DisplayName("Tests for getUserReviews method")
-    class TestGetUserReviewsMethod {
-        @Test
-        @DisplayName("Test should return empty list of reviews for existent user without reviews")
-        void test_getUserReviews_willReturnEmptyListOfReviewsForExistentUserWithoutReviews() {
-            String userId = "userId";
-            User user = new User(userId, "userName", "email", "phoneNumber");
+    @Test
+    @DisplayName("Test should return list of reviews with books and users")
+    void test_getReviews_shouldReturnListOfReviewsWithBooksAndUsers() {
+        ReviewCreationDTO reviewCreationDto = new ReviewCreationDTO("title", "description", 5.0, user.getId(),
+                book.getId());
+        ReviewDTO createdReviewDTO = reviewService.addReview(reviewCreationDto);
 
-            when(mockUserRepository.findById(userId)).thenReturn(Optional.of(user));
-            when(mockReviewRepository.findAllByUser(user)).thenReturn(new ArrayList<>());
+        List<ReviewDTO> actualReviewDTOs = reviewService.getReviews();
 
-            List<ReviewDTO> actualReviewDTOs = reviewServiceUnderTest.getUserReviews(userId);
+        ReviewDTO actualReviewDTO = actualReviewDTOs
+                .stream()
+                .filter((reviewDTO) -> reviewDTO.getId().equals(createdReviewDTO.getId()))
+                .collect(Collectors.toList())
+                .get(0);
 
-            Assertions.assertTrue(actualReviewDTOs.isEmpty());
-        }
+        Assertions.assertEquals(createdReviewDTO.getId(), actualReviewDTO.getId());
+        Assertions.assertEquals(createdReviewDTO.getTitle(), actualReviewDTO.getTitle());
+        Assertions.assertEquals(createdReviewDTO.getDescription(), actualReviewDTO.getDescription());
+        Assertions.assertEquals(createdReviewDTO.getRating(), actualReviewDTO.getRating());
+        Assertions.assertEquals(createdReviewDTO.getUserId(), actualReviewDTO.getUserId());
+        Assertions.assertEquals(createdReviewDTO.getBookId(), actualReviewDTO.getBookId());
+        Assertions.assertEquals(new UserDTO(user), actualReviewDTO.getUser());
+        Assertions.assertEquals(new BookDTO(book), actualReviewDTO.getBook());
 
-        @Test
-        @DisplayName("Test should return list of reviews for existent user with reviews")
-        void test_getUserReviews_willReturnListOfReviewsForExistentUserWithReviews() {
-            String userId = "userId";
-            User user = new User(userId, "userName", "email", "phoneNumber");
-            List<Review> existentReviews = new ArrayList<>();
-            Review review1 = new Review("reviewId1", "title1", "description1", 5.0);
-            review1.setUser(user);
-            review1.setBook(new Book("bookId1", "title1", "author1", "publisher1", "isbn1", LocalDate.now()));
-            existentReviews.add(review1);
-            Review review2 = new Review("reviewId2", "title2", "description2", 5.0);
-            review2.setUser(user);
-            review2.setBook(new Book("bookId2", "title2", "author2", "publisher2", "isbn2", LocalDate.now()));
-            existentReviews.add(review2);
-            List<ReviewDTO> expectedReviewDTOs = new ArrayList<>();
-            expectedReviewDTOs.add(new ReviewDTO(review1, false, true));
-            expectedReviewDTOs.add(new ReviewDTO(review2, false, true));
+        reviewId = createdReviewDTO.getId();
+    }
 
-            when(mockUserRepository.findById(userId)).thenReturn(Optional.of(user));
-            when(mockReviewRepository.findAllByUser(user)).thenReturn(existentReviews);
 
-            List<ReviewDTO> actualReviewDTOs = reviewServiceUnderTest.getUserReviews(userId);
+    @Test
+    @DisplayName("Test should get book reviews for existent book")
+    void test_getBookReviews_shouldGetBookReviewsForExistentBook() {
+        ReviewCreationDTO reviewCreationDto = new ReviewCreationDTO("title", "description", 5.0, user.getId(),
+                book.getId());
+        ReviewDTO createdReviewDTO = reviewService.addReview(reviewCreationDto);
 
-            Assertions.assertEquals(expectedReviewDTOs, actualReviewDTOs);
-        }
+        List<ReviewDTO> actualReviewDTOs = reviewService.getBookReviews(book.getId());
 
-        @Test
-        @DisplayName("Test should throw entity not found exception for nonexistent user")
-        void test_getUserReviews_willThrowEntityNotFoundExceptionForNonexistentUser() {
-            String userId = "userId";
+        Assertions.assertEquals(1, actualReviewDTOs.size());
+        Assertions.assertEquals(createdReviewDTO.getId(), actualReviewDTOs.get(0).getId());
+        Assertions.assertEquals(createdReviewDTO.getTitle(), actualReviewDTOs.get(0).getTitle());
+        Assertions.assertEquals(createdReviewDTO.getDescription(), actualReviewDTOs.get(0).getDescription());
+        Assertions.assertEquals(createdReviewDTO.getRating(), actualReviewDTOs.get(0).getRating());
+        Assertions.assertEquals(createdReviewDTO.getUserId(), actualReviewDTOs.get(0).getUserId());
+        Assertions.assertEquals(createdReviewDTO.getBookId(), actualReviewDTOs.get(0).getBookId());
+        Assertions.assertEquals(new UserDTO(user), actualReviewDTOs.get(0).getUser());
+        Assertions.assertNull(actualReviewDTOs.get(0).getBook());
 
-            when(mockUserRepository.findById(userId)).thenReturn(Optional.empty());
+        reviewId = actualReviewDTOs.get(0).getId();
+    }
 
-            EntityNotFoundException actualException = Assertions.assertThrows(EntityNotFoundException.class,
-                    () -> reviewServiceUnderTest.getUserReviews(userId));
-            Assertions.assertEquals("Entity: user was not found", actualException.getMessage());
-        }
+    @Test
+    @DisplayName("Test should get user reviews for existent user")
+    void test_getUserReviews_shouldGetUserReviewsForExistentUser() {
+        ReviewCreationDTO reviewCreationDto = new ReviewCreationDTO("title", "description", 5.0, user.getId(),
+                book.getId());
+        ReviewDTO createdReviewDTO = reviewService.addReview(reviewCreationDto);
+
+        List<ReviewDTO> actualReviewDTOs = reviewService.getUserReviews(user.getId());
+
+        Assertions.assertEquals(1, actualReviewDTOs.size());
+        Assertions.assertEquals(createdReviewDTO.getId(), actualReviewDTOs.get(0).getId());
+        Assertions.assertEquals(createdReviewDTO.getTitle(), actualReviewDTOs.get(0).getTitle());
+        Assertions.assertEquals(createdReviewDTO.getDescription(), actualReviewDTOs.get(0).getDescription());
+        Assertions.assertEquals(createdReviewDTO.getRating(), actualReviewDTOs.get(0).getRating());
+        Assertions.assertEquals(createdReviewDTO.getUserId(), actualReviewDTOs.get(0).getUserId());
+        Assertions.assertEquals(createdReviewDTO.getBookId(), actualReviewDTOs.get(0).getBookId());
+        Assertions.assertEquals(new BookDTO(book), actualReviewDTOs.get(0).getBook());
+        Assertions.assertNull(actualReviewDTOs.get(0).getUser());
+
+        reviewId = actualReviewDTOs.get(0).getId();
     }
 }
