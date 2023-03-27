@@ -65,8 +65,6 @@ public class OrderDTO {
 
     @Override
     public String toString() {
-
-
         return String.format(
                 "Order[user='%s', restaurant='%s', dishes:\n'%s']",
                 user.getName(), restaurant.getName(), id);

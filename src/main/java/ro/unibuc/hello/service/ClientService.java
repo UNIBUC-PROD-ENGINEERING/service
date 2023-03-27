@@ -55,6 +55,7 @@ public class ClientService {
             client.setOrders(orderEntities);
         return new ClientDTO(client);
     }
+
     public ClientDTO updateClient(String clientId,String name, String email, String address, List<String> orderIds){
         ClientEntity client = clientRepository.findById(String.valueOf(new ObjectId(clientId))).orElse(null);
         if(client != null){
@@ -77,6 +78,7 @@ public class ClientService {
         else
             return null;
     }
+
     public  String deleteClient(String id){
         clientRepository.deleteById(String.valueOf(new ObjectId(id)));
         return "Client with id:" + id + "was deleted";

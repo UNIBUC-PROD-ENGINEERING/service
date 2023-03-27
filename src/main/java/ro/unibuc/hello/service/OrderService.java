@@ -61,7 +61,7 @@ public class OrderService {
             order.setDishes(dishesEntities);
 
 
-        return new OrderDTO(order);
+        return new OrderDTO(orderRepository.save(order));
     }
 
     public OrderDTO updateOrder(String orderId, String restaurantId, String clientId, List<String> dishesId) {
@@ -81,16 +81,17 @@ public class OrderService {
             if(!dishesEntities.isEmpty() && dishesEntities != null)
                 order.setDishes(dishesEntities);
 
-            return new OrderDTO(order);}
+            return new OrderDTO(orderRepository.save(order));
+        }
         else
             return null;
-        }
-        public  String deleteOrder(String id){
-        orderRepository.deleteById(String.valueOf(new ObjectId(id)));
-        return "Order with id:" + id + "was deleted";
-        }
-
-
     }
+
+    public  String deleteOrder(String id){
+    orderRepository.deleteById(String.valueOf(new ObjectId(id)));
+    return "Order with id:" + id + "was deleted";
+    }
+}
+
 
 
