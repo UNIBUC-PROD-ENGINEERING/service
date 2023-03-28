@@ -61,4 +61,17 @@ public class StudentController {
         return studentRepository.findAll();
     }
 
+    @GetMapping("/student/sortByAge")
+    @ResponseBody
+    public List<Student> sortByAge() {
+        List<Student> students = studentRepository.findAll();
+        Collections.sort(students, new Comparator<Student>() {
+            @Override
+            public int compare(Student s1, Student s2) {
+                return Integer.compare(s1.getAge(), s2.getAge());
+            }
+        });
+        return students;
+    }
+
 }

@@ -1,0 +1,7 @@
+# POST http://localhost:8080/student/create?name="Marian Ionescu"&email="marian.ionescu@gmail.com"&age=19
+# content-type: application/json
+
+
+# GET http://localhost:8080/student/getAll
+
+GET http://localhost:8080/student/sortByAge
