@@ -6,10 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TeacherDto {
-    private String firstName;
-    private String lastName;
-    private String subject;
+    public String firstName;
+    public String lastName;
+    public String subject;
 
+    public TeacherDto() {}
     public TeacherDto(String firstName, String lastName, String subject) {
         this.firstName = firstName;
         this.lastName = lastName;

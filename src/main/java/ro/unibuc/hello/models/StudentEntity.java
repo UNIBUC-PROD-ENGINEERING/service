@@ -17,7 +17,8 @@ public class StudentEntity {
     private String className;
     private LocalDate birthDay;
 
-    public StudentEntity() {}
+    public StudentEntity() {
+    }
 
     public StudentEntity(String firstName, String lastName, String className, LocalDate birthDay) {
         this.firstName = firstName;
@@ -33,7 +34,8 @@ public class StudentEntity {
     }
 
     public static boolean validateStudent(StudentEntity student) {
-        return student != null && student.getFirstName() != null && student.getLastName() != null && student.getFirstName().matches(RegexFormatters.ONLY_LETTERS) &&
+        return student != null && student.getFirstName() != null && student.getLastName() != null &&
+                student.getFirstName().matches(RegexFormatters.ONLY_LETTERS) &&
                 student.getLastName().matches(RegexFormatters.ONLY_LETTERS) &&
                 student.getClassName() != null && student.getBirthDay() != null;
     }
