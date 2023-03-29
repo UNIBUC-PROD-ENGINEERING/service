@@ -74,4 +74,17 @@ public class StudentController {
         return students;
     }
 
+    @GetMapping("/student/sortByAverageGrade")
+    @ResponseBody
+    public List<Student> sortByAverageGrade() {
+        List<Student> students = studentRepository.findAll();
+        Collections.sort(students, new Comparator<Student>() {
+            @Override
+            public int compare(Student s1, Student s2) {
+                return Double.compare(s1.getAverageGrade(), s2.getAverageGrade());
+            }
+        });
+        return students;
+    }
+
 }
