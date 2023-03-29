@@ -12,8 +12,8 @@ import javax.annotation.PostConstruct;
 @EnableMongoRepositories(basePackageClasses = InformationRepository.class)
 public class HelloApplication {
 
-//	@Autowired
-//	private InformationRepository informationRepository;
+	@Autowired
+	private InformationRepository informationRepository;
 	@Autowired
 	private MovieRepository movieRepository;
 
@@ -106,10 +106,10 @@ public class HelloApplication {
 		ticketRespository.save(ticket3);
 
 		customerRepository.deleteAll();
-		customerRepository.save(new CustomerEntity("Andrei", 20, ticket1));
-		customerRepository.save(new CustomerEntity("Luca", 22, ticket2));
-		customerRepository.save(new CustomerEntity("Petru", 19, ticket1));
-		customerRepository.save(new CustomerEntity("Gigi", 25, ticket3));
+		customerRepository.save(new CustomerEntity("Andrei", 20));
+		customerRepository.save(new CustomerEntity("Luca", 22));
+		customerRepository.save(new CustomerEntity("Petru", 19));
+		customerRepository.save(new CustomerEntity("Gigi", 25));
 
 		vipLoungeRepository.deleteAll();
 		vipLoungeRepository.save(new VipLoungeEntity("150lei", location2));
@@ -119,9 +119,9 @@ public class HelloApplication {
 		vipLoungeRepository.save(new VipLoungeEntity("220lei", location2));
 		vipLoungeRepository.save(new VipLoungeEntity("140lei", location5));
 
-//		informationRepository.deleteAll();
-//		informationRepository.save(new InformationEntity("Overview",
-//				"This is an example of using a data storage engine running separately from our applications server"));
+		informationRepository.deleteAll();
+		informationRepository.save(new InformationEntity("Overview",
+				"This is an example of using a data storage engine running separately from our applications server"));
 	}
 
 }

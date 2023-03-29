@@ -15,11 +15,11 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public Customer getCustomerById(String Id) throws EntityNotFoundException {
-        Optional<CustomerEntity> entity = customerRepository.findById(Id);
+    public Customer getCustomerByName(String Name) throws EntityNotFoundException {
+        CustomerEntity entity = customerRepository.findByName(Name);
         if(entity == null){
-            throw new EntityNotFoundException(Id);
+            throw new EntityNotFoundException(Name);
         }
-        return new Customer(entity.get().name, entity.get().age, entity.get().ticket);
+        return new Customer(entity.name, entity.age);
     }
 }

@@ -8,13 +8,9 @@ public class Customer {
 
     private Integer age;
 
-    private Ticket ticket;
-
     public Customer() {};
 
-    public Customer(String name, Integer age, TicketEntity ticketEntity) {
-        Ticket ticket1 = new Ticket(ticketEntity.movie, ticketEntity.dateTime);
-        ticket = ticket1;
+    public Customer(String name, Integer age) {
         this.name = name;
         this.age = age;
     }
@@ -33,14 +29,5 @@ public class Customer {
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(TicketEntity ticketEntity) {
-        Ticket ticket1 = new Ticket(ticketEntity.movie, ticketEntity.dateTime);
-        ticket = ticket1;
     }
 }
