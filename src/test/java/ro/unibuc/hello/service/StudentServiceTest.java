@@ -12,7 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
+import ro.unibuc.hello.dto.ResponseDto;
 import ro.unibuc.hello.dto.StudentDto;
+import ro.unibuc.hello.dto.StudentGradeDto;
 import ro.unibuc.hello.dto.SubjectGradeDto;
 import ro.unibuc.hello.models.CatalogEntity;
 import ro.unibuc.hello.models.StudentEntity;
@@ -174,6 +176,55 @@ public class StudentServiceTest {
 
         List<SubjectGradeDto> result = studentService.getGradesByStudentId(student.getId());
         Assertions.assertEquals(new ArrayList<>(), result);
+    }
+
+    @Test
+    public void checkAddGradeWithEmptyCatalog() {
+        StudentEntity studentEntity = new StudentEntity("test","test","test",LocalDate.now());
+        studentEntity.setId("test");
+        when(studentRepository.findById(any(String.class))).thenReturn(Optional.of(studentEntity));
+        CatalogEntity catalogEntity = new CatalogEntity();
+        when(catalogRepository.findByStudent(any(StudentEntity.class))).thenReturn(null);
+        when(catalogRepository.save(any(CatalogEntity.class))).thenReturn(catalogEntity);
+
+        ResponseDto response =studentService.addGrade(new StudentGradeDto(
+                studentEntity.getId(),
+                new SubjectGradeDto(new TeacherEntity(), 10, LocalDate.now())));
+
+        Assertions.assertTrue(response.isSuccess());
+
+    }
+
+    @Test
+    public void checkAddGradeWithACatalog() {
+        StudentEntity studentEntity = new StudentEntity("test","test","test",LocalDate.now());
+        studentEntity.setId("test");
+        CatalogEntity catalogEntity = new CatalogEntity();
+        when(catalogRepository.findByStudent(any(StudentEntity.class))).thenReturn(catalogEntity);
+        when(studentRepository.findById(any(String.class))).thenReturn(Optional.of(studentEntity));
+
+        when(catalogRepository.save(any(CatalogEntity.class))).thenReturn(catalogEntity);
+
+        ResponseDto response =studentService.addGrade(new StudentGradeDto(
+                studentEntity.getId(),
+                new SubjectGradeDto(new TeacherEntity(), 10, LocalDate.now())));
+
+        Assertions.assertTrue(response.isSuccess());
+
+    }
+
+    @Test
+    public void checkAddGradeWithAnInvalidStudent() {
+        StudentEntity studentEntity = new StudentEntity("test","test","test",LocalDate.now());
+        studentEntity.setId("test");
+        when(studentRepository.findById(any(String.class))).thenReturn(Optional.empty());
+
+        ResponseDto response =studentService.addGrade(new StudentGradeDto(
+                studentEntity.getId(),
+                new SubjectGradeDto(new TeacherEntity(), 10, LocalDate.now())));
+
+        Assertions.assertFalse(response.isSuccess());
+
     }
 
 }
