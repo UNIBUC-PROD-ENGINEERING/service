@@ -12,11 +12,7 @@ public class CustomerEntity {
 
     public Integer age;
 
-    @DBRef
-    public TicketEntity ticket;
-
-    public CustomerEntity(String name, Integer age, TicketEntity ticket) {
-        this.ticket = ticket;
+    public CustomerEntity(String name, Integer age) {
         this.name = name;
         this.age = age;
     }
@@ -24,7 +20,7 @@ public class CustomerEntity {
     @Override
     public String toString() {
         return String.format(
-                "Customer[name='%s', age='%d', ticket='%s']",
-                id, name, age, ticket);
+                "Customer[name='%s', age='%d']",
+                name, age);
     }
 }

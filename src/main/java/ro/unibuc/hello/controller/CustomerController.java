@@ -15,9 +15,9 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/getCustomerById")
+    @GetMapping("/getCustomerByName")
     @ResponseBody
-    public Customer getCustomerById(@RequestParam(name="id", required = true) String Id) throws EntityNotFoundException {
-        return customerService.getCustomerById(Id);
+    public Customer getCustomerById(@RequestParam(name="name", required = true) String Name) throws EntityNotFoundException {
+        return customerService.getCustomerByName(Name);
     }
 }
