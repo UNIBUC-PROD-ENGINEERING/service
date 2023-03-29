@@ -62,6 +62,7 @@ jacocoTestReport {
 
 task testIT(type: Test) {
 	outputs.dir snippetsDir
+	outputs.upToDateWhen { false }
 
 	useJUnitPlatform {
 		includeTags "IT"
