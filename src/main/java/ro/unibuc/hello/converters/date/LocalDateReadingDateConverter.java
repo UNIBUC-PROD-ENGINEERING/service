@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @ReadingConverter
-public class LocalDateReadingConverter implements Converter<Date, LocalDate> {
+public class LocalDateReadingDateConverter implements Converter<Date, LocalDate> {
 
     @Override
     public LocalDate convert(Date date) {
