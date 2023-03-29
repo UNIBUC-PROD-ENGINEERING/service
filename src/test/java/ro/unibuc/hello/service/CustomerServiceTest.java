@@ -1,29 +1,39 @@
 package ro.unibuc.hello.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import ro.unibuc.hello.data.CustomerEntity;
 import ro.unibuc.hello.data.CustomerRepository;
 import ro.unibuc.hello.dto.Customer;
 
-@SpringBootTest
-public class CustomerServiceTest {
+import static org.mockito.Mockito.when;
 
-    @Autowired
-    CustomerRepository customerRepository;
+@ExtendWith(SpringExtension.class)
+class CustomerServiceTest {
 
-    @Autowired
-    CustomerService customerService;
+    @Mock
+    CustomerRepository mockCustomerRepository;
+
+    @InjectMocks
+    CustomerService customerService = new CustomerService();
 
     @Test
-    public void test_getCustomerByName_returnsCustomer() {
+    void test_findByName_returnsCustomer() {
         // Arrange
+        String name = "Andrei";
+        Integer age = 32;
+        CustomerEntity customerEntity = new CustomerEntity(name, age);
+
+        when(mockCustomerRepository.findByName(name)).thenReturn(customerEntity);
 
         // Act
+        Customer customer = customerService.getCustomerByName(name);
 
         // Assert
-
-        }
+        Assertions.assertEquals(age, customer.getAge());
+    }
 }
