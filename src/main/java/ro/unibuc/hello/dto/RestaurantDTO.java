@@ -2,6 +2,9 @@ package ro.unibuc.hello.dto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import ro.unibuc.hello.data.RestaurantEntity;
+import ro.unibuc.hello.data.OrderEntity;
+
+import java.util.ArrayList;
 public class RestaurantDTO {
 
     private String id;
@@ -9,6 +12,9 @@ public class RestaurantDTO {
     private String name;
     private String email;
     private String address;
+
+    @DBRef(lazy = true)
+    private ArrayList<OrderDTO> orders;
 
     public RestaurantDTO(RestaurantEntity restaurant){
         id = restaurant.getId();
@@ -48,6 +54,14 @@ public class RestaurantDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public ArrayList<OrderDTO> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(ArrayList<OrderDTO> orders) {
+        this.orders = orders;
     }
 
     @Override
