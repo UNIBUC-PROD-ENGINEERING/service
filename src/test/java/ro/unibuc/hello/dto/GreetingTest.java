@@ -2,6 +2,8 @@ package ro.unibuc.hello.dto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import ro.unibuc.hello.dto.Greeting;
 
 class GreetingTest {
 

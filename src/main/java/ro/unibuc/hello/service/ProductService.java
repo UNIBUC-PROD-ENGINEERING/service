@@ -26,6 +26,7 @@ public class ProductService {
         
         productEntity.categories = product.getCategories();
         productEntity.description = product.getDescription();
+        productEntity.name = product.getName();
 
         productRepository.save(productEntity);
         return product;

@@ -7,14 +7,14 @@ public class ProductEntity {
     @Id
     public String id;
 
-    
+    public String name;
     public String description;
     public String categories;
 
     public ProductEntity() {}
 
-    public ProductEntity(String description, String categories) {
-        
+    public ProductEntity(String name, String description, String categories) {
+        this.name = name;
         this.description = description;
         this.categories = categories;
     }
@@ -23,8 +23,8 @@ public class ProductEntity {
     @Override
     public String toString() {
         return String.format(
-                "Product[productName='%s', description='%s', categories='%s']",
-                id, description, categories);
+                "Product[id='%s', name='%s', description='%s', categories='%s']",
+                id, name, description, categories);
     }
 
 }

@@ -16,21 +16,14 @@ import org.springframework.http.ResponseEntity;
 @Controller
 public class ProductController {
 
-    
-
     @Autowired
     private ProductService productService;
 
-    
-
-    @PostMapping("/products")
- 
+    @PostMapping("/product")
     public ResponseEntity<Product> saveProduct(Product product)
     {
         productService.saveProduct(product);
         return ResponseEntity.ok().body(product);
     }
-    
- 
     
 }
