@@ -22,8 +22,8 @@ public class StudentController {
 
     @PostMapping("/student/create")
     @ResponseBody
-    public Student createStudent(@RequestParam(name="name") String name, @RequestParam(name="email") String email, @RequestParam(name="age") int age) {
-        return studentRepository.save(new Student(name, email, age));}
+    public Student createStudent(@RequestParam(name="name") String name, @RequestParam(name="email") String email, @RequestParam(name="age") int age, @RequestParam(name="grades") double[] grades) {
+        return studentRepository.save(new Student(name, email, age, grades));}
 
 
     @PutMapping("/student/edit")
@@ -31,11 +31,11 @@ public class StudentController {
     public Student editStudent(@RequestParam(name="id") String id, @RequestParam(name="name") String name, @RequestParam(name="email") String email, @RequestParam(name="age") int age) {
         Student student = studentRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
         if(student != null) {
-            if(student != null)
+            if(name != null)
                 student.setName(name);
-            if(author != null)
+            if(email != null)
                 student.setEmail(email);
-            if(genre != null)
+            if(age>0)
                 student.setAge(age);
             return studentRepository.save(student);
         } else
@@ -48,6 +48,43 @@ public class StudentController {
     public void deleteStudent(@RequestParam(name="id") String id) {
         studentRepository.deleteById(String.valueOf(new ObjectId(id)));
 
+    }
+    
+    @GetMapping("/student/get")
+    @ResponseBody
+    public Student getStudent(@RequestParam(name="id") String id) {
+        return studentRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
+    }
+    @GetMapping("/student/getAll")
+    @ResponseBody
+    public List<Student> getStudents() {
+        return studentRepository.findAll();
+    }
+
+    @GetMapping("/student/sortByAge")
+    @ResponseBody
+    public List<Student> sortByAge() {
+        List<Student> students = studentRepository.findAll();
+        Collections.sort(students, new Comparator<Student>() {
+            @Override
+            public int compare(Student s1, Student s2) {
+                return Integer.compare(s1.getAge(), s2.getAge());
+            }
+        });
+        return students;
+    }
+
+    @GetMapping("/student/sortByAverageGrade")
+    @ResponseBody
+    public List<Student> sortByAverageGrade() {
+        List<Student> students = studentRepository.findAll();
+        Collections.sort(students, new Comparator<Student>() {
+            @Override
+            public int compare(Student s1, Student s2) {
+                return Double.compare(s1.getAverageGrade(), s2.getAverageGrade());
+            }
+        });
+        return students;
     }
 
 }
