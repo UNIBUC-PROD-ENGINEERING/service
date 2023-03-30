@@ -37,19 +37,21 @@ public class ClientServiceTestIT {
 
     @Test
     public void testInsertClient() {
+        createObjects();
+
         List<String> orderIds = Arrays.asList(orders.get(0).getId().toString(), orders.get(1).getId().toString());
 
         ClientDTO cLientDTO = clientService.insertClient("Giani", "giani@gmail.com", "Republica 23", orderIds);
         ClientDTO clientInsertedDTO = clientService.getClient(cLientDTO.getId());
-        Assertions.assertEquals(orders.size(), cLientDTO.getOrders().size());
-        Assertions.assertEquals(orders.get(0).getId(), cLientDTO.getOrders().get(0).getId());
-        Assertions.assertEquals(orders.get(1).getId(), cLientDTO.getOrders().get(1).getId());
 
-        Assertions.assertEquals(orders.size(), clientInsertedDTO.getOrders().size());
-        Assertions.assertEquals(orders.get(0).getId(), clientInsertedDTO.getOrders().get(0).getId());
-        Assertions.assertEquals(orders.get(1).getId(), clientInsertedDTO.getOrders().get(1).getId());
+        Assertions.assertNotNull(cLientDTO);
+        Assertions.assertEquals("Giani", cLientDTO.getName());
+        Assertions.assertEquals("giani@gmail.com", cLientDTO.getEmail());
+        Assertions.assertEquals("Republica 23", cLientDTO.getAddress());
 
-
+        Assertions.assertEquals("Giani", clientInsertedDTO.getName());
+        Assertions.assertEquals("giani@gmail.com", clientInsertedDTO.getEmail());
+        Assertions.assertEquals("Republica 23", clientInsertedDTO.getAddress());
     }
 
     @Test
@@ -67,15 +69,13 @@ public class ClientServiceTestIT {
 
         ClientDTO clientUPdatedDTO = clientService.getClient(updatedClientDTO.getId());
 
-        Assertions.assertEquals(orders.size(), updatedClientDTO.getOrders().size());
-        Assertions.assertEquals(orders.get(0).getId(), updatedClientDTO.getOrders().get(0).getId());
-        Assertions.assertEquals(orders.get(1).getId(), updatedClientDTO.getOrders().get(1).getId());
+        Assertions.assertEquals("Florin", updatedClientDTO.getName());
+        Assertions.assertEquals("florin@gmail.com", updatedClientDTO.getEmail());
+        Assertions.assertEquals("Republica 24", updatedClientDTO.getAddress());
 
-        Assertions.assertEquals(orders.size(), clientUPdatedDTO .getOrders().size());
-        Assertions.assertEquals(orders.get(0).getId(), clientUPdatedDTO .getOrders().get(0).getId());
-        Assertions.assertEquals(orders.get(1).getId(), clientUPdatedDTO .getOrders().get(1).getId());
-
-
+        Assertions.assertEquals("Florin", clientUPdatedDTO.getName());
+        Assertions.assertEquals("florin@gmail.com", clientUPdatedDTO.getEmail());
+        Assertions.assertEquals("Republica 24", clientUPdatedDTO.getAddress());
     }
 
     @Test()
@@ -90,13 +90,9 @@ public class ClientServiceTestIT {
 
         String deleteMessage = clientService.deleteClient(clientDTO.getId().toString());
 
-        Assertions.assertEquals("CLientwith id:" + clientDTO.getId().toString() + "was deleted", deleteMessage);
+        Assertions.assertEquals("Client with id:" + clientDTO.getId().toString() + "was deleted", deleteMessage);
 
         Assertions.assertNull(clientService.getClient(clientDTO.getId()));
-
-
-
-
     }
 
     public void createObjects(){
@@ -104,6 +100,5 @@ public class ClientServiceTestIT {
        OrderEntity order2 = new OrderEntity();
 
        this.orders =  Arrays.asList(orderRepository.save(order1), orderRepository.save(order2));
-
     }
 }

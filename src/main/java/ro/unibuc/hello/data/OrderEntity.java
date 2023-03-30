@@ -45,15 +45,9 @@ public class OrderEntity {
         this.id = id;
     }
 
-    public ClientEntity getUser() {
-        return user;
-    }
-
     public void setUser(ClientEntity user) {
         this.user = user;
     }
-
-
 
     public void setRestaurant(RestaurantEntity restaurant) {
         this.restaurant = restaurant;
@@ -70,6 +64,7 @@ public class OrderEntity {
     public RestaurantEntity getRestaurant() {
         return this.restaurant;
     }
+
     public ClientEntity getClient(){
         return this.user;
     }

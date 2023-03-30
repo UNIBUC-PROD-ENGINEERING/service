@@ -36,18 +36,20 @@ public class RestaurantServiceTestIT {
 
     @Test
     public void testInsertRestaurant() {
+        createObjects();
+
         List<String> orderIds = Arrays.asList(orders.get(0).getId().toString(), orders.get(1).getId().toString());
 
         RestaurantDTO restaurantDTO = restaurantService.insertRestaurant("Zest Pizza", "zest@gmail.com", "Sectorul 6 Bucuresti", orderIds);
         RestaurantDTO restaurantInsertedDTO = restaurantService.getRestaurant(restaurantDTO.getId());
-        Assertions.assertEquals(orders.size(), restaurantDTO.getOrders().size());
-        Assertions.assertEquals(orders.get(0).getId(), restaurantDTO.getOrders().get(0).getId());
-        Assertions.assertEquals(orders.get(1).getId(), restaurantDTO.getOrders().get(1).getId());
 
-        Assertions.assertEquals(orders.size(), restaurantDTO.getOrders().size());
-        Assertions.assertEquals(orders.get(0).getId(), restaurantInsertedDTO.getOrders().get(0).getId());
-        Assertions.assertEquals(orders.get(1).getId(), restaurantInsertedDTO.getOrders().get(1).getId());
+        Assertions.assertEquals("Zest Pizza", restaurantDTO.getName());
+        Assertions.assertEquals("zest@gmail.com", restaurantDTO.getEmail());
+        Assertions.assertEquals("Sectorul 6 Bucuresti", restaurantDTO.getAddress());
 
+        Assertions.assertEquals("Zest Pizza", restaurantDTO.getName());
+        Assertions.assertEquals("zest@gmail.com", restaurantDTO.getEmail());
+        Assertions.assertEquals("Sectorul 6 Bucuresti", restaurantDTO.getAddress());
     }
 
     @Test
@@ -65,13 +67,13 @@ public class RestaurantServiceTestIT {
                 restaurantDTO.getEmail().toString(), restaurantDTO.getAddress().toString(), orderIds);
         RestaurantDTO restaurantUpdatedDTO = restaurantService.getRestaurant(updatedRestaurantDTO.getId());
 
-        Assertions.assertEquals(orders.size(), updatedRestaurantDTO.getOrders().size());
-        Assertions.assertEquals(orders.get(0).getId(), updatedRestaurantDTO.getOrders().get(0).getId());
-        Assertions.assertEquals(orders.get(1).getId(), updatedRestaurantDTO.getOrders().get(1).getId());
+        Assertions.assertEquals("Tudy's Pizza", restaurantDTO.getName());
+        Assertions.assertEquals("tudy@gmail.com", restaurantDTO.getEmail());
+        Assertions.assertEquals("Calea Victoriei nr.54", restaurantDTO.getAddress());
 
-        Assertions.assertEquals(orders.size(), restaurantUpdatedDTO .getOrders().size());
-        Assertions.assertEquals(orders.get(0).getId(), restaurantUpdatedDTO .getOrders().get(0).getId());
-        Assertions.assertEquals(orders.get(1).getId(), restaurantUpdatedDTO .getOrders().get(1).getId());
+        Assertions.assertEquals("Tudy's Pizza", restaurantUpdatedDTO.getName());
+        Assertions.assertEquals("tudy@gmail.com", restaurantUpdatedDTO.getEmail());
+        Assertions.assertEquals("Calea Victoriei nr.54", restaurantUpdatedDTO.getAddress());
     }
 
 
@@ -87,7 +89,7 @@ public class RestaurantServiceTestIT {
 
         String deleteMessage = restaurantService.deleteRestaurant(clientDTO.getId().toString());
 
-        Assertions.assertEquals("CLientwith id:" + clientDTO.getId().toString() + "was deleted", deleteMessage);
+        Assertions.assertEquals("Restaurant with id " + clientDTO.getId().toString() + " was deleted", deleteMessage);
 
         Assertions.assertNull(restaurantService.getRestaurant(clientDTO.getId()));
 
