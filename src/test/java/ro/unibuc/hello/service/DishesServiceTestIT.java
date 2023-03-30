@@ -47,7 +47,7 @@ public class DishesServiceTestIT {
     public void testUpdateDishes(){
         DishesDTO dishesDTO = dishesService.insertDish("Wok de pui", 1, 35);
 
-        DishesDTO updatedDishesDTO = dishesService.updateDish("10", "Friptura de vita cu piure de cartofi", 4, 56);
+        DishesDTO updatedDishesDTO = dishesService.updateDish(dishesDTO.getId(), "Friptura de vita cu piure de cartofi", 4, 56);
 
         DishesDTO dishesUpdatedDTO = dishesService.getDish(updatedDishesDTO.getId());
 
