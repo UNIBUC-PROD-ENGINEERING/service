@@ -30,22 +30,23 @@ public class OrderController {
 
     @PostMapping("/insert")
     @ResponseBody
-    public OrderDTO insertOrder(@RequestParam(name = "id") String id,
-                                  @RequestParam(name = "restaurantId") String restaurantID,
-                                  @RequestParam(name = "ordersId") List<String> dishesID) {
-        return orderService.insertOrder(id, restaurantID, dishesID);
+    public OrderDTO insertOrder(@RequestParam(name = "restaurantId") String restaurantId,
+                                @RequestParam(name = "clientId") String clientId,
+                                @RequestParam(name = "dishesIds") List<String> dishesIds) {
+        return orderService.insertOrder(restaurantId, clientId, dishesIds);
     }
+
     @PutMapping("/update")
     @ResponseBody
-    public OrderDTO updateClient(@RequestParam(name = "id") String id,
-                                  @RequestParam(name = "restaurantID") String restaurnatID,
-                                  @RequestParam(name = "client") String clientId,
-                                  @RequestParam(name = "dishesId") List<String> dishesID){
-        return orderService.updateOrder(id,restaurnatID,clientId,dishesID);
+    public OrderDTO updateClient(@RequestParam(name = "orderId") String orderId,
+                                  @RequestParam(name = "restaurantId") String restaurantId,
+                                  @RequestParam(name = "clientId") String clientId,
+                                  @RequestParam(name = "dishesId") List<String> dishesIds){
+        return orderService.updateOrder(orderId, restaurantId, clientId, dishesIds);
     }
     @DeleteMapping("/delete")
     @ResponseBody
-    public String deleteOrder(@RequestParam(name = "id") String id){
+    public String deleteOrder(@RequestParam(name = "orderId") String id){
         return orderService.deleteOrder(id);
     }
 
