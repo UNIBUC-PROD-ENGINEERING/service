@@ -33,6 +33,7 @@ public class MenuServiceTestIT {
 
     private List<DishesEntity> dishes;
 
+    @Test
     public void testGetMenus(){
 
         menuRepository.deleteAll();
@@ -40,7 +41,7 @@ public class MenuServiceTestIT {
         Assertions.assertNotNull(menus);
         Assertions.assertEquals(0, menus.size());
     }
-
+    @Test
     public void testInsertMenu() {
         createObjects();
 
@@ -67,6 +68,7 @@ public class MenuServiceTestIT {
 
     }
 
+    @Test
     public void testUpdateMenu(){
         createObjects();
 
