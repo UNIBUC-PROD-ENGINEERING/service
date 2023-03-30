@@ -41,7 +41,7 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
-    public void updateProjectById(String id, UpdateProjectDto updateProjectDto){
+    public ProjectEntity updateProjectById(String id, UpdateProjectDto updateProjectDto){
         Optional<ProjectEntity> optionalProjectEntity = projectRepository.findById(id);
         if (optionalProjectEntity.isPresent()) {
             ProjectEntity projectEntity = optionalProjectEntity.get();
@@ -51,7 +51,8 @@ public class ProjectService {
             if (updateProjectDto.getDescription() != null) {
                 projectEntity.setDescription(updateProjectDto.getDescription());
             }
-            projectRepository.save(projectEntity);
+
+            return projectRepository.save(projectEntity);
         } else {
             throw new ProjectNotFoundException(id);
         }
