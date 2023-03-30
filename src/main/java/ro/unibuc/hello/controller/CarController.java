@@ -28,11 +28,11 @@ public class CarController {
 		return carService.findAllByParcarePlatita(platit);
 	}
 
-	@GetMapping("/valabilitate-mica")
-	@ResponseBody
-	public List<Car> getParcarePlatita() {
-		return carService.findAllByValabilitateParcareIsLessThan60();
-	}
+//	@GetMapping("/valabilitate-mica")
+//	@ResponseBody
+//	public List<Car> getParcarePlatita() {
+//		return carService.findAllByValabilitateParcareIsLessThan60();
+//	}
 
 	@PostMapping("/save")
 	public ResponseEntity<Car> saveCar(@RequestBody Car car) {
