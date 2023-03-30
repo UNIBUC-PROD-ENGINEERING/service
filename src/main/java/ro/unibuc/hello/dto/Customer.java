@@ -9,6 +9,8 @@ public class Customer {
     private int age;
     private String email;
 
+    public Customer(){}
+
     public Customer(String name, int age, String email) {
         this.name = name;
         this.age = age;
@@ -59,11 +61,11 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "customer_id=" + customer_id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", email='" + email + '\'' +
+        return '{' +
+                "\"customer_id\":" + customer_id +
+                ",\"name\":\"" + name + "\"" +
+                ",\"age\":" + age +
+                ",\"email\":\"" + email + "\"" +
                 '}';
     }
 
