@@ -113,6 +113,7 @@ public class ProductService {
 
     private ProductEntity getProductEntityFromDTO(ProductDTO productDTO) {
         ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(productDTO.getProductId());
         productEntity.setProductName(productDTO.getProductName());
         productEntity.setProductDescription(productDTO.getProductDescription());
         productEntity.setPrice(productDTO.getPrice());

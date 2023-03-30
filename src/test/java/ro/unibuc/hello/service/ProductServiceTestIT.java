@@ -1,6 +1,6 @@
 package ro.unibuc.hello.service;
 
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -12,6 +12,7 @@ import ro.unibuc.hello.dto.CategoryDTO;
 import ro.unibuc.hello.dto.ProductDTO;
 import ro.unibuc.hello.entity.CategoryEntity;
 import ro.unibuc.hello.entity.ProductEntity;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.repository.CategoryRepository;
 import ro.unibuc.hello.repository.InformationRepository;
 import ro.unibuc.hello.repository.ProductRepository;
@@ -29,33 +30,46 @@ import static org.mockito.Mockito.*;
 @Tag("IT")
 class ProductServiceTestIT {
 
-    @MockBean
+    @Autowired
     ProductRepository productRepository;
-    @MockBean
+    @Autowired
     CategoryRepository categoryRepository;
 
     @Autowired
     ProductService productService;
+    @Autowired
+    CategoryService categoryService;
+
 
     @Test
     void test_addProduct_expectProductToBeAdded() {
         // given
-        ProductDTO productDTO = getTestProductDTO();
-        ProductEntity productEntity = getProductEntityFromDTO(productDTO);
-        CategoryEntity categoryEntity = new CategoryEntity("testCategory");
-        given(categoryRepository.findByNameEquals("testCategory")).willReturn(Optional.of(categoryEntity));
-        given(productRepository.save(productEntity)).willReturn(productEntity);
 
-        //when
-        productService.addProduct(productDTO);
+        CategoryDTO testCategoryDTO = CategoryDTO.builder().categoryName("testCategory").build();
+        CategoryEntity testCategoryEntity= new CategoryEntity();
+        testCategoryEntity.setName(testCategoryDTO.getCategoryName());
+        ProductDTO productDto= ProductDTO.builder()
+                .productId("id")
+                .productName("testName")
+                .brandName("testBrand")
+                .productDescription("testDescription")
+                .price(70f)
+                .stock(20L)
+                .category(testCategoryDTO)
+                .build();
 
-        // then
-        ArgumentCaptor<ProductEntity> productEntityArgumentCaptor=
-                ArgumentCaptor.forClass(ProductEntity.class);
-        verify(productRepository).
-               save(productEntityArgumentCaptor.capture());
-        ProductEntity captureProduct=productEntityArgumentCaptor.getValue();
-        assertEquals(captureProduct.getBrandName(),productEntity.getBrandName());
+        String categoryName= productDto.getCategory().getCategoryName();
+        categoryRepository.save(testCategoryEntity);
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findByNameEquals(categoryName);
+
+        productService.addProduct(productDto);
+        Optional<ProductEntity> productOptional = productRepository.findById(productDto.getProductId());
+
+        assertEquals("id", productDto.getProductId());
+        assertEquals("testName",productDto.getProductName());
+        categoryRepository.deleteById(categoryOptional.get().getId());
+        productRepository.deleteById(productOptional.get().getId());
+
     }
     private ProductDTO getTestProductDTO() {
         CategoryDTO testCategoryDTO = CategoryDTO.builder().categoryName("testCategory").build();
