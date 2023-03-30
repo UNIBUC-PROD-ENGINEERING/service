@@ -3,12 +3,11 @@ package ro.unibuc.hello.converters.date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 public class LocalDateReadingConverterTest {
 
-    private final LocalDateReadingConverter converter = new LocalDateReadingConverter();
+    private final LocalDateReadingDateConverter converter = new LocalDateReadingDateConverter();
 
     @Test
     public void testConvert() {
