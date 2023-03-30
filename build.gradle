@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'org.asciidoctor.convert' version '1.5.8'
+	id 'jacoco'
 	id 'java'
 }
 
@@ -49,6 +50,7 @@ dependencyManagement {
 
 test {
 	outputs.dir snippetsDir
+	finalizedBy jacocoTestReport
 	useJUnitPlatform {
 		excludeTags ("IT", "E2E")
 	}
@@ -86,4 +88,8 @@ task testE2E() {
 asciidoctor {
 	inputs.dir snippetsDir
 	dependsOn test
+}
+
+jacocoTestReport {
+	dependsOn test // tests are required to run before generating the report
 }
