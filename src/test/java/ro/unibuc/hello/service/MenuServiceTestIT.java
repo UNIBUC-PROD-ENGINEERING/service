@@ -35,12 +35,12 @@ public class MenuServiceTestIT {
 
     @Test
     public void testGetMenus(){
-
         menuRepository.deleteAll();
         List<MenuDTO> menus   = menuService.getMenus();
         Assertions.assertNotNull(menus);
         Assertions.assertEquals(0, menus.size());
     }
+
     @Test
     public void testInsertMenu() {
         createObjects();
@@ -63,9 +63,6 @@ public class MenuServiceTestIT {
         Assertions.assertEquals(dishes.size(), menuInsertedDTO.getDishes().size());
         Assertions.assertEquals(dishes.get(0).getName(), menuInsertedDTO.getDishes().get(0).getName());
         Assertions.assertEquals(dishes.get(1).getName(), menuInsertedDTO.getDishes().get(0).getName());
-
-
-
     }
 
     @Test
@@ -92,12 +89,6 @@ public class MenuServiceTestIT {
         Assertions.assertEquals(dishes.size(), menuUpdatedDTODB.getDishes().size());
         Assertions.assertEquals(dishes.get(0).getName(), menuUpdatedDTODB.getDishes().get(0).getName());
         Assertions.assertEquals(dishes.get(1).getName(), menuUpdatedDTODB.getDishes().get(0).getName());
-
-
-
-
-
-
     }
 
     @Test
@@ -112,10 +103,9 @@ public class MenuServiceTestIT {
 
         String deleteMessage = menuService.deleteMenu(menuDTO.getId().toString());
 
-        Assertions.assertEquals("Order with id:" + menuDTO.getId().toString() + "was deleted", deleteMessage);
+        Assertions.assertEquals("Menu with id " + menuDTO.getId().toString() + " was deleted successfully!", deleteMessage);
 
         Assertions.assertNull(menuService.getMenu(menuDTO.getId()));
-
     }
 
     private void createObjects(){

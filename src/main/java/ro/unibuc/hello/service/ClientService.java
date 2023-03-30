@@ -47,13 +47,16 @@ public class ClientService {
     public ClientDTO insertClient(String name, String email, String address, List<String> orderIds) {
         ClientEntity client = new ClientEntity(name, email, address);
         ArrayList<OrderEntity> orderEntities = new ArrayList<>();
+
         if(orderIds != null && !orderIds.isEmpty())
             orderIds.forEach(id -> orderEntities.add(orderRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
         else
             client.setOrders(null);
-        if(!orderEntities.isEmpty() && orderEntities !=null)
+
+        if(!orderEntities.isEmpty() && orderEntities != null)
             client.setOrders(orderEntities);
-        return new ClientDTO(client);
+
+        return new ClientDTO(clientRepository.save(client));
     }
 
     public ClientDTO updateClient(String clientId,String name, String email, String address, List<String> orderIds){

@@ -2,10 +2,12 @@ package ro.unibuc.hello.dto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import ro.unibuc.hello.data.ClientEntity;
+import ro.unibuc.hello.data.DishesEntity;
 import ro.unibuc.hello.data.OrderEntity;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ClientDTO {
@@ -14,6 +16,8 @@ public class ClientDTO {
     private String email;
     private String address;
 
+    @DBRef(lazy = true)
+    private ArrayList<OrderDTO> orders;
 
     public ClientDTO() {}
 
@@ -23,9 +27,6 @@ public class ClientDTO {
         name = client.getName();
         email = client.getEmail();
     }
-
-    @DBRef(lazy = true)
-    private ArrayList<OrderDTO> orders;
 
     public String getId() {
         return id;
