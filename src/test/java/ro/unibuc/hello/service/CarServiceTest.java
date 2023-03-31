@@ -16,6 +16,7 @@ import ro.unibuc.hello.dto.Greeting;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -54,22 +55,14 @@ class CarServiceTest {
 		}
 	}
 
-	@Test
-	void test_saveCar() {
-
-
-	}
 //	@Test
-//	void test_Model() {
+//	void test_saveCar() {
+//		Car car2 = new Car("3","B112ABC", "60", "Audi", "A5", false);
 //
-//		Assertions.assertSame("I30", carService.saveCar());
+//		when(mockedCarRepository.save(any())).thenReturn(car2);
+//
+//		carService.saveCar(car2);
+//
+//		Assertions.assertSame(car2, carService.findByNumarInmatriculare("B112ABC"));
 //	}
-//
-//	@Test
-//	void test_parcarePlatita() {
-//
-//		Assertions.assertSame(true, car.getParcarePlatita());
-//	}
-
-
 }
