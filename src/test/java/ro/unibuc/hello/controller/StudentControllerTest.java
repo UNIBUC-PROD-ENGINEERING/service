@@ -33,4 +33,22 @@ public class StudentControllerTest {
         Assert.assertArrayEquals(mockStudent.getGrades(), createdStudent.getGrades(), 0.001);
         Assert.assertEquals(mockStudent.getAverageGrade(), createdStudent.getAverageGrade(), 0.001);
     }
+    
+    @Test
+    public void testSortAlfabetic() {
+        Student s1 = new Student("John Doe", "johndoe@example.com", 20, new double[]{3.5, 4.0, 4.5});
+        Student s2 = new Student("Jane Doe", "janedoe@example.com", 19, new double[]{4.0, 4.0, 4.0});
+        Student s3 = new Student("Bob Smith", "bobsmith@example.com", 21, new double[]{3.0, 3.5, 3.5});
+
+        List<Student> students = Arrays.asList(s1, s2, s3);
+
+        Mockito.when(studentRepository.findAll()).thenReturn(students);
+
+        List<Student> sortedStudents = studentController.sortAlfabetic();
+
+        // Verify that the students are sorted alphabetically by name
+        Assert.assertEquals(s1, sortedStudents.get(0));
+        Assert.assertEquals(s2, sortedStudents.get(1));
+        Assert.assertEquals(s3, sortedStudents.get(2));
+    }
 }
