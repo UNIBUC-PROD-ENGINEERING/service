@@ -42,6 +42,15 @@ class StudentDTOTest {
     void getId() {
         Assertions.assertEquals(id, studentDTO.getId());
     }
+    
+    @Test
+    void getName() {
+        Assertions.assertEquals(name, studentDTO.getName());
+    }
 
+    @Test
+    void getEmail() {
+        Assertions.assertEquals(email, studentDTO.getEmail());
+    }
     
 }
