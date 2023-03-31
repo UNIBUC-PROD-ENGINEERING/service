@@ -13,4 +13,6 @@ public interface StudentService {
     List<SubjectGradeDto> getGradesByStudentId(String studentId);
     StudentEntity addStudent(StudentDto student);
     ResponseDto addGrade(StudentGradeDto dto);
+
+
 }

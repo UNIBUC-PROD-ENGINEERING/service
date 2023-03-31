@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import java.time.LocalDate;
 
 public class StudentTest {
-
     StudentDto student = new StudentDto("1", "Ana", "Buiciuc", "12C", LocalDate.of(2000, 12, 06));
     @Test
     public void test_first_name() {
