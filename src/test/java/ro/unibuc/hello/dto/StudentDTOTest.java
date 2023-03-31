@@ -53,4 +53,9 @@ class StudentDTOTest {
         Assertions.assertEquals(email, studentDTO.getEmail());
     }
     
+    @Test
+    void testToString() {
+        Assertions.assertEquals(studentDTOString, studentDTO.toString());
+    }
+    
 }
