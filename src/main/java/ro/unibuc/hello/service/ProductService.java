@@ -15,6 +15,13 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    public ProductService() {
+    }
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     public List<ProductDTO> findProductsByName(String name){
         List<ProductEntity> productEntities =  productRepository.findByNameContaining(name);
         if(productEntities == null){
@@ -23,7 +30,7 @@ public class ProductService {
         List<ProductDTO> products = new ArrayList<>();
         for (ProductEntity productEntity : productEntities) {
 
-            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory()));
+            products.add(ProductDTO.transformFromEntity(productEntity));
         }
 
         return products;
