@@ -5,15 +5,25 @@ public class ProductDTO {
     private String name;
     private int quantity;
     private String description;
+    private String category;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, int quantity, String description) {
+    public ProductDTO(long id, String name, int quantity, String description, String category) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public long getId() {

@@ -19,13 +19,19 @@ public class ProductController {
     public List<ProductDTO> getProductsByName(@PathVariable String name){
         return productService.findProductsByName(name);
     }
+    @GetMapping("/product")
+    @ResponseBody
+    public List<ProductDTO> getAllProducts(){
+        return productService.findAllProducts();
+    }
 
     @PostMapping("/product")
     @ResponseBody
     public String uploadProduct(@RequestBody ProductDTO productDTO){
-        productService.uploadProduct(productDTO);
+        if(productService.uploadProduct(productDTO)){
+            return "Success";
+        }
+        return "Upload failed";
 
-
-        return "Success";
     }
 }
