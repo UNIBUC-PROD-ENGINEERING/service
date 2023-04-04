@@ -18,7 +18,7 @@ public class MedicamentService {
     @Autowired
     private MedicamentRepository medicamentRepository;
 
-    public String getMedicamente(String name){
+    public String getMedicamente(String name) throws EntityNotFoundException {
         MedicamentEntity entity = medicamentRepository.findByName(name);
         if (entity == null) {
             throw new EntityNotFoundException(name);
@@ -26,7 +26,7 @@ public class MedicamentService {
         return entity.getMedicamente().toString();
     }
 
-    public Medicament getMedicament(String name, long id){
+    public Medicament getMedicament(String name, long id) throws EntityNotFoundException {
 
         MedicamentEntity entity = medicamentRepository.findByName(name);
         if (entity == null) {
@@ -47,19 +47,23 @@ public class MedicamentService {
         medicamentRepository.save(entity);
     }
 
-    public void editMedicament(String db, String name, String[] ingredients, long id){
+    public String editMedicament(String db, String name, String[] ingredients, long id){
 
         MedicamentEntity entity = medicamentRepository.findByName(db);
+        Medicament med = null;
         if (entity == null) {
             throw new EntityNotFoundException(db);
         }
         for (Medicament m: entity.getMedicamente()) {
             if(m.getId()==id){
+                med = m;
                 m.setIngredients(ingredients);
                 m.setName(name);
             }
         }
         medicamentRepository.save(entity);
+        assert med != null;
+        return med.toString();
     }
 
     public void delMedicamente(String name){
@@ -85,6 +89,7 @@ public class MedicamentService {
         entity.addMedicament(m);
         medicamentRepository.save(entity);
 
-        return Arrays.toString(new ArrayList[]{entity.getMedicamente()});
+        //return Arrays.toString(new ArrayList[]{entity.getMedicamente()});
+        return m.toString();
     }
 }

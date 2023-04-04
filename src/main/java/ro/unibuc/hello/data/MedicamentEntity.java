@@ -12,6 +12,7 @@ public class MedicamentEntity {
     public String name;
     public ArrayList<Medicament> medicamente = new ArrayList<>();
     private static long counter = 1;
+
     public MedicamentEntity() {
     }
 
