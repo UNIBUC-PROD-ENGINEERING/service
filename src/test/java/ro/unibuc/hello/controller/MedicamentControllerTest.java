@@ -73,7 +73,7 @@ public class MedicamentControllerTest {
 
         Medicament medicamentTest = new Medicament("Nurofen",str);
 
-
+        //medicamentService.addMedicamente(name,medicamentTest.getName(),medicamentTest.getIngredients());
         when(medicamentService.getMedicament(name,1)).thenReturn(medicamentTest);
 
         // Act

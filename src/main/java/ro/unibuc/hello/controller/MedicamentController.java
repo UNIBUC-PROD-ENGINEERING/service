@@ -41,7 +41,7 @@ public class MedicamentController {
         medicamentService.delMedicament(id,title);
         return "Deleted";
     }
-
+    
     @DeleteMapping("/delmedicamente")
     @ResponseBody
     public String delMedicamente(@RequestParam(name="title", required=false, defaultValue="Medicamente") String title)  throws EntityNotFoundException {
@@ -55,5 +55,6 @@ public class MedicamentController {
         medicamentService.editMedicament("Medicamente",m.getName(),m.getIngredients(), id);
         return "Edited";
     }
+
 
 }
