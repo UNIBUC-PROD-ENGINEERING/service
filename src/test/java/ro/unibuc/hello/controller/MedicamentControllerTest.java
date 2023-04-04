@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.dto.Medicament;
@@ -19,7 +20,7 @@ import ro.unibuc.hello.service.MedicamentService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -59,9 +60,7 @@ public class MedicamentControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        System.out.println("AAA");
-        System.out.println(result.getResponse().getContentAsString());
-        System.out.println(medicamentTest.toString());
+
         // Assert
         Assertions.assertEquals(result.getResponse().getContentAsString(), medicamentTest.toString());
     }
@@ -70,10 +69,12 @@ public class MedicamentControllerTest {
     void test_getMedicament() throws Exception {
         // Arrange
         String [] str = new String[]{"aa","bb"};
+        String name = "Medicamente";
 
         Medicament medicamentTest = new Medicament("Nurofen",str);
 
-        when(medicamentService.getMedicament(any(),any())).thenReturn(medicamentTest);
+        //medicamentService.addMedicamente(name,medicamentTest.getName(),medicamentTest.getIngredients());
+        when(medicamentService.getMedicament(name,1)).thenReturn(medicamentTest);
 
         // Act
         MvcResult result = mockMvc.perform(get("/medicament/1")
@@ -85,5 +86,60 @@ public class MedicamentControllerTest {
         // Assert
         Assertions.assertEquals(result.getResponse().getContentAsString(), medicamentTest.toString());
     }
+
+    @Test
+    void test_addMedicament() throws Exception{
+        // Arrange
+        String [] str = new String[]{"aa","bb"};
+        String name = "Medicamente";
+
+        Medicament medicamentTest = new Medicament("Nurofen",str);
+
+
+        when(medicamentService.addMedicamente(name,medicamentTest.getName(),medicamentTest.getIngredients())).thenReturn(medicamentTest.toString());
+
+        // Act
+        MvcResult result = mockMvc.perform(post("/addmedicament",medicamentTest)
+                        .content(objectMapper.writeValueAsString(medicamentTest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+//        MvcResult result = mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON)
+//                        .content("{\"userName\":\"testUserDetails\",\"firstName\":\"xxx\",\"lastName\":\"xxx\",\"password\":\"xxx\"}"))
+//                .andDo(MockMvcResultHandlers.print())
+//                .andExpect(status().isOk())
+//                .andReturn();
+
+        // Assert
+        Assertions.assertEquals(result.getResponse().getContentAsString(), medicamentTest.toString());
+    }
+
+//    @Test
+//    void test_editMedicament() throws Exception{
+//        // Arrange
+//        String [] str = new String[]{"aa","bb"};
+//        String name = "Medicamente";
+//
+//        Medicament medicamentTest = new Medicament("Nurofen",str);
+//
+//
+//        when(medicamentService.editMedicament(name,medicamentTest.getName(),medicamentTest.getIngredients(),medicamentTest.getId())).thenReturn(medicamentTest.toString());
+//        // Act
+//        MvcResult result = mockMvc.perform(put("/editmedicament",medicamentTest)
+//                        .content(objectMapper.writeValueAsString(medicamentTest))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+////        MvcResult result = mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON)
+////                        .content("{\"userName\":\"testUserDetails\",\"firstName\":\"xxx\",\"lastName\":\"xxx\",\"password\":\"xxx\"}"))
+////                .andDo(MockMvcResultHandlers.print())
+////                .andExpect(status().isOk())
+////                .andReturn();
+//
+//        // Assert
+//        Assertions.assertEquals(result.getResponse().getContentAsString(), medicamentTest.toString());
+//    }
 
 }
