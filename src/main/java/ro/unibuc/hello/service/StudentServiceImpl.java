@@ -53,10 +53,7 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-    //TODO Faceti validator pe StudentGradeDto ->
-    // Aici ar trebui intors altceva cand studentul nu exista
-    // *vedeti cum am implementat mai sus
-    // restul detaliez la handle.
+
     @Override
     public ResponseDto addGrade(StudentGradeDto dto) {
         studentRepository.findById(dto.getStudentId())
@@ -69,7 +66,6 @@ public class StudentServiceImpl implements StudentService {
         return new ResponseDto(true, "Grade added successfully");
     }
 
-    //TODO De validat daca exista profesorul, nota e in formatul corect etc
     private void handleStudent(StudentEntity student, StudentGradeDto dto) {
         CatalogEntity catalog = catalogRepository.findByStudent(student);
         if (catalog == null) {

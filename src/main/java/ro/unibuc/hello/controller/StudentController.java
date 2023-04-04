@@ -6,6 +6,7 @@ import ro.unibuc.hello.dto.ResponseDto;
 import ro.unibuc.hello.dto.StudentDto;
 import ro.unibuc.hello.dto.StudentGradeDto;
 import ro.unibuc.hello.dto.SubjectGradeDto;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.models.CatalogEntity;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.service.StudentService;
@@ -32,7 +33,11 @@ public class StudentController {
 
     @PostMapping("/add-grade")
     public ResponseEntity<ResponseDto> addGrade(@RequestBody StudentGradeDto dto) {
-        return ResponseEntity.ok(studentService.addGrade(dto));
+        try {
+            return ResponseEntity.ok(studentService.addGrade(dto));
+        } catch (EntityNotFoundException exception){
+            return ResponseEntity.badRequest().body(new ResponseDto(false, exception.getMessage()));
+        }
     }
 
     @GetMapping("{studentId}/grades")

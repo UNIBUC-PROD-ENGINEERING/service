@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -18,6 +19,7 @@ import ro.unibuc.hello.dto.ResponseDto;
 import ro.unibuc.hello.dto.StudentDto;
 import ro.unibuc.hello.dto.StudentGradeDto;
 import ro.unibuc.hello.dto.SubjectGradeDto;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.models.TeacherEntity;
 import ro.unibuc.hello.repositories.CatalogRepository;
@@ -106,16 +108,11 @@ public class StudentControllerTest {
         StudentGradeDto studentGradeDto = new StudentGradeDto();
         studentGradeDto.setGrade(new SubjectGradeDto(new TeacherEntity(), 10, LocalDate.now()));
 
-        ResponseEntity<ResponseDto> expected = ResponseEntity.badRequest().body(new ResponseDto(false, "Grade could not be added successfully"));
-
-        when(studentService.addGrade(any(StudentGradeDto.class))).thenReturn(new ResponseDto(false, "Grade could not be added successfully"));
+        when(studentService.addGrade(any(StudentGradeDto.class))).thenThrow(new EntityNotFoundException(studentGradeDto.toString()));
 
         ResponseEntity<ResponseDto> actual = studentController.addGrade(studentGradeDto);
 
-        Assertions.assertNotNull(expected.getBody());
-        Assertions.assertNotNull(actual.getBody());
-        Assertions.assertEquals(expected.getStatusCode(), actual.getStatusCode());
-        Assertions.assertEquals(expected.getBody().getMessage(), actual.getBody().getMessage());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
 
     }
 

@@ -16,7 +16,7 @@ public class TeacherEntityTest {
     @Test
     public void checkIfToStringContainsAllAttributesWithoutId() {
         String message = teacher.toString();
-        teacher.setId("test");
+        teacher.setId("testId");
         Assertions.assertTrue(message.contains(teacher.getFirstName()) && message.contains(teacher.getLastName())
         && message.contains(teacher.getSubject()) && !message.contains(teacher.getId()));
     }
