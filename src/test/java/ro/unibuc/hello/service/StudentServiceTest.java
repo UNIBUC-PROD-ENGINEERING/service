@@ -16,6 +16,7 @@ import ro.unibuc.hello.dto.ResponseDto;
 import ro.unibuc.hello.dto.StudentDto;
 import ro.unibuc.hello.dto.StudentGradeDto;
 import ro.unibuc.hello.dto.SubjectGradeDto;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.models.CatalogEntity;
 import ro.unibuc.hello.models.StudentEntity;
 import ro.unibuc.hello.models.TeacherEntity;
@@ -219,11 +220,14 @@ public class StudentServiceTest {
         studentEntity.setId("test");
         when(studentRepository.findById(any(String.class))).thenReturn(Optional.empty());
 
-        ResponseDto response =studentService.addGrade(new StudentGradeDto(
-                studentEntity.getId(),
-                new SubjectGradeDto(new TeacherEntity(), 10, LocalDate.now())));
-
-        Assertions.assertFalse(response.isSuccess());
+        try {
+            ResponseDto response = studentService.addGrade(new StudentGradeDto(
+                    studentEntity.getId(),
+                    new SubjectGradeDto(new TeacherEntity(), 10, LocalDate.now())));
+            Assertions.fail("Entity not found not thrown");
+        } catch (EntityNotFoundException exception) {
+            Assertions.assertTrue(true, "Entity not found correctly thrown");
+        }
 
     }
 
