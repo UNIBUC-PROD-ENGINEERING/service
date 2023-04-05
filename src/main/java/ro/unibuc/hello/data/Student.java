@@ -31,6 +31,14 @@ public class Student {
         }
     }
 
+    public double[] getGrades(){
+        return grades;
+    }
+
+    public void setGrades(double[] grades){
+        this.grades = grades;
+    }
+
     public double getAverageGrade() {
         return averageGrade;
     }
