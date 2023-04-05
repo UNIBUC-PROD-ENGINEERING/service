@@ -9,6 +9,7 @@ public class StudentDTO {
     private String name;
     private String email;
     private int age;
+    private double[] grades;
     public StudentDTO() {}
 
     public StudentDTO(Student student) {
@@ -16,7 +17,17 @@ public class StudentDTO {
         this.name = student.getName();
         this.email = student.getEmail();
         this.age = student.getAge();
+        this.grades = student.getGrades();
     }
+
+    public double[] getGrades(){
+        return grades;
+    }
+
+    public void setGrades(double[] grades){
+        this.grades = grades;
+    }
+
 
     public String getId() {
         return id;
