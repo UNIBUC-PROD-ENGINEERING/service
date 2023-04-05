@@ -1,54 +1,57 @@
-// @RunWith(MockitoJUnitRunner.class)
-// public class StudentControllerTest {
+import java.util.Arrays;
+import java.util.List;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+import java.util.Optional;
 
-//     @Mock
-//     private StudentRepository studentRepository;
+import ro.unibuc.hello.data.StudentRepository;
+import ro.unibuc.hello.data.Student;
+import ro.unibuc.hello.dto.StudentDTO;
+import ro.unibuc.hello.controller.StudentController;
 
-//     @InjectMocks
-//     private StudentController studentController;
 
-//     @Test
-//     public void testCreateStudent() {
-//         // Mock the student object that will be returned by the repository save method
-//         Student mockStudent = new Student("John Doe", "johndoe@example.com", 25, new double[]{3.5, 4.0});
-//         Mockito.when(studentRepository.save(Mockito.any(Student.class))).thenReturn(mockStudent);
 
-//         // Call the controller method with mock request parameters
-//         Student createdStudent = studentController.createStudent("John Doe", "johndoe@example.com", 25, new double[]{3.5, 4.0});
+@RunWith(MockitoJUnitRunner.class)
+public class StudentControllerTest {
 
-//         // Verify that the repository save method was called with the correct student object
-//         ArgumentCaptor<Student> argumentCaptor = ArgumentCaptor.forClass(Student.class);
-//         Mockito.verify(studentRepository).save(argumentCaptor.capture());
-//         Student capturedStudent = argumentCaptor.getValue();
-//         Assert.assertEquals("John Doe", capturedStudent.getName());
-//         Assert.assertEquals("johndoe@example.com", capturedStudent.getEmail());
-//         Assert.assertEquals(25, capturedStudent.getAge());
-//         Assert.assertArrayEquals(new double[]{3.5, 4.0}, capturedStudent.getGrades(), 0.001);
+    @Mock
+    private StudentRepository studentRepository;
 
-//         // Verify that the created student object matches the mock student object returned by the repository
-//         Assert.assertEquals(mockStudent.getId(), createdStudent.getId());
-//         Assert.assertEquals(mockStudent.getName(), createdStudent.getName());
-//         Assert.assertEquals(mockStudent.getEmail(), createdStudent.getEmail());
-//         Assert.assertEquals(mockStudent.getAge(), createdStudent.getAge());
-//         Assert.assertArrayEquals(mockStudent.getGrades(), createdStudent.getGrades(), 0.001);
-//         Assert.assertEquals(mockStudent.getAverageGrade(), createdStudent.getAverageGrade(), 0.001);
-//     }
-    
-//     @Test
-//     public void testSortAlfabetic() {
-//         Student s1 = new Student("John Doe", "johndoe@example.com", 20, new double[]{3.5, 4.0, 4.5});
-//         Student s2 = new Student("Jane Doe", "janedoe@example.com", 19, new double[]{4.0, 4.0, 4.0});
-//         Student s3 = new Student("Bob Smith", "bobsmith@example.com", 21, new double[]{3.0, 3.5, 3.5});
+    @InjectMocks
+    private StudentController studentController;
 
-//         List<Student> students = Arrays.asList(s1, s2, s3);
 
-//         Mockito.when(studentRepository.findAll()).thenReturn(students);
+    @Test
+    public void testCreateStudent() {
+        // Mock the student object that will be returned by the repository save method
+        Student mockStudent = new Student("Ion Popescu", "ion.popescu@gmail.com", 22, new double[]{9.0, 8.0});
+        Mockito.when(studentRepository.save(Mockito.any(Student.class))).thenReturn(mockStudent);
 
-//         List<Student> sortedStudents = studentController.sortAlfabetic();
+        // Call the controller method with mock request parameters
+        Student createdStudent = studentController.createStudent("Ion Popescu", "ion.popescu@gmail.com", 22, new double[]{9.0, 8.0});
 
-//         // Verify that the students are sorted alphabetically by name
-//         Assert.assertEquals(s1, sortedStudents.get(0));
-//         Assert.assertEquals(s2, sortedStudents.get(1));
-//         Assert.assertEquals(s3, sortedStudents.get(2));
-//     }
-// }
+        // Verify that the repository save method was called with the correct student object
+        ArgumentCaptor<Student> argumentCaptor = ArgumentCaptor.forClass(Student.class);
+        Mockito.verify(studentRepository).save(argumentCaptor.capture());
+        Student capturedStudent = argumentCaptor.getValue();
+
+        Assert.assertEquals("Ion Popescu", capturedStudent.getName());
+        Assert.assertEquals("ion.popescu@gmail.com", capturedStudent.getEmail());
+        Assert.assertEquals(22, capturedStudent.getAge());
+        Assert.assertArrayEquals(new double[]{9.0, 8.0}, capturedStudent.getGrades(), 0.001);
+
+        // Verify that the created student object matches the mock student object returned by the repository
+        Assert.assertEquals(mockStudent.getId(), createdStudent.getId());
+        Assert.assertEquals(mockStudent.getName(), createdStudent.getName());
+        Assert.assertEquals(mockStudent.getEmail(), createdStudent.getEmail());
+        Assert.assertEquals(mockStudent.getAge(), createdStudent.getAge());
+        Assert.assertArrayEquals(mockStudent.getGrades(), createdStudent.getGrades(), 0.001);
+        Assert.assertEquals(mockStudent.getAverageGrade(), createdStudent.getAverageGrade(), 0.001);
+    }
+}
