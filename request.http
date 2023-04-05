@@ -1,4 +1,4 @@
-POST http://localhost:8080/student/create?name="Vlad Calomfirescu"&email="vlad.calomfirescu@gmail.com"&age=21&grades=7.5&grades=8
+POST http://localhost:8080/student/create?name=Ion Popescu&email=ion.popescu@gmail.com&age=22&grades=9&grades=8
 
 # DELETE http://localhost:8080/student/delete?id=641d5d9665e94170beddd454
 

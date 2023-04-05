@@ -18,13 +18,12 @@
 //     String studentDTOString;
 //     @BeforeEach
 //     void setUp() {
-//         id = "1";
+//         id = "642d31d5a249a13d08983f55";
 //         name = "Ion Popescu";
 //         email = "ion.popescu@gmail.com";
-//         age = 19;
-//         grades[0] = 7;
-//         grades[1] = 8;
-//         grades[2] = 9;
+//         age = 22;
+//         grades[0] = 9.0;
+//         grades[1] = 8.0;
 //         studentDTO = new StudentDTO();
 //         studentDTO.setId(id);
 //         studentDTO.setName(name);
