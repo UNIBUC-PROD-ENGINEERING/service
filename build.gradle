@@ -53,10 +53,16 @@ test {
 	useJUnitPlatform {
 		excludeTags ("IT", "E2E")
 	}
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
 }
 
 task testIT(type: Test) {
 	outputs.dir snippetsDir
+	outputs.upToDateWhen { false }
 
 	useJUnitPlatform {
 		includeTags "IT"
