@@ -12,7 +12,6 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
     List<UserEntity> findByLastNameContaining(String lastName);
     List<UserEntity> findByEmailContaining(String email);
     List<UserEntity> findAll();
-
     List<UserEntity> findByNameContaining(String name);
-
+    void deleteById(long id);
 }

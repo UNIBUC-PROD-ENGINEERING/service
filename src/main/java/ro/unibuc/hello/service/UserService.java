@@ -17,8 +17,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public UserDTO findUserById(String id) {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+    public UserDTO findUserById(long id) {
+        Optional<UserEntity> userEntityOptional = Optional.ofNullable(userRepository.findById(id));
         if (userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
             return new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail());
@@ -51,7 +51,7 @@ public class UserService {
         }
     }
 
-    public boolean deleteUser(String id) {
+    public boolean deleteUser(long id) {
         try {
             userRepository.deleteById(id);
         } catch (Exception e) {

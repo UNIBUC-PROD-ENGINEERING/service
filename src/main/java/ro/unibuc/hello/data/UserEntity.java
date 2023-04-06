@@ -5,24 +5,26 @@ import org.springframework.data.annotation.Id;
 
 import java.util.Random;
 
-    public class UserEntity {
-        @Id
-        private long id = new Random().nextLong();
-        private String firstName;
-        private String lastName;
-        private String email;
+public class UserEntity {
+    @Id
+    private long id = new Random().nextLong();
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String name;
 
-        public UserEntity() {
-        }
+    public UserEntity() {
+    }
 
-        public UserEntity(long id, String firstName, String lastName, String email) {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-        }
+    public UserEntity(long id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.name = firstName + " " + lastName;
+    }
 
-        public long getId() {
+    public long getId() {
             return id;
         }
 

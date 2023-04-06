@@ -1,52 +1,57 @@
 package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import ro.unibuc.hello.data.UserEntity;
-import ro.unibuc.hello.data.UserRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.UserDTO;
-import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Component
-class UserService {
+@Controller
+public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserService userService;
 
-    public List<UserDTO> findUsersByName(String name) {
-        List<UserEntity> userEntities = userRepository.findByNameContaining(name);
-        if (userEntities == null) {
-            throw new EntityNotFoundException("Can't find users");
-        }
-        List<UserDTO> users = new ArrayList<>();
-        for (UserEntity userEntity : userEntities) {
-            users.add(new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail()));
-        }
-        return users;
+    @GetMapping("/user/{id}")
+    @ResponseBody
+    public UserDTO getUserById(@PathVariable long id){
+        return userService.findUserById(id);
     }
 
-    public boolean addUser(UserDTO userDTO) {
-        try {
-            userRepository.save(new UserEntity(userDTO.getId(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail()));
-        } catch (Exception e) {
-            System.out.println(e);
-            return false;
-        }
-        return true;
+    @GetMapping("/user")
+    @ResponseBody
+    public List<UserDTO> getAllUsers(){
+        return userService.findAllUsers();
     }
 
-    public List<UserDTO> findAllUsers() {
-        List<UserEntity> userEntities = userRepository.findAll();
-        if (userEntities == null) {
-            throw new EntityNotFoundException("Can't find users");
+    @PostMapping("/user")
+    @ResponseBody
+    public String createUser(@RequestBody UserDTO userDTO){
+        if(userService.createUser(userDTO)){
+            return "Success";
         }
-        List<UserDTO> users = new ArrayList<>();
-        for (UserEntity userEntity : userEntities) {
-            users.add(new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail()));
+        return "Create failed";
+    }
+
+    @PutMapping("/user/{id}")
+    @ResponseBody
+    public String updateUser(@PathVariable long id, @RequestBody UserDTO userDTO){
+        if(userService.updateUser(userDTO)){
+            return "Success";
         }
-        return users;
+        return "Update failed";
+    }
+
+    @DeleteMapping("/user/{id}")
+    @ResponseBody
+    public String deleteUser(@PathVariable long id){
+        if(userService.deleteUser(id)){
+            return "Success";
+        }
+        return "Delete failed";
     }
 }
+
+
