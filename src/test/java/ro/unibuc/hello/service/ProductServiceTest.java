@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import ro.unibuc.hello.data.ProductEntity;
@@ -12,6 +13,8 @@ import ro.unibuc.hello.data.ProductRepository;
 import ro.unibuc.hello.dto.ProductDTO;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,7 +33,7 @@ public class ProductServiceTest {
         when(mockProductRepository.findByNameContaining("John")).thenReturn(new ArrayList<>(List.of(new ProductEntity(1, "John Doe", 1, "Description", "Category"))));
     }
     @Test
-    void test_getProduct_returnsListOfProducts(){
+    public void test_getProduct_returnsListOfProducts(){
         // Arrange
         String name = "John";
 
@@ -43,7 +46,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    void test_getProductByName_returnsNothing(){
+    public void test_getProductByName_returnsNothing(){
         // Arrange
 
         // Act
@@ -54,6 +57,35 @@ public class ProductServiceTest {
 
         // Assert
         Assertions.assertEquals(List.of(), product);
+
+    }
+
+    @Test
+    public void test_uploadProduct_uploads_Correctly(){
+        // Arrange
+
+        // Act
+        String name = "";
+        ProductEntity productEntity = new ProductEntity(1, "Product", 1, "Description", "Category");
+        ProductDTO myProduct = ProductDTO.transformFromEntity(productEntity);
+        // Act
+        productService.uploadProduct(myProduct);
+
+        // Assert
+        Mockito.verify(mockProductRepository).save(any());
+
+    }
+
+
+    @Test
+    public void test_findAllProducts(){
+        // Arrange
+
+        // Act
+        List<ProductDTO> products = productService.findAllProducts();
+
+        // Assert
+        Mockito.verify(mockProductRepository).findAll();
 
     }
 

@@ -11,7 +11,7 @@ public class ProductTest {
 
     @Test
     void test_id(){
-        Assertions.assertSame(1, myProduct.getId());
+        Assertions.assertSame(1L, myProduct.getId());
     }
     @Test
     void test_name(){
