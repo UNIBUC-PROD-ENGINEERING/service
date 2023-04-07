@@ -11,7 +11,6 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String email;
-    private String name;
 
     public UserEntity() {
     }
@@ -21,7 +20,6 @@ public class UserEntity {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.name = firstName + " " + lastName;
     }
 
     public long getId() {
