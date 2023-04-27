@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_PASSWORD = credentials('w3')
+        DOCKER_PASSWORD = credentials('docker_password')
         DOCKER_USERNAME = credentials('docker_username')
         GITHUB_TOKEN = credentials("github_token")
     }
