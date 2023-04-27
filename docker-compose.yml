@@ -1,8 +1,7 @@
 version: '3.1'
 services:
   hello:
-    image: hello-img
-    build: .
+    image: boxing05/hello-img:${IMAGE_TAG}
     ports:
       - 8080:8080
     environment:
