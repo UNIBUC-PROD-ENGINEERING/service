@@ -38,3 +38,5 @@ out/
 
 jmeter_results
 jmeter.log
+
+/target
