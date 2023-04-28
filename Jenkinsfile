@@ -23,16 +23,25 @@ pipeline {
                    env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
                 }
                 sh "docker build -t ${DOCKER_USERNAME}/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
+                sh "docker login docker.io -u ${DOCKER_USERNAME}-p ${DOCKER_PASSWORD}"
+                sh "docker push ${DOCKER_USERNAME}/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}"
+
                 sh "git tag ${env.IMAGE_TAG}"
                 sh "git push https://$GITHUB_TOKEN@github.com/TheBugFighters/service.git ${env.IMAGE_TAG}"
-                sh "IMAGE_TAG=${env.IMAGE_TAG} docker-compose up -d hello"
+
               }
 
         }
 
+        stage('Start Docker') {
+                    steps{
+                    sh "IMAGE_TAG=${env.IMAGE_TAG} docker-compose up -d hello"
+                    }
+                }
+
         stage('E2E tests') {
              steps {
-                 sh './gradlew testE2E'
+                 sh './gradlew test'
                  }
         }
     }
