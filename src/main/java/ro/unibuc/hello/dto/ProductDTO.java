@@ -1,5 +1,7 @@
 package ro.unibuc.hello.dto;
 
+import ro.unibuc.hello.data.ProductEntity;
+
 public class ProductDTO {
     private long id;
     private String name;
@@ -56,5 +58,9 @@ public class ProductDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public static ProductDTO transformFromEntity(ProductEntity productEntity){
+        return new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory());
     }
 }
