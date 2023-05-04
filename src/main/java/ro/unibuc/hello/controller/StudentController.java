@@ -1,5 +1,9 @@
 package ro.unibuc.hello.controller;
 
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.ResponseDto;
@@ -17,6 +21,9 @@ import java.util.List;
 public class StudentController {
 
     public final StudentService studentService;
+
+    @Autowired
+    MeterRegistry metricsRegistry;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -41,6 +48,8 @@ public class StudentController {
     }
 
     @GetMapping("{studentId}/grades")
+    @Timed(value = "hello.getstudentgrades.time", description = "Time taken to get grades from student")
+    @Counted(value = "hello.getstudentgrades.count", description = "Times getStudentGrades was returned")
     public ResponseEntity<List<SubjectGradeDto>> getStudentGrades(@PathVariable String studentId) {
         return ResponseEntity.ok(studentService.getGradesByStudentId(studentId));
     }

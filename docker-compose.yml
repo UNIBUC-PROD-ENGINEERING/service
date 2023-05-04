@@ -8,6 +8,10 @@ services:
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   mongo:
     image: mongo:5.0.2
     restart: always
@@ -16,6 +20,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
   mongo-admin-ui:
     image: mongo-express
     restart: always
@@ -25,3 +33,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
