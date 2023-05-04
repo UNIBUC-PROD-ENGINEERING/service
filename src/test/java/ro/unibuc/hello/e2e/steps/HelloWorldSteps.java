@@ -50,6 +50,24 @@ public class HelloWorldSteps {
         assertThat("Response received is incorrect", greeting.getContent(), is(response));
     }
 
+    @Then("^the admin receives status code of (\\d+)$")
+    public void the_admin_receives_status_code_of(int statusCode) throws Throwable {
+        final HttpStatus currentStatusCode = latestResponse.getTheResponse().getStatusCode();
+        assertThat("status code is incorrect : " + latestResponse.getBody(), currentStatusCode.value(), is(statusCode));
+    }
+    @Given("^the admin calls /product")
+    public void the_client_issues_POST_product() {
+        executePost("http://localhost:8080/product");
+    }
+
+    @And("^the admin receives response (.+)$")
+    public void the_admin_receives_response(String response) throws JsonProcessingException {
+        String latestResponseBody = latestResponse.getBody();
+        Greeting greeting = new ObjectMapper().readValue(latestResponseBody, Greeting.class);
+        assertThat("Response received is incorrect", greeting.getContent(), is(response));
+    }
+
+
     public void executeGet(String url) {
         final Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
@@ -58,6 +76,21 @@ public class HelloWorldSteps {
 
         restTemplate.setErrorHandler(errorHandler);
         latestResponse = restTemplate.execute(url, HttpMethod.GET, requestCallback, response -> {
+            if (errorHandler.getHadError()) {
+                return (errorHandler.getResults());
+            } else {
+                return (new ResponseResults(response));
+            }
+        });
+    }
+    public void executePost(String url) {
+        final Map<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        final HeaderSetup requestCallback = new HeaderSetup(headers);
+        final ResponseErrorHandler errorHandler = new ResponseErrorHandler();
+
+        restTemplate.setErrorHandler(errorHandler);
+        latestResponse = restTemplate.execute(url, HttpMethod.POST, requestCallback, response -> {
             if (errorHandler.getHadError()) {
                 return (errorHandler.getResults());
             } else {
