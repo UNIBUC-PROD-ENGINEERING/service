@@ -11,15 +11,19 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String email;
+    private String name;
+    private String password;
 
     public UserEntity() {
     }
 
-    public UserEntity(long id, String firstName, String lastName, String email) {
+    public UserEntity(long id, String firstName, String lastName, String email,String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.name = firstName + " " + lastName;
+        this.password = password;
     }
 
     public long getId() {
@@ -53,6 +57,13 @@ public class UserEntity {
         public void setEmail(String email) {
             this.email = email;
         }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
     }
 
 
