@@ -21,7 +21,7 @@ public class UserService {
         Optional<UserEntity> userEntityOptional = Optional.ofNullable(userRepository.findById(id));
         if (userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
-            return new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail());
+            return CreateUserDtoFromUserEntity(userEntity);
         } else {
             throw new EntityNotFoundException("Can't find user with id " + id);
         }
@@ -29,7 +29,7 @@ public class UserService {
 
     public boolean createUser(UserDTO userDTO) {
         try {
-            userRepository.save(new UserEntity(userDTO.getId(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail()));
+            userRepository.save(new UserEntity(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getPassword()));
         } catch (Exception e) {
             System.out.println(e);
             return false;
@@ -68,14 +68,16 @@ public class UserService {
         }
         List<UserDTO> users = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
-            users.add(new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail()));
+            users.add(CreateUserDtoFromUserEntity(userEntity));
         }
         return users;
     }
 
+
+
     public boolean addUser(UserDTO userDTO) {
         try {
-            userRepository.save(new UserEntity(userDTO.getId(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail()));
+            userRepository.save(new UserEntity(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getPassword()));
         } catch (Exception e) {
             System.out.println(e);
             return false;
@@ -90,8 +92,12 @@ public class UserService {
         }
         List<UserDTO> users = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
-            users.add(new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail()));
+            users.add(CreateUserDtoFromUserEntity(userEntity));
         }
         return users;
+    }
+
+    private UserDTO CreateUserDtoFromUserEntity(UserEntity userEntity) {
+        return new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword());
     }
 }

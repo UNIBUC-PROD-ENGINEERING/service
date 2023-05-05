@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class UserEntity {
     @Id
-    private long id = new Random().nextLong();
+    private long id = new Random().nextInt() & Integer.MAX_VALUE;;
     private String firstName;
     private String lastName;
     private String email;
@@ -17,8 +17,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(long id, String firstName, String lastName, String email,String password) {
-        this.id = id;
+    public UserEntity(String firstName, String lastName, String email,String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -26,7 +25,7 @@ public class UserEntity {
         this.password = password;
     }
 
-    public long getId() {
+        public long getId() {
             return id;
         }
 
@@ -64,6 +63,10 @@ public class UserEntity {
     public String getPassword() {
         return password;
     }
+
+    public String getName() {
+        return name;
     }
+}
 
 
