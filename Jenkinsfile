@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_PASSWORD = credentials("Admin123#@!")
+        DOCKER_PASSWORD = credentials("pass")
     }
 
     stages {
