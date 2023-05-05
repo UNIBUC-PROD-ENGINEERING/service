@@ -52,6 +52,13 @@ public class UserController {
         }
         return "Delete failed";
     }
+
+    @GetMapping("/user/name/{name}")
+    @ResponseBody
+    public List<UserDTO> findUsersByName(@PathVariable String name){
+        return userService.findUsersByName(name);
+    }
+
 }
 
 
