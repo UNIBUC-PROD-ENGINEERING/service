@@ -19,7 +19,7 @@ public class MedicamentController {
 
     @GetMapping("/medicamente")
     @ResponseBody
-    public String getMedicament(@RequestParam(name="title", required=false, defaultValue="Medicamente") String title)  throws EntityNotFoundException {
+    public String getMedicamente(@RequestParam(name="title", required=false, defaultValue="Medicamente") String title)  throws EntityNotFoundException {
         return medicamentService.getMedicamente(title);
     }
 
@@ -40,6 +40,20 @@ public class MedicamentController {
     public String delMedicament(@PathVariable("id")long id, @RequestParam(name="title", required=false, defaultValue="Medicamente") String title)  throws EntityNotFoundException {
         medicamentService.delMedicament(id,title);
         return "Deleted";
+    }
+    
+    @DeleteMapping("/delmedicamente")
+    @ResponseBody
+    public String delMedicamente(@RequestParam(name="title", required=false, defaultValue="Medicamente") String title)  throws EntityNotFoundException {
+        medicamentService.delMedicamente(title);
+        return "Deleted";
+    }
+
+    @PutMapping(value = "/editmedicament/{id}", produces = "application/json")
+    @ResponseBody
+    public String editMedicament(@PathVariable("id")long id, @RequestBody Medicament m) throws EntityNotFoundException {
+        medicamentService.editMedicament("Medicamente",m.getName(),m.getIngredients(), id);
+        return "Edited";
     }
 
 

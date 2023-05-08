@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.Customer;
 import ro.unibuc.hello.dto.Medicament;
+import ro.unibuc.hello.data.FarmacistEntity;
+import ro.unibuc.hello.data.FarmacistRepository;
+import ro.unibuc.hello.dto.Farmacist;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -36,6 +39,8 @@ public class HelloApplication {
 				);
 		medicamentRepository.deleteAll();
 		medicamentRepository.save(new MedicamentEntity("Medicamente",new ArrayList<Medicament>()));
+		farmacistRepository.deleteAll();
+		farmacistRepository.save(new FarmacistEntity("Farmacisti",new ArrayList<Farmacist>()));
 
 		customerRepository.deleteAll();
 		customerRepository.save(new CustomerEntity("Customers", new ArrayList<Customer>()));
