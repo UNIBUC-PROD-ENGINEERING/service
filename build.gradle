@@ -53,11 +53,6 @@ test {
 	useJUnitPlatform {
 		excludeTags ("IT", "E2E")
 	}
-	finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-	dependsOn test
 }
 
 task testIT(type: Test) {
@@ -87,10 +82,28 @@ task testE2E() {
 					'--glue', 'ro.unibuc.hello.e2e.steps',
 					'src/test/resources']
 		}
+		finalizedBy jacocoTestReport
+	}
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = false
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
 	}
 }
 
 asciidoctor {
 	inputs.dir snippetsDir
+	dependsOn test
+}
+
+jacoco {
+	toolVersion = "0.8.5"
+	reportsDir = file("$buildDir/jacoco")
+}
+
+jacocoTestReport {
 	dependsOn test
 }
