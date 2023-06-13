@@ -2,7 +2,7 @@ SERVICE_NAME=hello
 BUILDER_TAG=$(SERVICE_NAME)-build
 IMAGE_TAG=$(SERVICE_NAME)-img
 IMAGE_VERSION=latest
-default: build
+default:build
 
 clean:
 	rm -rf build
