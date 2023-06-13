@@ -8,6 +8,8 @@ public class OrderDTO {
     private String id;
     private String userID;
     private List<String> listaProduse;
+    public OrderDTO() {
+    }
 
     public OrderDTO(String id, String userID, List<String> listaProduse) {
         this.id = id;
