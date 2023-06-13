@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.dto.ProdusDTO;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -35,6 +37,14 @@ public class ProdusController {
     public List<ProdusDTO> getAll() {
         return produsService.getAll();
     }
-
-
+    @PutMapping("/putProdus")
+    @ResponseBody
+    public boolean updateProdus(ProdusDTO produs) {
+        return produsService.updateProdus(produs);
+    }
+    @DeleteMapping("/deleteProdus")
+    @ResponseBody
+    public boolean deleteProdus(String id) {
+        return produsService.deleteProdus(id);
+    }
 }

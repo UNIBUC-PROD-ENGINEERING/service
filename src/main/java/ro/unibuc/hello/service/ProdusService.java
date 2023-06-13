@@ -40,4 +40,24 @@ public class ProdusService {
         Produs produs = new Produs(produsDTO.getId(), produsDTO.getNume(), produsDTO.getPret());
         return produs;
     }
+
+    public boolean updateProdus(ProdusDTO produsDTO) {
+        ProdusDTO found = produsRepository.findById(produsDTO.getId()).orElse(null);
+        if(found != null) {
+            found.setNume(produsDTO.getNume());
+            found.setPret(produsDTO.getPret());
+            produsRepository.save(found);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteProdus(String id) {
+        ProdusDTO found = produsRepository.findById(id).orElse(null);
+        if(found != null) {
+            produsRepository.delete(found);
+            return true;
+        }
+        return false;
+    }
 }
