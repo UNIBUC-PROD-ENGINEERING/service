@@ -19,6 +19,9 @@ public class OrderEntity {
         this.user = user;
         this.listaProduse = listaProduse;
     }
+    public OrderEntity() {
+
+    }
 
     public String getId() {
         return id;

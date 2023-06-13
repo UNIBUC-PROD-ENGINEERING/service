@@ -15,6 +15,9 @@ public class UserEntity {
         this.parola = parola;
     }
 
+    public UserEntity() {
+
+    }
     public String getId() {
         return id;
     }
