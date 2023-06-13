@@ -8,6 +8,7 @@ import ro.unibuc.hello.data.ProdusRepository;
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.dto.ProdusDTO;
 import ro.unibuc.hello.exception.EntityNotFoundException;
+import java.util.stream.Collectors;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,19 +22,20 @@ public class ProdusService {
 
     private final AtomicLong counter = new AtomicLong();
 
-    public Optional<ProdusDTO> getProdus(String id) {
+    public ProdusDTO entityToDTO(Produs prod) {
+        return new ProdusDTO(prod.getId(), prod.getNume(), prod.getPret());
+    }
 
-        return produsRepository.findById(id);
+    public ProdusDTO getProdus(String id) {
+        return entityToDTO(produsRepository.findById(id).get());
     }
 
     public void createProdus(ProdusDTO produs) {
-        produsRepository.save(produs);
-
+        produsRepository.save(toEntity(produs));
     }
 
     public List<ProdusDTO> getAll() {
-        return produsRepository.findAll();
-
+        return produsRepository.findAll().stream().map(this::entityToDTO).collect(Collectors.toList());
     }
 
     public Produs toEntity(ProdusDTO produsDTO) {
@@ -42,7 +44,7 @@ public class ProdusService {
     }
 
     public boolean updateProdus(ProdusDTO produsDTO) {
-        ProdusDTO found = produsRepository.findById(produsDTO.getId()).orElse(null);
+        Produs found = produsRepository.findById(produsDTO.getId()).orElse(null);
         if(found != null) {
             found.setNume(produsDTO.getNume());
             found.setPret(produsDTO.getPret());
@@ -53,7 +55,7 @@ public class ProdusService {
     }
 
     public boolean deleteProdus(String id) {
-        ProdusDTO found = produsRepository.findById(id).orElse(null);
+        Produs found = produsRepository.findById(id).orElse(null);
         if(found != null) {
             produsRepository.delete(found);
             return true;

@@ -24,7 +24,7 @@ public class ProdusController {
 
     @GetMapping("/getProdus")
     @ResponseBody
-    public Optional<ProdusDTO> getProdus(@RequestParam(name="id", required=false) String id) {
+    public ProdusDTO getProdus(@RequestParam(name="id", required=false) String id) {
         return produsService.getProdus(id);
     }
     @PostMapping("/createProdus")
