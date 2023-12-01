@@ -12,23 +12,11 @@ All the lab examples are built to work with:
 
 If you DO NOT have one of those OSs installed we will use the following section to configure an Ubuntu virtual machine and use it for the lab.
 
-## Install Virtual Box or VMWare Fusion Player
+## Install Virtual Box
 
-### Option 1: Virtual Box
 * Download Virtual Box: https://www.virtualbox.org/wiki/Downloads
-* Download Ubuntu Virtual Box image: https://www.osboxes.org/ubuntu/#ubuntu-21-04-vbox
+* Download Ubuntu Virtual Box image: https://www.osboxes.org/ubuntu/#ubuntu-22-04-jammy-vbox
 * Create a new virtual machine using the downloaded image: https://www.leawo.org/entips/vdi-file-what-is-it-how-to-open-it-1400.html#part2
-
-
-### Option 2: VMWare Fusion Player
-
-* Create a VMWare personal Account: https://customerconnect.vmware.com/web/vmware/evalcenter?p=fusion-player-personal
-* Register free Fusion Player license
-* Download and install Fusion Player 
-* Download Fusion virtual disk image: https://www.osboxes.org/ubuntu/#ubuntu-21-04-vmware
-* Create a new virtual machine using the downloaded image: https://kb.vmware.com/s/article/1023555
-* Install VMWare Tools: `sudo apt-get install open-vm-tools open-vm-tools-desktop`. And reboot the VM
-
 
 ## Configure your Ubuntu VM
 Note: Default username is `osboxes.org` and password is `osboxes.org`
