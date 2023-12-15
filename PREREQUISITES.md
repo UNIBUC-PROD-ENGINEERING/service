@@ -22,7 +22,7 @@ If you DO NOT have one of those OSs installed we will use the following section 
 Note: Default username is `osboxes.org` and password is `osboxes.org`
 
 Install required software:
-* Atom: https://linuxize.com/post/how-to-install-atom-text-editor-on-ubuntu-20-04/
+* [Visual Studio Code](https://code.visualstudio.com/docs/setup/linux)
 * Docker: 
     * Install: https://docs.docker.com/engine/install/ubuntu/
     * Add your user in docker users group: 
