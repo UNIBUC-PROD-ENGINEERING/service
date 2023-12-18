@@ -1,0 +1,35 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'loki'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:3100']
+  - job_name: 'cadvisor'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:8081']
+  - job_name: 'mongodb'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:9001']
+  - job_name: 'spring-hello-app'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+
+# Rules and alerts are read from the specified file(s)
+rule_files:
+  - app-alerts.yml
+  - canary-alerts.yml
+  - container-alerts.yml
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets: [ 'host.docker.internal:9093' ]

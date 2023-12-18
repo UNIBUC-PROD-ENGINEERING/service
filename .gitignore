@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Durable Prom store
+prometheus/durable
+
+### Durable Loki store
+loki/durable/
