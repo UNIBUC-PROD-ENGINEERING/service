@@ -1,0 +1,20 @@
+groups:
+  - name: ContainerAlerts
+    rules:
+    - alert: WARNING-ApplicationContainerDown
+      expr: time() - container_last_seen{name="service_hello_1"} > 20
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: Application container down (instance {{ $labels.instance }})
+        description: "Application container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: CRITICAL-ApplicationContainerDown
+      expr: time() - container_last_seen{name="service_hello_1"} > 60
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Application container down (instance {{ $labels.instance }})
+        description: "Application container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

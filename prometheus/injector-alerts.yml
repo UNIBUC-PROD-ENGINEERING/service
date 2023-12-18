@@ -1,0 +1,11 @@
+groups:
+  - name: ContainerAlerts
+    rules:
+    - alert: WARNING-TrafficInjectorContainersDown
+      expr: time() - container_last_seen{name="service_hello_1"} > 20
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: Injector container killed (instance {{ $labels.instance }})
+        description: "Application container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
