@@ -18,7 +18,6 @@ import ro.unibuc.hello.service.HelloWorldService;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,7 +46,7 @@ class HelloWorldControllerTest {
         // Arrange
         Greeting greeting = new Greeting(1, "Hello, there!");
 
-        when(helloWorldService.hello(any())).thenReturn(greeting);
+        when(helloWorldService.hello("there")).thenReturn(greeting);
 
         // Act
         MvcResult result = mockMvc.perform(get("/hello-world?name=there")
@@ -57,7 +56,7 @@ class HelloWorldControllerTest {
                 .andReturn();
 
         // Assert
-        Assertions.assertEquals(result.getResponse().getContentAsString(), objectMapper.writeValueAsString(greeting));
+        Assertions.assertEquals(objectMapper.writeValueAsString(greeting), result.getResponse().getContentAsString());
     }
 
     @Test
@@ -65,7 +64,7 @@ class HelloWorldControllerTest {
         // Arrange
         Greeting greeting = new Greeting(1, "there : some description");
 
-        when(helloWorldService.buildGreetingFromInfo(any())).thenReturn(greeting);
+        when(helloWorldService.buildGreetingFromInfo("there")).thenReturn(greeting);
 
         // Act
         MvcResult result = mockMvc.perform(get("/info?title=there")
@@ -75,14 +74,14 @@ class HelloWorldControllerTest {
                 .andReturn();
 
         // Assert
-        Assertions.assertEquals(result.getResponse().getContentAsString(), objectMapper.writeValueAsString(greeting));
+        Assertions.assertEquals(objectMapper.writeValueAsString(greeting), result.getResponse().getContentAsString());
     }
 
     @Test
     void test_info_cascadesException() {
         // Arrange
         String title = "there";
-        when(helloWorldService.buildGreetingFromInfo(any())).thenThrow(new EntityNotFoundException(title));
+        when(helloWorldService.buildGreetingFromInfo(title)).thenThrow(new EntityNotFoundException(title));
 
         // Act
         EntityNotFoundException exception = assertThrows(
