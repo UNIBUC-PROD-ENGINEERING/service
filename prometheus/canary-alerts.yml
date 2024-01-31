@@ -1,0 +1,11 @@
+groups:
+  - name: CanaryAlerts
+    rules:
+      - alert: WARNING-NoThroughout
+        expr: rate(hello_info_count_total[1m]) == 0
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          summary: Increased info retrieval rate {{ $labels.value}} {{ $value }}
+          description: "There is no incoming canary traffic"
