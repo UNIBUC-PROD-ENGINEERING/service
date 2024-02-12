@@ -1,51 +1,46 @@
+## Spring and Spring Boot
+
+Spring is a lightweight framework providing a sophisticated environment for programming and a configuration model for Java-based applications. Spring Boot, on the other hand, is a Java-based framework specifically tailored for creating stand-alone, Spring-based applications.
+
 ## Inversion of control
 
-Este un principiu de programare care se refera la transferarea controlului pentru
-
-anumite portiuni dintr-un program catre un container sau un framework.
+It is a software design principle that implies transferring control for certain portions of a program to a container or framework.
 
 ## Dependency Injection
 
-Dependency injection este un pattern folosit pentru a implementa IoC, deoarece
+Dependency injection is a pattern used for implementing IoC. The DI (Dependency Injection) container has the control, being responsible for managing dependencies between objects and providing them where they are requested.
 
-controlul revine dependetelor unui obiect.
-
-
-Un exemplu de dependency injection care respecta principiul IoC:
+DI example respecting IoC principle:
 
 ```java
 public class Student {
- University university;
+ private final University university;
  public Student (University university) {
     this.university = university;
  }
 ```
 
-Un exemplu de dependency injection care nu respecta principiu IoC:
+DI example not respecting IoC principle:
 
 ```java
 public class Student {
-University university;
+private final University university;
 public Student () {
     this.university = new University ("Unibuc");
 }
 ```
 
 
-**Linkuri utile pt IoC si dependency injection:**
-
-<https://www.youtube.com/watch?v=EPv9-cHEmQw>
-
-<https://www.educative.io/answers/what-is-inversion-of-control>
+**Resources:**
 
 <https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring>
 
 
 ## Spring Boot
 
-Vom prezenta mai jos implementarea catorva operatii de tip CRUD cu ajutorul Spring Boot.
+Down below we implement some CRUD operations with the help of Spring Boot.
 
-Se creeaza o entitate, care reprezinta structura tabelului care va fi salvat in baza de date.
+First of all, let’s create an entity class which matches a table in the database and its’ fields.
 
 ```java
 @Entity
@@ -68,7 +63,7 @@ public class Student {
 ```
 
 
-Se creeaza o clasa de tip repository, care ofera o interfata cu metode prin care se interactioneaza cu baza de date. Aceasta pune la dispozitie operatiile elementare de C - create, R - read, U - update, D - delete.
+We create a repository class containing methods through which we interact with the database. Here we have the basic operations of: C - create, R - read, U - update, D - delete.
 
 ```java
 import ...
@@ -81,16 +76,18 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 ```
 
 
-Se creeaza o clasa de tip service; aici sunt efectuate toate prelucrarile de date. Rezultatul este apoi trimis catre controller in cazul unei cereri de tip GET sau inserat in baza de date in cazul unei cereri de tip PUT. Service se foloseste de operatiile puse la dispozitie de repository.
+We create a service class. It handles all the data processing and sends the result to the controller for a GET request or inserts it in the data base in the case of  a PUT request. The service class uses the methods from the repository.
+
 
 ```javascript
 import ...
 
 @Service
 public class StudentService {
-
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
+    StudentService(StudentRepository repo) {
+        this.studentRepository = repo;
+    }
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
@@ -105,10 +102,10 @@ public class StudentService {
     }
 
     public Optional<Student> updateStudent(Long id, Student student) {
-        Optional<Student> existingStudent = studentRepository.findById(id);
+        final Optional<Student> existingStudent = studentRepository.findById(id);
 
         if (existingStudent.isPresent()) {
-            Student updatedStudent = existingStudent.get();
+            final Student updatedStudent = existingStudent.get();
             updatedStudent.setName(student.getName());
             updatedStudent.setFaculty(student.getFaculty());
             return Optional.of(studentRepository.save(updatedStudent));
@@ -129,7 +126,7 @@ public class StudentService {
 ```
 
 
-Se creeaza o clasa de tip Controller, care apeleaza metodele potrivite (din Service) pentru cererea primita de la frontend. Tot el returneaza rezultatul primit de catre metoda din service si il trimite la frontend.
+The last one is the Controller class. It calls the appropiate methods from Service depending on the request sent by the client. Afterwards, it sends the result back to the client.
 
 ```java
 import ...
@@ -138,54 +135,51 @@ import ...
 @RequestMapping("/api")
 public class StudentController {
 
-    @Autowired
-    private StudentService studentService;
-
-    // Return all students
-    @GetMapping("/students")
-    public List<Student> getAllStudents() {
-        List<Student> students = studentService.getAllStudents();
-        return students;
+    private final StudentService studentService;
+    StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
-    // Return a student by ID
+    // Retrieve all students
+    @GetMapping("/students")
+    public ResponseEntity<List<Student>> getAllStudents() {
+        final List<Student> students = studentService.getAllStudents();
+        return new ResponseEntity<>(students, HttpStatus.OK);
+    }
+
+    // Retrieve a student by ID
     @GetMapping("/students/{id}")
-    public Optional<Student> getStudentById(@PathVariable Long id) {
-        return studentService.getStudentById(id);
+    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+        return studentService.getStudentById(id)
+                .map(student -> new ResponseEntity<>(student, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Create a new student
     @PostMapping("/students")
-    public Student createStudent(@RequestBody Student student) {
-        Student newStudent = studentService.createStudent(student);
-        return newStudent;
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+        final Student newStudent = studentService.createStudent(student);
+        return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
     }
 
     // Update a student by ID
     @PutMapping("/students/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
-        return studentService.updateStudent(id, student);
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
+        return studentService.updateStudent(id, student)
+                .map(updatedStudent -> new ResponseEntity<>(updatedStudent, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Delete a student by ID
     @DeleteMapping("/students/{id}")
-    public Student deleteStudent(@PathVariable Long id) {
-        return studentService.deleteStudent(id);
+    public ResponseEntity<HttpStatus> deleteStudent(@PathVariable Long id) {
+        return studentService.deleteStudent(id)
+                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
 ```
 
-Linkuri utile:
+Resources:
 
-<https://www.youtube.com/watch?v=IucFDX3RO9U>
-
-<https://www.youtube.com/watch?v=9SGDpanrc8U>
-
-<https://www.youtube.com/watch?v=vtPkZShrvXQ&pp=ygUdU3ByaW5nIHR1dG9yaWFsIGZvciBiZWdpbm5lcnM%3D>
-
-<https://docs.spring.io/spring-framework/reference/index.html>
-
-<https://www.youtube.com/watch?v=Ch163VfHtvA&list=PLsyeobzWxl7oA8QOlMtQsRT_I7Rx2hoX4>
-
-
-
+<https://www.youtube.com/watch?v=m-L-r862J-E&list=PLOk4ziGG9MBdlyxIDw5wYvj6QZTQ22wvK>
