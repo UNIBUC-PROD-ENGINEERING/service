@@ -36,28 +36,24 @@ public Student () {
 <https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring>
 
 
-## Spring Boot
+## Spring Boot for CRUD
 
 Down below we implement some CRUD operations with the help of Spring Boot.
 
 First of all, let’s create an entity class which matches a table in the database and its’ fields.
 
 ```java
-@Entity
-@Table(name = "student")
+@Document(collection = "students")
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Getter
     @Setter
-    @Column(name = "name")
     private String name;
 
     @Getter
     @Setter
-    @Column(name = "faculty")
     private String faculty;
 }
 ```
@@ -68,10 +64,7 @@ We create a repository class containing methods through which we interact with t
 ```java
 import ...
 
-import com.startdemo.demo.model.Student;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface StudentRepository extends JpaRepository<Student, Long> {
+public interface StudentRepository extends MongoRepository<Student, Long> {
 }
 ```
 
