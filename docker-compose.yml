@@ -26,6 +26,8 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: unibuc
+      ME_CONFIG_BASICAUTH_PASSWORD: adobe
 # MONITORING SERVICES
   cadvisor: # container metric prometheus exporter
     image: gcr.io/cadvisor/cadvisor:v0.47.1
@@ -42,7 +44,7 @@ services:
     profiles:
       - "monitoring"
   mongodb-exporter:
-    build: ./mongodb_exporter/
+    build: ./infrastructure/mongodb_exporter/
     command: ./mongodb_exporter-linux-amd64 -logtostderr -mongodb.uri mongodb://root:example@mongo:27017 -groups.enabled 'asserts,durability,background_flusshing,connections,extra_info,global_lock,index_counters,network,op_counters,op_counters_repl,memory,locks,metrics'
     restart: always
     ports:
@@ -54,14 +56,14 @@ services:
     ports:
       - 3100:3100
     volumes:
-      - ./loki/:/etc/loki/
+      - ./infrastructure/loki/:/etc/loki/
     command: -config.file=/etc/loki/config.yaml
     profiles:
       - "monitoring"
   prometheus: # metrics aggregation and alert definition server (prometheus server)
     image: prom/prometheus:v2.33.4
     volumes:
-      - ./prometheus/:/etc/prometheus/
+      - ./infrastructure/prometheus/:/etc/prometheus/
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/etc/prometheus/durable"
@@ -76,7 +78,7 @@ services:
   alertmanager: # alert manager (prometheus)
     image: prom/alertmanager:v0.23.0
     volumes:
-      - ./alertmanager/:/config/
+      - ./infrastructure/alertmanager/:/config/
     command: --config.file=/config/alertmanager.yml --log.level=debug
     ports:
       - "9093:9093"
@@ -89,8 +91,8 @@ services:
   grafana: # dashboard visualisation tool (metrics & logs)
     image: grafana/grafana:8.4.3
     volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/etc/grafana/dashboards
+      - ./infrastructure/grafana/provisioning:/etc/grafana/provisioning
+      - ./infrastructure/grafana/dashboards:/etc/grafana/dashboards
     ports:
       - 3000:3000
     environment:

@@ -1,5 +1,6 @@
 # Prerequisites
 
+For using Github Codespaces, no prerequisites are mandatory.
 Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a local virtual machine with Ubuntu, Docker, IntelliJ.
 
 # Access the code
@@ -9,6 +10,19 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
 * Clone the code repository:
   * git@github.com:YOUR_ORG_NAME/service.git
 
+# Run code in Github Codespaces
+
+* Make sure that the Github repository is forked under your account / Organization
+* Create a new Codespace from your forked repository
+* Wait for the Codespace to be up and running
+* Make sure that Docker service has been started
+    * ```docker ps``` should return no error
+* Build the docker image of the hello world service
+    * ```make build```
+* Start all the service containers
+    * ```./start.sh```
+
+NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9ePlxz03kg)
 
 # Run/debug code in IntelliJ
 * Build the code
@@ -28,7 +42,7 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
 * Build the docker image of the hello world service
     * ```make build```
 * Start all the containers
-    * ```docker-compose up -d```
+    * ```./start.sh```
 
 * Verify that all containers started, by running
   ```
