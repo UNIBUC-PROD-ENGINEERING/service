@@ -18,7 +18,7 @@ public class HelloWorldController {
 
     @GetMapping("/hello-world")
     @ResponseBody
-    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
+    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Tiberius") String name) {
         return helloWorldService.hello(name);
     }
 
