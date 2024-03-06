@@ -88,7 +88,7 @@ Wishlist Management
 
 # Database 
 
-![image](https://github.com/333-Prod-Engineering/service/assets/93870739/33e224c4-585f-4f8e-9c02-9dcd428d4ae7)
+![image](https://github.com/333-Prod-Engineering/service/assets/93870739/0fd54934-7b2d-4b18-b15d-85ae6fdd06f1)
 
 # Endpoints
 Author:
