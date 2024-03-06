@@ -29,6 +29,7 @@ public class HelloWorldService {
         if (entity == null) {
             throw new EntityNotFoundException(title);
         }
-        return new Greeting(counter.incrementAndGet(), String.format(informationTemplate, entity.title, entity.description));
+        return new Greeting(counter.incrementAndGet(),
+                String.format(informationTemplate, entity.title, entity.description));
     }
 }
