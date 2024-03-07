@@ -1,4 +1,4 @@
 #!/bin/bash
 set -x
 
-docker compose up -d 
+docker compose --profile mongo --profile hello-service up -d 

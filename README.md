@@ -17,10 +17,15 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
 * Wait for the Codespace to be up and running
 * Make sure that Docker service has been started
     * ```docker ps``` should return no error
-* Build the docker image of the hello world service
-    * ```make build```
-* Start all the service containers
-    * ```./start.sh```
+* For running all services in docker:
+    * Build the docker image of the hello world service
+        * ```make build```
+    * Start all the service containers
+        * ```./start.sh```
+* For running / debugging directly in Visual Studio Code
+    * Start the MongoDB related services
+        * ```./start_mongo_only.sh```
+    * Start the Spring Boot service by clicking `Run` button inside Visual Studio Code
 
 NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9ePlxz03kg)
 
