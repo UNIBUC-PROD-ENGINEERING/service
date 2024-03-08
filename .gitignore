@@ -34,7 +34,9 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+.vscode/**
+!.vscode/launch.json
+!.vscode/settings.json
 
 ### Durable Prom store
 infrastructure/prometheus/durable
