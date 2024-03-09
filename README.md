@@ -61,4 +61,10 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
     * http://localhost:8080/hello-world
     * http://localhost:8080/info
 * You can access the MongoDB Admin UI at:
-  * http://localhost:8090 
+  * http://localhost:8090
+# Primary usage and endpoints:
+* A predefined list of books and clients is already present;
+* To add a client -> [HttpPost] {baseUrl}/clients + Body: {"fullName": "John Doe", "favouriteBook": "The Great Gatsby"}
+* To add a book -> [HttpPost] {baseUrl}/books + Body: {"title": "Baltagul", "author": "Mihail Sadoveanu"}
+* To add a book to a clients list -> [HttpPost] {baseUrl}/clients/{clientId}/books/{bookId} (will also add a Loan entity)
+* To return a clients book -> [HttpPut] {baseUrl}/loans/{loanId}/return
