@@ -2,23 +2,18 @@ package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 
-
-public class Doctor {
-
-
+public class DoctorEntity {
     @Id
-    public Integer id;
-
+    public String id;
     public String nume;
     public String specializare;
 
-    public Doctor() {}
+    public DoctorEntity() {}
 
-    public Doctor(String nume, String specializare) {
+    public DoctorEntity(String nume, String specializare) {
         this.nume = nume;
         this.specializare = specializare;
     }
-
 
     @Override
     public String toString() {
@@ -26,5 +21,4 @@ public class Doctor {
                 "Doctor[nume='%s', specializare='%s']",
                 id, nume, specializare);
     }
-
 }

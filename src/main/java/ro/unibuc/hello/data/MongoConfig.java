@@ -13,7 +13,6 @@ import java.util.Collections;
 
 @Configuration
 public class MongoConfig extends AbstractMongoClientConfiguration {
-
     @Value("${mongodb.connection.url}")
     private String connectionURL;
 
