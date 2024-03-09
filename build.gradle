@@ -1,96 +1,37 @@
+
 plugins {
-	id 'org.springframework.boot' version '2.5.3'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'org.asciidoctor.convert' version '1.5.8'
-	id 'java'
-	id 'jacoco'
+    id 'java'
+    id 'org.springframework.boot' version '3.1.5'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'ro.unibuc'
+group = 'ro.triple-a-unibuc'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
-repositories {
-	mavenCentral()
-}
-
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-	set('testcontainersVersion', "1.15.3")
+java {
+    sourceCompatibility = '17'
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.session:spring-session-core'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.data:spring-data-mongodb'
-	implementation 'org.apache.commons:commons-io:1.3.2'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.testcontainers:junit-jupiter'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.projectlombok:lombok'
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'org.postgresql:postgresql'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    runtimeOnly group: 'com.h2database', name: 'h2', version: '2.2.222'
 
-	//	E2E tests
-	runtimeOnly "org.junit.vintage:junit-vintage-engine:5.8.2"
-	testImplementation 'io.cucumber:cucumber-core:6.8.0'
-	testImplementation 'io.cucumber:cucumber-java:6.8.0'
-	testImplementation 'io.cucumber:cucumber-junit:6.8.0'
-	testImplementation 'io.cucumber:cucumber-spring:6.8.0'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
-dependencyManagement {
-	imports {
-		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
-	}
-}
-
-test {
-	outputs.dir snippetsDir
-	useJUnitPlatform {
-		excludeTags ("IT", "E2E")
-	}
-	finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-	dependsOn test
-}
-
-task testIT(type: Test) {
-	outputs.dir snippetsDir
-	outputs.upToDateWhen { false }
-
-	useJUnitPlatform {
-		includeTags "IT"
-	}
-}
-
-configurations {
-	cucumberRuntime {
-		extendsFrom testImplementation
-	}
-}
-
-task testE2E() {
-	dependsOn assemble, testClasses
-	doLast {
-		javaexec {
-			main = "io.cucumber.core.cli.Main"
-			classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-			args = [
-					'--plugin', 'pretty',
-					'--plugin', 'html:target/cucumber-report.html',
-					'--glue', 'ro.unibuc.hello.e2e.steps',
-					'src/test/resources']
-		}
-	}
-}
-
-asciidoctor {
-	inputs.dir snippetsDir
-	dependsOn test
+repositories {
+    mavenCentral()
 }
