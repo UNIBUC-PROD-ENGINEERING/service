@@ -23,6 +23,39 @@ public class ClientEntity {
         this.favouriteBook = favouriteBook;
     }
 
+    // book entity was not working without getters (and setters) so adding them here too
+    public String getId() {
+        return id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getFavouriteBook() {
+        return favouriteBook;
+    }
+
+    public List<BookEntity> getBooks() {
+        return books;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setFavouriteBook(String favouriteBook) {
+        this.favouriteBook = favouriteBook;
+    }
+
+    public void setBooks(List<BookEntity> books) {
+        this.books = books;
+    }
+
     @Override
     public String toString() {
         return "ClientEntity{" +
