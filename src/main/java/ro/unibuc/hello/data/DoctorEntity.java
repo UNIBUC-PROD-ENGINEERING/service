@@ -21,4 +21,11 @@ public class DoctorEntity {
                 "Doctor[nume='%s', specializare='%s']",
                 id, nume, specializare);
     }
+
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
 }
