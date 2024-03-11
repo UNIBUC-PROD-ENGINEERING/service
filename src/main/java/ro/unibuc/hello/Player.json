@@ -1,0 +1,405 @@
+{
+    "players": [
+      {
+        "id": 1,
+        "name": "LeBron James",
+        "team": "Los Angeles Lakers",
+        "points_per_game": 25.0,
+        "rebounds_per_game": 7.8,
+        "assists_per_game": 8.0
+      },
+      {
+        "id": 2,
+        "name": "Kevin Durant",
+        "team": "Brooklyn Nets",
+        "points_per_game": 27.5,
+        "rebounds_per_game": 6.3,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 3,
+        "name": "Stephen Curry",
+        "team": "Golden State Warriors",
+        "points_per_game": 30.2,
+        "rebounds_per_game": 5.0,
+        "assists_per_game": 6.5
+      },
+      {
+        "id": 4,
+        "name": "Giannis Antetokounmpo",
+        "team": "Milwaukee Bucks",
+        "points_per_game": 28.5,
+        "rebounds_per_game": 11.0,
+        "assists_per_game": 6.5
+      },
+      {
+        "id": 5,
+        "name": "Anthony Davis",
+        "team": "Los Angeles Lakers",
+        "points_per_game": 22.0,
+        "rebounds_per_game": 9.0,
+        "assists_per_game": 3.5
+      },
+      {
+        "id": 6,
+        "name": "Kawhi Leonard",
+        "team": "Los Angeles Clippers",
+        "points_per_game": 26.0,
+        "rebounds_per_game": 6.5,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 7,
+        "name": "Luka Doncic",
+        "team": "Dallas Mavericks",
+        "points_per_game": 28.5,
+        "rebounds_per_game": 8.0,
+        "assists_per_game": 9.0
+      },
+      {
+        "id": 8,
+        "name": "Damian Lillard",
+        "team": "Portland Trail Blazers",
+        "points_per_game": 29.0,
+        "rebounds_per_game": 4.0,
+        "assists_per_game": 8.0
+      },
+      {
+        "id": 9,
+        "name": "James Harden",
+        "team": "Brooklyn Nets",
+        "points_per_game": 30.0,
+        "rebounds_per_game": 5.0,
+        "assists_per_game": 10.0
+      },
+      {
+        "id": 10,
+        "name": "Joel Embiid",
+        "team": "Philadelphia 76ers",
+        "points_per_game": 27.5,
+        "rebounds_per_game": 11.5,
+        "assists_per_game": 3.0
+      },
+      {
+        "id": 11,
+        "name": "Kyrie Irving",
+        "team": "Brooklyn Nets",
+        "points_per_game": 26.0,
+        "rebounds_per_game": 4.0,
+        "assists_per_game": 6.0
+      },
+      {
+        "id": 12,
+        "name": "Karl-Anthony Towns",
+        "team": "Minnesota Timberwolves",
+        "points_per_game": 24.0,
+        "rebounds_per_game": 10.0,
+        "assists_per_game": 4.0
+      },
+      {
+        "id": 13,
+        "name": "Bradley Beal",
+        "team": "Washington Wizards",
+        "points_per_game": 31.5,
+        "rebounds_per_game": 4.5,
+        "assists_per_game": 6.0
+      },
+      {
+        "id": 14,
+        "name": "Devin Booker",
+        "team": "Phoenix Suns",
+        "points_per_game": 27.0,
+        "rebounds_per_game": 4.0,
+        "assists_per_game": 6.5
+      },
+      {
+        "id": 15,
+        "name": "Jayson Tatum",
+        "team": "Boston Celtics",
+        "points_per_game": 26.5,
+        "rebounds_per_game": 7.0,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 16,
+        "name": "Jimmy Butler",
+        "team": "Miami Heat",
+        "points_per_game": 22.0,
+        "rebounds_per_game": 6.0,
+        "assists_per_game": 7.5
+      },
+      {
+        "id": 17,
+        "name": "Zion Williamson",
+        "team": "New Orleans Pelicans",
+        "points_per_game": 27.0,
+        "rebounds_per_game": 8.0,
+        "assists_per_game": 4.0
+      },
+      {
+        "id": 18,
+        "name": "Trae Young",
+        "team": "Atlanta Hawks",
+        "points_per_game": 28.0,
+        "rebounds_per_game": 4.0,
+        "assists_per_game": 9.0
+      },
+      {
+        "id": 19,
+        "name": "Paul George",
+        "team": "Los Angeles Clippers",
+        "points_per_game": 25.0,
+        "rebounds_per_game": 5.0,
+        "assists_per_game": 5.5
+      },
+      {
+        "id": 20,
+        "name": "Donovan Mitchell",
+        "team": "Utah Jazz",
+        "points_per_game": 27.0,
+        "rebounds_per_game": 4.5,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 21,
+        "name": "Russell Westbrook",
+        "team": "Washington Wizards",
+        "points_per_game": 25.0,
+        "rebounds_per_game": 9.5,
+        "assists_per_game": 11.0
+      },
+      {
+        "id": 22,
+        "name": "De'Aaron Fox",
+        "team": "Sacramento Kings",
+        "points_per_game": 24.0,
+        "rebounds_per_game": 4.0,
+        "assists_per_game": 8.0
+      },
+      {
+        "id": 23,
+        "name": "DeMar DeRozan",
+        "team": "San Antonio Spurs",
+        "points_per_game": 24.5,
+        "rebounds_per_game": 5.5,
+        "assists_per_game": 7.0
+      },
+      {
+        "id": 24,
+        "name": "Chris Paul",
+        "team": "Phoenix Suns",
+        "points_per_game": 18.0,
+        "rebounds_per_game": 4.5,
+        "assists_per_game": 10.0
+      },
+      {
+        "id": 25,
+        "name": "Brandon Ingram",
+        "team": "New Orleans Pelicans",
+        "points_per_game": 25.0,
+        "rebounds_per_game": 6.0,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 26,
+        "name": "Jamal Murray",
+        "team": "Denver Nuggets",
+        "points_per_game": 22.0,
+        "rebounds_per_game": 4.0,
+        "assists_per_game": 6.0
+      },
+      {
+        "id": 27,
+        "name": "John Wall",
+        "team": "Houston Rockets",
+        "points_per_game": 20.0,
+        "rebounds_per_game": 3.5,
+        "assists_per_game": 8.5
+      },
+      {
+        "id": 28,
+        "name": "Ben Simmons",
+        "team": "Philadelphia 76ers",
+        "points_per_game": 16.0,
+        "rebounds_per_game": 8.5,
+        "assists_per_game": 7.0
+      },
+      {
+        "id": 29,
+        "name": "Jaylen Brown",
+        "team": "Boston Celtics",
+        "points_per_game": 24.0,
+        "rebounds_per_game": 6.0,
+        "assists_per_game": 4.5
+      },
+      {
+        "id": 30,
+        "name": "CJ McCollum",
+        "team": "Portland Trail Blazers",
+        "points_per_game": 22.0,
+        "rebounds_per_game": 4.0,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 31,
+        "name": "Khris Middleton",
+        "team": "Milwaukee Bucks",
+        "points_per_game": 21.0,
+        "rebounds_per_game": 6.0,
+        "assists_per_game": 4.5
+      },
+      {
+        "id": 32,
+        "name": "Pascal Siakam",
+        "team": "Toronto Raptors",
+        "points_per_game": 23.0,
+        "rebounds_per_game": 7.0,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 33,
+        "name": "Kristaps Porzingis",
+        "team": "Dallas Mavericks",
+        "points_per_game": 20.0,
+        "rebounds_per_game": 8.0,
+        "assists_per_game": 2.5
+      },
+      {
+        "id": 34,
+        "name": "Jrue Holiday",
+        "team": "Milwaukee Bucks",
+        "points_per_game": 17.5,
+        "rebounds_per_game": 4.5,
+        "assists_per_game": 6.5
+      },
+      {
+        "id": 35,
+        "name": "Zach LaVine",
+        "team": "Chicago Bulls",
+        "points_per_game": 25.5,
+        "rebounds_per_game": 5.0,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 36,
+        "name": "Julius Randle",
+        "team": "New York Knicks",
+        "points_per_game": 24.0,
+        "rebounds_per_game": 10.0,
+        "assists_per_game": 6.0
+      },
+      {
+        "id": 37,
+        "name": "Domantas Sabonis",
+        "team": "Indiana Pacers",
+        "points_per_game": 21.5,
+        "rebounds_per_game": 12.0,
+        "assists_per_game": 6.5
+      },
+      {
+        "id": 38,
+        "name": "Nikola Vucevic",
+        "team": "Chicago Bulls",
+        "points_per_game": 23.0,
+        "rebounds_per_game": 11.5,
+        "assists_per_game": 4.0
+      },
+      {
+        "id": 39,
+        "name": "Deandre Ayton",
+        "team": "Phoenix Suns",
+        "points_per_game": 18.0,
+        "rebounds_per_game": 10.0,
+        "assists_per_game": 2.5
+      },
+      {
+        "id": 40,
+        "name": "D'Angelo Russell",
+        "team": "Minnesota Timberwolves",
+        "points_per_game": 20.0,
+        "rebounds_per_game": 3.5,
+        "assists_per_game": 7.5
+      },
+      {
+        "id": 41,
+        "name": "Kyle Lowry",
+        "team": "Toronto Raptors",
+        "points_per_game": 18.0,
+        "rebounds_per_game": 5.0,
+        "assists_per_game": 7.0
+      },
+      {
+        "id": 42,
+        "name": "Tobias Harris",
+        "team": "Philadelphia 76ers",
+        "points_per_game": 20.5,
+        "rebounds_per_game": 7.0,
+        "assists_per_game": 4.5
+      },
+      {
+        "id": 43,
+        "name": "Shai Gilgeous-Alexander",
+        "team": "Oklahoma City Thunder",
+        "points_per_game": 23.0,
+        "rebounds_per_game": 5.0,
+        "assists_per_game": 5.5
+      },
+      {
+        "id": 44,
+        "name": "Mike Conley",
+        "team": "Utah Jazz",
+        "points_per_game": 16.0,
+        "rebounds_per_game": 3.0,
+        "assists_per_game": 6.0
+      },
+      {
+        "id": 45,
+        "name": "CJ McCollum",
+        "team": "Portland Trail Blazers",
+        "points_per_game": 22.0,
+        "rebounds_per_game": 4.0,
+        "assists_per_game": 5.0
+      },
+      {
+        "id": 46,
+        "name": "Collin Sexton",
+        "team": "Cleveland Cavaliers",
+        "points_per_game": 23.5,
+        "rebounds_per_game": 3.5,
+        "assists_per_game": 5.5
+      },
+      {
+        "id": 47,
+        "name": "Gordon Hayward",
+        "team": "Charlotte Hornets",
+        "points_per_game": 22.0,
+        "rebounds_per_game": 6.0,
+        "assists_per_game": 5.5
+      },
+      {
+        "id": 48,
+        "name": "Christian Wood",
+        "team": "Houston Rockets",
+        "points_per_game": 21.0,
+        "rebounds_per_game": 9.5,
+        "assists_per_game": 3.0
+      },
+      {
+        "id": 49,
+        "name": "Bam Adebayo",
+        "team": "Miami Heat",
+        "points_per_game": 19.0,
+        "rebounds_per_game": 10.0,
+        "assists_per_game": 5.5
+      },
+      {
+        "id": 50,
+        "name": "Myles Turner",
+        "team": "Indiana Pacers",
+        "points_per_game": 15.0,
+        "rebounds_per_game": 8.5,
+        "assists_per_game": 3.0
+      }
+    ]
+  }
+  
