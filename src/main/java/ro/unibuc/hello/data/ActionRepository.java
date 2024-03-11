@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface ActionRepository extends MongoRepository<ActionEntity, String>{
 
     Optional<ActionEntity> findById(String id);
-    List<ActionEntity> findByDescription(String description);
+    //List<ActionEntity> findByActionDescription(String description);
 
 }
