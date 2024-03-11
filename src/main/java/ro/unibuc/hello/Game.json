@@ -1,0 +1,53 @@
+{
+    "games": [
+      {
+        "id": 1,
+        "date": "2024-03-08",
+        "team1_id": 1,
+        "team2_id": 2,
+        "score": "102-98",
+        "spectators": 15000
+      },
+      {
+        "id": 2,
+        "date": "2024-03-08",
+        "team1_id": 3,
+        "team2_id": 4,
+        "score": "115-110",
+        "spectators": 18000
+      },
+      {
+        "id": 3,
+        "date": "2024-03-09",
+        "team1_id": 2,
+        "team2_id": 5,
+        "score": "105-103",
+        "spectators": 16000
+      },
+      {
+        "id": 4,
+        "date": "2024-03-09",
+        "team1_id": 1,
+        "team2_id": 4,
+        "score": "98-95",
+        "spectators": 17000
+      },
+      {
+        "id": 5,
+        "date": "2024-03-10",
+        "team1_id": 3,
+        "team2_id": 5,
+        "score": "112-108",
+        "spectators": 15500
+      },
+      {
+        "id": 6,
+        "date": "2024-03-10",
+        "team1_id": 1,
+        "team2_id": 3,
+        "score": "120-115",
+        "spectators": 19000
+      }
+    ]
+  }
+  
