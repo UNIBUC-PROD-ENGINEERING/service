@@ -75,8 +75,8 @@ class HelloWorldServiceTest {
             Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
         } catch (Exception ex) {
             // Assert
-            Assertions.assertEquals(ex.getClass(), EntityNotFoundException.class);
-            Assertions.assertEquals(ex.getMessage(), "Entity: someTitle was not found");
+            Assertions.assertEquals(EntityNotFoundException.class, ex.getClass());
+            Assertions.assertEquals("Entity: someTitle was not found", ex.getMessage());
         }
     }
 
