@@ -7,10 +7,22 @@ services:
       - 8080:8080
     environment:
       ENVIRONMENT_NAME: local
-      MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
+#      MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always
     profiles:
       - "hello-service"
+
+  postgres_db:
+    image: "postgres:latest"
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: root
+    profiles:
+      - "postgres"
+
   mongo:
     image: mongo:5.0.2
     restart: always

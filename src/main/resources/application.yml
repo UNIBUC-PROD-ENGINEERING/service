@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+  application:
+    name: TripleA
+
+application:
+  security:
+    jwt:
+      secret-key: secretKeyExtraSecret
+      expiration: 3600000 # 1 hour
+      refresh-token:
+        expiration: 3600000 # 1 hour
+server:
+  port: 8080
+
+service-app:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: https://localhost:8088
+
+
+
+logging:
+  level:
+    org:
+    springframework:
+      security: INFO
+      web: INFO
+      data: INFO
+      hibernate: INFO
+      jpa: INFO
+      sql: INFO
+      jwt: INFO
+      service-app: INFO
