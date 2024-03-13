@@ -23,4 +23,11 @@ public class TeamService {
         teamRepository.save(newTeam);
         return "Team added";
     }
+    public String getTeam(String name)throws EntityNotFoundException{
+        TeamEntity teamEntity=teamRepository.findByName(name);
+        if(teamEntity==null){
+            throw new EntityNotFoundException(name);
+        }
+        return teamEntity.toString();
+    }
 }

@@ -24,4 +24,12 @@ public class PlayerService {
         playerRepository.save(newPlayer);
         return "Player added";
     }
+
+    public String getPlayer(String name)throws EntityNotFoundException{
+        PlayerEntity playerEntity=playerRepository.findByName(name);
+        if (playerEntity==null){
+            throw new EntityNotFoundException(name);
+        }
+        return playerEntity.toString();
+    }
 }

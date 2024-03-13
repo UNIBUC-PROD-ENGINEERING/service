@@ -33,5 +33,9 @@ public class GameController {
     return gameService.addGame(gameEntity);
 }
 
-
+    @GetMapping("/getGame")
+    @ResponseBody
+    public String getGame(@RequestParam(name="id",required = false,defaultValue = "65f1fbf8662c2a2968ceda62")String id){
+        return gameService.getGame(id);
+    }
 }

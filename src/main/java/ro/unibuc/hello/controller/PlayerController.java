@@ -14,7 +14,7 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping("/getTeam")
+    @GetMapping("/getTeamForPlayer")
     @ResponseBody
     public String getTeam(@RequestParam(name="name",required=false,defaultValue="LeBron James")String name){
         return playerService.getPlayerTeam(name);
@@ -31,5 +31,11 @@ public class PlayerController {
     ) {
         PlayerEntity playerEntity = new PlayerEntity(name, team, ppg, rpg, apg);
         return playerService.addPlayer(playerEntity);
+    }
+
+    @GetMapping("/getPlayer")
+    @ResponseBody
+    public String getPlayer(@RequestParam(name="name",required=false,defaultValue="LeBron James")String name){
+        return playerService.getPlayer(name);
     }
 }
