@@ -19,4 +19,9 @@ public class GameService {
         return gameEntity.getScore();
         
     }
+
+    public String addGame(GameEntity newGame){
+        gameRepository.save(newGame);
+        return "Game added";
+    }
 }

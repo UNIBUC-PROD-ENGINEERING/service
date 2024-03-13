@@ -11,11 +11,17 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 public class PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
+
     public String getPlayerTeam(String name)throws EntityNotFoundException{
         PlayerEntity playerEntity=playerRepository.findByName(name);
         if (playerEntity==null){
             throw new EntityNotFoundException(name);
         }
         return playerEntity.getTeam();
+    }
+
+    public String addPlayer(PlayerEntity newPlayer){
+        playerRepository.save(newPlayer);
+        return "Player added";
     }
 }
