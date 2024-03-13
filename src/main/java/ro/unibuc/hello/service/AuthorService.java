@@ -23,4 +23,12 @@ public class AuthorService {
         return authorRepository.save(authorEntity);
     }
 
+    public AuthorEntity updateAuthor(String id, String name, String nationality) {
+        log.debug("Updating the author with id '{}', setting name '{}' and nationality '{}'", id, name, nationality);
+        var author = authorRepository.findById(id).get();
+        author.setName(name);
+        author.setNationality(nationality);
+        return authorRepository.save(author);
+    }
+
 }
