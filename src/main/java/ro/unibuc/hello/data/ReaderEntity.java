@@ -18,9 +18,9 @@ public class ReaderEntity {
     private String name;
     private String nationality;
     private String email;
-    private Integer phoneNumber;
-    private LocalDate birthDate;
-    private LocalDate registrationDate;
+    private String phoneNumber;
+    private String birthDate;
+    private String registrationDate;
 
     @Override
     public String toString() {
