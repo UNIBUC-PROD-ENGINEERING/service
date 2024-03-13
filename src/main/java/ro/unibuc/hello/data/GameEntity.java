@@ -1,6 +1,7 @@
 package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
+
 public class GameEntity {
     @Id
     private String id;
@@ -16,6 +17,18 @@ public class GameEntity {
         this.team2_id = team2_id;
         this.score = score;
         this.spectators = spectators;
+    }
+
+    @Override
+    public String toString() {
+        return "GameEntity{" +
+                "id='" + id + '\'' +
+                ", date='" + date + '\'' +
+                ", team1_id=" + team1_id +
+                ", team2_id=" + team2_id +
+                ", score='" + score + '\'' +
+                ", spectators=" + spectators +
+                '}';
     }
 
     // Getters and setters

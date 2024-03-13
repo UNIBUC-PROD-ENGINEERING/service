@@ -1,5 +1,7 @@
 package ro.unibuc.hello.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,5 +20,17 @@ public class GameService {
         // Assuming the game score is stored as a String in the GameEntity
         return gameEntity.getScore();
         
+    }
+
+    public String addGame(GameEntity newGame){
+        gameRepository.save(newGame);
+        return "Game added";
+    }
+    public String getGame(String id)throws EntityNotFoundException{
+        Optional<GameEntity> gameEntity=gameRepository.findById(id);
+        if(gameEntity==null){
+            throw new EntityNotFoundException(id);
+        }
+        return gameEntity.toString();
     }
 }

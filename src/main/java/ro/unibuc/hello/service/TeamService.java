@@ -11,11 +11,23 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
+
     public String getTeamInfo(String name)throws EntityNotFoundException{
         TeamEntity teamEntity=teamRepository.findByName(name);
         if(teamEntity==null){
             throw new EntityNotFoundException(name);
         }
         return teamEntity.getTeamInfo();
+    }
+    public String addTeam(TeamEntity newTeam){
+        teamRepository.save(newTeam);
+        return "Team added";
+    }
+    public String getTeam(String name)throws EntityNotFoundException{
+        TeamEntity teamEntity=teamRepository.findByName(name);
+        if(teamEntity==null){
+            throw new EntityNotFoundException(name);
+        }
+        return teamEntity.toString();
     }
 }
