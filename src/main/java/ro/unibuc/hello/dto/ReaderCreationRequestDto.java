@@ -13,6 +13,6 @@ public class ReaderCreationRequestDto {
     private String nationality;
     private String email;
     private String phoneNumber;
-    private String birthDate;
-    private String registrationDate;
+    private LocalDate birthDate;
+    private LocalDate registrationDate;
 }

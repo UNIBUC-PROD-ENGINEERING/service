@@ -24,7 +24,7 @@ public class ReaderService {
     private ReaderRepository readerRepository;
 
     public ReaderEntity saveReader(String name, String nationality, String email, 
-                                    String phoneNumber, String birthDate, String registrationDate) {
+                            String phoneNumber, LocalDate birthDate, LocalDate registrationDate) {
         log.debug("Creating a new reader '{}' with nationality '{}'", name, nationality);
         var readerEntity = ReaderEntity.builder().name(name).nationality(nationality).email(email).phoneNumber(phoneNumber).birthDate(birthDate).registrationDate(registrationDate).build();
         return readerRepository.save(readerEntity);

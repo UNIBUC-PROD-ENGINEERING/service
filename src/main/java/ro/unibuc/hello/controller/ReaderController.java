@@ -7,10 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.service.ReaderService;
-import ro.unibuc.hello.dto.AuthorCreationRequestDto;
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.dto.ReaderCreationRequestDto;
 
