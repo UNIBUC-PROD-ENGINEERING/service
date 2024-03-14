@@ -14,8 +14,9 @@ public class PlayerEntity {
     public PlayerEntity() {
     }
 
-    public PlayerEntity(String name, String team, double points_per_game, double rebounds_per_game,
+    public PlayerEntity(String id, String name, String team, double points_per_game, double rebounds_per_game,
             double assists_per_game) {
+        this.id=id;
         this.name = name;
         this.team = team;
         this.points_per_game = points_per_game;
@@ -32,6 +33,14 @@ public class PlayerEntity {
         return String.format(
                 "Player: %s\nTeam: %s\nPoints per game: %.2f\nRebounds per game: %.2f\nAssists per game: %.2f",
                 name, team, points_per_game, rebounds_per_game, assists_per_game);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public double getPpg(){
+        return points_per_game;
     }
 
 }

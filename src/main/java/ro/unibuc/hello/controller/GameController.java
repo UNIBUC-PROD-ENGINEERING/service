@@ -19,23 +19,29 @@ public class GameController {
         return gameService.getGameScore(id);
     }
 
-
     @GetMapping("/addGame")
     @ResponseBody
     public String addGame(
+    @RequestParam(name = "id", required = true) String id,
     @RequestParam(name = "date", required = true) String date,
     @RequestParam(name = "team1_id", required = true) int team1Id,
     @RequestParam(name = "team2_id", required = true) int team2Id,
     @RequestParam(name = "score", required = true) String score,
     @RequestParam(name = "spectators", required = true) int spectators
 ) {
-    GameEntity gameEntity = new GameEntity(date, team1Id, team2Id, score, spectators);
+    GameEntity gameEntity = new GameEntity(id,date, team1Id, team2Id, score, spectators);
     return gameService.addGame(gameEntity);
 }
 
     @GetMapping("/getGame")
     @ResponseBody
-    public String getGame(@RequestParam(name="id",required = false,defaultValue = "65f1fbf8662c2a2968ceda62")String id){
+    public String getGame(@RequestParam(name="id",required = false,defaultValue = "1")String id){
         return gameService.getGame(id);
+    }
+
+    @GetMapping("/getTeamsFromGame")
+    @ResponseBody
+    public String getTeamsFromGame(@RequestParam(name="id",required = false,defaultValue ="1" )String id){
+        return gameService.getTeamFromGame(id);
     }
 }

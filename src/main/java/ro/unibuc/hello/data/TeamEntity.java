@@ -2,6 +2,7 @@ package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeamEntity {
@@ -12,7 +13,8 @@ public class TeamEntity {
     public int yearFounded;
     public String coach;
 
-    public TeamEntity(String name, List<Integer> players, int yearFounded, String coach) {
+    public TeamEntity(String id,String name, List<Integer> players, int yearFounded, String coach) {
+        this.id=id;
         this.name = name;
         this.players = players;
         this.yearFounded = yearFounded;
@@ -36,6 +38,10 @@ public class TeamEntity {
         }
         sb.delete(sb.length() - 2, sb.length()); // Eliminăm ultima virgulă și spațiul adăugate în plus
         return sb.toString();
+    }
+    
+    public List<Integer> getPlayers() {
+        return players;
     }
 
 }

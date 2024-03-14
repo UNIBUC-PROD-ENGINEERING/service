@@ -26,11 +26,12 @@ public class TeamController {
     @GetMapping("/addTeam")
     @ResponseBody
     public String getTeamInfo(
+        @RequestParam(name = "id", required = false, defaultValue = "100") String id,
             @RequestParam(name = "name", required = false, defaultValue = "Brooklyn Nets") String name,
             @RequestParam(name = "yearFounded", required = false, defaultValue = "0") int yearFounded,
             @RequestParam(name = "coach", required = false, defaultValue = "Unknown") String coach,
             @RequestParam(name = "players", required = false) List<Integer> playersIds) {
-        TeamEntity teamEntity = new TeamEntity(name, playersIds, yearFounded, coach);
+        TeamEntity teamEntity = new TeamEntity(id,name, playersIds, yearFounded, coach);
         return teamService.addTeam(teamEntity);
     }
 
@@ -38,5 +39,11 @@ public class TeamController {
     @ResponseBody
     public String getTeam(@RequestParam(name="name",required = false,defaultValue = "Los Angeles Lakers") String name){
         return teamService.getTeam(name);
+    }
+
+    @GetMapping("/getBestPlayer")
+    @ResponseBody
+    public String getBestPlayer(@RequestParam(name="name",required = false,defaultValue = "Los Angeles Lakers") String name){
+        return teamService.getBestPlayer(name);
     }
 }

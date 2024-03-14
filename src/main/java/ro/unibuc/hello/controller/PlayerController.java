@@ -23,13 +23,14 @@ public class PlayerController {
     @GetMapping("/addPlayer")
     @ResponseBody
     public String addPlayer(
+        @RequestParam(name = "id", required = false, defaultValue = "100") String id,
         @RequestParam(name = "name", required = false, defaultValue = "Dragos") String name,
         @RequestParam(name = "team", required = false, defaultValue = "defaultTeam") String team,
         @RequestParam(name = "ppg", required = false, defaultValue = "0") int ppg,
         @RequestParam(name = "rpg", required = false, defaultValue = "0") int rpg,
         @RequestParam(name = "apg", required = false, defaultValue = "0") int apg
     ) {
-        PlayerEntity playerEntity = new PlayerEntity(name, team, ppg, rpg, apg);
+        PlayerEntity playerEntity = new PlayerEntity(id,name, team, ppg, rpg, apg);
         return playerService.addPlayer(playerEntity);
     }
 
