@@ -18,7 +18,7 @@ public class ActionEntity {
     @Override
     public String toString() {
         return String.format(
-            "Action[description='%s']",
+            "Action[cod=%s, description='%s']",
             actionCode, actionDescription);
     }
 }
