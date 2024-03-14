@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ro.unibuc.hello.data.ClientRepository;
 import ro.unibuc.hello.data.LoanEntity;
@@ -74,6 +76,20 @@ public class ClientController {
         loanRepository.save(loan);
 
         return clientRepository.save(client);
+        
+    }
+
+    @PutMapping("/{id}")
+    public void editclient(@PathVariable String id, ClientEntity clientEntity){
+        Optional<ClientEntity> optionalClient = clientRepository.findById(id);
+
+        if(optionalClient.isPresent()){
+            ClientEntity client = optionalClient.get();
+            client.setFullName(clientEntity.getFullName());
+            client.setFavouriteBook(clientEntity.getFavouriteBook());
+            client.setBooks(clientEntity.getBooks());
+            clientRepository.save(client);
+        }
         
     }
 }
