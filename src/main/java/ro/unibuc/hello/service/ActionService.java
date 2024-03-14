@@ -1,6 +1,7 @@
 package ro.unibuc.hello.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,7 @@ public class ActionService {
 
     public List<Action> getActions() {
         List<ActionEntity> actionEntities = actionRepository.findAll();
-        return actionEntities.stream().map(action -> new Action(action.actionCode, action.actionDescription)).toList();
+        return actionEntities.stream().map(action -> new Action(action.actionCode, action.actionDescription)).collect(Collectors.toList());
     }
 
     public Action getActionById (String code) throws EntityNotFoundException {
