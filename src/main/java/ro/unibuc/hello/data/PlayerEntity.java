@@ -14,8 +14,9 @@ public class PlayerEntity {
     public PlayerEntity() {
     }
 
-    public PlayerEntity(String name, String team, double points_per_game, double rebounds_per_game,
+    public PlayerEntity(String id, String name, String team, double points_per_game, double rebounds_per_game,
             double assists_per_game) {
+        this.id=id;
         this.name = name;
         this.team = team;
         this.points_per_game = points_per_game;

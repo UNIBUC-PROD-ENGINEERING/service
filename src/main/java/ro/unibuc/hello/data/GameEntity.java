@@ -11,7 +11,8 @@ public class GameEntity {
     private String score;
     private int spectators;
 
-    public GameEntity(String date, int team1_id, int team2_id, String score, int spectators) {
+    public GameEntity(String id,String date, int team1_id, int team2_id, String score, int spectators) {
+        this.id=id;
         this.date = date;
         this.team1_id = team1_id;
         this.team2_id = team2_id;

@@ -50,7 +50,9 @@ public class HelloApplication {
 			JsonNode rootNode = objectMapper.readTree(new File("Player.json"));
 			JsonNode playersNode = rootNode.get("players");
 			for (JsonNode playerNode : playersNode) {
-				playerRepository.save(new PlayerEntity(playerNode.get("name").asText(),
+				playerRepository.save(new PlayerEntity(
+					playerNode.get("id").asText(),
+					playerNode.get("name").asText(),
 						playerNode.get("team").asText(),
 						playerNode.get("points_per_game").asDouble(),
 						playerNode.get("rebounds_per_game").asDouble(),
@@ -61,6 +63,7 @@ public class HelloApplication {
 			rootNode = objectMapper.readTree(new File("Team.json"));
 			JsonNode teamsNode = rootNode.get("teams");
 			for (JsonNode teamNode : teamsNode) {
+				String id=teamNode.get("id").asText();
 				String name = teamNode.get("name").asText();
 				int yearFounded = teamNode.get("year_founded").asInt();
 				String coach = teamNode.get("coach").asText();
@@ -70,19 +73,20 @@ public class HelloApplication {
 					players.add(playerJson.asInt());
 				}
 				
-				TeamEntity teamEntity = new TeamEntity(name, players, yearFounded, coach);
+				TeamEntity teamEntity = new TeamEntity(id,name, players, yearFounded, coach);
 				teamRepository.save(teamEntity);
 			}
 			gameRepository.deleteAll();
 			rootNode=objectMapper.readTree(new File("Game.json"));
 			JsonNode gamesNode=rootNode.get("games");
 			for(JsonNode gameNode:gamesNode){
+				String id=gameNode.get("id").asText();
 				String date=gameNode.get("date").asText();
 				int team1_id=gameNode.get("team1_id").asInt();
 				int team2_id=gameNode.get("team2_id").asInt();
 				String score=gameNode.get("score").asText();
 				int spectators=gameNode.get("spectators").asInt();
-				GameEntity gameEntity=new GameEntity(date, team1_id, team2_id, score, spectators);
+				GameEntity gameEntity=new GameEntity(id,date, team1_id, team2_id, score, spectators);
 				System.out.println(gameEntity);
 
 				gameRepository.save(gameEntity);

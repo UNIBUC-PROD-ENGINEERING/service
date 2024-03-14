@@ -12,7 +12,8 @@ public class TeamEntity {
     public int yearFounded;
     public String coach;
 
-    public TeamEntity(String name, List<Integer> players, int yearFounded, String coach) {
+    public TeamEntity(String id,String name, List<Integer> players, int yearFounded, String coach) {
+        this.id=id;
         this.name = name;
         this.players = players;
         this.yearFounded = yearFounded;
