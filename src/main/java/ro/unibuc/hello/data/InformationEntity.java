@@ -18,7 +18,7 @@ public class InformationEntity {
     @Override
     public String toString() {
         return String.format(
-                "Information[title='%s', description='%s']",
+                "Information[id=%s, title='%s', description='%s']",
                 id, title, description);
     }
 }

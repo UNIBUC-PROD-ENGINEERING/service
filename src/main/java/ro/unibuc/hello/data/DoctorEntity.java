@@ -18,10 +18,14 @@ public class DoctorEntity {
     @Override
     public String toString() {
         return String.format(
-                "Doctor[nume='%s', specializare='%s']",
+                "Doctor[id=%s, nume='%s', specializare='%s']",
                 id, nume, specializare);
     }
 
+    public String getId()
+    {
+        return id;
+    }
 
     public void setId(String id)
     {
