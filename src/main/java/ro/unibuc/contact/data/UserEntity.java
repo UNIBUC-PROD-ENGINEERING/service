@@ -1,7 +1,9 @@
 package ro.unibuc.contact.data;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "users")
 public class UserEntity {
 
     @Id
