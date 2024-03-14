@@ -18,14 +18,14 @@ public class ActionController {
     @Autowired
     private ActionService actionService;
 
-    @PostMapping("/actions/")
+    @PostMapping("/actions")
     @ExceptionHandler(EntityAlreadyExistsException.class)
     @ResponseBody
     public Action createAction(@RequestBody Action action) {
         return actionService.addAction(action.getCode(), action.getDescription());
     }
 
-    @GetMapping("/actions/")
+    @GetMapping("/actions")
     @ResponseBody
     public List<Action> seeActions(){
         return actionService.getActions();

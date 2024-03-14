@@ -29,7 +29,7 @@ public class PolicyController {
         return policyService.getPolicyById(id);
     }
 
-    @PostMapping("/policies/")
+    @PostMapping("/policies")
     @ResponseBody
     public Policy addPolicy(@RequestBody Policy policy) {
         return policyService.addPolicy(policy.getName(), policy.getStatements());
