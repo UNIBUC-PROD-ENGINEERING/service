@@ -11,6 +11,7 @@ import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.service.ReaderService;
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.dto.ReaderCreationRequestDto;
+import ro.unibuc.hello.dto.ReaderUpdateRequestDto;
 
 @Controller
 public class ReaderController {
@@ -39,10 +40,10 @@ public class ReaderController {
     @PatchMapping("/readers/{id}")
     @ResponseBody
     public ResponseEntity<ReaderEntity> updateReader(@PathVariable String id, 
-                                                     @RequestBody ReaderCreationRequestDto readerCreationRequestDto) {
+                                                     @RequestBody ReaderUpdateRequestDto readerUpdateRequestDto) {
         var updatedReader = readerService.updateReader(id,
-                                readerCreationRequestDto.getEmail(),
-                                readerCreationRequestDto.getPhoneNumber());
+            readerUpdateRequestDto.getEmail(),
+            readerUpdateRequestDto.getPhoneNumber());
         return ResponseEntity.ok(updatedReader);
     }
 
