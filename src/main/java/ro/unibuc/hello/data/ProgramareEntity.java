@@ -9,22 +9,24 @@ public class ProgramareEntity {
     public String id;
     public IntervalOrarEntity intervalOrar;
     public DoctorEntity doctor;
+    public PacientEntity pacient;
     public LocalDate data;
 
     public ProgramareEntity() {
     }
 
-    public ProgramareEntity(IntervalOrarEntity intervalOrar, DoctorEntity doctor, LocalDate data) {
+    public ProgramareEntity(IntervalOrarEntity intervalOrar, DoctorEntity doctor, PacientEntity pacient, LocalDate data) {
         this.intervalOrar = intervalOrar;
         this.doctor = doctor;
+        this.pacient = pacient;
         this.data = data;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "Programare[id='%s', intervalOrar='%s', doctor='%s', data='%s']",
-                id, intervalOrar.toString(), doctor.toString(), data.toString());
+                "Programare[id='%s', intervalOrar='%s', doctor='%s', pacient='%s', data='%s']",
+                id, intervalOrar.toString(), doctor.toString(), pacient.toString(), data.toString());
     }
 
     public String getId() {
@@ -49,6 +51,14 @@ public class ProgramareEntity {
 
     public void setDoctor(DoctorEntity doctor) {
         this.doctor = doctor;
+    }
+
+    public PacientEntity getPacient() {
+        return pacient;
+    }
+
+    public void setPacient(PacientEntity pacient) {
+        this.pacient = pacient;
     }
 
     public LocalDate getData() {
