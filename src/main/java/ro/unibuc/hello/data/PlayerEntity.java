@@ -35,4 +35,12 @@ public class PlayerEntity {
                 name, team, points_per_game, rebounds_per_game, assists_per_game);
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public double getPpg(){
+        return points_per_game;
+    }
+
 }

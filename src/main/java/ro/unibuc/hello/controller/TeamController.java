@@ -40,4 +40,10 @@ public class TeamController {
     public String getTeam(@RequestParam(name="name",required = false,defaultValue = "Los Angeles Lakers") String name){
         return teamService.getTeam(name);
     }
+
+    @GetMapping("/getBestPlayer")
+    @ResponseBody
+    public String getBestPlayer(@RequestParam(name="name",required = false,defaultValue = "Los Angeles Lakers") String name){
+        return teamService.getBestPlayer(name);
+    }
 }
