@@ -33,6 +33,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public Collection getMappingBasePackages() {
-        return Collections.singleton("ro.unibuc.hello.data");
+        return Collections.singleton("ro.unibuc.contact.data");
     }
 }
