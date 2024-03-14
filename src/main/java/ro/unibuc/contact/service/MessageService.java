@@ -5,8 +5,10 @@ import org.springframework.stereotype.Component;
 
 import ro.unibuc.contact.data.MessageEntity;
 import ro.unibuc.contact.data.MessageRepository;
-import ro.unibuc.contact.data.UserRepository;
 import ro.unibuc.contact.exception.EntityNotFoundException;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +20,6 @@ public class MessageService {
 
     @Autowired
     private MessageRepository messageRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     public MessageEntity createMessage(MessageEntity message) {
         try {
@@ -42,6 +41,14 @@ public class MessageService {
             log.error("Error deleting message: {}", e.getMessage(), e);
             throw e;
         }
+    }
+
+    public Optional<MessageEntity> findById(String messageId) {
+        return messageRepository.findById(messageId);
+    }
+
+    public List<MessageEntity> getMessagesForUser(String userId) {
+        return messageRepository.findByUserId(userId);
     }
 
 }

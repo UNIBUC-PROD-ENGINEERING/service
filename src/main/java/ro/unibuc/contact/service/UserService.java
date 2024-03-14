@@ -7,6 +7,8 @@ import ro.unibuc.contact.data.UserEntity;
 import ro.unibuc.contact.data.UserRepository;
 import ro.unibuc.contact.exception.EntityNotFoundException;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +29,7 @@ public class UserService {
         }
     }
 
-    public UserEntity findByUsername(String username) {
-        if (!userRepository.existsByUsername(username)) {
-            throw new EntityNotFoundException("User not found with username " + username);
-        }
+    public Optional<UserEntity> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
@@ -44,7 +43,7 @@ public class UserService {
         } catch (Exception e) {
             log.error("Error deleting user: {}", e.getMessage(), e);
             throw e;
-        }
+        } 
     }
 
 }

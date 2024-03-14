@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Optional;
 
 @Controller
 public class UserController{
@@ -25,14 +26,12 @@ public class UserController{
     @PostMapping("/users")
     @ResponseBody
     public ResponseEntity<?> createUser(@RequestBody UserEntity user) {
-        UserEntity newUser;
-        try {
-            newUser = userService.findByUsername(user.username);
-            return ResponseEntity.badRequest().build();
-        } catch (Exception exception) {
-            // ok -> user does not exist, so we can create it
+        Optional<UserEntity> existingUser = userService.findByUsername(user.username);
+        if (existingUser.isPresent()) {
+            return ResponseEntity.badRequest().body("Username already exists");
         }
-
+       
+        UserEntity newUser;
         try {
             newUser = userService.createUser(user);
         } catch (Exception exception) {
