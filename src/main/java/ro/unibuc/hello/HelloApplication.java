@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import ro.unibuc.hello.data.ActionEntity;
+import ro.unibuc.hello.data.ActionRepository;
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
 
@@ -16,6 +19,9 @@ public class HelloApplication {
 	@Autowired
 	private InformationRepository informationRepository;
 
+	@Autowired
+	private ActionRepository actionRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
 	}
@@ -25,6 +31,8 @@ public class HelloApplication {
 		informationRepository.deleteAll();
 		informationRepository.save(new InformationEntity("Overview",
 				"This is an example of using a data storage engine running separately from our applications server"));
+	
+		actionRepository.deleteAll();
+		actionRepository.save(new ActionEntity("A123", "Test action"));
 	}
-
 }
