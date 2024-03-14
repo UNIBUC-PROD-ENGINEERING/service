@@ -27,6 +27,13 @@ public class UserService {
         }
     }
 
+    public UserEntity findByUsername(String username) {
+        if (!userRepository.existsByUsername(username)) {
+            throw new EntityNotFoundException("User not found with username " + username);
+        }
+        return userRepository.findByUsername(username);
+    }
+
     public void deleteUser(String userId) {
        if (!userRepository.existsById(userId)) {
             throw new EntityNotFoundException("User not found with ID: " + userId);
