@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ro.unibuc.hello.dto.Greeting;
+import ro.unibuc.hello.dto.tmdb.MovieApiDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.HelloWorldService;
+import ro.unibuc.hello.service.MovieService;
+
+import java.util.List;
 
 @Controller
 public class HelloWorldController {
@@ -27,5 +31,4 @@ public class HelloWorldController {
     public Greeting info(@RequestParam(name="title", required=false, defaultValue="Overview") String title) throws EntityNotFoundException {
         return helloWorldService.buildGreetingFromInfo(title);
     }
-
 }
