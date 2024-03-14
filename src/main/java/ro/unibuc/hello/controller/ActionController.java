@@ -18,7 +18,6 @@ public class ActionController {
     @Autowired
     private ActionService actionService;
 
-    @Operation(summary = "Create an action")
     @PostMapping("/actions/")
     @ExceptionHandler(EntityAlreadyExistsException.class)
     @ResponseBody
