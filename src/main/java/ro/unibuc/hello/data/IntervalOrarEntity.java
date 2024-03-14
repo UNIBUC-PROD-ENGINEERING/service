@@ -3,13 +3,13 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 
 public class IntervalOrarEntity {
-    
-@Id
+    @Id
     public String id;
     public int ora;
     public int minut;
 
-    public IntervalOrarEntity() {}
+    public IntervalOrarEntity() {
+    }
 
     public IntervalOrarEntity(int ora, int minut) {
         this.ora = ora;
@@ -23,8 +23,7 @@ public class IntervalOrarEntity {
                 id, ora, minut);
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
@@ -32,4 +31,19 @@ public class IntervalOrarEntity {
         this.id = id;
     }
 
+    public int getOra() {
+        return ora;
+    }
+
+    public void setOra(int ora) {
+        this.ora = ora;
+    }
+
+    public int getMinut() {
+        return minut;
+    }
+
+    public void setMinut(int minut) {
+        this.minut = minut;
+    }
 }

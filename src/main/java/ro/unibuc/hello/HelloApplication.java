@@ -40,23 +40,17 @@ public class HelloApplication {
 		informationRepository.save(new InformationEntity("Overview modificat", "This is an example of using a data storage engine running separately from our applications server"));
 	
 		doctorRepository.deleteAll();
-		DoctorEntity doctorEntity = new DoctorEntity("Gigel Andrei", "cardiolog");
-		doctorRepository.save(doctorEntity);
+		DoctorEntity doctor1 = new DoctorEntity("Gigel Andrei", "cardiolog");
+		doctorRepository.save(doctor1);
 	
-		programareRepository.deleteAll();
         intervalOrarRepository.deleteAll();
-        
-
- 		IntervalOrarEntity intervalOrar1 = new IntervalOrarEntity(8, 0);
+		IntervalOrarEntity intervalOrar1 = new IntervalOrarEntity(8, 0);
+		intervalOrarRepository.save(intervalOrar1);
         IntervalOrarEntity intervalOrar2 = new IntervalOrarEntity(9, 0);
-        intervalOrarRepository.save(intervalOrar1);
         intervalOrarRepository.save(intervalOrar2);
 
-        programareRepository.save(new ProgramareEntity(intervalOrar1.getId(), doctorEntity.getId(), LocalDate.of(2024, 3, 15)));
-        programareRepository.save(new ProgramareEntity(intervalOrar2.getId(), doctorEntity.getId(), LocalDate.of(2024, 3, 16)));
-
-	
-	
-	
+		programareRepository.deleteAll();
+        programareRepository.save(new ProgramareEntity(intervalOrar1, doctor1, LocalDate.now().plusDays(10)));
+        programareRepository.save(new ProgramareEntity(intervalOrar2, doctor1, LocalDate.now().plusDays(10)));	
 	}
 }

@@ -13,45 +13,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ro.unibuc.hello.data.DoctorEntity;
-import ro.unibuc.hello.data.DoctorRepository;
+import ro.unibuc.hello.service.DoctorService;
 
 @RestController
 @RequestMapping("/doctor")
 public class DoctorController {
-    
-
     @Autowired
-    private DoctorRepository doctorRepository;
-
+    private DoctorService doctorService;
 
     @PostMapping
-    public DoctorEntity createDoctorEntity(@RequestBody DoctorEntity doctor)
-    {
-        return doctorRepository.save(doctor);
+    public DoctorEntity createDoctor(@RequestBody DoctorEntity doctor) {
+        return doctorService.createDoctor(doctor);
     }
 
     @GetMapping("/{id}")
-    public DoctorEntity getDoctorById(@PathVariable String id)
-    {
-        return doctorRepository.findById(id).orElse(null);
+    public DoctorEntity getDoctorById(@PathVariable String id) {
+        return doctorService.getDoctorById(id);
     }
 
     @GetMapping
-    public List<DoctorEntity> getAllDoctors()
-    {
-        return doctorRepository.findAll();
+    public List<DoctorEntity> getAllDoctors() {
+        return doctorService.getAllDoctori();
     }
 
     @PutMapping("/{id}")
-    public DoctorEntity updateDoctor(@PathVariable String id, @RequestBody DoctorEntity doctor)
-    {
+    public DoctorEntity updateDoctor(@PathVariable String id, @RequestBody DoctorEntity doctor) {
         doctor.setId(id);
-        return doctorRepository.save(doctor);
+        return doctorService.updateDoctor(doctor);
     }
 
     @DeleteMapping("/{id}")
     public void deleteDoctor(@PathVariable String id) {
-        doctorRepository.deleteById(id);
+        doctorService.deleteDoctor(id);
     }
-
 }

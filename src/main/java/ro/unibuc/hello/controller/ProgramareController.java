@@ -13,38 +13,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ro.unibuc.hello.data.ProgramareEntity;
-import ro.unibuc.hello.data.ProgramareRepository;
+import ro.unibuc.hello.service.ProgramareService;
 
 @RestController
 @RequestMapping("/programare")
 public class ProgramareController {
-
     @Autowired
-    private ProgramareRepository programareRepository;
+    private ProgramareService programareService;
 
     @PostMapping
     public ProgramareEntity createProgramare(@RequestBody ProgramareEntity programare) {
-        return programareRepository.save(programare);
+        return programareService.createProgramare(programare);
     }
 
     @GetMapping("/{id}")
     public ProgramareEntity getProgramareById(@PathVariable String id) {
-        return programareRepository.findById(id).orElse(null);
+        return programareService.getProgramareById(id);
     }
 
     @GetMapping
-    public List<ProgramareEntity> getAllProgramares() {
-        return programareRepository.findAll();
+    public List<ProgramareEntity> getAllProgramari() {
+        return programareService.getAllProgramari();
     }
 
     @PutMapping("/{id}")
     public ProgramareEntity updateProgramare(@PathVariable String id, @RequestBody ProgramareEntity programare) {
         programare.setId(id);
-        return programareRepository.save(programare);
+        return programareService.updateProgramare(programare);
     }
 
     @DeleteMapping("/{id}")
     public void deleteProgramare(@PathVariable String id) {
-        programareRepository.deleteById(id);
+        programareService.deleteProgramare(id);
     }
 }

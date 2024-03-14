@@ -8,7 +8,8 @@ public class DoctorEntity {
     public String nume;
     public String specializare;
 
-    public DoctorEntity() {}
+    public DoctorEntity() {
+    }
 
     public DoctorEntity(String nume, String specializare) {
         this.nume = nume;
@@ -22,14 +23,27 @@ public class DoctorEntity {
                 id, nume, specializare);
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
+    public String getNume() {
+        return nume;
+    }
+
+    public void setNume(String nume) {
+        this.nume = nume;
+    }
+
+    public String getSpecializare() {
+        return specializare;
+    }
+
+    public void setSpecializare(String specializare) {
+        this.specializare = specializare;
+    }
 }
