@@ -19,7 +19,8 @@ public class HelloApplication {
 
 	@Autowired
 	private InformationRepository informationRepository;
-	private UserRepository userEntityRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
@@ -30,6 +31,9 @@ public class HelloApplication {
 		informationRepository.deleteAll();
 		informationRepository.save(new InformationEntity("Overview",
 				"This is an example of using a data storage engine running separately from our applications server"));
+		userRepository.deleteAll();
+		userRepository.save(new UserEntity("HAU","Tudor",21,"ala"));
+
 
 		
 	}
