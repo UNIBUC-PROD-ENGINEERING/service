@@ -18,11 +18,8 @@ public class RoleService {
                 .build());
     }
 
-    public void deleteRole(Long id) {
-        roleRepository.deleteById(id);
-    }
-
-    public Role getRoleById(Long id) {
-        return roleRepository.findById(id).orElseThrow();
+    public void deleteRolesByMovieId(String movieId) {
+        roleRepository.findByMovieId(movieId)
+                .forEach(role -> roleRepository.deleteById(role.getId()));
     }
 }

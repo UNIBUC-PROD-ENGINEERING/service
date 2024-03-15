@@ -17,10 +17,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class Movie {
-    @Id private Long id;
+    @Id private String id;
     @NotNull private String title;
     @NotNull private String description;
     private Integer popularity;
     private List<String> genres;
+    private Long tmdbId;
     private Long year;
 }

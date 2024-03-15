@@ -13,6 +13,6 @@ import ro.unibuc.hello.data.entity.Movie;
  * Spring Data MongoDB automatically creates a class it implementing the interface when you run the application.
  */
 @Repository
-public interface ActorRepository extends MongoRepository<Actor, Long> {
+public interface ActorRepository extends MongoRepository<Actor, String> {
     Optional<Actor> findByTmdbId(Long tmdbId);
 }

@@ -14,7 +14,7 @@ import org.springframework.data.annotation.Id;
 @Builder
 @AllArgsConstructor
 public class Actor {
-    @Id private Long id;
+    @Id private String id;
     @NotNull private String name;
     @NotNull private Long tmdbId;
 }

@@ -13,7 +13,7 @@ import org.springframework.data.annotation.Id;
 @Builder
 @AllArgsConstructor
 public class Role {
-    @Id private Long id;
+    @Id private String id;
 
     private Actor actor;
     private Movie movie;
