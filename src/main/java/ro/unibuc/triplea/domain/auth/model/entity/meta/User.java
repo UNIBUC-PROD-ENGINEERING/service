@@ -41,10 +41,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "Email", nullable = false, length = 100, unique = true)
-    private String email;
     private String password;
 
+    @Column(name = "Email", nullable = false, length = 100, unique = true)
     private String username;
 
     @Enumerated(EnumType.STRING)
@@ -61,11 +60,6 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override

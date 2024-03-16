@@ -1,6 +1,6 @@
-FROM openjdk:11
+FROM openjdk:21
 
-COPY ./build/libs/hello-0.0.1-SNAPSHOT.jar /hello/libs/hello.jar
+COPY ./build/libs/triplea-0.0.1-SNAPSHOT.jar /hello/libs/hello.jar
 
 WORKDIR /hello/libs/
 

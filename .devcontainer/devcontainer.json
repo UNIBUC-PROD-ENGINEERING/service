@@ -1,10 +1,11 @@
 {
   "name": "production-eng-service",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
+  // https://github.com/devcontainers/features/issues/580
+  "containerEnv": {
+    "DISABLE_JAVA_BUILD": "true"
+  },
   "features": {
-    "ghcr.io/devcontainers/features/java:1": {
-      "version": "11"
-    },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "customizations": {

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgres_db:5432/postgres
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
@@ -21,7 +21,7 @@ spring:
 application:
   security:
     jwt:
-      secret-key: rWXmwH1UyBGgF8U8Ytj/50d4PI8NSzyvfqadZSX1K0/eVLkMWRbz5jJGkIvnFoxz
+      secret-key: secretKeyExtraSecret
       expiration: 3600000 # 1 hour
       refresh-token:
         expiration: 3600000 # 1 hour
@@ -32,6 +32,8 @@ service-app:
   openapi:
     dev-url: http://localhost:8080
     prod-url: https://localhost:8088
+
+
 
 logging:
   level:
