@@ -1,3 +1,65 @@
+# BookWish
+
+BookWish is a web application designed to facilitate the management of books, authors, and readers in a digital library. The system allows users to perform various tasks such as adding, updating, and deleting information related to books, authors, and readers. 
+
+# Key features 
+**Book Management**
+* Users can add new books to the library, providing details such as title, publication year, author, genre, publisher.
+* Books can be deleted from the system if necessary.
+* Users can retrieve a list of books sorted in descending order based on the number of readers each book has.
+* Users can retrieve a list of books that have been read by a specific reader.
+* Users can retrieve a list of books written by a specific author.
+
+**Readers Management**
+* Users can add a new reader to the library, providing necessary details such as name, email, phone, birthdate and registration date.
+* Users can update the contact information of an existing reader.
+* Users can delete a reader from the system, but only if the reader has not read any books and does not review any books. 
+* Users can retrieve a list of all readers registered in the online library system.
+
+**Authors Management**
+* Users can add a new author to the online library system, providing necessary details such as name, nationality, birthdate or death date.
+* Users can update the death date of an existing author.
+* Users can delete an author from the system, but only if the author has not written any books that are registered in our online library.
+
+**Reading Records Mamagement**
+* Users can mark the reading of a new book by adding it to reading records. 
+
+**Review**
+* Users can review a book they have read, specifying details such as rating and feedback. 
+* Users can update a review they added to a book. 
+* Users can delete a review they added to a book if it is no longer relevant. 
+
+# Database 
+
+![image](https://github.com/333-Prod-Engineering/service/assets/93870739/20662984-0057-4aec-bd36-7ab0bfa71a8d)
+
+# Endpoints
+**Author:**
+* POST/authors - add a new author to the system
+* PUT/authors/{author_id} - update the information of an existing author
+* DELETE/authors/{author_id} - delete an author from the system only if they haven't written any books
+
+**Reader:**
+* POST/readers - add a new reader to the system
+* PUT/readers/{reader_id} - update the information of an existing reader
+* DELETE/readers/{reader_id} - delete a reader from the system only if they haven't read any books and don't have any books added to the wishlist
+* GET/readers - return all readers of the online library
+
+**Book:**
+* POST/books - add a new book to the system
+* DELETE/books/{book_id} - delete a book from the system
+* GET/books/readers - return books in the order of most read
+* GET/books/readers/{reader_id} - return all books read by a reader
+* GET/books/authors/{author_id} - return all books by an author
+
+**ReadingRecord:**
+* POST/readingRecord – add a new reading record, the reader is reading a new book
+
+**Review:**
+* POST/review – add a new review to a read book
+*	PATCH/review/{review_id} – edit an existing review of a read book
+*	DELETE/review/{review_id} – delete an existing review of a read book
+
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
