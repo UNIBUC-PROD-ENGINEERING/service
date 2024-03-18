@@ -23,5 +23,4 @@ public class BookController {
         var newBook = bookService.saveBook(bookCreationRequestDto);
         return ResponseEntity.ok(newBook);
     }
-
 }

@@ -1,6 +1,5 @@
 package ro.unibuc.hello.data;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;

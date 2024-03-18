@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuthorRepository extends MongoRepository<AuthorEntity, String> {
-
+    AuthorEntity findByName(String name);
 }

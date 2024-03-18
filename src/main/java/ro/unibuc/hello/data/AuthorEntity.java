@@ -1,5 +1,7 @@
 package ro.unibuc.hello.data;
 
+import java.time.LocalDate;
+
 import org.springframework.data.annotation.Id;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +16,8 @@ public class AuthorEntity {
 
     private String name;
     private String nationality;
+    private LocalDate birthDate;
+    private LocalDate deathDate;
 
     @Override
     public String toString() {
