@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookRepository extends MongoRepository<BookEntity, String> {
     List<BookEntity> findByAuthor(AuthorEntity author);
+    List<BookEntity> findByReader(ReaderEntity readerEntity);
 }

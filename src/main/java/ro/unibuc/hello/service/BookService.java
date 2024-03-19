@@ -11,6 +11,7 @@ import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.data.AuthorRepository;
 import ro.unibuc.hello.data.BookEntity;
 import ro.unibuc.hello.data.BookRepository;
+import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.dto.BookCreationRequestDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
@@ -33,6 +34,10 @@ public class BookService {
 
     public List<BookEntity> getBooksByAuthor(AuthorEntity authorEntity) {
         return bookRepository.findByAuthor(authorEntity);
+    }
+
+    public List<BookEntity> getBooksByReader(ReaderEntity readerEntity) {
+        return bookRepository.findByReader(readerEntity);
     }
 
     private BookEntity mapToBookEntity(BookCreationRequestDto dto) {
