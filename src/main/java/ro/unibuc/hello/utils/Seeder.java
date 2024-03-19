@@ -13,12 +13,15 @@ import ro.unibuc.hello.service.ReaderService;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
 public class Seeder implements ApplicationRunner {
 
+        private final MongoTemplate mongoTemplate;
         private final AuthorService authorService;
         private final ReaderService readerService;
         private final AuthorRepository authorRepository;
@@ -26,6 +29,23 @@ public class Seeder implements ApplicationRunner {
 
         @Override
         public void run(ApplicationArguments args) {
+                mongoTemplate.getDb().drop();
+
+                if (!isDatabaseEmpty()) {
+                        throw new IllegalStateException("Database is not empty. Seeder can't proceed.");
+                }
+
+                insertData();
+        }
+
+        // Returns true if the count of documents in all collections is zero
+        private boolean isDatabaseEmpty() {
+                return mongoTemplate.getCollectionNames()
+                                .stream()
+                                .allMatch(collectionName -> mongoTemplate.count(new Query(), collectionName) == 0);
+        }
+
+        public void insertData() {
                 var author1 = AuthorCreationRequestDto.builder().name("Ion Creanga").nationality("romanian")
                                 .birthDate(LocalDate.of(1837, 03, 1)).deathDate(LocalDate.of(1889, 12, 31)).build();
                 var author2 = AuthorCreationRequestDto.builder().name("Mihai Eminescu").nationality("romanian")
