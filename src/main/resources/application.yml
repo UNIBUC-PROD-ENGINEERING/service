@@ -18,6 +18,8 @@ spring:
   application:
     name: TripleA
 
+STEAM_API_KEY: 3558248EE7A42726F64B9F420A20A8D8
+
 application:
   security:
     jwt:

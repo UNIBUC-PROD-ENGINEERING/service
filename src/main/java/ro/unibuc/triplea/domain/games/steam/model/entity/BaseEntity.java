@@ -1,8 +1,10 @@
-package ro.unibuc.triplea.domain.auth.model.entity;
+package ro.unibuc.triplea.domain.games.steam.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 
 @MappedSuperclass
 @Data
+@SuperBuilder
 public class BaseEntity implements Serializable {
 
     @Column(name = "Status", nullable = false, columnDefinition = "boolean default true")
