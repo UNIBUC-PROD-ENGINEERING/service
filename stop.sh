@@ -1,4 +1,4 @@
 #!/bin/bash
 set -x
 
-docker compose down
+docker compose --profile mongo --profile hello-service down
