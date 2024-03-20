@@ -12,6 +12,7 @@ import ro.unibuc.hello.data.AuthorRepository;
 import ro.unibuc.hello.dto.AuthorCreationRequestDto;
 import ro.unibuc.hello.dto.AuthorDeleteRequestDto;
 import ro.unibuc.hello.dto.UpdateAuthorRequestDto;
+import ro.unibuc.hello.exception.DuplicateEntityException;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 @Service
@@ -24,7 +25,14 @@ public class AuthorService {
     @Autowired
     private BookService bookService;
 
-    public AuthorEntity saveAuthor(AuthorCreationRequestDto authorCreationRequestDto) {
+    public AuthorEntity saveAuthor(AuthorCreationRequestDto authorCreationRequestDto) throws DuplicateEntityException {
+        log.debug("Attempting to save a new author with name '{}'", authorCreationRequestDto.getName());
+        var authorDuplicateEntity = authorRepository.findByNameAndBirthDate(authorCreationRequestDto.getName(), authorCreationRequestDto.getBirthDate());
+        if (authorDuplicateEntity != null) {
+            log.debug("An author with that name and birthdate already exists");
+            throw new DuplicateEntityException("An author already exists for the given name and birthday.");
+        }
+
         log.debug("Creating a new author '{}'", authorCreationRequestDto.getName());
         var authorEntity = mapToAuthorEntity(authorCreationRequestDto);
         return authorRepository.save(authorEntity);
@@ -38,10 +46,12 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
-    public void deleteAuthor(AuthorDeleteRequestDto authorDeleteRequestDto) {
+    public void deleteAuthor(AuthorDeleteRequestDto authorDeleteRequestDto) throws RuntimeException {
         var name = authorDeleteRequestDto.getName();
-        log.debug("Trying to delete author '{}' from system", name);
-        var author = authorRepository.findByName(name);
+        var birthDate = authorDeleteRequestDto.getBirthDate();
+
+        log.debug("Trying to delete author '{}' with birthDate '{}' from system", name, birthDate);
+        var author = authorRepository.findByNameAndBirthDate(name, birthDate);
         if (authorHasAnyWrittenBooks(author)) {
             log.debug("Cannot delete author '{}' because he has books registered in the system", name);
             throw new RuntimeException("Cannot delete author");

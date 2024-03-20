@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ro.unibuc.hello.utils.DuplicateReadingRecordException;
+import ro.unibuc.hello.exception.DuplicateEntityException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class ReadingRecordService {
     private ReadingRecordRepository readingRecordRepository;
 
     public ReadingRecordEntity saveReadingRecord(ReadingRecordCreationRequestDto readingRecordCreationRequestDto)
-            throws DuplicateReadingRecordException {
+            throws DuplicateEntityException {
         log.debug("Attempting to save a reading record for bookId: {} and readerId: {}",
                 readingRecordCreationRequestDto.getBookId(), readingRecordCreationRequestDto.getReaderId());
 
@@ -48,7 +48,7 @@ public class ReadingRecordService {
         if (recordEntity != null) {
             log.debug("A reading record already exists for bookId: {} and readerId: {}",
                     readingRecordCreationRequestDto.getBookId(), readingRecordCreationRequestDto.getReaderId());
-            throw new DuplicateReadingRecordException("A reading record already exists for the given ids.");
+            throw new DuplicateEntityException("A reading record already exists for the given ids.");
         }
 
         var readingRecordEntity = ReadingRecordEntity.builder()

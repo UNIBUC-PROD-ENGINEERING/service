@@ -1,5 +1,7 @@
 package ro.unibuc.hello.dto;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,4 +15,5 @@ import lombok.Setter;
 @Setter
 public class AuthorDeleteRequestDto {
     private String name;
+    private LocalDate birthDate;
 }
