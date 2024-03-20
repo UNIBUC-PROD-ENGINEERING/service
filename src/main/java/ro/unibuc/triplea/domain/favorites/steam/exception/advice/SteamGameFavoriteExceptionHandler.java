@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ro.unibuc.triplea.application.games.steam.dto.response.SteamGameStandardResponse;
 import ro.unibuc.triplea.domain.favorites.steam.exception.SteamGameFavoriteDuplicateException;
-import ro.unibuc.triplea.domain.games.steam.exception.SteamGameNotFoundException;
 
 @RestControllerAdvice
 @CrossOrigin

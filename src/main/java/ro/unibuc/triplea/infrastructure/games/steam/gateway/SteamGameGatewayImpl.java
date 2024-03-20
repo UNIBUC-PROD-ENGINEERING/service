@@ -1,22 +1,20 @@
 package ro.unibuc.triplea.infrastructure.games.steam.gateway;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import ro.unibuc.triplea.domain.games.steam.gateway.SteamGameGateway;
 import ro.unibuc.triplea.domain.games.steam.model.entity.SteamGame;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 @Primary
@@ -26,7 +24,7 @@ public class SteamGameGatewayImpl implements SteamGameGateway {
 
     @Value("${STEAM_API_KEY}")
     private String steamApiKey;
-    
+
     private final RestTemplate restTemplate;
 
     @Override
@@ -117,8 +115,8 @@ public class SteamGameGatewayImpl implements SteamGameGateway {
         } else {
             log.error("Failed to fetch game from the external API. Status code: {}", responseEntity.getStatusCode());
         }
-        
+
         return Optional.empty();
     }
-    
+
 }

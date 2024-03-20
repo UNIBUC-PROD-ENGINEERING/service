@@ -3,12 +3,7 @@ package ro.unibuc.triplea.application.games.steam.web;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import ro.unibuc.triplea.application.games.steam.dto.response.SteamGameResponse;
 import ro.unibuc.triplea.domain.games.steam.service.SteamGameService;
 
@@ -20,11 +15,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Tag(name = "SteamGames", description = "Steam Game management APIs")
 public class SteamGameController {
-    
+
     private final SteamGameService steamGameService;
 
     @GetMapping("/game-list")
-    public ResponseEntity<List<SteamGameResponse>> getAllGames(@RequestParam(required=false, name="count") Optional<Integer> count) {
+    public ResponseEntity<List<SteamGameResponse>> getAllGames(@RequestParam(required = false, name = "count") Optional<Integer> count) {
         List<SteamGameResponse> games = steamGameService.getAllGames(count);
         return ResponseEntity.ok(games);
     }

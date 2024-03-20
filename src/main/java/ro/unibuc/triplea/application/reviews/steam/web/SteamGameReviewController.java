@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.triplea.application.reviews.steam.dto.request.SteamGameReviewRequest;
 import ro.unibuc.triplea.application.reviews.steam.dto.response.SteamGameReviewResponse;
-import ro.unibuc.triplea.domain.reviews.steam.model.entity.SteamGameReview;
 import ro.unibuc.triplea.domain.reviews.steam.service.SteamGameReviewService;
 
 import java.util.List;
@@ -21,6 +20,7 @@ import java.util.Optional;
 public class SteamGameReviewController {
 
     private final SteamGameReviewService steamGameReviewService;
+
     @GetMapping("/game-id/{gameId}")
     public ResponseEntity<?> getReviewsBySteamId(@PathVariable String gameId) {
         Optional<List<SteamGameReviewResponse>> reviews = steamGameReviewService.getReviewsByGameIdentifier(gameId);

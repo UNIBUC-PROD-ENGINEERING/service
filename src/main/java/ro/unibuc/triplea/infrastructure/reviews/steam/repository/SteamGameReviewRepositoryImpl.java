@@ -28,7 +28,7 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
     @Override
     public Optional<List<SteamGameReviewResponse>> findAllByGameSteamId(int gameSteamId) {
         SteamGame game = steamGameGateway.getSteamGameBySteamId(gameSteamId).orElse(null);
-        if(game == null) {
+        if (game == null) {
             return Optional.empty();
         }
 
@@ -48,7 +48,7 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
     @Override
     public Optional<List<SteamGameReviewResponse>> findAllByGameName(String gameName) {
         SteamGame game = steamGameGateway.getSteamGameByName(gameName).orElse(null);
-        if(game == null) {
+        if (game == null) {
             return Optional.empty();
         }
 
@@ -66,7 +66,7 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
     @Override
     public Optional<List<SteamGameReviewResponse>> findAllByUserName(String userName) {
         User user = springDataUserRepository.findByUsername(userName).orElse(null);
-        if(user == null) {
+        if (user == null) {
             return Optional.empty();
         }
 
@@ -84,7 +84,7 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
     @Override
     public Optional<SteamGameReviewResponse> save(SteamGameReview steamGameReview) {
         SteamGame game = steamGameGateway.getSteamGameBySteamId(steamGameReview.getGameSteamId()).orElse(null);
-        if(game == null) {
+        if (game == null) {
             return Optional.empty();
         }
 
