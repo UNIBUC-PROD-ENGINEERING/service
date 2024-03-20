@@ -44,4 +44,32 @@ public class TeamEntity {
         return players;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getYearFounded() {
+        return yearFounded;
+    }
+
+    public void setYearFounded(int yearFounded) {
+        this.yearFounded = yearFounded;
+    }
+
+    public String getCoach() {
+        return coach;
+    }
+
+    public void setCoach(String coach) {
+        this.coach = coach;
+    }
+
+    public String getId() {
+        return id;
+    }
+
 }
