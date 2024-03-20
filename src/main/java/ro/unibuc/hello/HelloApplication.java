@@ -5,10 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import ro.unibuc.hello.data.ActionEntity;
-import ro.unibuc.hello.data.ActionRepository;
-import ro.unibuc.hello.data.InformationEntity;
-import ro.unibuc.hello.data.InformationRepository;
+import ro.unibuc.hello.repositories.ActionRepository;
+import ro.unibuc.hello.entities.InformationEntity;
+import ro.unibuc.hello.repositories.InformationRepository;
 
 import javax.annotation.PostConstruct;
 

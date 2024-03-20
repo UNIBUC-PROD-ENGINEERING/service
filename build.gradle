@@ -4,6 +4,7 @@ plugins {
 	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'java'
 	id 'jacoco'
+	id 'io.freefair.lombok' version '6.6'
 }
 
 group = 'ro.unibuc'

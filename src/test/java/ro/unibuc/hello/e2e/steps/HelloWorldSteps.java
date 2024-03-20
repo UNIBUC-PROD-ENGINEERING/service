@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
-import ro.unibuc.hello.dto.Greeting;
+import ro.unibuc.hello.dtos.GreetingDTO;
 import ro.unibuc.hello.e2e.util.HeaderSetup;
 import ro.unibuc.hello.e2e.util.ResponseErrorHandler;
 import ro.unibuc.hello.e2e.util.ResponseResults;
@@ -46,8 +46,8 @@ public class HelloWorldSteps {
     @And("^the client receives response (.+)$")
     public void the_client_receives_response(String response) throws JsonProcessingException {
         String latestResponseBody = latestResponse.getBody();
-        Greeting greeting = new ObjectMapper().readValue(latestResponseBody, Greeting.class);
-        assertThat("Response received is incorrect", greeting.getContent(), is(response));
+        GreetingDTO greetingDTO = new ObjectMapper().readValue(latestResponseBody, GreetingDTO.class);
+        assertThat("Response received is incorrect", greetingDTO.getContent(), is(response));
     }
 
     public void executeGet(String url) {
