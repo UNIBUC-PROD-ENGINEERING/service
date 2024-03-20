@@ -3,6 +3,7 @@ package ro.unibuc.hello.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -39,5 +40,11 @@ public class ReaderController {
                                                      @RequestBody ReaderUpdateRequestDto readerUpdateRequestDto) {
         var updatedReader = readerService.updateReader(id, readerUpdateRequestDto);
         return ResponseEntity.ok(updatedReader);
+    }
+
+    @DeleteMapping("readers/records/{readerId}")
+    public ResponseEntity<String> deleteReaderAndReadingRecords(@PathVariable String readerId) {
+        readerService.deleteReaderAndReadingRecords(readerId);
+        return ResponseEntity.ok("Reader and associated reading records deleted successfully");
     }
 }
