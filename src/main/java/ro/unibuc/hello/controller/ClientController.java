@@ -52,6 +52,12 @@ public class ClientController {
 
     @DeleteMapping("/{id}")
     public void deleteClient(@PathVariable String id) {
+        ClientEntity currClient = clientRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Client not found with id " + id));
+        List <LoanEntity> loanList = loanRepository.findByClient(currClient);
+        if (loanList.size() > 0){
+            throw new RuntimeException("Client has loans and cannot be deleted.");
+        }
         clientRepository.deleteById(id);
     }
 
