@@ -2,18 +2,25 @@ package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ro.unibuc.hello.data.entity.Movie;
+import ro.unibuc.hello.data.entity.Review;
 import ro.unibuc.hello.dto.tmdb.MovieApiDto;
+import ro.unibuc.hello.dto.tmdb.ReviewDto;
 import ro.unibuc.hello.service.MovieService;
+import ro.unibuc.hello.service.ReviewService;
+import java.util.stream.Collectors;
+
 
 import java.util.List;
 
@@ -21,6 +28,9 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
     @Autowired private MovieService movieService;
+
+    @Autowired
+    private ReviewService reviewService; 
 
     @GetMapping("/search")
     @ResponseBody
@@ -54,5 +64,29 @@ public class MovieController {
 
         movieService.deleteMovie(id);
     }
+
+
+    // Get all reviews for a movie
+    @GetMapping("/{id}/reviews")
+    @ResponseBody
+    public List<Review> getMovieReviews(@PathVariable String id) {
+        return reviewService.getReviewsByMovieId(id);
+    }
+
+    // Add a review for a movie
+    @PostMapping("/{movieId}/reviews/add")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public Review addReview(@PathVariable String movieId, @RequestBody ReviewDto reviewDto) {
+        return reviewService.addReview(movieId, reviewDto);
+    }
+
+    // // Delete a review for a movie
+    // @DeleteMapping("/{movieId}/reviews/delete/{reviewId}")
+    // @ResponseBody
+    // @ResponseStatus(HttpStatus.NO_CONTENT)
+    // public void deleteReview(@PathVariable String movieId, @PathVariable Long reviewId) {
+    //     reviewService.deleteReview(movieId, reviewId);
+    // }
 
 }
