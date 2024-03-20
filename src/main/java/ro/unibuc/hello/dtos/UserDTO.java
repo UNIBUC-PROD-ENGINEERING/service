@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 public class UserDTO {
     private String id;
     private List<PolicyDTO> policies;
+    private List<RoleDTO> roles;
 
     public User toUser() {
-        return new User(id, policies.stream().map(PolicyDTO::toPolicy).collect(Collectors.toList()));
+        return new User(id, policies.stream().map(PolicyDTO::toPolicy).collect(Collectors.toList()), roles.stream().map(RoleDTO::toRole).collect(Collectors.toList()));
     }
 }

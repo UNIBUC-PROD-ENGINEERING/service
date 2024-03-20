@@ -12,4 +12,5 @@ import java.util.List;
 public class UserCreateRequest {
     private String id;
     private List<String> policies;
+    private List<String> roles;
 }

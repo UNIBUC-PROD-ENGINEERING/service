@@ -17,12 +17,13 @@ public class User {
     @Id
     private String id;
     private List<Policy> policies;
+    private List<Role> roles;
     @Override
     public String toString() {
         return String.format("User[id=%s]", id);
     }
 
     public UserDTO toDTO() {
-        return new UserDTO(id, policies.stream().map(Policy::toDTO).collect(Collectors.toList()));
+        return new UserDTO(id, policies.stream().map(Policy::toDTO).collect(Collectors.toList()), roles.stream().map(Role::toDTO).collect(Collectors.toList()));
     }
 }

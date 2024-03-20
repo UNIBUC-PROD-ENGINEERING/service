@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ro.unibuc.hello.controllers.contracts.UserCreateRequest;
 import ro.unibuc.hello.dtos.UserDTO;
 import ro.unibuc.hello.entities.Policy;
+import ro.unibuc.hello.entities.Role;
 import ro.unibuc.hello.entities.User;
 import ro.unibuc.hello.exceptions.EntityAlreadyExistsException;
 import ro.unibuc.hello.exceptions.EntityNotFoundException;
@@ -21,6 +22,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PolicyService policyService;
+    @Autowired
+    private RoleService roleService;
 
     public UserDTO getUserById(String id) {
         return userRepository.findById(id).orElseThrow(
@@ -34,29 +37,45 @@ public class UserService {
             throw new EntityAlreadyExistsException("User");
         }
         List<Policy> policies = new ArrayList<>();
+        List<Role> roles = new ArrayList<>();
+
         userCreateRequest.getPolicies().forEach(policyId -> {
             var policy = policyService.getPolicyById(policyId);
             policies.add(policy.toPolicy());
         });
-        var user = new User(userCreateRequest.getId(), policies);
+        userCreateRequest.getRoles().forEach(roleId -> {
+            var role = roleService.getRoleById(roleId);
+            roles.add(role.toRole());
+        });
+
+        var user = new User(userCreateRequest.getId(), policies, roles);
         userRepository.save(user);
         return user.toDTO();
     }
 
     public UserDTO updateUser(String id, UserCreateRequest userCreateRequest) {
         var existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            throw new EntityAlreadyExistsException("User");
+        if (existingUser.isEmpty()) {
+            throw new EntityNotFoundException("User");
         }
         List<Policy> policies = new ArrayList<>();
+        List<Role> roles = new ArrayList<>();
+
         userCreateRequest.getPolicies().forEach(policyId -> {
             var policy = policyService.getPolicyById(policyId);
             policies.add(policy.toPolicy());
         });
+        userCreateRequest.getRoles().forEach(roleId -> {
+            var role = roleService.getRoleById(roleId);
+            roles.add(role.toRole());
+        });
+
         var user = userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("User")
         );
+
         user.setPolicies(policies);
+        user.setRoles(roles);
         userRepository.save(user);
         return user.toDTO();
     }
