@@ -82,18 +82,18 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
     }
 
     @Override
-    public Optional<SteamGameReviewResponse> save(SteamGameReview gameReview) {
-        SteamGame game = steamGameGateway.getSteamGameBySteamId(gameReview.getGameSteamId()).orElse(null);
+    public Optional<SteamGameReviewResponse> save(SteamGameReview steamGameReview) {
+        SteamGame game = steamGameGateway.getSteamGameBySteamId(steamGameReview.getGameSteamId()).orElse(null);
         if(game == null) {
             return Optional.empty();
         }
 
-        SteamGameReview steamGameReview = springDataSteamGameReviewRepository.save(gameReview);
+        SteamGameReview savedSteamGameReview = springDataSteamGameReviewRepository.save(steamGameReview);
         return Optional.of(SteamGameReviewResponse.builder()
-                .gameSteamId(steamGameReview.getGameSteamId())
-                .gameName(steamGameReview.getGameName())
-                .userName(steamGameReview.getUserName())
-                .reviewContent(steamGameReview.getReviewContent())
+                .gameSteamId(savedSteamGameReview.getGameSteamId())
+                .gameName(savedSteamGameReview.getGameName())
+                .userName(savedSteamGameReview.getUserName())
+                .reviewContent(savedSteamGameReview.getReviewContent())
                 .build());
     }
 }

@@ -7,7 +7,6 @@ import ro.unibuc.triplea.application.games.steam.dto.response.SteamGameResponse;
 import ro.unibuc.triplea.application.reviews.steam.dto.request.SteamGameReviewRequest;
 import ro.unibuc.triplea.application.reviews.steam.dto.response.SteamGameReviewResponse;
 import ro.unibuc.triplea.domain.games.steam.exception.SteamGameNotFoundException;
-import ro.unibuc.triplea.domain.games.steam.model.entity.SteamGame;
 import ro.unibuc.triplea.domain.games.steam.service.SteamGameService;
 import ro.unibuc.triplea.domain.games.steam.utils.IdentifierUtil;
 import ro.unibuc.triplea.domain.reviews.steam.model.entity.SteamGameReview;
