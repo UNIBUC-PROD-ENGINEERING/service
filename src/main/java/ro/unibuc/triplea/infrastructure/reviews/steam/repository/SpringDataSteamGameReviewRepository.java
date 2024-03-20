@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface SpringDataSteamGameReviewRepository extends JpaRepository<SteamGameReview, Integer> {
     List<SteamGameReview> findAllByUserName(String userName);
+
     List<SteamGameReview> findAllByGameSteamId(int gameSteamId);
+
     SteamGameReview findById(int id);
 }

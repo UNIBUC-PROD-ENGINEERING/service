@@ -1,8 +1,8 @@
 package ro.unibuc.triplea.infrastructure.games.steam.repository;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 import ro.unibuc.triplea.application.games.steam.dto.response.SteamGameResponse;
 import ro.unibuc.triplea.domain.games.steam.gateway.SteamGameGateway;
 import ro.unibuc.triplea.domain.games.steam.model.entity.SteamGame;
@@ -40,7 +40,7 @@ public class SteamGameRepositoryImpl implements SteamGameRepository {
         if (game != null) {
             return Optional.of(SteamGameResponse.builder().gameSteamId(game.getGameSteamId()).gameName(game.getGameName()).build());
         }
-        
+
         return Optional.empty();
     }
 

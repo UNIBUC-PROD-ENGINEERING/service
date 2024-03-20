@@ -20,47 +20,50 @@ import java.util.Optional;
 public class SteamGameReviewService {
     private final SteamGameReviewRepository steamGameReviewRepository;
     private final SteamGameService steamGameService;
+
     public Optional<List<SteamGameReviewResponse>> getReviewsBySteamId(int gameSteamId) {
         return steamGameReviewRepository.findAllByGameSteamId(gameSteamId);
     }
+
     public Optional<List<SteamGameReviewResponse>> getReviewsByGameName(String gameName) {
         return steamGameReviewRepository.findAllByGameName(gameName);
     }
+
     public Optional<List<SteamGameReviewResponse>> getReviewsByGameIdentifier(String identifier) {
-        if(IdentifierUtil.isNumeric(identifier)) {
+        if (IdentifierUtil.isNumeric(identifier)) {
             int steamId = Integer.parseInt(identifier);
             Optional<List<SteamGameReviewResponse>> steamGameReviewResponses = getReviewsBySteamId(steamId);
 
-            if(steamGameReviewResponses.isPresent()) {
+            if (steamGameReviewResponses.isPresent()) {
                 return steamGameReviewResponses;
-            }
-            else {
+            } else {
                 throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
             }
-        } else if(IdentifierUtil.isValidString(identifier)) {
+        } else if (IdentifierUtil.isValidString(identifier)) {
             Optional<List<SteamGameReviewResponse>> steamGameReviewResponses = getReviewsByGameName(identifier);
 
-            if(steamGameReviewResponses.isPresent()) {
+            if (steamGameReviewResponses.isPresent()) {
                 return steamGameReviewResponses;
-            }
-            else {
+            } else {
                 throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
             }
         } else {
             throw new SteamGameNotFoundException("Invalid identifier: " + identifier);
         }
     }
+
     public Optional<SteamGameReviewResponse> addReview(SteamGameReviewRequest game, UserDetails userDetails) {
         SteamGameReview steamGameReview = convertToSteamGameReview(game, userDetails.getUsername());
         return steamGameReviewRepository.save(steamGameReview);
     }
+
     public Optional<List<SteamGameReviewResponse>> getReviewsByUserName(String username) {
         return steamGameReviewRepository.findAllByUserName(username);
     }
 
     private SteamGameReview convertToSteamGameReview(SteamGameReviewRequest steamGameReviewRequest, String username) {
         Optional<SteamGameResponse> steamGameResponse = steamGameService.getGameBySteamId(steamGameReviewRequest.getGameSteamId());
-        if(steamGameResponse.isEmpty()) {
+        if (steamGameResponse.isEmpty()) {
             throw new SteamGameNotFoundException("Steam game with identifier " + steamGameReviewRequest.getGameSteamId() + " not found");
         }
 

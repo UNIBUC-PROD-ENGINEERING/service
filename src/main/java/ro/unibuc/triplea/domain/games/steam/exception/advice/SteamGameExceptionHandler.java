@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import ro.unibuc.triplea.application.games.steam.dto.response.SteamGameStandardResponse;
 import ro.unibuc.triplea.domain.games.steam.exception.SteamGameNotFoundException;
 import ro.unibuc.triplea.domain.games.steam.exception.SteamGameValidateException;

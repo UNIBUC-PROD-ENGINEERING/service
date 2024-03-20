@@ -9,7 +9,9 @@ import java.util.Optional;
 public interface SteamGameRepository {
 
     Optional<SteamGameResponse> findByGameSteamId(int gameSteamId);
+
     Optional<SteamGameResponse> findByGameName(String gameName);
+
     List<SteamGameResponse> findGames(Optional<Integer> count);
 
     SteamGame save(SteamGame game);

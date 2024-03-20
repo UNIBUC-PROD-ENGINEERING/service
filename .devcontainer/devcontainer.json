@@ -9,6 +9,9 @@
   },
   "customizations": {
     "vscode": {
+      "settings": {
+        "editor.formatOnSave": true
+      },
       "extensions": [
         "vscjava.vscode-java-pack",
         "ms-azuretools.vscode-docker",

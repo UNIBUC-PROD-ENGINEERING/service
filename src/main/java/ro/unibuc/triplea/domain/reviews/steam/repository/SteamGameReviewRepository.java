@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface SteamGameReviewRepository {
     Optional<List<SteamGameReviewResponse>> findAllByGameSteamId(int gameSteamId);
+
     Optional<List<SteamGameReviewResponse>> findAllByGameName(String gameName);
+
     Optional<List<SteamGameReviewResponse>> findAllByUserName(String userName);
 
     Optional<SteamGameReviewResponse> save(SteamGameReview game);

@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SteamGameReviewRequest {
 
-        private int gameSteamId;
-        private String reviewContent;
+    private int gameSteamId;
+    private String reviewContent;
 }
