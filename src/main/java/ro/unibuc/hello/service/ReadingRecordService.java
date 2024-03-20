@@ -1,6 +1,7 @@
 package ro.unibuc.hello.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import ro.unibuc.hello.utils.DuplicateReadingRecordException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ro.unibuc.hello.data.BookRepository;
+import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.data.ReaderRepository;
 import ro.unibuc.hello.data.ReadingRecordEntity;
 import ro.unibuc.hello.data.ReadingRecordRepository;
@@ -59,6 +61,11 @@ public class ReadingRecordService {
         log.debug("Reading record saved successfully for bookId: {} and readerId: {}",
                 readingRecordCreationRequestDto.getBookId(), readingRecordCreationRequestDto.getReaderId());
         return readingRecordRepository.save(readingRecordEntity);
+    }
+
+    public List<ReadingRecordEntity> getAllReadingRecords() {
+        log.debug("Getting all readingRecords");
+        return readingRecordRepository.findAll();
     }
 
 }

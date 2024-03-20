@@ -1,6 +1,7 @@
 package ro.unibuc.hello.data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import lombok.Builder;
@@ -27,4 +28,6 @@ public class ReaderEntity {
                 "Reader[readerId='%s', name='%s', nationality='%s', email='%s', phoneNumber='%s', birthDate='%s', registrationDate='%s']",
                 readerId, name, nationality, email, phoneNumber, birthDate, registrationDate);
     }
+
+
 }
