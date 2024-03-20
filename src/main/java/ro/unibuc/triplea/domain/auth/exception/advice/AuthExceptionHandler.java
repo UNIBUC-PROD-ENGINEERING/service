@@ -11,7 +11,7 @@ import ro.unibuc.triplea.domain.auth.exception.ValidateException;
 
 @RestControllerAdvice
 @CrossOrigin
-public class AppWideExceptionHandler {
+public class AuthExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<StandardResponse> handleNotFoundException(NotFoundException e) {
