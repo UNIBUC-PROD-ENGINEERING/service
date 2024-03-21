@@ -11,7 +11,6 @@ import ro.unibuc.hello.exception.DuplicateEntityException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ro.unibuc.hello.data.BookRepository;
-import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.data.ReaderRepository;
 import ro.unibuc.hello.data.ReadingRecordEntity;
 import ro.unibuc.hello.data.ReadingRecordRepository;

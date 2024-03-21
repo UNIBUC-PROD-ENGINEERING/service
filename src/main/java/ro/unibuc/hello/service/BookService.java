@@ -62,7 +62,7 @@ public class BookService {
     }
 
     public void deleteBookAndReadingRecords(String bookId) {
-        log.debug("Deleting book with ID: {}", bookId);
+        log.debug("Deleting book with id: {}", bookId);
 
         var bookToDelete = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with ID: " + bookId));
@@ -75,15 +75,16 @@ public class BookService {
     }
 
     public List<BookEntity> getBooksByAuthor(String authorId) {
+        log.debug("Getting books by author with id: '{}'", authorId);
         var authorEntity = authorRepository.findById(authorId)
-                .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + authorId));
+                .orElseThrow(() -> new EntityNotFoundException("Author not found with id: " + authorId));
         return bookRepository.findByAuthor(authorEntity);
     }
 
     public List<BookEntity> getBooksByReader(String readerId) {
+        log.debug("Getting books by reader with id: '{}'", readerId);
         var readerEntity = readerRepository.findById(readerId)
-                .orElseThrow(() -> new IllegalArgumentException("Reader not found with id: " + readerId));
-
+                .orElseThrow(() -> new EntityNotFoundException("Reader not found with id: " + readerId));
         var records = readingRecordRepository.findByReader(readerEntity);
 
         List<BookEntity> books = new ArrayList<>();

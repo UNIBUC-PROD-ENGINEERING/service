@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UpdateAuthorRequestDto {
+public class AuthorUpdateRequestDto {
     LocalDate deathDate;
 
 }

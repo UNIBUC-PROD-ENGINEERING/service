@@ -29,7 +29,6 @@ public class ReadingRecordController {
     @ResponseBody
     public ResponseEntity<ReadingRecordEntity> createReadingRecord(
             @RequestBody ReadingRecordCreationRequestDto readingRecordCreationRequestDto) {
-
         var newReadingRecord = readingRecordService.saveReadingRecord(readingRecordCreationRequestDto);
         return ResponseEntity.ok(newReadingRecord);
     }

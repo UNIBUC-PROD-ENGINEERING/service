@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ro.unibuc.hello.data.ReadingRecordEntity;
 import ro.unibuc.hello.data.ReadingRecordRepository;
 import ro.unibuc.hello.data.ReviewEntity;
 import ro.unibuc.hello.data.ReviewRepository;
-import ro.unibuc.hello.dto.ReadingRecordCreationRequestDto;
 import ro.unibuc.hello.dto.ReviewCreationRequestDto;
+import ro.unibuc.hello.dto.ReviewUpdateRequestDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 @Service
@@ -44,4 +43,16 @@ public class ReviewService {
         return reviewRepository.save(reviewEntity);
     }
 
+    public ReviewEntity updateReview(String id, ReviewUpdateRequestDto reviewUpdateRequestDto) {
+        log.debug("Updating the review with id '{}', setting rating '{}' and text '{}'", id,
+                reviewUpdateRequestDto.getRating(), reviewUpdateRequestDto.getReviewBody());
+        var review = reviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        review.setRating(reviewUpdateRequestDto.getRating());
+        review.setReviewBody(reviewUpdateRequestDto.getReviewBody());
+        return reviewRepository.save(review);
+    }
+
+    public void deleteReview(String reviewId) {
+        reviewRepository.deleteById(reviewId);
+    }
 }

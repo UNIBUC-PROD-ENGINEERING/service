@@ -31,18 +31,18 @@ public class BookController {
 
     @GetMapping("/books/authors/{authorId}")
     @ResponseBody
-    public ResponseEntity <List<BookEntity>> getBooksByAuthor(@PathVariable String authorId) {
+    public ResponseEntity<List<BookEntity>> getBooksByAuthor(@PathVariable String authorId) {
         var books = bookService.getBooksByAuthor(authorId);
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/books/readers/{readerId}")
     @ResponseBody
-    public ResponseEntity <List<BookEntity>> getBooksByReader(@PathVariable String readerId) {
+    public ResponseEntity<List<BookEntity>> getBooksByReader(@PathVariable String readerId) {
         var books = bookService.getBooksByReader(readerId);
         return ResponseEntity.ok(books);
     }
-  
+
     @DeleteMapping("/books/{bookId}")
     public ResponseEntity<String> deleteBook(@PathVariable String bookId) {
         bookService.deleteBookAndReadingRecords(bookId);

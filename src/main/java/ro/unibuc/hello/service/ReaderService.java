@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,6 @@ public class ReaderService {
     @Autowired
     private ReadingRecordRepository readingRecordRepository;
 
-
     public ReaderEntity saveReader(ReaderCreationRequestDto readerCreationRequestDto) {
         log.debug("Creating a new reader '{}' with email '{}'", readerCreationRequestDto.getName(),
                 readerCreationRequestDto.getEmail());
@@ -51,21 +49,6 @@ public class ReaderService {
         return readerRepository.save(reader);
     }
 
-    private ReaderEntity mapToReaderEntity(ReaderCreationRequestDto dto) {
-        log.debug("Map readerCreationRequestDto to readerEntity");
-        return ReaderEntity.builder()
-                .name(dto.getName())
-                .nationality(dto.getNationality())
-                .email(dto.getEmail())
-                .phoneNumber(dto.getPhoneNumber())
-                .birthDate(dto.getBirthDate())
-                .registrationDate(dto.getRegistrationDate())
-                .build();
-
-    }
-
-
-    
     public void deleteReaderAndReadingRecords(String readerId) {
         ReaderEntity reader = readerRepository.findById(readerId)
                 .orElseThrow(() -> new RuntimeException("Reader not found with id: " + readerId));
@@ -76,5 +59,17 @@ public class ReaderService {
         }
 
         readerRepository.delete(reader);
+    }
+
+    private ReaderEntity mapToReaderEntity(ReaderCreationRequestDto dto) {
+        log.debug("Map readerCreationRequestDto to readerEntity");
+        return ReaderEntity.builder()
+                .name(dto.getName())
+                .nationality(dto.getNationality())
+                .email(dto.getEmail())
+                .phoneNumber(dto.getPhoneNumber())
+                .birthDate(dto.getBirthDate())
+                .registrationDate(dto.getRegistrationDate())
+                .build();
     }
 }

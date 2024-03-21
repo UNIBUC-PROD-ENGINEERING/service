@@ -1,7 +1,6 @@
 package ro.unibuc.hello.data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import lombok.Builder;

@@ -7,14 +7,17 @@ import ro.unibuc.hello.data.AuthorRepository;
 import ro.unibuc.hello.data.BookRepository;
 import ro.unibuc.hello.data.ReaderRepository;
 import ro.unibuc.hello.data.ReadingRecordRepository;
+import ro.unibuc.hello.data.ReviewRepository;
 import ro.unibuc.hello.dto.AuthorCreationRequestDto;
 import ro.unibuc.hello.dto.BookCreationRequestDto;
 import ro.unibuc.hello.dto.ReaderCreationRequestDto;
 import ro.unibuc.hello.dto.ReadingRecordCreationRequestDto;
+import ro.unibuc.hello.dto.ReviewCreationRequestDto;
 import ro.unibuc.hello.service.AuthorService;
 import ro.unibuc.hello.service.BookService;
 import ro.unibuc.hello.service.ReaderService;
 import ro.unibuc.hello.service.ReadingRecordService;
+import ro.unibuc.hello.service.ReviewService;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -28,11 +31,13 @@ public class Seeder implements ApplicationRunner {
         private final ReaderService readerService;
         private final ReadingRecordService readingRecordService;
         private final BookService bookService;
+        private final ReviewService reviewService;
 
         private final AuthorRepository authorRepository;
         private final ReaderRepository readerRepository;
         private final ReadingRecordRepository readingRecordRepository;
         private final BookRepository bookRepository;
+        private final ReviewRepository reviewRepository;
 
         @Override
         public void run(ApplicationArguments args) {
@@ -96,8 +101,12 @@ public class Seeder implements ApplicationRunner {
                 var readingRecord2 = ReadingRecordCreationRequestDto.builder().bookId(readBook2.getBookId())
                                 .readerId(savedReader4.getReaderId()).build();
 
-                readingRecordService.saveReadingRecord(readingRecord1);
+                var savedReadingRecord1 = readingRecordService.saveReadingRecord(readingRecord1);
                 readingRecordService.saveReadingRecord(readingRecord2);
+
+                var review1 = ReviewCreationRequestDto.builder().rating(5).reviewBody("Good book")
+                                .readingRecordId(savedReadingRecord1.getReadingRecordId()).build();
+                reviewService.saveReview(review1);
         }
 
         private void cleanDatabase() {
@@ -105,5 +114,6 @@ public class Seeder implements ApplicationRunner {
                 bookRepository.deleteAll();
                 authorRepository.deleteAll();
                 readerRepository.deleteAll();
+                reviewRepository.deleteAll();
         }
 }

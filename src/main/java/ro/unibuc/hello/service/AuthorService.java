@@ -11,7 +11,7 @@ import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.data.AuthorRepository;
 import ro.unibuc.hello.dto.AuthorCreationRequestDto;
 import ro.unibuc.hello.dto.AuthorDeleteRequestDto;
-import ro.unibuc.hello.dto.UpdateAuthorRequestDto;
+import ro.unibuc.hello.dto.AuthorUpdateRequestDto;
 import ro.unibuc.hello.exception.DuplicateEntityException;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
@@ -22,12 +22,14 @@ public class AuthorService {
 
     @Autowired
     private AuthorRepository authorRepository;
+    
     @Autowired
     private BookService bookService;
 
     public AuthorEntity saveAuthor(AuthorCreationRequestDto authorCreationRequestDto) throws DuplicateEntityException {
         log.debug("Attempting to save a new author with name '{}'", authorCreationRequestDto.getName());
-        var authorDuplicateEntity = authorRepository.findByNameAndBirthDate(authorCreationRequestDto.getName(), authorCreationRequestDto.getBirthDate());
+        var authorDuplicateEntity = authorRepository.findByNameAndBirthDate(authorCreationRequestDto.getName(),
+                authorCreationRequestDto.getBirthDate());
         if (authorDuplicateEntity != null) {
             log.debug("An author with that name and birthdate already exists");
             throw new DuplicateEntityException("An author already exists for the given name and birthday.");
@@ -38,7 +40,7 @@ public class AuthorService {
         return authorRepository.save(authorEntity);
     }
 
-    public AuthorEntity updateAuthor(String id, UpdateAuthorRequestDto updateAuthorRequestDto) {
+    public AuthorEntity updateAuthor(String id, AuthorUpdateRequestDto updateAuthorRequestDto) {
         log.debug("Updating the author with id '{}', setting death date '{}'", id,
                 updateAuthorRequestDto.getDeathDate());
         var author = authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
