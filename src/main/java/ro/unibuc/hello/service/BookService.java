@@ -1,5 +1,6 @@
 package ro.unibuc.hello.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.data.AuthorRepository;
 import ro.unibuc.hello.data.BookEntity;
 import ro.unibuc.hello.data.BookRepository;
+import ro.unibuc.hello.data.ReaderRepository;
 import ro.unibuc.hello.data.ReadingRecordRepository;
 import ro.unibuc.hello.dto.BookCreationRequestDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -25,6 +27,9 @@ public class BookService {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    @Autowired
+    private ReaderRepository readerRepository;
 
     @Autowired
     private ReadingRecordRepository readingRecordRepository;
@@ -74,5 +79,17 @@ public class BookService {
                 .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + authorId));
         return bookRepository.findByAuthor(authorEntity);
     }
-  
+
+    public List<BookEntity> getBooksByReader(String readerId) {
+        var readerEntity = readerRepository.findById(readerId)
+                .orElseThrow(() -> new IllegalArgumentException("Reader not found with id: " + readerId));
+
+        var records = readingRecordRepository.findByReader(readerEntity);
+
+        List<BookEntity> books = new ArrayList<>();
+        records.forEach(rec -> books.add(rec.getBook()));
+
+        return books;
+    }
+
 }
