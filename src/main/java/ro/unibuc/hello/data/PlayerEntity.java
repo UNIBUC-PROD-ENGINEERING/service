@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 
 public class PlayerEntity {
     @Id
-    public String id;
+    public Integer id;
     public String name;
     public String team;
     public double points_per_game;
@@ -14,7 +14,7 @@ public class PlayerEntity {
     public PlayerEntity() {
     }
 
-    public PlayerEntity(String id, String name, String team, double points_per_game, double rebounds_per_game,
+    public PlayerEntity(Integer id, String name, String team, double points_per_game, double rebounds_per_game,
             double assists_per_game) {
         this.id=id;
         this.name = name;
@@ -35,12 +35,24 @@ public class PlayerEntity {
                 name, team, points_per_game, rebounds_per_game, assists_per_game);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
     public double getPpg(){
         return points_per_game;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public double getRpg(){
+        return rebounds_per_game;
+    }
+
+    public double getApg(){
+        return assists_per_game;
     }
 
     public void setName(String name) {
