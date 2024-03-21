@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,5 +60,11 @@ public class TeamController {
         @RequestParam(name = "newCoach", required = false, defaultValue = "") String newCoach
     ) {
         teamService.updateTeam(id, newName, newYearFounded, newCoach);
+    }
+
+    @DeleteMapping("/deleteTeamByName")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTeamByName(@RequestParam(name="name",required=true)String name){
+        teamService.deleteByName(name);
     }
 }

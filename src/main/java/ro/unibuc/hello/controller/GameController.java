@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import ro.unibuc.hello.data.GameEntity;
@@ -58,5 +59,11 @@ public class GameController {
         @RequestParam(name = "newSpectators", required = false, defaultValue = "0") int newSpectators
     ) {
         gameService.updateGame(id, newDate, newTeam1_id, newTeam2_id, newScore, newSpectators);
+    }
+
+    @DeleteMapping("/deleteGameById")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTeamById(@RequestParam(name="id",required=true)String id){
+        gameService.deleteById(id);
     }
 }

@@ -77,4 +77,13 @@ public class TeamService {
 
         teamRepository.save(teamEntity);
     }
+
+    public String deleteByName(String name)throws EntityNotFoundException{
+        TeamEntity teamEntity=teamRepository.findByName(name);
+        if (teamEntity==null){
+            throw new EntityNotFoundException(name);
+        }
+        teamRepository.deleteById(teamEntity.getId());
+        return "Team deleted succesfully";
+    }
 }

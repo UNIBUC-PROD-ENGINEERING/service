@@ -98,4 +98,13 @@ public class PlayerService {
         }
         playerRepository.save(playerEntity);
     }
+
+    public String deleteByName(String name)throws EntityNotFoundException{
+        PlayerEntity playerEntity=playerRepository.findByName(name);
+        if (playerEntity==null){
+            throw new EntityNotFoundException(name);
+        }
+        playerRepository.deleteById(playerEntity.getId());
+        return "Player deleted succesfully";
+    }
 }

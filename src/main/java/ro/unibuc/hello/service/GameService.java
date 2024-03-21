@@ -82,4 +82,13 @@ public class GameService {
 
         gameRepository.save(gameEntity);
     }
+
+    public String deleteById(String id)throws EntityNotFoundException{
+        GameEntity gameEntity=gameRepository.findById(id).get();
+        if (gameEntity==null){
+            throw new EntityNotFoundException(id);
+        }
+        gameRepository.deleteById(gameEntity.getId());
+        return "Team deleted succesfully";
+    }
 }
