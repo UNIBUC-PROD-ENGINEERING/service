@@ -1,7 +1,7 @@
 version: '3.1'
 services:
-  hello:
-    image: hello-img
+  triplea:
+    image: triplea-img
     build: .
     ports:
       - 8080:8080
@@ -11,7 +11,7 @@ services:
 #      MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always
     profiles:
-      - "hello-service"
+      - "triplea-service"
 
   postgres_db:
     image: "postgres:latest"

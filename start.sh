@@ -1,4 +1,4 @@
 #!/bin/bash
 set -x
 
-docker compose --profile postgres --profile hello-service up -d
+docker compose --profile postgres --profile triplea-service up -d

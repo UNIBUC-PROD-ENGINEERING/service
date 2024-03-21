@@ -50,8 +50,8 @@ Install IntelliJ Community Edition:
   * Adding an alias is done by adding in your ~/.bashrc file the path like this: ```alias IntelliJ=/home/osboxes/Downloads/ideaIC-2021.2.3/idea-IC-212.5457.46/bin/idea.sh```
 * Source the new profile: `source ~/.profile`
 
-Install OpenJDK 11:  
-* `sudo apt install openjdk-11-jdk`
+Install OpenJDK 21:  
+* `sudo apt install openjdk-21-jdk`
 
 Install Make: 
 * `sudo apt install make`

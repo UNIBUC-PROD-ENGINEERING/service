@@ -1,14 +1,18 @@
+# Triple A
+This project represents a video game forum, for staying up to date with the video game community. Using data from the Steam API, you can:
+- Get a list of games, up to a specified limit
+- Leave a review for one of these games
+- See reviews for a game
+- See reviews left by a user
+- Add a game to your favourites
+- See all favourites of a given user
+
+All secured by JWT user authentication!
+
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
 Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a local virtual machine with Ubuntu, Docker, IntelliJ.
-
-# Access the code
-
-* Fork the code GitHub repository under your Organization
-  * https://github.com/UNIBUC-PROD-ENGINEERING/service
-* Clone the code repository:
-  * git@github.com:YOUR_ORG_NAME/service.git
 
 # Run code in Github Codespaces
 
@@ -23,8 +27,8 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
     * Start all the service containers
         * ```./start.sh```
 * For running / debugging directly in Visual Studio Code
-    * Start the MongoDB related services
-        * ```./start_mongo_only.sh```
+    * Start the Postgres related services
+        * ```./start_postgres_only.sh```
     * Start the Spring Boot service by clicking `Run` button inside Visual Studio Code
 
 NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9ePlxz03kg)
@@ -35,12 +39,11 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
     * If you want to build it from command line and also run unit tests, run: ```./gradlew build```
 * Create an IntelliJ run configuration for a Jar application
     * Add in the configuration the JAR path to the build folder `./build/libs/hello-0.0.1-SNAPSHOT.jar`
-* Start the MongoDB container using docker compose
-    * ```docker-compose up -d mongo```
+* Start the Postgres container using docker compose
+    * ```docker-compose up -d postgres```
 * Run/debug your IntelliJ run configuration
 * Open in your browser:
-    * http://localhost:8080/hello-world
-    * http://localhost:8080/info
+    * http://localhost:8080/swagger-ui/index.html - documentation on endpoints
 
 # Deploy and run the code locally as docker instance
 
@@ -52,13 +55,9 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
 * Verify that all containers started, by running
   ```
   service git:(master) ✗  $ docker ps
-  CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                      NAMES
-  c1d05dddd3fe   mongo:5.0.2     "docker-entrypoint.s…"   6 seconds ago   Up 5 seconds   0.0.0.0:27017->27017/tcp   service_mongo_1
-  e90bb406c139   hello-img       "java -jar /hello/li…"   6 seconds ago   Up 5 seconds   0.0.0.0:8080->8080/tcp     service_hello_1
-  411475a7b596   mongo-express   "tini -- /docker-ent…"   6 seconds ago   Up 2 seconds   0.0.0.0:8090->8081/tcp     service_mongo-admin-ui_1
+  CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                                                                                  NAMES
+  b8447103d82e   postgres:latest   "docker-entrypoint.s…"   7 seconds ago   Up 4 seconds   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp                                              service-postgres_db-1
+  4282da3d33a2   triplea-img       "java -jar /triplea/…"   7 seconds ago   Up 4 seconds   0.0.0.0:5005->5005/tcp, :::5005->5005/tcp, 0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   service-triplea-1
   ```
 * Open in your browser:
-    * http://localhost:8080/hello-world
-    * http://localhost:8080/info
-* You can access the MongoDB Admin UI at:
-  * http://localhost:8090 
+    * [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
