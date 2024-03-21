@@ -32,10 +32,10 @@ public class UserService {
         return "User added";
     }
 
-        public void deleteUserById(String id)
-        {
-            userRepository.deleteById(id);
-        }
+    public String deleteUserById(String id) {
+        userRepository.deleteById(id);
+        return "User deleted";
+    }
     
         
 }

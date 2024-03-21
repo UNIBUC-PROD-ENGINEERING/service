@@ -7,20 +7,28 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
 
+import ro.unibuc.hello.data.PostEntity;
+import ro.unibuc.hello.data.PostRepository;
+
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.data.UserEntity;
 
+import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = {InformationRepository.class,   UserRepository.class})
+@EnableMongoRepositories(basePackageClasses = {InformationRepository.class,   UserRepository.class, PostRepository.class})
 public class HelloApplication {
 
 	@Autowired
 	private InformationRepository informationRepository;
+
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private PostRepository postRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
@@ -35,6 +43,15 @@ public class HelloApplication {
 		userRepository.deleteAll();
 		userRepository.save(new UserEntity("HAU","Tudor",21,"ala"));
 
+		postRepository.deleteAll();
+		postRepository.save(
+			new PostEntity(
+				"Football",
+				"Cluj",
+				LocalDateTime.now(),
+				10
+			)
+		);
 	}
 
 }
