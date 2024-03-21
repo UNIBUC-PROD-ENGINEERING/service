@@ -6,7 +6,6 @@ BookWish is a web application designed to facilitate the management of books, au
 **Book Management**
 * Users can add new books to the library, providing details such as title, publication year, author, genre, publisher.
 * Books can be deleted from the system if necessary.
-* Users can retrieve a list of books sorted in descending order based on the number of readers each book has.
 * Users can retrieve a list of books that have been read by a specific reader.
 * Users can retrieve a list of books written by a specific author.
 
@@ -19,10 +18,12 @@ BookWish is a web application designed to facilitate the management of books, au
 **Authors Management**
 * Users can add a new author to the online library system, providing necessary details such as name, nationality, birthdate or death date.
 * Users can update the death date of an existing author.
+* Users can retrieve a list of all authors registered in the online library system. 
 * Users can delete an author from the system, but only if the author has not written any books that are registered in our online library.
 
-**Reading Records Mamagement**
-* Users can mark the reading of a new book by adding it to reading records. 
+**Reading Records Management**
+* Users can mark the reading of a new book by adding it to reading records.
+* Users can retrieve a list of all reading records registered in the online library system. 
 
 **Review**
 * Users can review a book they have read, specifying details such as rating and feedback. 
@@ -36,29 +37,30 @@ BookWish is a web application designed to facilitate the management of books, au
 # Endpoints
 **Author:**
 * POST/authors - add a new author to the system
-* PUT/authors/{author_id} - update the information of an existing author
-* DELETE/authors/{author_id} - delete an author from the system only if they haven't written any books
+* GET/authors - return all authors from the system 
+* PATCH/authors/{author_id} - update the information of an existing author
+* DELETE/authors - delete an author by name and birthDate from the system only if he hasn't written any books
 
 **Reader:**
 * POST/readers - add a new reader to the system
-* PUT/readers/{reader_id} - update the information of an existing reader
-* DELETE/readers/{reader_id} - delete a reader from the system only if they haven't read any books and don't have any books added to the wishlist
+* PATCH/readers/{reader_id} - update the information of an existing reader
+* DELETE/readers/records/{reader_id} - delete a reader from the system and his associated reading records
 * GET/readers - return all readers of the online library
 
 **Book:**
 * POST/books - add a new book to the system
-* DELETE/books/{book_id} - delete a book from the system
-* GET/books/readers - return books in the order of most read
+* DELETE/books/{book_id} - delete a book from the system and its associated reading records
 * GET/books/readers/{reader_id} - return all books read by a reader
 * GET/books/authors/{author_id} - return all books by an author
 
 **ReadingRecord:**
-* POST/readingRecord – add a new reading record, the reader is reading a new book
+* POST/readingRecords – add a new reading record, the reader is reading a new book
+* GET/readingRecords - return all readingRecords of the online library
 
 **Review:**
-* POST/review – add a new review to a read book
-*	PATCH/review/{review_id} – edit an existing review of a read book
-*	DELETE/review/{review_id} – delete an existing review of a read book
+* POST/reviews – add a new review to a read book
+*	PATCH/reviews/{review_id} – edit an existing review of a read book
+*	DELETE/reviews/{review_id} – delete an existing review of a read book
 
 # Prerequisites
 
