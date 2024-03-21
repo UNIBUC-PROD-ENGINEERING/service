@@ -51,7 +51,7 @@ public class HelloApplication {
 			JsonNode playersNode = rootNode.get("players");
 			for (JsonNode playerNode : playersNode) {
 				playerRepository.save(new PlayerEntity(
-					playerNode.get("id").asText(),
+					playerNode.get("id").asInt(),
 					playerNode.get("name").asText(),
 						playerNode.get("team").asText(),
 						playerNode.get("points_per_game").asDouble(),

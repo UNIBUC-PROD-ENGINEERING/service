@@ -12,6 +12,8 @@ public class PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
 
+    public PlayerEntity createPlayer(PlayerEntity newPlayer){return playerRepository.save(newPlayer);}
+
     public String getPlayerTeam(String name)throws EntityNotFoundException{
         PlayerEntity playerEntity=playerRepository.findByName(name);
         if (playerEntity==null){
@@ -19,6 +21,36 @@ public class PlayerService {
         }
         return playerEntity.getTeam();
     }
+
+    public PlayerEntity updatePlayer(Integer id, PlayerEntity newPlayer){
+        // Integer id2 = Integer.parseInt(id);
+        System.err.println("Here");
+        PlayerEntity dbPlayer = playerRepository.findById(id);
+        System.out.println("??????????"+dbPlayer.getName());
+
+        if (newPlayer.getName() != null && !newPlayer.getName().isEmpty()) {
+            dbPlayer.setName(newPlayer.getName());
+        }
+        
+        if (newPlayer.getTeam() != null && !newPlayer.getTeam().isEmpty()) {
+            dbPlayer.setTeam(newPlayer.getTeam());
+        }
+        
+        if (newPlayer.getPpg() != 0) {
+            dbPlayer.setPointsPerGame(newPlayer.getPpg());
+        }
+        
+        if (newPlayer.getRpg() != 0) {
+            dbPlayer.setReboundsPerGame(newPlayer.getRpg());
+        }
+        
+        if (newPlayer.getApg() != 0) {
+            dbPlayer.setAssistsPerGame(newPlayer.getApg());
+        }
+        
+        return playerRepository.save(dbPlayer);
+    }
+       
 
     public String addPlayer(PlayerEntity newPlayer){
         playerRepository.save(newPlayer);
