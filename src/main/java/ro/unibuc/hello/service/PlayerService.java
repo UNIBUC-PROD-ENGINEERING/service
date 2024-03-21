@@ -45,11 +45,11 @@ public class PlayerService {
         if (playerEntity==null){
             throw new EntityNotFoundException(name);
         }
-        if (newName != "") {
+        if (!newName.isEmpty()) {
             playerEntity.setName(newName);
         }
         
-        if (newTeam != "") {
+        if (!newTeam.isEmpty()) {
             playerEntity.setTeam(newTeam);
         }
         
