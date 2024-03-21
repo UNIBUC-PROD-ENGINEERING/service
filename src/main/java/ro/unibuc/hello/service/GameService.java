@@ -56,4 +56,30 @@ public class GameService {
         return("Game details:\n"+gameEntity.toString()+"Team 1 details\n"+team1Entity.getTeamInfo()+"Team 2 details\n"+team2Entity.getTeamInfo());
         
     }
+
+    public void updateGame(String id, String newDate, int newTeam1_id, int newTeam2_id, String newScore, int newSpectators) throws EntityNotFoundException {
+        GameEntity gameEntity = gameRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Game not found with id: " + id));
+
+        if (!newDate.isEmpty()) {
+            gameEntity.setDate(newDate);
+        }
+
+        if (newTeam1_id != 0 && newTeam1_id != newTeam2_id ) { //&& teamRepository.findById(newTeam1_id) != null
+            gameEntity.setTeam1_id(newTeam1_id);
+        }
+
+        if (newTeam2_id != 0 && newTeam1_id != newTeam2_id ) { //&& teamRepository.findById(newTeam2_id) != null
+            gameEntity.setTeam2_id(newTeam2_id);
+        }
+
+        if (!newScore.isEmpty()) {
+            gameEntity.setScore(newScore);
+        }
+
+        if (newSpectators != 0) {
+            gameEntity.setSpectators(newSpectators);
+        }
+
+        gameRepository.save(gameEntity);
+    }
 }

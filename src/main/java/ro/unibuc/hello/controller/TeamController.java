@@ -3,10 +3,12 @@ package ro.unibuc.hello.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import ro.unibuc.hello.data.TeamEntity;
 import ro.unibuc.hello.service.TeamService;
@@ -45,5 +47,17 @@ public class TeamController {
     @ResponseBody
     public String getBestPlayer(@RequestParam(name="name",required = false,defaultValue = "Los Angeles Lakers") String name){
         return teamService.getBestPlayer(name);
+    }
+
+    @GetMapping("/updateTeam")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateTeam(
+        // Nu am asignat noi membrii ai echipei
+        @RequestParam(name = "id", required = true) String id,
+        @RequestParam(name = "newName", required = false, defaultValue = "") String newName,
+        @RequestParam(name = "newYearFounded", required = false, defaultValue = "0") int newYearFounded,
+        @RequestParam(name = "newCoach", required = false, defaultValue = "") String newCoach
+    ) {
+        teamService.updateTeam(id, newName, newYearFounded, newCoach);
     }
 }

@@ -59,4 +59,22 @@ public class TeamService {
         // Now you have the best player
         return "Best player: " + (bestPlayer != null ? bestPlayer.toString() : "No player found");
     }
+
+    public void updateTeam(String id, String newName, int newYearFounded, String newCoach) throws EntityNotFoundException {
+        TeamEntity teamEntity = teamRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Team not found with id: " + id));
+
+        if (newName != null && !newName.isEmpty()) {
+            teamEntity.setName(newName);
+        }
+
+        if (newYearFounded != 0) {
+            teamEntity.setYearFounded(newYearFounded);
+        }
+
+        if (newCoach != null && !newCoach.isEmpty()) {
+            teamEntity.setCoach(newCoach);
+        }
+
+        teamRepository.save(teamEntity);
+    }
 }

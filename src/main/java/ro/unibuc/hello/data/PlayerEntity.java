@@ -43,4 +43,24 @@ public class PlayerEntity {
         return points_per_game;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
+    public void setPointsPerGame(double points_per_game) {
+        this.points_per_game = points_per_game;
+    }
+
+    public void setReboundsPerGame(double rebounds_per_game) {
+        this.rebounds_per_game = rebounds_per_game;
+    }
+
+    public void setAssistsPerGame(double assists_per_game) {
+        this.assists_per_game = assists_per_game;
+    }
+
 }

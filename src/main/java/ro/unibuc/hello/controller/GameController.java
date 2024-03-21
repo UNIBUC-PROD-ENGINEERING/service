@@ -1,9 +1,11 @@
 package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import ro.unibuc.hello.data.GameEntity;
@@ -43,5 +45,18 @@ public class GameController {
     @ResponseBody
     public String getTeamsFromGame(@RequestParam(name="id",required = false,defaultValue ="1" )String id){
         return gameService.getTeamFromGame(id);
+    }
+
+    @GetMapping("/updateGame")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateGame(
+        @RequestParam(name = "id", required = true) String id,
+        @RequestParam(name = "newDate", required = false, defaultValue = "") String newDate,
+        @RequestParam(name = "newTeam1_id", required = false, defaultValue = "0") int newTeam1_id,
+        @RequestParam(name = "newTeam2_id", required = false, defaultValue = "0") int newTeam2_id,
+        @RequestParam(name = "newScore", required = false, defaultValue = "") String newScore,
+        @RequestParam(name = "newSpectators", required = false, defaultValue = "0") int newSpectators
+    ) {
+        gameService.updateGame(id, newDate, newTeam1_id, newTeam2_id, newScore, newSpectators);
     }
 }
