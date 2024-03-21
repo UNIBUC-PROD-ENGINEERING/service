@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
   
-    @GetMapping("/get-user/{id}")
+    @GetMapping("/getUser/{id}")
     @ResponseBody
     public UserEntity getUser(@PathVariable String id){
        try {
@@ -32,25 +32,22 @@ public class UserController {
        }
     }
 
-    @PostMapping("/addNewUser")
+    @PostMapping("/addUser")
     @ResponseBody
     public String addUser(@RequestBody UserDto userDto){  
-        try{
+        try {
             return userService.addUser(userDto);
+        } catch (Exception e) {
+            throw e;
         }
-        catch (Exception e)
-        {
-                throw e;
-        }
-
     }
 
 
     @DeleteMapping("/deleteUser/{id}")
     @ResponseBody
-    public void deleteUserById(@PathVariable String id) {
+    public String deleteUserById(@PathVariable String id) {
         try {
-            userService.deleteUserById(id);
+            return userService.deleteUserById(id);
         } catch (Exception e) {
             throw e;
         }
