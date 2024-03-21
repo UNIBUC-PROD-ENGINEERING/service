@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReadingRecordRepository extends MongoRepository<ReadingRecordEntity, String> {
     ReadingRecordEntity findByReaderAndBook(ReaderEntity reader, BookEntity book);
+    void deleteReadingRecordsByBook(BookEntity book);
     List<ReadingRecordEntity> findByReader(ReaderEntity reader);
 }

@@ -11,6 +11,7 @@ import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.data.AuthorRepository;
 import ro.unibuc.hello.data.BookEntity;
 import ro.unibuc.hello.data.BookRepository;
+import ro.unibuc.hello.data.ReadingRecordRepository;
 import ro.unibuc.hello.dto.BookCreationRequestDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
@@ -24,6 +25,9 @@ public class BookService {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    @Autowired
+    private ReadingRecordRepository readingRecordRepository;
 
     public BookEntity saveBook(BookCreationRequestDto bookCreationRequestDto) {
         log.debug("Creating a new book with title {}", bookCreationRequestDto.getTitle());
@@ -52,9 +56,23 @@ public class BookService {
         return bookEntity;
     }
 
+    public void deleteBookAndReadingRecords(String bookId) {
+        log.debug("Deleting book with ID: {}", bookId);
+
+        var bookToDelete = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with ID: " + bookId));
+
+        readingRecordRepository.deleteReadingRecordsByBook(bookToDelete);
+
+        bookRepository.delete(bookToDelete);
+
+        log.debug("Book and associated reading records deleted successfully");
+    }
+
     public List<BookEntity> getBooksByAuthor(String authorId) {
         var authorEntity = authorRepository.findById(authorId)
                 .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + authorId));
         return bookRepository.findByAuthor(authorEntity);
     }
+  
 }
