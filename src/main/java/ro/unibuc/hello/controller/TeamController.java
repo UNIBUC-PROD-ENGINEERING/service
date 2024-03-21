@@ -3,6 +3,7 @@ package ro.unibuc.hello.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,4 +54,9 @@ public class TeamController {
         return teamService.create(newTeam);
     }
 
+    @DeleteMapping("/deleteTeamByName")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTeamByName(@RequestParam(name="name",required=true)String name){
+        teamService.deleteByName(name);
+    }
 }

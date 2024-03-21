@@ -47,4 +47,13 @@ public class PlayerService {
     public List<PlayerEntity> getAllPlayers(){
         return playerRepository.findAll();
     }
+
+    public String deleteByName(String name)throws EntityNotFoundException{
+        PlayerEntity playerEntity=playerRepository.findByName(name);
+        if (playerEntity==null){
+            throw new EntityNotFoundException(name);
+        }
+        playerRepository.deleteById(playerEntity.getId());
+        return "Player deleted succesfully";
+    }
 }
