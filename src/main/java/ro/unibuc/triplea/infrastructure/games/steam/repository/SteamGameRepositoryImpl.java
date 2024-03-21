@@ -35,10 +35,10 @@ public class SteamGameRepositoryImpl implements SteamGameRepository {
 
     @Override
     public Optional<SteamGameResponse> findByGameSteamId(int gameSteamId) {
-        SteamGame game = steamGameGateway.getSteamGameBySteamId(gameSteamId).orElse(null);
+        Optional<SteamGame> game = steamGameGateway.getSteamGameBySteamId(gameSteamId);
 
-        if (game != null) {
-            return Optional.of(SteamGameResponse.builder().gameSteamId(game.getGameSteamId()).gameName(game.getGameName()).build());
+        if (game.isPresent()) {
+            return Optional.of(SteamGameResponse.builder().gameSteamId(game.get().getGameSteamId()).gameName(game.get().getGameName()).build());
         }
 
         return Optional.empty();
@@ -46,10 +46,10 @@ public class SteamGameRepositoryImpl implements SteamGameRepository {
 
     @Override
     public Optional<SteamGameResponse> findByGameName(String gameName) {
-        SteamGame game = steamGameGateway.getSteamGameByName(gameName).orElse(null);
+        Optional<SteamGame> game = steamGameGateway.getSteamGameByName(gameName);
 
-        if (game != null) {
-            return Optional.of(SteamGameResponse.builder().gameSteamId(game.getGameSteamId()).gameName(game.getGameName()).build());
+        if (game.isPresent()) {
+            return Optional.of(SteamGameResponse.builder().gameSteamId(game.get().getGameSteamId()).gameName(game.get().getGameName()).build());
         }
 
         return Optional.empty();

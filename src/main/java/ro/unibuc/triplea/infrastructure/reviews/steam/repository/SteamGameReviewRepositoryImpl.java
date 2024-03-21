@@ -27,8 +27,8 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
 
     @Override
     public Optional<List<SteamGameReviewResponse>> findAllByGameSteamId(int gameSteamId) {
-        SteamGame game = steamGameGateway.getSteamGameBySteamId(gameSteamId).orElse(null);
-        if (game == null) {
+        Optional<SteamGame> game = steamGameGateway.getSteamGameBySteamId(gameSteamId);
+        if (game.isEmpty()) {
             return Optional.empty();
         }
 
@@ -47,12 +47,12 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
 
     @Override
     public Optional<List<SteamGameReviewResponse>> findAllByGameName(String gameName) {
-        SteamGame game = steamGameGateway.getSteamGameByName(gameName).orElse(null);
-        if (game == null) {
+        Optional<SteamGame> game = steamGameGateway.getSteamGameByName(gameName);
+        if (game.isEmpty()) {
             return Optional.empty();
         }
 
-        List<SteamGameReview> steamGameReviews = springDataSteamGameReviewRepository.findAllByGameSteamId(game.getGameSteamId());
+        List<SteamGameReview> steamGameReviews = springDataSteamGameReviewRepository.findAllByGameSteamId(game.get().getGameSteamId());
         return Optional.of(steamGameReviews.stream()
                 .map(steamGameReview -> SteamGameReviewResponse.builder()
                         .gameSteamId(steamGameReview.getGameSteamId())
@@ -65,8 +65,8 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
 
     @Override
     public Optional<List<SteamGameReviewResponse>> findAllByUserName(String userName) {
-        User user = springDataUserRepository.findByUsername(userName).orElse(null);
-        if (user == null) {
+        Optional<User> user = springDataUserRepository.findByUsername(userName);
+        if (user.isEmpty()) {
             return Optional.empty();
         }
 
@@ -83,8 +83,8 @@ public class SteamGameReviewRepositoryImpl implements SteamGameReviewRepository 
 
     @Override
     public Optional<SteamGameReviewResponse> save(SteamGameReview steamGameReview) {
-        SteamGame game = steamGameGateway.getSteamGameBySteamId(steamGameReview.getGameSteamId()).orElse(null);
-        if (game == null) {
+        Optional<SteamGame> game = steamGameGateway.getSteamGameBySteamId(steamGameReview.getGameSteamId());
+        if (game.isEmpty()) {
             return Optional.empty();
         }
 

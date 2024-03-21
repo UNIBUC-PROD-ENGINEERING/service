@@ -9,6 +9,5 @@ public interface SpringDataSteamGameReviewRepository extends JpaRepository<Steam
     List<SteamGameReview> findAllByUserName(String userName);
 
     List<SteamGameReview> findAllByGameSteamId(int gameSteamId);
-
-    SteamGameReview findById(int id);
+    
 }

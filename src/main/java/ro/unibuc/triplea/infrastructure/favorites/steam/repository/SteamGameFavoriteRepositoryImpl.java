@@ -23,8 +23,8 @@ public class SteamGameFavoriteRepositoryImpl implements SteamGameFavoriteReposit
 
     @Override
     public Optional<List<SteamGameFavoriteResponse>> findAllByUserName(String username) {
-        User user = springDataUserRepository.findByUsername(username).orElse(null);
-        if (user == null) {
+        Optional<User> user = springDataUserRepository.findByUsername(username);
+        if (user.isEmpty()) {
             return Optional.empty();
         }
         List<SteamGameFavorite> steamGameFavorites = springDataSteamGameFavoriteRepository.findAllByUserName(username);
@@ -39,9 +39,9 @@ public class SteamGameFavoriteRepositoryImpl implements SteamGameFavoriteReposit
 
     @Override
     public Optional<SteamGameFavoriteResponse> save(SteamGameFavorite steamGameFavorite) {
-        SteamGameFavorite duplicateFavorite = springDataSteamGameFavoriteRepository
+        Optional<SteamGameFavorite> duplicateFavorite = springDataSteamGameFavoriteRepository
                 .findByUserNameAndGameSteamId(steamGameFavorite.getUserName(), steamGameFavorite.getGameSteamId());
-        if (duplicateFavorite != null) {
+        if (duplicateFavorite.isPresent()) {
             return Optional.empty();
         }
         SteamGameFavorite savedSteamGameFavorite = springDataSteamGameFavoriteRepository.save(steamGameFavorite);
