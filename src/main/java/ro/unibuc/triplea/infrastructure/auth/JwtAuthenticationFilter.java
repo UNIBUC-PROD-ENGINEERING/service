@@ -1,4 +1,4 @@
-package ro.unibuc.triplea.infrastructure;
+package ro.unibuc.triplea.infrastructure.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

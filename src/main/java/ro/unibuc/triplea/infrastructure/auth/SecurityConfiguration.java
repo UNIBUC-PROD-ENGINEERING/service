@@ -1,4 +1,4 @@
-package ro.unibuc.triplea.infrastructure;
+package ro.unibuc.triplea.infrastructure.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
