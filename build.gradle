@@ -3,13 +3,14 @@ plugins {
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'jacoco'
 }
 
 group = 'ro.unibuc'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '21'
+  sourceCompatibility = '21'
   targetCompatibility = '21'
 }
 
@@ -25,6 +26,7 @@ repositories {
 
 ext {
 	set('snippetsDir', file("build/generated-snippets"))
+	set('testcontainersVersion', "1.15.3")
 }
 
 dependencies {
@@ -51,11 +53,66 @@ dependencies {
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
 
+	// Test config
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+	implementation 'org.springframework.session:spring-session-core'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	runtimeOnly "org.junit.vintage:junit-vintage-engine:5.8.2"
+	testImplementation 'io.cucumber:cucumber-core:6.8.0'
+	testImplementation 'io.cucumber:cucumber-java:6.8.0'
+	testImplementation 'io.cucumber:cucumber-junit:6.8.0'
+	testImplementation 'io.cucumber:cucumber-spring:6.8.0'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+	}
 }
 
 tasks.named('test') {
 	outputs.dir snippetsDir
-	useJUnitPlatform()
+	useJUnitPlatform {
+		excludeTags ("IT", "E2E")
+	}
+	finalizedBy jacocoTestReport
+}
+
+tasks.named('jacocoTestReport') {
+	dependsOn test
+}
+
+tasks.register('testIT') {
+    outputs.dir snippetsDir
+    outputs.upToDateWhen { false }
+
+    useJUnitPlatform {
+        includeTags "IT"
+    }
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+tasks.register('testE2E') {
+    dependsOn assemble, testClasses
+	doLast {
+		javaexec {
+			main = "io.cucumber.core.cli.Main"
+			classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+			args = [
+					'--plugin', 'pretty',
+					'--plugin', 'html:target/cucumber-report.html',
+					'--glue', 'ro.unibuc.hello.e2e.steps',
+					'src/test/resources']
+		}
+	}
 }
 
 tasks.named('asciidoctor') {

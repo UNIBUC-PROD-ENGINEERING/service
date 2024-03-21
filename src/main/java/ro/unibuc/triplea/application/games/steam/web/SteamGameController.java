@@ -19,7 +19,8 @@ public class SteamGameController {
     private final SteamGameService steamGameService;
 
     @GetMapping("/game-list")
-    public ResponseEntity<List<SteamGameResponse>> getAllGames(@RequestParam(required = false, name = "count") Optional<Integer> count) {
+    public ResponseEntity<List<SteamGameResponse>> getAllGames(
+            @RequestParam(required = false, name = "count") Optional<Integer> count) {
         List<SteamGameResponse> games = steamGameService.getAllGames(count);
         return ResponseEntity.ok(games);
     }

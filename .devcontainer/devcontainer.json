@@ -18,9 +18,12 @@
         "ms-vscode.makefile-tools",
         "ritwickdey.LiveServer",
         "rangav.vscode-thunder-client",
-        "vscjava.vscode-gradle"
+        "vscjava.vscode-gradle",
+        "github.copilot"
       ]
     }
   },
-  "forwardPorts": [8080]
+  "forwardPorts": [
+    8080
+  ]
 }
