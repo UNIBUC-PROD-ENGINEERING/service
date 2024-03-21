@@ -69,4 +69,10 @@ public class BookService {
         log.debug("Book and associated reading records deleted successfully");
     }
 
+    public List<BookEntity> getBooksByAuthor(String authorId) {
+        var authorEntity = authorRepository.findById(authorId)
+                .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + authorId));
+        return bookRepository.findByAuthor(authorEntity);
+    }
+  
 }

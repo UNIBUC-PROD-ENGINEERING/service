@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import ro.unibuc.hello.data.ReaderRepository;
+import ro.unibuc.hello.data.ReadingRecordEntity;
+import ro.unibuc.hello.data.ReadingRecordRepository;
 import ro.unibuc.hello.dto.ReaderCreationRequestDto;
 import ro.unibuc.hello.dto.ReaderUpdateRequestDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -22,6 +25,10 @@ public class ReaderService {
 
     @Autowired
     private ReaderRepository readerRepository;
+
+    @Autowired
+    private ReadingRecordRepository readingRecordRepository;
+
 
     public ReaderEntity saveReader(ReaderCreationRequestDto readerCreationRequestDto) {
         log.debug("Creating a new reader '{}' with email '{}'", readerCreationRequestDto.getName(),
@@ -55,5 +62,19 @@ public class ReaderService {
                 .registrationDate(dto.getRegistrationDate())
                 .build();
 
+    }
+
+
+    
+    public void deleteReaderAndReadingRecords(String readerId) {
+        ReaderEntity reader = readerRepository.findById(readerId)
+                .orElseThrow(() -> new RuntimeException("Reader not found with id: " + readerId));
+
+        List<ReadingRecordEntity> readingRecords = readingRecordRepository.findByReader(reader);
+        for (ReadingRecordEntity readingRecord : readingRecords) {
+            readingRecordRepository.delete(readingRecord);
+        }
+
+        readerRepository.delete(reader);
     }
 }
