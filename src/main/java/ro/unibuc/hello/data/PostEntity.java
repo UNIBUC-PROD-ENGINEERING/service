@@ -32,4 +32,7 @@ public class PostEntity {
         this.playersJoined = new ArrayList<UserEntity>();
     }
 
+    public void addUser(UserEntity user) {
+        this.playersJoined.add(user);
+    }
 }

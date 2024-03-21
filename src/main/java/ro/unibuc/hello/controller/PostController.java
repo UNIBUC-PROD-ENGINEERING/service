@@ -42,6 +42,16 @@ public class PostController {
         }
     }
 
+    @PostMapping("/registerUserToPost/{userId}/{postId}")
+    @ResponseBody
+    public String registerUserToPost(@PathVariable String userId, @PathVariable String postId) {
+        try {
+            return postService.registerUserToPost(userId, postId);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     @DeleteMapping("/deletePost/{id}")
     @ResponseBody
     public String deletePostById(@PathVariable String id) {
