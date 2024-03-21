@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import ro.unibuc.hello.data.ReaderRepository;
 import ro.unibuc.hello.dto.ReaderCreationRequestDto;
+import ro.unibuc.hello.dto.ReaderUpdateRequestDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.data.ReaderEntity;
 
