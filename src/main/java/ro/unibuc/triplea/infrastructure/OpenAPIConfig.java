@@ -39,10 +39,10 @@ public class OpenAPIConfig {
         License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 
         Info info = new Info()
-                .title("Demo Service API")
+                .title("Triple A Service API")
                 .version("1.0")
                 .contact(contact)
-                .description("This API exposes endpoints to manage demo.")
+                .description("This API exposes endpoints to manage the backend of the video game forum Triple A.")
                 .license(mitLicense);
 
         return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
