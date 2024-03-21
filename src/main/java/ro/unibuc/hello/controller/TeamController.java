@@ -1,11 +1,14 @@
 package ro.unibuc.hello.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,6 +17,7 @@ import ro.unibuc.hello.data.TeamEntity;
 import ro.unibuc.hello.service.TeamService;
 
 @Controller
+@RequestMapping("/team")
 public class TeamController {
     @Autowired
     private TeamService teamService;
@@ -23,18 +27,6 @@ public class TeamController {
     public String getTeamInfo(
             @RequestParam(name = "name", required = false, defaultValue = "Brooklyn Nets") String name) {
         return teamService.getTeamInfo(name);
-    }
-
-    @GetMapping("/addTeam")
-    @ResponseBody
-    public String getTeamInfo(
-        @RequestParam(name = "id", required = false, defaultValue = "100") String id,
-            @RequestParam(name = "name", required = false, defaultValue = "Brooklyn Nets") String name,
-            @RequestParam(name = "yearFounded", required = false, defaultValue = "0") int yearFounded,
-            @RequestParam(name = "coach", required = false, defaultValue = "Unknown") String coach,
-            @RequestParam(name = "players", required = false) List<Integer> playersIds) {
-        TeamEntity teamEntity = new TeamEntity(id,name, playersIds, yearFounded, coach);
-        return teamService.addTeam(teamEntity);
     }
 
     @GetMapping("/getTeam")
@@ -49,15 +41,16 @@ public class TeamController {
         return teamService.getBestPlayer(name);
     }
 
-    @GetMapping("/updateTeam")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateTeam(
-        // Nu am asignat noi membrii ai echipei
-        @RequestParam(name = "id", required = true) String id,
-        @RequestParam(name = "newName", required = false, defaultValue = "") String newName,
-        @RequestParam(name = "newYearFounded", required = false, defaultValue = "0") int newYearFounded,
-        @RequestParam(name = "newCoach", required = false, defaultValue = "") String newCoach
-    ) {
-        teamService.updateTeam(id, newName, newYearFounded, newCoach);
+    @PutMapping("/update/{id}")
+    @ResponseBody
+    public TeamEntity update(@PathVariable String id, @RequestBody TeamEntity newTeam){
+        return teamService.updateTeam(id, newTeam);
     }
+
+    @PostMapping("/create")
+    @ResponseBody
+    public TeamEntity create(@RequestBody TeamEntity newTeam){
+        return teamService.create(newTeam);
+    }
+
 }

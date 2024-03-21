@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ro.unibuc.hello.data.GameEntity;
 import ro.unibuc.hello.data.PlayerEntity;
 import ro.unibuc.hello.data.PlayerRepository;
 import ro.unibuc.hello.data.TeamEntity;
@@ -26,17 +27,14 @@ public class TeamService {
         }
         return teamEntity.getTeamInfo();
     }
-    public String addTeam(TeamEntity newTeam){
-        teamRepository.save(newTeam);
-        return "Team added";
-    }
+
     public String getTeam(String name)throws EntityNotFoundException{
         TeamEntity teamEntity=teamRepository.findByName(name);
         if(teamEntity==null){
             throw new EntityNotFoundException(name);
         }
         return teamEntity.toString();
-    }
+    } 
 
     public String getBestPlayer(String name) throws EntityNotFoundException {
         TeamEntity teamEntity = teamRepository.findByName(name);
@@ -50,8 +48,8 @@ public class TeamService {
             Optional<PlayerEntity> ope = playerRepository.findById(String.valueOf(id));
             if (ope.isPresent()) {  // Check if the optional has a value
                 PlayerEntity player = ope.orElseThrow();  // Convert to PlayerEntity
-                if (player.getPpg() > max) {
-                    max = player.getPpg();
+                if (player.getPoints_per_game() > max) {
+                    max = player.getPoints_per_game();
                     bestPlayer = player;
                 }
             }
@@ -60,21 +58,19 @@ public class TeamService {
         return "Best player: " + (bestPlayer != null ? bestPlayer.toString() : "No player found");
     }
 
-    public void updateTeam(String id, String newName, int newYearFounded, String newCoach) throws EntityNotFoundException {
-        TeamEntity teamEntity = teamRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Team not found with id: " + id));
+    public TeamEntity updateTeam(String id, TeamEntity newTeam){
+        TeamEntity dbTeam = teamRepository.findById(id).get();
 
-        if (newName != null && !newName.isEmpty()) {
-            teamEntity.setName(newName);
-        }
-
-        if (newYearFounded != 0) {
-            teamEntity.setYearFounded(newYearFounded);
-        }
-
-        if (newCoach != null && !newCoach.isEmpty()) {
-            teamEntity.setCoach(newCoach);
-        }
-
-        teamRepository.save(teamEntity);
+        if (newTeam.getName() != null && !newTeam.getName().isEmpty()) {dbTeam.setName(newTeam.getName());}
+        if (newTeam.getCoach() != null && !newTeam.getCoach().isEmpty()) {dbTeam.setCoach(newTeam.getCoach());}
+        if (newTeam.getYearFounded() != 0) {dbTeam.setYearFounded(newTeam.getYearFounded());}
+        if (newTeam.getPlayers() != null) {dbTeam.setPlayers(newTeam.getPlayers());}
+        
+        return teamRepository.save(dbTeam);
     }
+
+    public TeamEntity create(TeamEntity newTeam){
+        return teamRepository.save(newTeam);
+    }
+
 }
