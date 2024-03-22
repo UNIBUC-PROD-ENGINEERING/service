@@ -2,7 +2,6 @@ package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import ro.unibuc.hello.dto.tmdb.MovieApiDto;
 import ro.unibuc.hello.dto.tmdb.ReviewDto;
 import ro.unibuc.hello.service.MovieService;
 import ro.unibuc.hello.service.ReviewService;
-import java.util.stream.Collectors;
 
 
 import java.util.List;
@@ -80,13 +78,5 @@ public class MovieController {
     public Review addReview(@PathVariable String movieId, @RequestBody ReviewDto reviewDto) {
         return reviewService.addReview(movieId, reviewDto);
     }
-
-    // // Delete a review for a movie
-    // @DeleteMapping("/{movieId}/reviews/delete/{reviewId}")
-    // @ResponseBody
-    // @ResponseStatus(HttpStatus.NO_CONTENT)
-    // public void deleteReview(@PathVariable String movieId, @PathVariable Long reviewId) {
-    //     reviewService.deleteReview(movieId, reviewId);
-    // }
 
 }

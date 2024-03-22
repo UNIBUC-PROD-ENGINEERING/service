@@ -37,14 +37,4 @@ public class ReviewService {
 
         return reviewRepository.save(review);
     }
-
-    // public void deleteReview(String movieId, Long reviewId) {
-    //     Movie movie = movieRepository.findById(movieId)
-    //             .orElseThrow(() -> new EntityNotFoundException("Movie not found with id: " + movieId));
-
-    //     Review review = reviewRepository.findByIdAndMovie(reviewId, movie)
-    //             .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + reviewId));
-
-    //     reviewRepository.delete(review);
-    // }
 }

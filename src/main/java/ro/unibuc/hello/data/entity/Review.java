@@ -19,7 +19,7 @@ import java.time.Instant;
 public class Review {
     
     @Id private String id;
-    private String userId;
+    private String username;
     private String movieId;
     private int rating; // 0 to 5
     private String comment;

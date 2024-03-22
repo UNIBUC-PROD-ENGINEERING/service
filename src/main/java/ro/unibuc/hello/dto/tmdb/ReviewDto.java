@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewDto {
-    private String userId;
+    private String username;
     private String movieId;
     private int rating;
     private String comment;
