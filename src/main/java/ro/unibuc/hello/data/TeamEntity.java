@@ -1,10 +1,11 @@
 package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
-
-import java.util.ArrayList;
 import java.util.List;
+import lombok.*;
 
+@Data
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class TeamEntity {
     @Id
     public String id;
@@ -12,14 +13,6 @@ public class TeamEntity {
     public List<Integer> players;
     public int yearFounded;
     public String coach;
-
-    public TeamEntity(String id,String name, List<Integer> players, int yearFounded, String coach) {
-        this.id=id;
-        this.name = name;
-        this.players = players;
-        this.yearFounded = yearFounded;
-        this.coach = coach;
-    }
 
     public String getTeamInfo() {
         return "Team " + name + " was founded in " + yearFounded + ". The coach is " + coach + ".";
@@ -38,38 +31,6 @@ public class TeamEntity {
         }
         sb.delete(sb.length() - 2, sb.length()); // Eliminăm ultima virgulă și spațiul adăugate în plus
         return sb.toString();
-    }
-    
-    public List<Integer> getPlayers() {
-        return players;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getYearFounded() {
-        return yearFounded;
-    }
-
-    public void setYearFounded(int yearFounded) {
-        this.yearFounded = yearFounded;
-    }
-
-    public String getCoach() {
-        return coach;
-    }
-
-    public void setCoach(String coach) {
-        this.coach = coach;
-    }
-
-    public String getId() {
-        return id;
     }
 
 }
