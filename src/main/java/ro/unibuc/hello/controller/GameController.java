@@ -57,4 +57,10 @@ public class GameController {
     public void deleteTeamById(@RequestParam(name="id",required=true)String id){
         gameService.deleteById(id);
     }
+
+    @DeleteMapping("/deleteGameById")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTeamById(@RequestParam(name="id",required=true)String id){
+        gameService.deleteById(id);
+    }
 }

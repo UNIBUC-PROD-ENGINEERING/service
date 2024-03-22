@@ -59,4 +59,10 @@ public class TeamController {
     public void deleteTeamByName(@RequestParam(name="name",required=true)String name){
         teamService.deleteByName(name);
     }
+
+    @DeleteMapping("/deleteTeamByName")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTeamByName(@RequestParam(name="name",required=true)String name){
+        teamService.deleteByName(name);
+    }
 }

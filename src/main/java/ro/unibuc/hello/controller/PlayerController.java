@@ -59,4 +59,5 @@ public class PlayerController {
     @ResponseBody String deletePlayerByName(@RequestParam(name="name")String name){
         return playerService.deleteByName(name);
     }
+
 }
