@@ -18,10 +18,10 @@ import ro.unibuc.contact.service.MessageService;
 import ro.unibuc.contact.data.MessageEntity;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.contact.service.UserService;
+import javax.validation.Valid;
 
 
 @Controller
@@ -46,7 +46,7 @@ public class MessageController{
 
     @PostMapping("/messages")
     @ResponseBody
-    public ResponseEntity<?> createMessage(@RequestBody CreateMessageDTO messageRequest) {
+    public ResponseEntity<?> createMessage(@Valid @RequestBody CreateMessageDTO messageRequest) {
         Optional<UserEntity> user = userService.findByUsername(messageRequest.getUsername());
         if (!user.isPresent()) {
             return ResponseEntity.badRequest().body("User not found");
@@ -65,10 +65,10 @@ public class MessageController{
 
     @GetMapping("/messages")    
     @ResponseBody
-    public ResponseEntity<?> getMessagesForUser(@RequestBody UserAuthDTO userAuth){
+    public ResponseEntity<?> getMessagesForUser(@Valid @RequestBody UserAuthDTO userAuth){
         Optional<String> userId = checkAuth(userAuth);
         if (!userId.isPresent()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(messageService.getMessagesForUser(userId.get()));
     }
@@ -87,7 +87,7 @@ public class MessageController{
     public ResponseEntity<?> deleteMessage(@RequestBody UserAuthDTO userAuth, @PathVariable String messageId) {
         Optional<String> userId = checkAuth(userAuth);
         if (!userId.isPresent()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
          try {
             messageService.deleteMessage(messageId);

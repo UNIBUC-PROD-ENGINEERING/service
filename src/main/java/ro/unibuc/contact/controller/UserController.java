@@ -1,5 +1,6 @@
 package ro.unibuc.contact.controller;
 
+import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import ro.unibuc.contact.dto.CreateUserResponse;
+import ro.unibuc.contact.dto.UserCreateDTO;
 import ro.unibuc.contact.service.UserService;
 import ro.unibuc.contact.data.UserEntity;
 import ro.unibuc.contact.exception.EntityNotFoundException;
@@ -14,6 +16,8 @@ import ro.unibuc.contact.exception.EntityNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import javax.validation.Valid;
+
 
 import java.util.Optional;
 
@@ -25,7 +29,8 @@ public class UserController{
 
     @PostMapping("/users")
     @ResponseBody
-    public ResponseEntity<?> createUser(@RequestBody UserEntity user) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateDTO userRequest) {
+        UserEntity user = new UserEntity(userRequest.getUsername(), userRequest.getEmail(), userRequest.getPassword());
         Optional<UserEntity> existingUser = userService.findByUsername(user.username);
         if (existingUser.isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");

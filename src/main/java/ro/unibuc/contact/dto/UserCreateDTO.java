@@ -1,18 +1,21 @@
 package ro.unibuc.contact.dto;
 import javax.validation.constraints.NotBlank;
 
-public class UserAuthDTO {
+public class UserCreateDTO{
     @NotBlank(message = "Username is mandatory")
     private String username;
     @NotBlank(message = "Password is mandatory")
     private String password;
+    @NotBlank(message = "Email is mandatory")
+    private String email;
 
-    public UserAuthDTO() {
+    public UserCreateDTO() {
     }
 
-    public UserAuthDTO(String username, String password) {
+    public UserCreateDTO(String username, String password, String email) {
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
     public String getUsername() {
@@ -21,5 +24,9 @@ public class UserAuthDTO {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

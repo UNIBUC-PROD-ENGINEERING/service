@@ -4,6 +4,7 @@ plugins {
 	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'java'
 	id 'jacoco'
+	id 'application'
 }
 
 group = 'ro.unibuc'
@@ -26,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.data:spring-data-mongodb'
 	implementation 'org.apache.commons:commons-io:1.3.2'
+	implementation 'javax.validation:validation-api:2.0.1.Final'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -93,4 +95,9 @@ task testE2E() {
 asciidoctor {
 	inputs.dir snippetsDir
 	dependsOn test
+}
+
+application {
+    // Replace with your main class
+    mainClassName = 'ro.unibuc.contact.HelloApplication'
 }

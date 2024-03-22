@@ -1,11 +1,14 @@
 package ro.unibuc.contact.dto;
+import javax.validation.constraints.NotBlank;
 
 public class CreateMessageDTO {
-
+    @NotBlank(message = "Username is mandatory")
     private String username;
 
+    @NotBlank(message = "Subject is mandatory")
     private String subject;
 
+    @NotBlank(message = "Body is mandatory")
     private String body;
 
     public CreateMessageDTO() {
