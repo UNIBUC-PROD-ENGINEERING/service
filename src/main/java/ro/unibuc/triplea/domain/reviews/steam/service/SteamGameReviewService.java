@@ -39,7 +39,7 @@ public class SteamGameReviewService {
             } else {
                 throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
             }
-        } else if (IdentifierUtil.isValidString(identifier)) {
+        } else {
             Optional<List<SteamGameReviewResponse>> steamGameReviewResponses = getReviewsByGameName(identifier);
 
             if (steamGameReviewResponses.isPresent()) {
@@ -47,8 +47,6 @@ public class SteamGameReviewService {
             } else {
                 throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
             }
-        } else {
-            throw new SteamGameNotFoundException("Invalid identifier: " + identifier);
         }
     }
 

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ro.unibuc.triplea.application.games.steam.dto.response.SteamGameResponse;
 import ro.unibuc.triplea.domain.games.steam.exception.SteamGameNotFoundException;
-import ro.unibuc.triplea.domain.games.steam.exception.SteamGameValidateException;
 import ro.unibuc.triplea.domain.games.steam.repository.SteamGameRepository;
 import ro.unibuc.triplea.domain.games.steam.utils.IdentifierUtil;
 
@@ -39,7 +38,7 @@ public class SteamGameService {
             } else {
                 throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
             }
-        } else if (IdentifierUtil.isValidString(identifier)) {
+        } else {
             Optional<SteamGameResponse> game = getGameByName(identifier);
 
             if (game.isPresent()) {
@@ -47,8 +46,6 @@ public class SteamGameService {
             } else {
                 throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
             }
-        } else {
-            throw new SteamGameValidateException("Invalid identifier: " + identifier);
         }
     }
 }
