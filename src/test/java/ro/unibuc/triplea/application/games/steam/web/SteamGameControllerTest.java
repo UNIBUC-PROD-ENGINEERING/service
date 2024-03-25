@@ -1,7 +1,6 @@
 package ro.unibuc.triplea.application.games.steam.web;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
 import ro.unibuc.triplea.application.games.steam.dto.response.SteamGameResponse;
 import ro.unibuc.triplea.domain.games.steam.service.SteamGameService;
@@ -12,11 +11,13 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 public class SteamGameControllerTest {
 
-    private final SteamGameService steamGameService = Mockito.mock(SteamGameService.class);
-    private final SteamGameController steamGameController = new SteamGameController(steamGameService);
+    private SteamGameService steamGameService = mock(SteamGameService.class);
+
+    private SteamGameController steamGameController = new SteamGameController(steamGameService);
 
     @Test
     public void testGetAllGames() {

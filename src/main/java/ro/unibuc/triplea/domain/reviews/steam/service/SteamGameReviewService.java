@@ -30,26 +30,17 @@ public class SteamGameReviewService {
     }
 
     public Optional<List<SteamGameReviewResponse>> getReviewsByGameIdentifier(String identifier) {
+        Optional<List<SteamGameReviewResponse>> steamGameReviewResponses;
         if (IdentifierUtil.isNumeric(identifier)) {
             int steamId = Integer.parseInt(identifier);
-            Optional<List<SteamGameReviewResponse>> steamGameReviewResponses = getReviewsBySteamId(steamId);
-
-            if (steamGameReviewResponses.isPresent()) {
-                return steamGameReviewResponses;
-            } else {
-                throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
-            }
-        } else if (IdentifierUtil.isValidString(identifier)) {
-            Optional<List<SteamGameReviewResponse>> steamGameReviewResponses = getReviewsByGameName(identifier);
-
-            if (steamGameReviewResponses.isPresent()) {
-                return steamGameReviewResponses;
-            } else {
-                throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
-            }
+            steamGameReviewResponses = getReviewsBySteamId(steamId);
         } else {
-            throw new SteamGameNotFoundException("Invalid identifier: " + identifier);
+            steamGameReviewResponses = getReviewsByGameName(identifier);
         }
+        if (steamGameReviewResponses.isEmpty()) {
+            throw new SteamGameNotFoundException("Steam game with identifier " + identifier + " not found");
+        }
+        return steamGameReviewResponses;
     }
 
     public Optional<SteamGameReviewResponse> addReview(SteamGameReviewRequest game, UserDetails userDetails) {
@@ -62,9 +53,11 @@ public class SteamGameReviewService {
     }
 
     private SteamGameReview convertToSteamGameReview(SteamGameReviewRequest steamGameReviewRequest, String username) {
-        Optional<SteamGameResponse> steamGameResponse = steamGameService.getGameBySteamId(steamGameReviewRequest.getGameSteamId());
+        Optional<SteamGameResponse> steamGameResponse = steamGameService
+                .getGameBySteamId(steamGameReviewRequest.getGameSteamId());
         if (steamGameResponse.isEmpty()) {
-            throw new SteamGameNotFoundException("Steam game with identifier " + steamGameReviewRequest.getGameSteamId() + " not found");
+            throw new SteamGameNotFoundException(
+                    "Steam game with identifier " + steamGameReviewRequest.getGameSteamId() + " not found");
         }
 
         return SteamGameReview.builder()
