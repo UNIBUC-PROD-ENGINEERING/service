@@ -22,10 +22,10 @@ public class UserService {
     private UserRepository userRepository;
 
     
-    public UserEntity getUser(String id)  throws Exception{
-        return userRepository.findById(id).orElseThrow(() -> new Exception(HttpStatus.NOT_FOUND.toString()));
+    public UserEntity getUser(String id) throws EntityNotFoundException {
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
-
+    
     public String addUser(UserDto user) {
         UserEntity userEntity = new UserEntity(user.getLastName(), user.getFirstName(), user.getAge(),user.getUserName());
         userRepository.save(userEntity);
@@ -33,9 +33,10 @@ public class UserService {
     }
 
     public String deleteUserById(String id) {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User not found with id: " + id);
+        }
         userRepository.deleteById(id);
         return "User deleted";
     }
-    
-        
 }

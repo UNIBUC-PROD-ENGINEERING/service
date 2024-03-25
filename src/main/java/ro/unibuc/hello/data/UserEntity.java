@@ -28,7 +28,7 @@ public class UserEntity {
     public String toString() {
         return String.format(
                 "User[lastName='%s', firstName='%s', age='%s', userName='%s']",
-                id, lastName, firstName, age, userName);
+                lastName, firstName, age, userName);
     }
     
 }

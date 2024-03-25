@@ -48,6 +48,16 @@ public class UserDto{
         this.userName = userName;
     }
 
-
-  
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        UserDto other = (UserDto) obj;
+        return (firstName == null ? other.firstName == null : firstName.equals(other.firstName))
+                && (lastName == null ? other.lastName == null : lastName.equals(other.lastName))
+                && (age == null ? other.age == null : age.equals(other.age))
+                && (userName == null ? other.userName == null : userName.equals(other.userName));
+    }
 }
