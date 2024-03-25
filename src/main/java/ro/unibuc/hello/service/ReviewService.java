@@ -37,4 +37,9 @@ public class ReviewService {
 
         return reviewRepository.save(review);
     }
+
+    public void deleteReviewById(String reviewId) {
+        reviewRepository.deleteById(reviewId);
+    }
+    
 }

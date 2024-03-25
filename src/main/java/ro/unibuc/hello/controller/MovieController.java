@@ -79,4 +79,11 @@ public class MovieController {
         return reviewService.addReview(movieId, reviewDto);
     }
 
+    // Delete a review for a movie
+    @DeleteMapping("/{movieId}/reviews/{reviewId}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteReviewById(@PathVariable String movieId, @PathVariable String reviewId) {
+        reviewService.deleteReviewById(reviewId);
+    }
 }
