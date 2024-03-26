@@ -53,9 +53,9 @@ public class GameController {
     }
 
     @DeleteMapping("/deleteGameById")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteTeamById(@RequestParam(name="id",required=true)String id){
-        gameService.deleteById(id);
+    @ResponseBody
+    public String deleteTeamById(@RequestParam(name="id",required=true)String id){
+        return gameService.deleteById(id);
     }
 
     // @DeleteMapping("/deleteGameById")

@@ -73,4 +73,29 @@ public class GameControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(updatedGameJson)); 
     }
+
+    @Test
+    void test_DeleteGameById() throws Exception {
+        when(gameService.deleteById(anyString())).thenReturn("Game deleted succesfully");
+
+        MvcResult result = mockMvc.perform(delete("/game/deleteGameById")
+                .param("id", "1"))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(gameService.deleteById(anyString()),result.getResponse().getContentAsString());
+    }
+
+    @Test
+    void test_GetGame() throws Exception {
+        GameEntity gameEntity = new GameEntity("1", "2024-04-01", 2, 3, "90-70", 17000 );
+
+        when(gameService.getGame("1")).thenReturn(gameEntity.toString());
+        MvcResult result = mockMvc.perform(get("/game/getGame?id=1")
+                .content(objectMapper.writeValueAsString(gameEntity.toString()))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Assertions.assertEquals(gameEntity.toString(), result.getResponse().getContentAsString());
+    }
 }

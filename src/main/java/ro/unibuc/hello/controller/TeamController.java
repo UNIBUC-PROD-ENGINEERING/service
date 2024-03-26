@@ -55,9 +55,9 @@ public class TeamController {
     }
 
     @DeleteMapping("/deleteTeamByName")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteTeamByName(@RequestParam(name="name",required=true)String name){
-        teamService.deleteByName(name);
+    @ResponseBody
+    public String deleteTeamByName(@RequestParam(name="name",required=true)String name){
+        return teamService.deleteByName(name);
     }
 
     // @DeleteMapping("/deleteTeamByName")

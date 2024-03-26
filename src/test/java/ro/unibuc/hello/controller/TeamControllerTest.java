@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import ro.unibuc.hello.data.GameEntity;
 import ro.unibuc.hello.data.PlayerEntity;
 import ro.unibuc.hello.data.TeamEntity;
 import ro.unibuc.hello.dto.Greeting;
@@ -84,5 +85,16 @@ public class TeamControllerTest {
                 .content(updatedTeamJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(updatedTeamJson));
+    }
+
+    @Test
+    void test_DeleteTeamByName() throws Exception {
+        when(teamService.deleteByName(anyString())).thenReturn("Team deleted succesfully");
+
+        MvcResult result = mockMvc.perform(delete("/team/deleteTeamByName")
+                .param("name", "Brooklyn Nets"))
+                .andExpect(status().isOk())
+                .andReturn();
+        Assertions.assertEquals(teamService.deleteByName(anyString()),result.getResponse().getContentAsString());
     }
 }
