@@ -78,12 +78,12 @@ public class GameService {
         return "Team deleted succesfully";
     }
 
-    public String deleteById(String id)throws EntityNotFoundException{
-        GameEntity gameEntity=gameRepository.findById(id).get();
-        if (gameEntity==null){
-            throw new EntityNotFoundException(id);
-        }
-        gameRepository.deleteById(gameEntity.getId());
-        return "Team deleted succesfully";
-    }
+    // public String deleteById(String id)throws EntityNotFoundException{
+    //     GameEntity gameEntity=gameRepository.findById(id).get();
+    //     if (gameEntity==null){
+    //         throw new EntityNotFoundException(id);
+    //     }
+    //     gameRepository.deleteById(gameEntity.getId());
+    //     return "Team deleted succesfully";
+    // }
 }
