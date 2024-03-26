@@ -30,7 +30,7 @@ public class SteamGameService {
 
     public Optional<SteamGameResponse> getGameByIdentifier(String identifier) {
         Optional<SteamGameResponse> game;
-        if (IdentifierUtil.isNumeric(identifier)) {
+        if (IdentifierUtil.isPositiveNumeric(identifier)) {
             int steamId = Integer.parseInt(identifier);
             game = getGameBySteamId(steamId);
         } else {

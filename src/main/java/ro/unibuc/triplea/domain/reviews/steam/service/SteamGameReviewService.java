@@ -31,7 +31,7 @@ public class SteamGameReviewService {
 
     public Optional<List<SteamGameReviewResponse>> getReviewsByGameIdentifier(String identifier) {
         Optional<List<SteamGameReviewResponse>> steamGameReviewResponses;
-        if (IdentifierUtil.isNumeric(identifier)) {
+        if (IdentifierUtil.isPositiveNumeric(identifier)) {
             int steamId = Integer.parseInt(identifier);
             steamGameReviewResponses = getReviewsBySteamId(steamId);
         } else {

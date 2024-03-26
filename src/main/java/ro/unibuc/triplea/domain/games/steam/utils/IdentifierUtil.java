@@ -6,7 +6,11 @@ public final class IdentifierUtil {
         throw new UnsupportedOperationException("This class cannot be instantiated");
     }
 
-    public static boolean isNumeric(String str) {
-        return str.matches("\\d+");
+    public static boolean isPositiveNumeric(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+
+        return str.matches("\\d*[1-9]\\d*");
     }
 }
