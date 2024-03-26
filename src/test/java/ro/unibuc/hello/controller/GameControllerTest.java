@@ -54,7 +54,6 @@ public class GameControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-
     @Test
     void testUpdateGame() throws Exception {
         // Create an updated game object

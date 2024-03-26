@@ -55,6 +55,20 @@ public class TeamControllerTest {
     }
 
     @Test
+    void test_GetTeam() throws Exception {
+        TeamEntity teamEntity = new TeamEntity("1", "Los Angeles Lakers", Arrays.asList(1,2,3,4,5,6,7,8,9,10), 1947, "Frank Vogel");
+
+        when(teamService.getTeam("Los Angeles Lakers")).thenReturn(teamEntity.toString());
+        MvcResult result = mockMvc.perform(get("/team/getTeam?name=Los Angeles Lakers")
+                .content(objectMapper.writeValueAsString(teamEntity.toString()))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Assertions.assertEquals(teamEntity.toString(), result.getResponse().getContentAsString());
+    }
+
+    @Test
     void test_UpdateTeam() throws Exception {
         TeamEntity updatedTeam = new TeamEntity();
         updatedTeam.setName("Golden State Warriors");
