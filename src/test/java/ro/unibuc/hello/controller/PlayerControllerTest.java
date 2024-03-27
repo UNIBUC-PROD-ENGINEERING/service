@@ -35,6 +35,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ExtendWith(SpringExtension.class)
 public class PlayerControllerTest {
         @Mock
@@ -162,6 +165,26 @@ public class PlayerControllerTest {
                                         .andExpect(status().isNotFound());
                 });
                 assertFalse(exception.getMessage().contains("Player not found"));
+        }
+
+        @Test
+        void test_GetAllPlayers() throws Exception {
+                // Create a list of PlayerEntity objects
+                List<PlayerEntity> players = new ArrayList<>();
+                players.add(new PlayerEntity("100", "Dragos", "Los Angeles Lakers", 25.0, 7.8, 8.0));
+                players.add(new PlayerEntity("101", "Ion", "Chicago Bulls", 20.0, 5.8, 6.0));
+
+                // Mock the behavior of playerService.getAllPlayers()
+                when(playerService.getAllPlayers()).thenReturn(players);
+
+                // Perform the GET request and expect OK status
+                MvcResult result = mockMvc.perform(get("/player")
+                                .contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(status().isOk())
+                                .andReturn();
+
+                Assertions.assertEquals(objectMapper.writeValueAsString(players),
+                                result.getResponse().getContentAsString());
         }
 
 }

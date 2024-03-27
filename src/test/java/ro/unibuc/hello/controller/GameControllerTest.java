@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.util.NestedServletException;
 
 import ro.unibuc.hello.data.PlayerEntity;
 import ro.unibuc.hello.data.GameEntity;
@@ -22,6 +23,7 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.PlayerService;
 import ro.unibuc.hello.service.GameService;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -56,28 +58,27 @@ public class GameControllerTest {
 
     @Test
     void test_CreateGame() throws Exception {
-            // Create a GameEntity object
-            GameEntity game = new GameEntity("100", "2024-04-01", 2, 3, "90-70", 10);
-    
-            // Mock the behavior of GameService.createGame()
-            when(gameService.create(any(GameEntity.class))).thenReturn(game);
-    
-            // Perform the POST request and expect OK status
-            MvcResult result = mockMvc.perform(post("/game/create")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(
-                        "{\"id\":\"1\",\"date\":\"2024-04-01\",\"team1_id\":2,\"team2_id\":3,\"score\":\"90-70\",\"spectators\":17000}"))
-                    .andExpect(status().isOk())
-                    .andReturn();
+        // Create a GameEntity object
+        GameEntity game = new GameEntity("100", "2024-04-01", 2, 3, "90-70", 10);
 
-    
-            // Convert the JSON response content back to a GameEntity object
-            ObjectMapper objectMapper = new ObjectMapper();
-            GameEntity responseGame = objectMapper.readValue(result.getResponse().getContentAsString(),
-                    GameEntity.class);
-            // Compare the responseGame object with the expected game object
-            Assertions.assertEquals(game, responseGame);
-        }
+        // Mock the behavior of GameService.createGame()
+        when(gameService.create(any(GameEntity.class))).thenReturn(game);
+
+        // Perform the POST request and expect OK status
+        MvcResult result = mockMvc.perform(post("/game/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\"id\":\"1\",\"date\":\"2024-04-01\",\"team1_id\":2,\"team2_id\":3,\"score\":\"90-70\",\"spectators\":17000}"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        // Convert the JSON response content back to a GameEntity object
+        ObjectMapper objectMapper = new ObjectMapper();
+        GameEntity responseGame = objectMapper.readValue(result.getResponse().getContentAsString(),
+                GameEntity.class);
+        // Compare the responseGame object with the expected game object
+        Assertions.assertEquals(game, responseGame);
+    }
 
     @Test
     void testUpdateGame() throws Exception {
@@ -88,15 +89,15 @@ public class GameControllerTest {
         updatedGame.setTeam2_id(3);
         updatedGame.setScore("3-2");
         updatedGame.setSpectators(50000);
-    
-        when(gameService.updateGame("1", updatedGame)).thenReturn(updatedGame);    
+
+        when(gameService.updateGame("1", updatedGame)).thenReturn(updatedGame);
         String updatedGameJson = objectMapper.writeValueAsString(updatedGame);
-        
+
         mockMvc.perform(MockMvcRequestBuilders.put("/game/update/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(updatedGameJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(updatedGameJson)); 
+                .andExpect(MockMvcResultMatchers.content().json(updatedGameJson));
     }
 
     @Test
@@ -107,12 +108,12 @@ public class GameControllerTest {
                 .param("id", "1"))
                 .andExpect(status().isOk())
                 .andReturn();
-        Assertions.assertEquals(gameService.deleteById(anyString()),result.getResponse().getContentAsString());
+        Assertions.assertEquals(gameService.deleteById(anyString()), result.getResponse().getContentAsString());
     }
 
     @Test
     void test_GetGame() throws Exception {
-        GameEntity gameEntity = new GameEntity("1", "2024-04-01", 2, 3, "90-70", 17000 );
+        GameEntity gameEntity = new GameEntity("1", "2024-04-01", 2, 3, "90-70", 17000);
 
         when(gameService.getGame("1")).thenReturn(gameEntity.toString());
         MvcResult result = mockMvc.perform(get("/game/getGame?id=1")
@@ -122,5 +123,32 @@ public class GameControllerTest {
                 .andReturn();
 
         Assertions.assertEquals(gameEntity.toString(), result.getResponse().getContentAsString());
+    }
+
+    @Test
+    void test_DeleteNonExistingGameByName() throws Exception {
+        when(gameService.deleteById(anyString())).thenReturn("Game not found");
+
+        AssertionError exception = assertThrows(AssertionError.class, () -> {
+            mockMvc.perform(get("/game/deleteGameById?id=NonExistentGame")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound());
+        });
+        assertFalse(exception.getMessage().contains("Game not found"));
+    }
+
+    @Test
+    void test_EntityNotFoundException() throws Exception {
+        // Mock the behavior of playerService.getPlayer()
+        when(gameService.getGame(anyString())).thenThrow(new EntityNotFoundException("Game not found"));
+
+        // Perform the GET request and expect the EntityNotFoundException
+        Exception exception = assertThrows(NestedServletException.class, () -> {
+            mockMvc.perform(get("/game/getGame?id=NonExistentGame")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound());
+        });
+
+        assertTrue(exception.getMessage().contains("Game not found"));
     }
 }
