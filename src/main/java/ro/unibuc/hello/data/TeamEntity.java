@@ -1,8 +1,10 @@
 package ro.unibuc.hello.data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.springframework.data.annotation.Id;
 import java.util.List;
 import lombok.*;
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 @Data
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter

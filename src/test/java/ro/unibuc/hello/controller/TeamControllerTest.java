@@ -56,8 +56,33 @@ public class TeamControllerTest {
     }
 
     @Test
+    void test_CreateTeam() throws Exception {
+        // Create a TeamEntity object
+        TeamEntity team = new TeamEntity("100", "PHXGlati", Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 1967,
+                "Frank Vogel");
+
+        // Mock the behavior of TeamService.createTeam()
+        when(teamService.create(any(TeamEntity.class))).thenReturn(team);
+        // Perform the POST request and expect OK status
+        MvcResult result = mockMvc.perform(post("/team/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\"id\":\"100\",\"name\":\"PHXGlati\",\"players\":[1,2,3,4,5,6,7,8,9,10],\"yearFounded\":0,\"coach\":\"Frank Vogel\",\"teamInfo\":\"Team PHXGlati was founded in 0. The coach is Frank Vogel.\"}"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        // Convert the JSON response content back to a TeamEntity object
+        ObjectMapper objectMapper = new ObjectMapper();
+        TeamEntity responseTeam = objectMapper.readValue(result.getResponse().getContentAsString(),
+                TeamEntity.class);
+        // Compare the responseTeam object with the expected team object
+        Assertions.assertEquals(team, responseTeam);
+    }
+
+    @Test
     void test_GetTeam() throws Exception {
-        TeamEntity teamEntity = new TeamEntity("1", "Los Angeles Lakers", Arrays.asList(1,2,3,4,5,6,7,8,9,10), 1947, "Frank Vogel");
+        TeamEntity teamEntity = new TeamEntity("1", "Los Angeles Lakers", Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                1947, "Frank Vogel");
 
         when(teamService.getTeam("Los Angeles Lakers")).thenReturn(teamEntity.toString());
         MvcResult result = mockMvc.perform(get("/team/getTeam?name=Los Angeles Lakers")
@@ -95,6 +120,6 @@ public class TeamControllerTest {
                 .param("name", "Brooklyn Nets"))
                 .andExpect(status().isOk())
                 .andReturn();
-        Assertions.assertEquals(teamService.deleteByName(anyString()),result.getResponse().getContentAsString());
+        Assertions.assertEquals(teamService.deleteByName(anyString()), result.getResponse().getContentAsString());
     }
 }

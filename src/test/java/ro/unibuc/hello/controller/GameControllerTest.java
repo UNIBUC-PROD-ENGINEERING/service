@@ -55,6 +55,31 @@ public class GameControllerTest {
     }
 
     @Test
+    void test_CreateGame() throws Exception {
+            // Create a GameEntity object
+            GameEntity game = new GameEntity("100", "2024-04-01", 2, 3, "90-70", 10);
+    
+            // Mock the behavior of GameService.createGame()
+            when(gameService.create(any(GameEntity.class))).thenReturn(game);
+    
+            // Perform the POST request and expect OK status
+            MvcResult result = mockMvc.perform(post("/game/create")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(
+                        "{\"id\":\"1\",\"date\":\"2024-04-01\",\"team1_id\":2,\"team2_id\":3,\"score\":\"90-70\",\"spectators\":17000}"))
+                    .andExpect(status().isOk())
+                    .andReturn();
+
+    
+            // Convert the JSON response content back to a GameEntity object
+            ObjectMapper objectMapper = new ObjectMapper();
+            GameEntity responseGame = objectMapper.readValue(result.getResponse().getContentAsString(),
+                    GameEntity.class);
+            // Compare the responseGame object with the expected game object
+            Assertions.assertEquals(game, responseGame);
+        }
+
+    @Test
     void testUpdateGame() throws Exception {
         // Create an updated game object
         GameEntity updatedGame = new GameEntity();
