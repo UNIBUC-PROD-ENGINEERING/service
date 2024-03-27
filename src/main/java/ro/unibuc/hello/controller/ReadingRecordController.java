@@ -19,7 +19,7 @@ public class ReadingRecordController {
     @Autowired
     private ReadingRecordService readingRecordService;
 
-    @GetMapping("/readingRecords")
+    @GetMapping("/readingrecords")
     @ResponseBody
     private List<ReadingRecordEntity> getReadingRecord() {
         return readingRecordService.getAllReadingRecords();
