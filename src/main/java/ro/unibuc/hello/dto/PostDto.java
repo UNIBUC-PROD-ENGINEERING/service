@@ -1,6 +1,7 @@
 package ro.unibuc.hello.dto;
 
 import java.time.LocalDateTime;
+import java.util.Objects; 
 
 public class PostDto {
     private String title;
@@ -34,4 +35,17 @@ public class PostDto {
     public void setTotalNumberOfPlayers(Integer totalNumberOfPlayers) {
         this.totalNumberOfPlayers = totalNumberOfPlayers;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        PostDto other = (PostDto) obj;
+        return Objects.equals(title, other.title) &&
+                Objects.equals(location, other.location) &&
+                Objects.equals(totalNumberOfPlayers, other.totalNumberOfPlayers);
+    }
+
 }

@@ -70,8 +70,10 @@ class UserControllerTest {
     //             .andExpect(status().isOk())
     //             .andReturn();
 
+    //     String response = result.getResponse().getContentAsString();
+    //     System.out.println("testAddUser" + response);
     //     // Assert
-    //     assertEquals("User added", result.getResponse().getContentAsString());
+    //     assertEquals("User added", response);
     // }
 
     // @Test
@@ -84,18 +86,17 @@ class UserControllerTest {
     //             .andExpect(status().isOk())
     //             .andReturn();
 
+
+    //     String response = result.getResponse().getContentAsString();
+    //     System.out.println("testDeleteUserById" + response);
     //     // Assert
-    //     assertEquals("User deleted", result.getResponse().getContentAsString());
+    //     assertEquals("User deleted", response);
     // }
 
     // @Test
     // void testGetUserNotFound() throws Exception {
-    //     // Arrange
-    //     when(userService.getUser("1234567890")).thenThrow(new EntityNotFoundException("User not found with id: 1234567890"));
-    
-    //     // Act & Assert
-    //     mockMvc.perform(get("/getUser/1234567890"))
-    //            .andExpect(status().isNotFound()); // Expecting 404 Not Found
+    //     EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> mockMvc.perform(get("/getUser/1234567890")));
+    //     assertNotNull(exception, "Exception");
     // }
     
 

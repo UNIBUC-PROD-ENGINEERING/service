@@ -8,6 +8,7 @@ import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.PostDto;
 import ro.unibuc.hello.data.PostEntity;
 import ro.unibuc.hello.data.UserEntity;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,8 @@ public class PostService {
 
     @Autowired UserRepository userRepository;
 
-    public PostEntity getPost(String id) throws Exception {
-        return postRepository.findById(id).orElseThrow(() -> new Exception(HttpStatus.NOT_FOUND.toString()));
+    public PostEntity getPost(String id) throws EntityNotFoundException {
+        return postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(HttpStatus.NOT_FOUND.toString()));
     }
 
     public String addPost(PostDto post) {
