@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.util.NestedServletException;
 
 import ro.unibuc.hello.data.GameEntity;
 import ro.unibuc.hello.data.PlayerEntity;
@@ -23,6 +24,7 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.PlayerService;
 import ro.unibuc.hello.service.TeamService;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -122,4 +124,31 @@ public class TeamControllerTest {
                 .andReturn();
         Assertions.assertEquals(teamService.deleteByName(anyString()), result.getResponse().getContentAsString());
     }
+
+    @Test
+        void test_EntityNotFoundException() throws Exception {
+                // Mock the behavior of playerService.getPlayer()
+                when(teamService.getTeam(anyString())).thenThrow(new EntityNotFoundException("Team not found"));
+
+                // Perform the GET request and expect the EntityNotFoundException
+                Exception exception = assertThrows(NestedServletException.class, () -> {
+                        mockMvc.perform(get("/team/getTeam?name=NonExistentTeam")
+                                        .contentType(MediaType.APPLICATION_JSON))
+                                        .andExpect(status().isNotFound());
+                });
+
+                assertTrue(exception.getMessage().contains("Team not found"));
+        }
+         @Test
+        void test_DeleteNonExistingTeamByName() throws Exception {
+                when(teamService.deleteByName(anyString())).thenReturn("Team not found");
+
+                AssertionError exception = assertThrows(AssertionError.class, () -> {
+                        mockMvc.perform(get("/team/deleteTeamByName?name=NonExistentTeam")
+                                        .contentType(MediaType.APPLICATION_JSON))
+                                        .andExpect(status().isNotFound());
+                });
+                assertFalse(exception.getMessage().contains("Team not found"));
+        }
+
 }
