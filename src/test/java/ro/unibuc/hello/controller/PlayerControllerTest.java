@@ -20,6 +20,7 @@ import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.PlayerService;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -149,6 +150,18 @@ public class PlayerControllerTest {
                 });
 
                 assertTrue(exception.getMessage().contains("Player not found"));
+        }
+
+        @Test
+        void test_DeleteNonExistingPlayerByName() throws Exception {
+                when(playerService.deleteByName(anyString())).thenReturn("Player not found");
+
+                AssertionError exception = assertThrows(AssertionError.class, () -> {
+                        mockMvc.perform(get("/player/deletePlayerByName?name=NonExistentPlayer")
+                                        .contentType(MediaType.APPLICATION_JSON))
+                                        .andExpect(status().isNotFound());
+                });
+                assertFalse(exception.getMessage().contains("Player not found"));
         }
 
 }
