@@ -1,4 +1,4 @@
-package ro.unibuc.triplea.infrastructure;
+package ro.unibuc.triplea.infrastructure.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -74,7 +74,7 @@ public class JwtService {
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
+    boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -91,7 +91,7 @@ public class JwtService {
                 .getBody();
     }
 
-    private Key getSignInKey() {
+    Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }

@@ -18,7 +18,7 @@ import ro.unibuc.triplea.domain.auth.model.enums.Role;
 import ro.unibuc.triplea.domain.auth.model.enums.TokenType;
 import ro.unibuc.triplea.domain.auth.repository.TokenRepository;
 import ro.unibuc.triplea.domain.auth.repository.UserRepository;
-import ro.unibuc.triplea.infrastructure.JwtService;
+import ro.unibuc.triplea.infrastructure.auth.JwtService;
 
 import java.io.IOException;
 
