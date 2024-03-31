@@ -28,7 +28,7 @@ public class GameController {
         return gameService.getGameScore(id);
     }
 
-    @GetMapping("/getGame")
+    @GetMapping
     @ResponseBody
     public String getGame(@RequestParam(name="id",required = false,defaultValue = "1")String id){
         return gameService.getGame(id);
@@ -40,27 +40,21 @@ public class GameController {
         return gameService.getTeamFromGame(id);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @ResponseBody
     public GameEntity update(@PathVariable String id, @RequestBody GameEntity newGame){
         return gameService.updateGame(id, newGame);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseBody
     public GameEntity create(@RequestBody GameEntity newGame){
         return gameService.create(newGame);
     }
 
-    @DeleteMapping("/deleteGameById")
+    @DeleteMapping
     @ResponseBody
     public String deleteTeamById(@RequestParam(name="id",required=true)String id){
         return gameService.deleteById(id);
     }
-
-    // @DeleteMapping("/deleteGameById")
-    // @ResponseStatus(HttpStatus.OK)
-    // public void deleteTeamById(@RequestParam(name="id",required=true)String id){
-    //     gameService.deleteById(id);
-    // }
 }
