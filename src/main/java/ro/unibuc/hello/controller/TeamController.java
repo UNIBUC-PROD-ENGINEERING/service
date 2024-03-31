@@ -30,7 +30,7 @@ public class TeamController {
         return teamService.getTeamInfo(name);
     }
 
-    @GetMapping("/getTeam")
+    @GetMapping
     @ResponseBody
     public String getTeam(@RequestParam(name="name",required = false,defaultValue = "Los Angeles Lakers") String name){
         return teamService.getTeam(name);
@@ -42,27 +42,21 @@ public class TeamController {
         return teamService.getBestPlayer(name);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @ResponseBody
     public TeamEntity update(@PathVariable String id, @RequestBody TeamEntity newTeam){
         return teamService.updateTeam(id, newTeam);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseBody
     public TeamEntity create(@RequestBody TeamEntity newTeam){
         return teamService.create(newTeam);
     }
 
-    @DeleteMapping("/deleteTeamByName")
+    @DeleteMapping
     @ResponseBody
     public String deleteTeamByName(@RequestParam(name="name",required=true)String name){
         return teamService.deleteByName(name);
     }
-
-    // @DeleteMapping("/deleteTeamByName")
-    // @ResponseStatus(HttpStatus.OK)
-    // public void deleteTeamByName(@RequestParam(name="name",required=true)String name){
-    //     teamService.deleteByName(name);
-    // }
 }

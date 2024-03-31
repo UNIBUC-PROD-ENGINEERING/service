@@ -65,7 +65,7 @@ public class GameControllerTest {
         when(gameService.create(any(GameEntity.class))).thenReturn(game);
 
         // Perform the POST request and expect OK status
-        MvcResult result = mockMvc.perform(post("/game/create")
+        MvcResult result = mockMvc.perform(post("/game")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                         "{\"id\":\"1\",\"date\":\"2024-04-01\",\"team1_id\":2,\"team2_id\":3,\"score\":\"90-70\",\"spectators\":17000}"))
@@ -93,7 +93,7 @@ public class GameControllerTest {
         when(gameService.updateGame("1", updatedGame)).thenReturn(updatedGame);
         String updatedGameJson = objectMapper.writeValueAsString(updatedGame);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/game/update/1")
+        mockMvc.perform(MockMvcRequestBuilders.put("/game/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(updatedGameJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -104,7 +104,7 @@ public class GameControllerTest {
     void test_DeleteGameById() throws Exception {
         when(gameService.deleteById(anyString())).thenReturn("Game deleted succesfully");
 
-        MvcResult result = mockMvc.perform(delete("/game/deleteGameById")
+        MvcResult result = mockMvc.perform(delete("/game")
                 .param("id", "1"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -116,7 +116,7 @@ public class GameControllerTest {
         GameEntity gameEntity = new GameEntity("1", "2024-04-01", 2, 3, "90-70", 17000);
 
         when(gameService.getGame("1")).thenReturn(gameEntity.toString());
-        MvcResult result = mockMvc.perform(get("/game/getGame?id=1")
+        MvcResult result = mockMvc.perform(get("/game?id=1")
                 .content(objectMapper.writeValueAsString(gameEntity.toString()))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -130,7 +130,7 @@ public class GameControllerTest {
         when(gameService.deleteById(anyString())).thenReturn("Game not found");
 
         AssertionError exception = assertThrows(AssertionError.class, () -> {
-            mockMvc.perform(get("/game/deleteGameById?id=NonExistentGame")
+            mockMvc.perform(get("/game?id=NonExistentGame")
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isNotFound());
         });
@@ -144,7 +144,7 @@ public class GameControllerTest {
 
         // Perform the GET request and expect the EntityNotFoundException
         Exception exception = assertThrows(NestedServletException.class, () -> {
-            mockMvc.perform(get("/game/getGame?id=NonExistentGame")
+            mockMvc.perform(get("/game?id=NonExistentGame")
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isNotFound());
         });

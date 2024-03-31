@@ -61,7 +61,7 @@ public class PlayerControllerTest {
                 PlayerEntity playerEntity = new PlayerEntity("1", "LeBron James", "Los Angeles Lakers", 25.0, 7.8, 8.0);
 
                 when(playerService.getPlayer("LeBron James")).thenReturn(playerEntity.toString());
-                MvcResult result = mockMvc.perform(get("/player/getPlayer?name=LeBron James")
+                MvcResult result = mockMvc.perform(get("/player?name=LeBron James")
                                 .content(objectMapper.writeValueAsString(playerEntity.toString()))
                                 .contentType(MediaType.APPLICATION_JSON))
                                 .andExpect(status().isOk())
@@ -95,7 +95,7 @@ public class PlayerControllerTest {
                 when(playerService.createPlayer(any(PlayerEntity.class))).thenReturn(player);
 
                 // Perform the POST request and expect OK status
-                MvcResult result = mockMvc.perform(post("/player/create")
+                MvcResult result = mockMvc.perform(post("/player")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(
                                                 "{\"id\":\"100\",\"name\":\"Dragos\",\"team\":\"Los Angeles Lakers\",\"pointsPerGame\":25.0,\"reboundsPerGame\":7.8,\"assistsPerGame\":8.0}"))
@@ -114,7 +114,7 @@ public class PlayerControllerTest {
         void test_UpdatePlayer() throws Exception {
                 PlayerEntity player = new PlayerEntity("1", "LeBron James", "Los Angeles Lakers", 255.0, 7.8, 8.0);
                 when(playerService.updatePlayer(anyString(), any())).thenReturn(player);
-                MvcResult result = mockMvc.perform(put("/player/update/1")
+                MvcResult result = mockMvc.perform(put("/player/1")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(
                                                 "{\"id\":\"1\",\"name\":\"LeBron James\",\"team\":\"Los Angeles Lakers\",\"pointsPerGame\":255.0,\"reboundsPerGame\":7.8,\"assistsPerGame\":8.0}"))
@@ -132,7 +132,7 @@ public class PlayerControllerTest {
         void test_DeletePlayerByName() throws Exception {
                 when(playerService.deleteByName(anyString())).thenReturn("Player deleted succesfully");
 
-                MvcResult result = mockMvc.perform(delete("/player/deletePlayerByName")
+                MvcResult result = mockMvc.perform(delete("/player")
                                 .param("name", "LeBron James"))
                                 .andExpect(status().isOk())
                                 .andReturn();
@@ -147,7 +147,7 @@ public class PlayerControllerTest {
 
                 // Perform the GET request and expect the EntityNotFoundException
                 Exception exception = assertThrows(NestedServletException.class, () -> {
-                        mockMvc.perform(get("/player/getPlayer?name=NonExistentPlayer")
+                        mockMvc.perform(get("/player?name=NonExistentPlayer")
                                         .contentType(MediaType.APPLICATION_JSON))
                                         .andExpect(status().isNotFound());
                 });
@@ -160,7 +160,7 @@ public class PlayerControllerTest {
                 when(playerService.deleteByName(anyString())).thenReturn("Player not found");
 
                 AssertionError exception = assertThrows(AssertionError.class, () -> {
-                        mockMvc.perform(get("/player/deletePlayerByName?name=NonExistentPlayer")
+                        mockMvc.perform(get("/player?name=NonExistentPlayer")
                                         .contentType(MediaType.APPLICATION_JSON))
                                         .andExpect(status().isNotFound());
                 });
@@ -178,7 +178,7 @@ public class PlayerControllerTest {
                 when(playerService.getAllPlayers()).thenReturn(players);
 
                 // Perform the GET request and expect OK status
-                MvcResult result = mockMvc.perform(get("/player")
+                MvcResult result = mockMvc.perform(get("/player/getAllPlayers")
                                 .contentType(MediaType.APPLICATION_JSON))
                                 .andExpect(status().isOk())
                                 .andReturn();

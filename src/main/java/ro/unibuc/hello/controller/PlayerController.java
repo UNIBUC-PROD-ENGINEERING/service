@@ -25,19 +25,19 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping
+    @GetMapping("/getAllPlayers")
     @ResponseBody
     public List<PlayerEntity> getAllPlayers(){
         return playerService.getAllPlayers();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseBody
     public PlayerEntity postPlayer(@RequestBody PlayerEntity newPlayer){
         return playerService.createPlayer(newPlayer);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @ResponseBody
     public PlayerEntity updatePlayer(@RequestBody PlayerEntity newPlayer, @PathVariable String id) {
         return playerService.updatePlayer(id, newPlayer);
@@ -49,17 +49,14 @@ public class PlayerController {
         return playerService.getPlayerTeam(name);
     }
 
-    @GetMapping("/getPlayer")
+    @GetMapping
     @ResponseBody
     public String getPlayer(@RequestParam(name="name",required=false,defaultValue="LeBron James")String name){
         return playerService.getPlayer(name);
     }
 
-    @DeleteMapping("/deletePlayerByName")
+    @DeleteMapping
     @ResponseBody String deletePlayerByName(@RequestParam(name="name")String name){
         return playerService.deleteByName(name);
     }
-
-    
-
 }
