@@ -17,6 +17,7 @@ jobs:
       - name: Start Docker - Database Container & Compile Application
         run: |
           docker-compose up -d
+
       - name: Test Application with Gradle
         run: |
           gradle test
