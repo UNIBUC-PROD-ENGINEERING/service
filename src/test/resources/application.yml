@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:11.1:///integration-tests-db
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  logging:
+    level:
+      org:
+        springframework:
+          security: INFO
+          web: DEBUG
+          data: INFO
+          hibernate: INFO
+          jpa: INFO
+          sql: INFO
+          jwt: INFO
+          service-app: INFO
+          
+application:
+  security:
+    jwt:
+      secret-key: rWXmwH1UyBGgF8U8Ytj/50d4PI8NSzyvfqadZSX1K0/eVLkMWRbz5jJGkIvnFoxz
+      expiration: 3600000 # 1 hour
+      refresh-token:
+        expiration: 3600000 # 1 hour
+
+STEAM_API_KEY: 3558248EE7A42726F64B9F420A20A8D8
+
+service-app:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: https://localhost:8088
