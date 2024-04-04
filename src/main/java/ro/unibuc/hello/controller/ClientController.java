@@ -62,7 +62,7 @@ public class ClientController {
     }
 
     @PostMapping("/{clientId}/books/{bookId}")
-    public ClientEntity addBookToClientAndCreateLoan(@PathVariable String clientId, @PathVariable String bookId) {
+    public LoanEntity addBookToClientAndCreateLoan(@PathVariable String clientId, @PathVariable String bookId) {
         ClientEntity client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new RuntimeException("Client not found with id " + clientId));
         BookEntity book = bookRepository.findById(bookId)
@@ -81,7 +81,7 @@ public class ClientController {
         loan.setReturnDate(LocalDate.now().plusWeeks(2));
         loanRepository.save(loan);
 
-        return clientRepository.save(client);
+        return loanRepository.save(loan);
         
     }
 
