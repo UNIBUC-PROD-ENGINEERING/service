@@ -7,7 +7,7 @@ services:
       - 5005:5005
     environment:
       ENVIRONMENT_NAME: local
-#      MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
+    #      MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always
     profiles:
       - "triplea-service"
@@ -34,7 +34,7 @@ services:
       - /usr/bin/docker:/usr/bin/docker
       - ./Dockerfile:/Dockerfile
     profiles:
-      - "hello-service"
+      - "triplea-service"
     user: 0:0
   mongo:
     image: mongo:5.0.2
@@ -59,8 +59,9 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: adobe
     profiles:
       - "mongo"
-# MONITORING SERVICES
-  cadvisor: # container metric prometheus exporter
+  # MONITORING SERVICES
+  cadvisor:
+    # container metric prometheus exporter
     image: gcr.io/cadvisor/cadvisor:v0.47.1
     container_name: cadvisor
     ports:
@@ -91,7 +92,8 @@ services:
     command: -config.file=/etc/loki/config.yaml
     profiles:
       - "monitoring"
-  prometheus: # metrics aggregation and alert definition server (prometheus server)
+  prometheus:
+    # metrics aggregation and alert definition server (prometheus server)
     image: prom/prometheus:v2.33.4
     volumes:
       - ./infrastructure/prometheus/:/etc/prometheus/
@@ -106,7 +108,8 @@ services:
         loki-url: "http://loki:3100/loki/api/v1/push"
     profiles:
       - "monitoring"
-  alertmanager: # alert manager (prometheus)
+  alertmanager:
+    # alert manager (prometheus)
     image: prom/alertmanager:v0.23.0
     volumes:
       - ./infrastructure/alertmanager/:/config/
@@ -119,7 +122,8 @@ services:
         loki-url: "http://loki:3100/loki/api/v1/push"
     profiles:
       - "monitoring"
-  grafana: # dashboard visualisation tool (metrics & logs)
+  grafana:
+    # dashboard visualisation tool (metrics & logs)
     image: grafana/grafana:8.4.3
     volumes:
       - ./infrastructure/grafana/provisioning:/etc/grafana/provisioning
@@ -132,7 +136,8 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     profiles:
       - "monitoring"
-  wrk-injector-hello-functional: # traffic injector (low)
+  wrk-injector-hello-functional:
+    # traffic injector (low)
     image: mtchavez/docker-wrk
     profiles:
       - "perf"
@@ -141,8 +146,9 @@ services:
       driver: loki
       options:
         loki-url: "http://loki:3100/loki/api/v1/push"
-    
-  wrk-injector-info-perf: # traffic injector (high)
+
+  wrk-injector-info-perf:
+    # traffic injector (high)
     image: mtchavez/docker-wrk
     profiles:
       - "perf"
