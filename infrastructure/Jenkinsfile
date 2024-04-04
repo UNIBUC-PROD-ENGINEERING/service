@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_CREDS = credentials("docker_password")
+        DOCKER_CREDS = credentials('docker_password')
     }
 
     stages {
@@ -11,22 +11,27 @@ pipeline {
             }
         }
 
-        stage('Tag image') {
+        stage('Tag & Push image') {
             steps {
                 script {
-                    GIT_TAG = sh([script: 'git fetch --tag && git tag', returnStdout: true]).trim()
-                    MAJOR_VERSION = sh([script: 'git tag | cut -d . -f 1', returnStdout: true]).trim()
-                    MINOR_VERSION = sh([script: 'git tag | cut -d . -f 2', returnStdout: true]).trim()
-                    PATCH_VERSION = sh([script: 'git tag | cut -d . -f 3', returnStdout: true]).trim()
+                    // Fetch tags and determine next version
+                    sh('git fetch --tags')
+                    GIT_TAG = sh(script: "git describe --tags \$(git rev-list --tags --max-count=1)", returnStdout: true).trim()
+                    def (MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION) = GIT_TAG.tokenize('.')
+                    
+                    // Increment minor version
+                    int newMinorVersion = MINOR_VERSION.toInteger() + 1
+                    
+                    // Define the new image tag
+                    def newTag = "${MAJOR_VERSION}.${newMinorVersion}.${PATCH_VERSION}"
+                    
+                    // Build the Docker image with the new tag
+                    sh "docker build -t ${DOCKER_CREDS_USR}/triplea-img:${newTag} ."
+                    
+                    // Log in and push the image
+                    sh "echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin"
+                    sh "docker push ${DOCKER_CREDS_USR}/triplea-img:${newTag}"
                 }
-                sh "docker build -t ${DOCKER_CREDS_USR}/triplea-img:${MAJOR_VERSION}.\$(({MINOR_VERSION} + 1)).${PATCH_VERSION} ."
-            }
-        }
-
-        stage('Push image') {
-            steps {
-                sh "echo ${DOCKER_CREDS_USR} | docker login -u ${DOCKER_CREDS_USR} -p ${DOCKER_CREDS_PSW}"
-                sh "docker ${DOCKER_CREDS_USR}/triplea-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}"
             }
         }
     }
