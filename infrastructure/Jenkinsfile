@@ -21,7 +21,7 @@ pipeline {
                 sh "docker build -t dragosteleaga123/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
 
                 sh "docker login docker.io -u dragosteleaga123 -p dragosdragos"
-                sh "docker push dragosteleaga123/hello-img:$IMAGE_VERSION"
+                sh "docker push dragosteleaga123/hello-img:1.1.0"
 
             }
 }
