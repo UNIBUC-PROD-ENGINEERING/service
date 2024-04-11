@@ -54,7 +54,7 @@ class HelloWorldControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-
+        System.out.println("!!!!!!!!!!!!"+result.getResponse().getContentAsString());
         // Assert
         Assertions.assertEquals(objectMapper.writeValueAsString(greeting), result.getResponse().getContentAsString());
     }

@@ -1,0 +1,40 @@
+{
+    "teams": [
+      {
+        "id": 1,
+        "name": "Los Angeles Lakers",
+        "year_founded": 1947,
+        "coach": "Frank Vogel",
+        "players": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      },
+      {
+        "id": 2,
+        "name": "Brooklyn Nets",
+        "year_founded": 1967,
+        "coach": "Steve Nash",
+        "players": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+      },
+      {
+        "id": 3,
+        "name": "Golden State Warriors",
+        "year_founded": 1946,
+        "coach": "Steve Kerr",
+        "players": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+      },
+      {
+        "id": 4,
+        "name": "Milwaukee Bucks",
+        "year_founded": 1968,
+        "coach": "Mike Budenholzer",
+        "players": [31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+      },
+      {
+        "id": 5,
+        "name": "Los Angeles Clippers",
+        "year_founded": 1970,
+        "coach": "Tyronn Lue",
+        "players": [41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+      }
+    ]
+  }
+  

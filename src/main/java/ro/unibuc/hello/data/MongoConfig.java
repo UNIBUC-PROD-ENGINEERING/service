@@ -20,7 +20,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        return "test";
+        return "NBA";
     }
 
     @Override
@@ -36,4 +36,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     public Collection getMappingBasePackages() {
         return Collections.singleton("ro.unibuc.hello.data");
     }
+
+    
 }
