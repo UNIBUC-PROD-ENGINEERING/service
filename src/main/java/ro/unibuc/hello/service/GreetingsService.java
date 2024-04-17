@@ -54,6 +54,10 @@ public class GreetingsService {
         informationRepository.delete(entity);
     }
 
+    public void deleteAllGreetings() {
+        informationRepository.deleteAll();
+    }
+
     public List<Greeting> getAllGreetings() {
         List<InformationEntity> entities = informationRepository.findAll();
         return entities.stream()
