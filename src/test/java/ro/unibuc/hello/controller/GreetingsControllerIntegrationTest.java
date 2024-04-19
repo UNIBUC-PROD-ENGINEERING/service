@@ -2,66 +2,72 @@ package ro.unibuc.hello.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ro.unibuc.hello.config.MongoDBTestContainerConfig;
+import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.dto.Greeting;
 
-import org.junit.jupiter.api.*;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+
 
 import ro.unibuc.hello.service.GreetingsService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@SpringBootTest
-@AutoConfigureMockMvc
 @Testcontainers
+@ContextConfiguration(classes = MongoDBTestContainerConfig.class)
 @Tag("IntegrationTest")
+@ExtendWith(SpringExtension.class)
+@AutoConfigureMockMvc
+@SpringBootTest
 public class GreetingsControllerIntegrationTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private GreetingsService greetingsService;
 
-    // @Container
-    // private static final GenericContainer<?> mongoContainer = new GenericContainer<>("mongo:latest")
-    //         .withExposedPorts(27017);
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-    // final static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.0.10");
+    @Autowired
+    MongoTemplate mongoTemplate;
 
-
-    // @BeforeAll
-    // static void setup() {
-    //     mongoDBContainer.start();
-        
-    // }
+    @Autowired
+    private InformationRepository informationRepository;
 
     @BeforeEach
-    public void cleanUpAndAddTestData() {
-        greetingsService.deleteAllGreetings();
-
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         Greeting greeting1 = new Greeting("1", "Hello 1");
         Greeting greeting2 = new Greeting("2", "Hello 2");
 
         greetingsService.saveGreeting(greeting1);
         greetingsService.saveGreeting(greeting2);
     }
-
-    // @AfterAll
-    // public static void afterAll() {
-    //     mongoContainer.stop();
-    // }
 
     @Test
     public void testGetAllGreetings() throws Exception {

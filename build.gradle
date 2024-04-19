@@ -58,7 +58,7 @@ dependencyManagement {
 test {
 	outputs.dir snippetsDir
 	useJUnitPlatform {
-		excludeTags ("IT", "E2E")
+		excludeTags ("IntegrationTest", "E2E")
 	}
 	finalizedBy jacocoTestReport
 }
@@ -72,7 +72,7 @@ task testIT(type: Test) {
 	outputs.upToDateWhen { false }
 
 	useJUnitPlatform {
-		includeTags "IT"
+		includeTags "IntegrationTest"
 	}
 }
 
