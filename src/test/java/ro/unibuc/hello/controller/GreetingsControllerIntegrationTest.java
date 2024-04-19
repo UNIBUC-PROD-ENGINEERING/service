@@ -4,17 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ro.unibuc.hello.dto.Greeting;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -71,6 +67,8 @@ public class GreetingsControllerIntegrationTest {
 
     @BeforeEach
     public void cleanUpAndAddTestData() {
+        greetingsService.deleteAllGreetings();
+        
         Greeting greeting1 = new Greeting("1", "Hello 1");
         Greeting greeting2 = new Greeting("2", "Hello 2");
 

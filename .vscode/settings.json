@@ -1,4 +1,5 @@
 {
     "java.server.launchMode": "Standard",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.debug.settings.onBuildFailureProceed": true
 }
