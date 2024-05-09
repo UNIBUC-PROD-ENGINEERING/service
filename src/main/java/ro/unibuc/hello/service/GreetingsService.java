@@ -7,6 +7,7 @@ import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -32,12 +33,42 @@ public class GreetingsService {
         return new Greeting(Long.toString(counter.incrementAndGet()), String.format(informationTemplate, entity.getTitle(), entity.getDescription()));
     }
 
+    public List<Greeting> getAllGreetings() {
+        List<InformationEntity> entities = informationRepository.findAll();
+        return entities.stream()
+                .map(entity -> new Greeting(entity.getId(), entity.getTitle()))
+                .collect(Collectors.toList());
+    }
+
+    public Greeting getGreetingById(String id) throws EntityNotFoundException {
+        Optional<InformationEntity> optionalEntity = informationRepository.findById(id);
+        InformationEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
+        return new Greeting(entity.getId(), entity.getTitle());
+    }
+
     public Greeting saveGreeting(Greeting greeting) {
         InformationEntity entity = new InformationEntity();
         entity.setId(greeting.getId());
         entity.setTitle(greeting.getContent());
         informationRepository.save(entity);
         return new Greeting(entity.getId(), entity.getTitle());
+    }
+
+    public List<Greeting> saveAll(List<Greeting> greetings) {
+        List<InformationEntity> entities = greetings.stream()
+                .map(greeting -> {
+                    InformationEntity entity = new InformationEntity();
+                    entity.setId(greeting.getId());
+                    entity.setTitle(greeting.getContent());
+                    return entity;
+                })
+                .collect(Collectors.toList());
+
+        List<InformationEntity> savedEntities = informationRepository.saveAll(entities);
+
+        return savedEntities.stream()
+                .map(entity -> new Greeting(entity.getId(), entity.getTitle()))
+                .collect(Collectors.toList());
     }
 
     public Greeting updateGreeting(String id, Greeting greeting) throws EntityNotFoundException {
@@ -54,10 +85,7 @@ public class GreetingsService {
         informationRepository.delete(entity);
     }
 
-    public List<Greeting> getAllGreetings() {
-        List<InformationEntity> entities = informationRepository.findAll();
-        return entities.stream()
-                .map(entity -> new Greeting(entity.getId(), entity.getTitle()))
-                .collect(Collectors.toList());
-            }
+    public void deleteAllGreetings() {
+        informationRepository.deleteAll();
+    }
 }

@@ -1,0 +1,67 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Greetings Collection",
+    "dateExported": "2024-04-17T16:58:55.070Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "3291af99-b972-4d5b-a235-ed907572be7b",
+            "colId": "9821e40e-0869-44b8-ba77-c6c5426135db",
+            "containerId": "",
+            "name": "Get All Greetings",
+            "url": "http://localhost:8080/greetings",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-04-17T16:58:04.456Z",
+            "modified": "2024-04-17T16:58:04.456Z",
+            "headers": []
+        },
+        {
+            "_id": "0e255a14-732c-4390-8a97-a6a58a0d7cea",
+            "colId": "9821e40e-0869-44b8-ba77-c6c5426135db",
+            "containerId": "",
+            "name": "Create Greeting",
+            "url": "http://localhost:8080/greetings",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-04-17T16:58:14.975Z",
+            "modified": "2024-04-17T16:58:14.975Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\" : \"45\",\n  \"content\": \"Hello 45\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "187933dc-59ed-4ce7-91e0-2726cee00381",
+            "colId": "9821e40e-0869-44b8-ba77-c6c5426135db",
+            "containerId": "",
+            "name": "Update Greeting",
+            "url": "http://localhost:8080/greetings/45",
+            "method": "PUT",
+            "sortNum": 25000,
+            "created": "2024-04-17T16:58:41.277Z",
+            "modified": "2024-04-17T16:58:41.277Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"content\":\"Updated 45\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "426057e4-0191-4e9a-8c7e-237524bcddcd",
+            "colId": "9821e40e-0869-44b8-ba77-c6c5426135db",
+            "containerId": "",
+            "name": "Delete Greeting",
+            "url": "http://localhost:8080/greetings/45",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2024-04-17T16:58:22.708Z",
+            "modified": "2024-04-17T16:58:22.708Z",
+            "headers": []
+        }
+    ]
+}

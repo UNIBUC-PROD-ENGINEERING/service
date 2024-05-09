@@ -35,6 +35,12 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 
+	// Integration tests - test containers dependencies
+    testImplementation 'org.testcontainers:testcontainers:1.16.0'
+    testImplementation 'org.testcontainers:mongodb:1.16.0'
+	testImplementation 'org.mongodb:mongodb-driver-sync:5.0.1'
+    testImplementation 'org.testcontainers:junit-jupiter:1.16.0'
+
 	//	E2E tests
 	runtimeOnly "org.junit.vintage:junit-vintage-engine:5.8.2"
 	testImplementation 'io.cucumber:cucumber-core:6.8.0'
@@ -52,7 +58,7 @@ dependencyManagement {
 test {
 	outputs.dir snippetsDir
 	useJUnitPlatform {
-		excludeTags ("IT", "E2E")
+		excludeTags ("IntegrationTest", "E2E")
 	}
 	finalizedBy jacocoTestReport
 }
@@ -66,7 +72,7 @@ task testIT(type: Test) {
 	outputs.upToDateWhen { false }
 
 	useJUnitPlatform {
-		includeTags "IT"
+		includeTags "IntegrationTest"
 	}
 }
 
