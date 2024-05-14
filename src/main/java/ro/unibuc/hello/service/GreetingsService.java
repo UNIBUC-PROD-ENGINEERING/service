@@ -1,5 +1,6 @@
 package ro.unibuc.hello.service;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.data.InformationEntity;
@@ -17,11 +18,15 @@ public class GreetingsService {
     @Autowired
     private InformationRepository informationRepository;
 
+    @Autowired
+    private MeterRegistry metricsRegistry;
+
     private final AtomicLong counter = new AtomicLong();
     private static final String helloTemplate = "Hello, %s!";
     private static final String informationTemplate = "%s : %s!";
 
     public Greeting hello(String name) {
+        metricsRegistry.counter("my_non_aop_metric", "endpoint", "hello").increment(counter.incrementAndGet());
         return new Greeting(Long.toString(counter.incrementAndGet()), String.format(helloTemplate, name));
     }
 

@@ -8,6 +8,10 @@ services:
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
     profiles:
       - "hello-service"
   jenkins:
@@ -31,6 +35,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
     profiles:
       - "mongo"
   mongo-admin-ui:
@@ -44,6 +52,10 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
       ME_CONFIG_BASICAUTH_USERNAME: unibuc
       ME_CONFIG_BASICAUTH_PASSWORD: adobe
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
     profiles:
       - "mongo"
 # MONITORING SERVICES
