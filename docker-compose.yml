@@ -20,6 +20,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - ./Dockerfile:/Dockerfile
+      - /usr/libexec/docker/cli-plugins/docker-compose:/usr/libexec/docker/cli-plugins/docker-compose
     profiles:
       - "hello-service"
     user: 0:0

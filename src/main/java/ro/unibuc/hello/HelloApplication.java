@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses = InformationRepository.class)
