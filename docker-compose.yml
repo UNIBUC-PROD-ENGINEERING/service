@@ -25,7 +25,7 @@ services:
       - "hello-service"
     user: 0:0
   mongo:
-    image: mongo:5.0.2
+    image: mongo:6.0.20
     restart: always
     ports:
       - 27017:27017
@@ -49,7 +49,7 @@ services:
       - "mongo"
 # MONITORING SERVICES
   cadvisor: # container metric prometheus exporter
-    image: gcr.io/cadvisor/cadvisor:v0.47.1
+    image: gcr.io/cadvisor/cadvisor:v0.51.0
     container_name: cadvisor
     ports:
       - "8081:8080"
@@ -71,7 +71,7 @@ services:
     profiles:
       - "monitoring"
   loki:
-    image: grafana/loki:2.4.1
+    image: grafana/loki:3.3.2
     ports:
       - 3100:3100
     volumes:
@@ -80,7 +80,7 @@ services:
     profiles:
       - "monitoring"
   prometheus: # metrics aggregation and alert definition server (prometheus server)
-    image: prom/prometheus:v2.33.4
+    image: prom/prometheus:v3.1.0
     volumes:
       - ./infrastructure/prometheus/:/etc/prometheus/
     command:
@@ -95,7 +95,7 @@ services:
     profiles:
       - "monitoring"
   alertmanager: # alert manager (prometheus)
-    image: prom/alertmanager:v0.23.0
+    image: prom/alertmanager:v0.28.0
     volumes:
       - ./infrastructure/alertmanager/:/config/
     command: --config.file=/config/alertmanager.yml --log.level=debug
@@ -108,7 +108,7 @@ services:
     profiles:
       - "monitoring"
   grafana: # dashboard visualisation tool (metrics & logs)
-    image: grafana/grafana:8.4.3
+    image: grafana/grafana:11.4.0
     volumes:
       - ./infrastructure/grafana/provisioning:/etc/grafana/provisioning
       - ./infrastructure/grafana/dashboards:/etc/grafana/dashboards
