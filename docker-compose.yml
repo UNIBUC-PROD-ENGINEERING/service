@@ -17,6 +17,7 @@ services:
       - 50000:50000
     restart: on-failure
     volumes:
+      - /workspaces/jenkins_config:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - ./Dockerfile:/Dockerfile
