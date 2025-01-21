@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GreetingsControllerIntegrationTest {
 
     @Container
-    public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:5.0.2")
+    public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:6.0.20")
             .withExposedPorts(27017)
             .withEnv("MONGO_INITDB_ROOT_USERNAME","root") // user
             .withEnv("MONGO_INITDB_ROOT_PASSWORD", "example") // password
