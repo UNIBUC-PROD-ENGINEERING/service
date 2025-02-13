@@ -1,10 +1,19 @@
 
-# Requests for API endpoints of the sample project
+# You can use this file to easily send requests to your API.
+# Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
 
-# High-level overview of REST API concepts: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
+# To use: 
+# if in codespace: update .vscode/settings.json as described in the file
+# enter Vscode command Pallete - Windows: Ctrl-Shift-P, Mac: Cmd-Shift-P
+# Select option "Rest Client: Switch Environment", and switch to codespace environment
+# To send one of the below requests, click Send Request next to it
+
+# High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
+
+
+# Requests for API endpoints of the sample project:
 
 ### Hello world endpoint: get response "Hello, Stranger!"
-
 GET {{hostname}}/hello-world
 X-Github-Token: {{github_token}}
 
@@ -12,15 +21,13 @@ X-Github-Token: {{github_token}}
 # When sending the request it will ask you for the name
 # hitting enter will avoid passing the param, and do the default behaviour above
 # @prompt name The name to display in response
-
 GET {{hostname}}/hello-world
     ?name={{name}}
 X-Github-Token: {{github_token}}
 
 ### Save a greeting to database
-@postGreetingId = 1003
-@postGreetingContent = Hello1
-
+@postGreetingId = 1001
+@postGreetingContent = Hello!
 POST {{hostname}}/greetings
 Content-Type: application/json
 X-Github-Token: {{github_token}}
@@ -35,10 +42,9 @@ GET {{hostname}}/greetings
 X-Github-Token: {{github_token}}
 
 ### Update an existing greeting
-
-@putGreetingIdOld = 1001
-@putGreetingContent = Hello yet again
-PUT {{hostname}}/greetings/{{putGreetingIdOld}}
+@putGreetingId = 1001
+@putGreetingContent = Hello again!
+PUT {{hostname}}/greetings/{{putGreetingId}}
 Content-Type: application/json
 X-Github-Token: {{github_token}}
 
@@ -46,17 +52,17 @@ X-Github-Token: {{github_token}}
     "content": "{{putGreetingContent}}"
 }
 
+
 ### Delete greeting
 @deleteGreetingId = 1001
 DELETE {{hostname}}/greetings/{{deleteGreetingId}}
 X-Github-Token: {{github_token}}
 
-
 ### Get greeting with given content
 # @prompt content Greeting content to look for, defaults to "Overview"
-
 GET {{hostname}}/info
     ?title={{content}}
 X-Github-Token: {{github_token}}
+
 
 # TODO add your own endpoints!
