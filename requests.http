@@ -1,2 +1,37 @@
+
+# Requests for API endpoints of the sample project
+
+### Hello world - default
+
 GET {{hostname}}/hello-world
 X-Github-Token: {{github_token}}
+
+### Hello world with a request param passed.
+# When sending the request it will ask you for the name
+# hitting enter will avoid passing the param, and do the default behaviour above
+# @prompt name The name to display in response
+
+GET {{hostname}}/hello-world
+    ?name={{name}}
+X-Github-Token: {{github_token}}
+
+### Save a greeting to database
+
+@greetingId = 19
+@content = Hello there
+
+POST {{hostname}}/greetings
+Content-Type: application/json
+X-Github-Token: {{github_token}}
+
+{
+    "id": "{{greetingId}}",
+    "content": "{{content}}"
+}
+
+### Greeting info
+GET {{hostname}}/info
+X-Github-Token: {{github_token}}
+
+
+# TODO add your own!
