@@ -1,5 +1,22 @@
 {
     "java.server.launchMode": "Standard",
     "java.configuration.updateBuildConfiguration": "interactive",
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "rest-client.environmentVariables": {
+        "$shared": {
+            // github token, needed for making calls to codespace
+            // obtain by running command inside codespace: echo $GITHUB_TOKEN
+            // replace below with actual token
+          "github_token": "ghu_[...]"
+        },
+        "codespace": {
+            // Environment for running in a codespace
+            // Replace with actual url of codespace
+            "hostname": "https://[...].app.github.dev"
+        },
+        "local": {
+        // Replace port if needed
+          "hostname": "localhost:8080"
+        }
+      }
 }
