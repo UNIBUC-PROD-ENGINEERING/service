@@ -1,6 +1,8 @@
 
 # Requests for API endpoints of the sample project
 
+# High-level overview of REST API concepts: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
+
 ### Hello world endpoint: get response "Hello, Stranger!"
 
 GET {{hostname}}/hello-world
@@ -16,8 +18,8 @@ GET {{hostname}}/hello-world
 X-Github-Token: {{github_token}}
 
 ### Save a greeting to database
-@postGreetingId = 19
-@postGreetingContent = Hello there!!
+@postGreetingId = 1003
+@postGreetingContent = Hello1
 
 POST {{hostname}}/greetings
 Content-Type: application/json
@@ -34,20 +36,18 @@ X-Github-Token: {{github_token}}
 
 ### Update an existing greeting
 
-@putGreetingIdOld = 19
-@putGreetingIdNew = 20
-@putGreetingContent = Hello again
-PUT {{hostname}}/greetings/{{{{putGreetingIdOld}}}}
+@putGreetingIdOld = 1001
+@putGreetingContent = Hello yet again
+PUT {{hostname}}/greetings/{{putGreetingIdOld}}
 Content-Type: application/json
 X-Github-Token: {{github_token}}
 
 {
-    "id": "{{putGreetingIdNew}}",
     "content": "{{putGreetingContent}}"
 }
 
 ### Delete greeting
-@deleteGreetingId = 19
+@deleteGreetingId = 1001
 DELETE {{hostname}}/greetings/{{deleteGreetingId}}
 X-Github-Token: {{github_token}}
 
@@ -59,4 +59,4 @@ GET {{hostname}}/info
     ?title={{content}}
 X-Github-Token: {{github_token}}
 
-# TODO add your own!
+# TODO add your own endpoints!
