@@ -1,7 +1,7 @@
 
 # Requests for API endpoints of the sample project
 
-### Hello world - default
+### Hello world endpoint: get response "Hello, Stranger!"
 
 GET {{hostname}}/hello-world
 X-Github-Token: {{github_token}}
@@ -16,22 +16,47 @@ GET {{hostname}}/hello-world
 X-Github-Token: {{github_token}}
 
 ### Save a greeting to database
-
-@greetingId = 19
-@content = Hello there
+@postGreetingId = 19
+@postGreetingContent = Hello there!!
 
 POST {{hostname}}/greetings
 Content-Type: application/json
 X-Github-Token: {{github_token}}
 
 {
-    "id": "{{greetingId}}",
-    "content": "{{content}}"
+    "id": "{{postGreetingId}}",
+    "content": "{{postGreetingContent}}"
 }
 
-### Greeting info
-GET {{hostname}}/info
+### Get all greetings
+GET {{hostname}}/greetings
 X-Github-Token: {{github_token}}
 
+### Update an existing greeting
+
+@putGreetingIdOld = 19
+@putGreetingIdNew = 20
+@putGreetingContent = Hello again
+PUT {{hostname}}/greetings/{{{{putGreetingIdOld}}}}
+Content-Type: application/json
+X-Github-Token: {{github_token}}
+
+{
+    "id": "{{putGreetingIdNew}}",
+    "content": "{{putGreetingContent}}"
+}
+
+### Delete greeting
+@deleteGreetingId = 19
+DELETE {{hostname}}/greetings/{{deleteGreetingId}}
+X-Github-Token: {{github_token}}
+
+
+### Get greeting with given content
+# @prompt content Greeting content to look for, defaults to "Overview"
+
+GET {{hostname}}/info
+    ?title={{content}}
+X-Github-Token: {{github_token}}
 
 # TODO add your own!
