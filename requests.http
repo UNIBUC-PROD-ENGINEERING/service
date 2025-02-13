@@ -1,0 +1,2 @@
+GET {{hostname}}/hello-world
+X-Github-Token: {{github_token}}
