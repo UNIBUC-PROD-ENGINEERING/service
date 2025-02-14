@@ -1,7 +1,6 @@
 
 # You can use this file to easily send requests to your API.
 # Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
-
 # High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
 
 # Requests for API endpoints of the sample project:
@@ -45,7 +44,7 @@ Content-Type: application/json
 @deleteGreetingId = 1001
 DELETE {{hostname}}/greetings/{{deleteGreetingId}}
 
-### Get greeting with given content
+### Get greeting that given content
 # @prompt content Greeting content to look for, defaults to "Overview"
 GET {{hostname}}/info
     ?title={{content}}
