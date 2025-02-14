@@ -30,6 +30,11 @@ Content-Type: application/json
 ### Get all greetings
 GET {{hostname}}/greetings
 
+### Get info for greeting with given content
+# @prompt content Greeting content to look for, defaults to "Overview"
+GET {{hostname}}/info
+    ?title={{content}}
+
 ### Update an existing greeting
 @putGreetingId = 1001
 @putGreetingContent = Hello again!
@@ -43,11 +48,6 @@ Content-Type: application/json
 ### Delete greeting
 @deleteGreetingId = 1001
 DELETE {{hostname}}/greetings/{{deleteGreetingId}}
-
-### Get greeting that given content
-# @prompt content Greeting content to look for, defaults to "Overview"
-GET {{hostname}}/info
-    ?title={{content}}
 
 
 # TODO add requests for your own endpoints! 
