@@ -14,7 +14,7 @@
         "ms-azuretools.vscode-docker",
         "ms-vscode.makefile-tools",
         "ritwickdey.LiveServer",
-        "rangav.vscode-thunder-client",
+        "humao.rest-client",
         "vscjava.vscode-gradle"
       ]
     }

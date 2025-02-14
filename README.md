@@ -26,6 +26,7 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
     * Start the MongoDB related services
         * ```./start_mongo_only.sh```
     * Start the Spring Boot service by clicking `Run` button inside Visual Studio Code
+* Use [requests.http](requests.http) to test API endpoints
 
 NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9ePlxz03kg)
 
@@ -60,5 +61,6 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
 * Open in your browser:
     * http://localhost:8080/hello-world
     * http://localhost:8080/info
+* You can test other API endpoints using [requests.http](requests.http)
 * You can access the MongoDB Admin UI at:
   * http://localhost:8090 
