@@ -4,20 +4,7 @@
     "java.debug.settings.onBuildFailureProceed": true,
     "rest-client.environmentVariables": {
         "$shared": {
-            // github token, needed for making calls to codespace
-            // obtain by running command inside codespace: echo $GITHUB_TOKEN
-            // replace below with actual token
-            "githubToken": "ghu_[...]"
-        },
-        "codespace": {
-            // Environment for running in a codespace
-            // Replace with actual forwarded address of codespace, from bottom menu in vscode -> ports -> forwarded address
-            "hostname": "https://[...].app.github.dev"
-        },
-        "local": {
-            // Environment for running locally
-            // Replace port if needed
-            "hostname": "localhost:8080"
+            "hostname": "http://localhost:8080"
         }
       }
 }
