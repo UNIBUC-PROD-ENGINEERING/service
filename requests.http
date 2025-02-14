@@ -19,8 +19,8 @@ GET {{hostname}}/hello-world
     ?name={{name}}
 
 ### Save a greeting to database
-@postGreetingId = 1002
-@postGreetingContent = Hellow!
+@postGreetingId = 1001
+@postGreetingContent = Hello!
 POST {{hostname}}/greetings
 Content-Type: application/json
 
@@ -38,7 +38,7 @@ GET {{hostname}}/info
     ?title={{content}}
 
 ### Update an existing greeting
-@putGreetingId = 1002
+@putGreetingId = 1001
 @putGreetingContent = Hello again!
 PUT {{hostname}}/greetings/{{putGreetingId}}
 Content-Type: application/json
@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ### Delete greeting
-@deleteGreetingId = 1002
+@deleteGreetingId = 1001
 DELETE {{hostname}}/greetings/{{deleteGreetingId}}
 
 
