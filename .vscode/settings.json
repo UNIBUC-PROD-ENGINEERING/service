@@ -1,10 +1,5 @@
 {
     "java.server.launchMode": "Standard",
     "java.configuration.updateBuildConfiguration": "interactive",
-    "java.debug.settings.onBuildFailureProceed": true,
-    "rest-client.environmentVariables": {
-        "$shared": {
-            "hostname": "http://localhost:8080"
-        }
-      }
+    "java.debug.settings.onBuildFailureProceed": true
 }

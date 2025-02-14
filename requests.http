@@ -3,10 +3,12 @@
 # Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
 # High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
 
+# hostname used across all requests
+@hostname = http://localhost:8080
+
 # Requests for API endpoints of the sample project:
 
 ### Hello world endpoint: get response "Hello, Stranger!"
-# hostname obtained from .vscode/settings.json, so it is shared across entire project
 GET {{hostname}}/hello-world
 
 ### Hello world with a request param passed.
@@ -17,8 +19,8 @@ GET {{hostname}}/hello-world
     ?name={{name}}
 
 ### Save a greeting to database
-@postGreetingId = 1001
-@postGreetingContent = Hello!
+@postGreetingId = 1002
+@postGreetingContent = Hellow!
 POST {{hostname}}/greetings
 Content-Type: application/json
 
@@ -36,7 +38,7 @@ GET {{hostname}}/info
     ?title={{content}}
 
 ### Update an existing greeting
-@putGreetingId = 1001
+@putGreetingId = 1002
 @putGreetingContent = Hello again!
 PUT {{hostname}}/greetings/{{putGreetingId}}
 Content-Type: application/json
@@ -46,9 +48,8 @@ Content-Type: application/json
 }
 
 ### Delete greeting
-@deleteGreetingId = 1001
+@deleteGreetingId = 1002
 DELETE {{hostname}}/greetings/{{deleteGreetingId}}
 
 
-# TODO add requests for your own endpoints! 
-# Either in the same file or a new one with .http extension
+# TODO add requests for your own endpoints!
