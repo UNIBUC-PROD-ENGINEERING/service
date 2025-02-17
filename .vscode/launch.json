@@ -10,6 +10,13 @@
             "request": "launch",
             "mainClass": "ro.unibuc.hello.HelloApplication",
             "projectName": "hello"
+        },
+        {
+            "type": "java",
+            "name": "Debug",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": "5005"
         }
     ]
 }
