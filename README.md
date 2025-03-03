@@ -1,9 +1,12 @@
 # This is our project for the production engineering course.
 
-# Prerequisites
+# Our team is going to focus on developing a multifuncnctional Banking Program
 
-For using Github Codespaces, no prerequisites are mandatory.
-Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a local virtual machine with Ubuntu, Docker, IntelliJ.
+# 🏦 Digital Bank - The Future of Online Banking 
+
+Welcome to **Digital Bank**, a next-generation banking system designed to bring secure, seamless, and efficient financial services to users worldwide. Built as part of the **Production Engineering** course, this project simulates the core functionalities of a modern bank, ensuring a smooth and intuitive banking experience.  
+
+Whether you're depositing funds, transferring money, or managing your accounts, Digital Bank provides a secure and user-friendly platform to handle all your financial needs. 
 
 # Access the code 
 
