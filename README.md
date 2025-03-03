@@ -10,7 +10,7 @@ Utilizatorii pot adăuga melodii preferate dupa nume și artist într-un playlis
 Playlist dinamic, cu actualizare în timp real.
 
 
-### 2. Taskuri pe puncte (Diana Bildea)
+### 2. Taskuri pe puncte (Diana Bîldea)
 
 Crearea de taskuri personalizate (ex: cumpărături, decorare, organizare transport).
 Alocarea punctelor pentru fiecare task realizat.
