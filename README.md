@@ -1,6 +1,6 @@
 # This is our project for the production engineering course.
 
-# Our team is going to focus on developing a multifuncnctional Banking Program
+**Our team is going to focus on developing a multifuncnctional Banking Program**
 
 # 🏦 Digital Bank - The Future of Online Banking 
 
