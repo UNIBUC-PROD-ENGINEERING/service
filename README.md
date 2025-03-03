@@ -1,4 +1,4 @@
-#Unde facem Revelionul?#
+# Unde facem Revelionul? #
 
 Aplicația "Unde facem Revelionul?" este o platformă interactivă ce ajută grupurile să organizeze petrecerea de Revelion într-un mod eficient, folosind diverse funcționalități personalizate.
 
