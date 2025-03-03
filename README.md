@@ -1,3 +1,5 @@
+# This is our project for the production engineering course.
+
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
