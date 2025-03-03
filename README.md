@@ -8,6 +8,6 @@ Aplicație de e-ticketing destinată achiziției, gestionării și validării bi
 În ceea ce privește arhitectura aplicației, este o aplicație bazată pe arhitectura client-server și are la bază request-uri http (get, post, put, delete).
 
 ## Impartirea functionalitatilor 
-`Berca Teodora` - Sistemul de puncte
-`Horga Daria` - Statistici
-`Iscru Bianca` - Ajustare dinamica preturi
+- `Berca Teodora` - Sistemul de puncte
+- `Horga Daria` - Statistici
+- `Iscru Bianca` - Ajustare dinamica preturi
