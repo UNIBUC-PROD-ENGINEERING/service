@@ -6,7 +6,7 @@ Funcționalități principale:
 
 1. Playlist (Francesca Vlaicu)
 
-Utilizatorii pot adăuga melodii preferate dupa nume și artis într-un playlist comun.
+Utilizatorii pot adăuga melodii preferate dupa nume și artist într-un playlist comun.
 Playlist dinamic, cu actualizare în timp real.
 
 
