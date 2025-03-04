@@ -1,3 +1,7 @@
+# Project description
+
+We aim to deliver an implementation for the backend of an online game store. The users will be able to create accounts, purchase games, view thier bought games and install them. There will be admins that can add games and set discounts for a limited period of time. There will also be an option to veiw purchase history and review games.
+
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
