@@ -1,3 +1,7 @@
+# Project description
+
+A simple URL shortener that allows users to convert long links into shorter, more manageable ones. The service supports tracking, expiration dates and URL management.
+
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
