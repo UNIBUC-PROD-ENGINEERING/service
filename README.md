@@ -23,3 +23,7 @@ WorkMatch is a REST API platform for managing job postings and candidate applica
 - Example 1 endpoint
 - Example 2 endpoint
 
+Members:
+- Ricardo Petrovici 351
+- Mitu Iustin 351
+- Denis Raducan 351
