@@ -1,3 +1,18 @@
+# Theme: Incident reporting system
+
+# Planned Features:
+* User management with Spring Security/Keycloak, RBAC
+* Incident reporting with:
+    - Title
+    - Description
+    - Severity (Low, Medium, High, Critical)
+    - Status (Open, In Progress, Resolved)
+    - Timestamp
+* Status updates for incidents
+* Email notifications for status updates (?)
+* Incident history and logging
+* Incident management (assign to other user, etc.)
+
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
