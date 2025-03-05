@@ -1,3 +1,67 @@
+## TODO
+
+- [ ] Once you forked the repo and decided on your project, update your service's README.md to include a detailed description of your service. This should be 1-2 paragraphs outlining what you aim to deliver, both in terms of features and also architecture, integration, etc.
+- [ ] A complete demo of the lab project presented by each team, including:
+ - What does the project do, how is it used
+ - Technology stack (code and infrastructure)
+ - Deployment, Monitoring, Alerting, Logging
+
+Use the following naming convention for your branches:
+e.g. feature/add-login
+e.g. bugfix/fix-login
+Use clear commit messages:
+e.g. [DOC] Add details to Readme.md
+e.g. [API] Add login feature
+
+Reduce all commits to 1 on your feature branch before merging the PR (using rebase and squash).
+Each PR must be reviewed and approved by at least one other team member before being merged into the main branch.
+
+- [ ] Implement basic application functionality until next Lab
+- [ ] Implement at least one complete functionality, involving both the API and the database
+- [ ] We dedicate two labs for implementing the complete application functionality
+
+https://manelevtm.ro/
+
+<br> 
+
+Entitati: 
+
+Artisti
+  - Date artist1
+    - Poze
+    - Descriere 
+    - Preturi
+  - Date artist1
+  - Date artist1
+
+    
+Evenimente
+  - ArtistID
+    - Eveniment1
+      - StatusEvent
+      -  Data
+      -  Locatia
+      -  Durata
+    - Eveniment2
+
+
+SocialMedia
+- Facebook
+- Instagram
+- Tiktok
+- Youtube
+- Mail
+- Telefon
+- Adresa
+
+<br>
+
+CRUD Eveniment
+CRUD Social Media
+CRUD Artist
+
+<br>
+
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
