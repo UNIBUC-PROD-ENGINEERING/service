@@ -1,3 +1,9 @@
+# Birthday reminder app
+- Creating account, login, update account details
+- Add friend birthday, update friend, delete friend
+- Create gift ideas list with other users for a friend birthday: create, read, update, delete
+- Get alerts on e-mail when birthday is close.
+  
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
