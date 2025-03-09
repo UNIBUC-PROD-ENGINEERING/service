@@ -4,27 +4,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ro.unibuc.hello.data.InformationEntity;
-import ro.unibuc.hello.data.InformationRepository;
+import ro.unibuc.hello.data.OrderEntity;
+import ro.unibuc.hello.data.OrderRepository;
 
 import jakarta.annotation.PostConstruct;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = InformationRepository.class)
+@EnableMongoRepositories(basePackageClasses = OrderRepository.class)
 public class HelloApplication {
 
-	@Autowired
-	private InformationRepository informationRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(HelloApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HelloApplication.class, args);
+    }
 
-	@PostConstruct
+    @PostConstruct
 	public void runAfterObjectCreated() {
-		informationRepository.deleteAll();
-		informationRepository.save(new InformationEntity("Overview",
-				"This is an example of using a data storage engine running separately from our applications server"));
-	}
+		orderRepository.deleteAll();
+	
+		OrderEntity testOrder = new OrderEntity(
+				"worker001",       // workerId
+				"in_progress",     // status
+				"item123",         // itemId
+				5,                 // quantity
+				"Aisle 3"          // location
+		);
 
+        orderRepository.save(testOrder);
+
+        System.out.println("Database initialized with test orders.");
+    }
+	
 }

@@ -17,37 +17,37 @@ GET http://localhost:8080/hello-world
     ?name={{name}}
 
 ### Save a greeting to database
-@postGreetingId = 1001
-@postGreetingContent = Hello!
-POST http://localhost:8080/greetings
+@postOrderId = 1001
+@postOrderContent = Hello!
+POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "id": "{{postGreetingId}}",
-    "content": "{{postGreetingContent}}"
+    "id": "{{postOrderId}}",
+    "content": "{{postOrderContent}}"
 }
 
-### Get all greetings
-GET http://localhost:8080/greetings
+### Get all orders
+GET http://localhost:8080/orders
 
 ### Get info for greeting with given content
-# @prompt content Greeting content to look for, defaults to "Overview"
+# @prompt content Order content to look for, defaults to "Overview"
 GET http://localhost:8080/info
     ?title={{content}}
 
 ### Update an existing greeting
-@putGreetingId = 1001
-@putGreetingContent = Hello again!
-PUT http://localhost:8080/greetings/{{putGreetingId}}
+@putOrderId = 1001
+@putOrderContent = Hello again!
+PUT http://localhost:8080/orders/{{putOrderId}}
 Content-Type: application/json
 
 {
-    "content": "{{putGreetingContent}}"
+    "content": "{{putOrderContent}}"
 }
 
 ### Delete greeting
-@deleteGreetingId = 1001
-DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
+@deleteOrderId = 1001
+DELETE http://localhost:8080/orders/{{deleteOrderId}}
 
 
 # TODO add requests for your own endpoints!

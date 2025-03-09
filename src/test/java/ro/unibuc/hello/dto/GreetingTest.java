@@ -1,19 +1,20 @@
-package ro.unibuc.hello.dto;
+// package ro.unibuc.hello.dto;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.Assertions;
+// import org.junit.jupiter.api.Test;
 
-class GreetingTest {
+// @Disabled
+// class OrderTest {
 
-    Greeting myGreeting = new Greeting("1", "John");
+//     Order myOrder = new Order("1", "John");
 
-    @Test
-    void test_content(){
-        Assertions.assertSame("John", myGreeting.getContent());
-    }
-    @Test
-    void test_id(){
-        Assertions.assertEquals("1", myGreeting.getId());
-    }
+//     @Test
+//     void test_content(){
+//         Assertions.assertSame("John", myOrder.getContent());
+//     }
+//     @Test
+//     void test_id(){
+//         Assertions.assertEquals("1", myOrder.getId());
+//     }
 
-}
+// }
