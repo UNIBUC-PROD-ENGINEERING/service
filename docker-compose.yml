@@ -1,17 +1,20 @@
 services:
-  hello:
-    image: hello-img
+  booking:
+    image: booking-img
     build: .
     ports:
       - 8080:8080
-      # Port for debug
       - 5005:5005
     environment:
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
+      FIREBASE_KEY_PATH: /run/secrets/firebase-key.json  # Path to the secret
+    volumes:
+        - /Users/andrei/Documents/GitHub/service/private-key-booking.json:/run/secrets/firebase-key.json
     restart: always
     profiles:
-      - "hello-service"
+      - "booking-service"
+
   jenkins:
     image: jenkins/jenkins
     ports:
@@ -25,7 +28,7 @@ services:
       - ./Dockerfile:/Dockerfile
       - /usr/libexec/docker/cli-plugins/docker-compose:/usr/libexec/docker/cli-plugins/docker-compose
     profiles:
-      - "hello-service"
+      - "booking-service-jenkins"
     user: 0:0
   mongo:
     image: mongo:6.0.20
@@ -123,11 +126,11 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     profiles:
       - "monitoring"
-  wrk-injector-hello-functional: # traffic injector (low)
+  wrk-injector-booking-functional: # traffic injector (low)
     image: mtchavez/docker-wrk
     profiles:
       - "perf"
-    command: wrk -t4 -c10 -d300s http://hello:8080/hello-world
+    command: wrk -t4 -c10 -d300s http://booking:8080/booking-world
     logging:
       driver: loki
       options:
@@ -137,7 +140,7 @@ services:
     image: mtchavez/docker-wrk
     profiles:
       - "perf"
-    command: wrk -t4 -c1000 -d5m --timeout 1s --latency http://hello:8080/info
+    command: wrk -t4 -c1000 -d5m --timeout 1s --latency http://booking:8080/info
     logging:
       driver: loki
       options:

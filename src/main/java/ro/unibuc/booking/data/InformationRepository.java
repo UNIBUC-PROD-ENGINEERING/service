@@ -1,4 +1,4 @@
-package ro.unibuc.hello.data;
+package ro.unibuc.booking.data;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface InformationRepository extends MongoRepository<InformationEntity, String> {
 
     InformationEntity findByTitle(String title);
+
     List<InformationEntity> findByDescription(String description);
 
 }

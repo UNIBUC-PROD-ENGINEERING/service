@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.client.RestTemplate;
-import ro.unibuc.hello.dto.Greeting;
+import ro.unibuc.booking.dto.Greeting;
 import ro.unibuc.hello.e2e.util.HeaderSetup;
 import ro.unibuc.hello.e2e.util.ResponseErrorHandler;
 import ro.unibuc.hello.e2e.util.ResponseResults;

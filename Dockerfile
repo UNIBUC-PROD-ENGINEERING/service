@@ -5,10 +5,10 @@ FROM openjdk:21-jdk
 ENV JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n
 
 # Copy the locally built JAR file from the local file system to the image
-COPY ./build/libs/hello-0.0.1-SNAPSHOT.jar /hello/libs/hello.jar
+COPY ./build/libs/booking-0.0.1-SNAPSHOT.jar /booking/libs/booking.jar
 
 # Set the working directory inside the image
-WORKDIR /hello/libs/
+WORKDIR /booking/libs/
 
 # Define the command to run the application
-CMD ["java", "-jar", "/hello/libs/hello.jar"]
+CMD ["java", "-jar", "/booking/libs/booking.jar"]

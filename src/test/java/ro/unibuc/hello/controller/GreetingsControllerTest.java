@@ -8,9 +8,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ro.unibuc.hello.dto.Greeting;
-import ro.unibuc.hello.exception.EntityNotFoundException;
-import ro.unibuc.hello.service.GreetingsService;
+
+import ro.unibuc.booking.controller.GreetingsController;
+import ro.unibuc.booking.dto.Greeting;
+import ro.unibuc.booking.exception.EntityNotFoundException;
+import ro.unibuc.booking.service.GreetingsService;
 
 import java.util.Arrays;
 import java.util.List;

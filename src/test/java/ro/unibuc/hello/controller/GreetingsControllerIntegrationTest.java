@@ -2,7 +2,7 @@ package ro.unibuc.hello.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ro.unibuc.hello.dto.Greeting;
+import ro.unibuc.booking.dto.Greeting;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import ro.unibuc.hello.service.GreetingsService;
+import ro.unibuc.booking.service.GreetingsService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

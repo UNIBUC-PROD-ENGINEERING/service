@@ -1,5 +1,4 @@
-package ro.unibuc.hello.data;
-
+package ro.unibuc.booking.data;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -33,6 +32,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public Collection<String> getMappingBasePackages() {
-        return Collections.singleton("ro.unibuc.hello.data");
+        return Collections.singleton("ro.unibuc.booking.data");
     }
 }

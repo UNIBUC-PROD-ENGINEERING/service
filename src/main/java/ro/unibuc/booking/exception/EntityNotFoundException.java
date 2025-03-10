@@ -1,4 +1,4 @@
-package ro.unibuc.hello.exception;
+package ro.unibuc.booking.exception;
 
 public class EntityNotFoundException extends RuntimeException {
 

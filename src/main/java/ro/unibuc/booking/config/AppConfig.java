@@ -1,4 +1,4 @@
-package ro.unibuc.hello.config;
+package ro.unibuc.booking.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
