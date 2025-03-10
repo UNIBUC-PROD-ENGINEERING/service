@@ -19,6 +19,10 @@ public class Client {
 
     private String phoneNumber;
 
+    private String email;
+
+    private String password;
+
     private List<String> bankAccountIds = new ArrayList<>(); // Store references as String IDs
 
     private List<String> transactionIds = new ArrayList<>(); // Store references as String IDs
