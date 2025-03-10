@@ -51,3 +51,8 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 
 # TODO add requests for your own endpoints!
+
+
+#Apartament endpoints
+
+GET http://localhost:8080/api/apartamente
