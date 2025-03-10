@@ -51,3 +51,18 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 
 # TODO add requests for your own endpoints!
+
+#Proprietar endpoints
+
+GET http://localhost:8080/api/proprietar
+
+POST http://localhost:8080/api/proprietar
+Content-Type: application/json
+
+{
+    "id": "100",
+    "nume": "John",
+    "prenume": "Doe",
+    "email": "john.doe@example.com"
+}
+
