@@ -2,19 +2,19 @@ package ro.unibuc.hello.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import ro.unibuc.hello.data.UserRepository;
-import ro.unibuc.hello.data.User;
+import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.dto.request.RegisterDto;
 import ro.unibuc.hello.dto.response.UserDto;
 import ro.unibuc.hello.dto.response.UserListDto;
 import ro.unibuc.hello.exception.EntityAlreadyExistsException;
 import java.util.Optional;
 
-@Service
+@Component
 @AllArgsConstructor
 public class UserService {
     
@@ -27,14 +27,14 @@ public class UserService {
         userRepository.findByUsername(registerDto.getUsername())
                 .ifPresent(user -> { throw new EntityAlreadyExistsException(); });
 
-        var student = modelMapper.map(registerDto, User.class);
+        var student = modelMapper.map(registerDto, UserEntity.class);
 
         var savedEntity = userRepository.save(student);
 
         return modelMapper.map(savedEntity, UserDto.class);
     }
 
-    public User loadUser(String username) {
+    public UserEntity loadUser(String username) {
         return userRepository.findByUsername(username)
                                 .orElseThrow(()->new EntityNotFoundException(username));
     }
@@ -46,7 +46,7 @@ public class UserService {
     public UserDto updateUser(String username, RegisterDto registerDto){
         var user = userRepository.findByUsername(username)
                                 .orElseThrow(EntityAlreadyExistsException::new); // Do not let user update username to existing one
-        userRepository.save(modelMapper.map(registerDto, User.class));
+        userRepository.save(modelMapper.map(registerDto, UserEntity.class));
         return modelMapper.map(registerDto,UserDto.class);
     }
 

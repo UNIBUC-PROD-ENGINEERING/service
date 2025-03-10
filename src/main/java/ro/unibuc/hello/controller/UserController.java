@@ -10,7 +10,7 @@ import ro.unibuc.hello.dto.request.RegisterDto;
 import ro.unibuc.hello.dto.response.UserDto;
 import ro.unibuc.hello.dto.response.UserListDto;
 
-@Controller
+@RestController
 @AllArgsConstructor
 @RequestMapping("/users")
 public class UserController {
@@ -29,20 +29,20 @@ public class UserController {
     // public void logout(){userService.logout();}
 
     @PostMapping("/register")
-    @ResponseBody
     public UserDto register(@RequestBody @Valid RegisterDto registerDto) {return userService.createUser(registerDto);}
 
     @GetMapping("/all")
     public UserListDto getAll() {return userService.getAll();}
 
     @PutMapping("/{username}")
-    @ResponseBody
     public UserDto updateUser(@PathVariable String username, @RequestBody @Valid RegisterDto registerDto) {return userService.updateUser(username, registerDto);}
 
     @DeleteMapping(path="/{username}")
-    @ResponseBody
     public void delete (@PathVariable String username) {
         userService.delete(username);
     }
     
+    
+    @GetMapping("/test")
+    public UserDto test() {return new UserDto("abc","abc");}
 }

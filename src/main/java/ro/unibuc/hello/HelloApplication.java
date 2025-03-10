@@ -7,10 +7,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.data.UserRepository;
+import ro.unibuc.hello.data.UserEntity;
 import jakarta.annotation.PostConstruct;
 
-@SpringBootApplication
-@EnableMongoRepositories(basePackages = "ro.unibuc.hello.data")
+@SpringBootApplication(scanBasePackages = "ro.unibuc.hello")
+@EnableMongoRepositories(basePackages = {"ro.unibuc.hello.data.InformationRepository","ro.unibuc.hello.data.UserRepository"})
+
 public class HelloApplication {
 
 	@Autowired
@@ -29,6 +31,7 @@ public class HelloApplication {
 		userRepository.deleteAll();
 		informationRepository.save(new InformationEntity("Overview",
 				"This is an example of using a data storage engine running separately from our applications server"));
+		userRepository.save(new UserEntity("usertest","usermail","abc"));
 	}
 
 }
