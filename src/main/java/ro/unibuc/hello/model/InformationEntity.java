@@ -1,4 +1,4 @@
-package ro.unibuc.hello.data;
+package ro.unibuc.hello.model;
 
 import org.springframework.data.annotation.Id;
 
