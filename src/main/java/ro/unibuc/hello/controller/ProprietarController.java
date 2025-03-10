@@ -9,7 +9,6 @@ import main.java.ro.unibuc.hello.data.ProprietarEntity;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.ProprietarService;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
