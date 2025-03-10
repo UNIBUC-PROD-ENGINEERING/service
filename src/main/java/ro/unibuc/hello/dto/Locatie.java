@@ -1,6 +1,6 @@
 package main.java.ro.unibuc.hello.dto;
 
-public class Locatii {
+public class Locatie {
     private String id;
     private String tara;
     private String oras;

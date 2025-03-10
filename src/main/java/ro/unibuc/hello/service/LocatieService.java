@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import main.java.ro.unibuc.hello.dto.Locatie;
-import ro.unibuc.hello.data.LocatieEntity;
-import ro.unibuc.hello.data.LocatieRepository;
+import main.java.ro.unibuc.hello.data.LocatieEntity;
+import main.java.ro.unibuc.hello.data.LocatieRepository;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -45,20 +45,14 @@ public class LocatieService {
     }
 
     public Optional<LocatieEntity> updateLocatie(String id, LocatieEntity locatieDetails){
-        return locatieDetails.findById(id).map(existingLocatie ->{
+        return locatieRepository.findById(id).map(existingLocatie ->{
             existingLocatie.setTara(LocatieDetails.getTara());
             existingLocatie.setOras(LocatieDetails.getOras());
-            existingLocatie.setStrada(LocatieDetails.setStrada());
+            existingLocatie.setStrada(LocatieDetails.getStrada());
+
+            return locatieRepository.save(existingLocatie);
         });
     }
     
-    public void deleteLocatie(String id) throws EntityNotFoundException {
-        LocatieEntity locatie = locatieRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
-        locatieRepository.delete(entity);
-    }
-
-    public void deleteAllLocatiei() {
-        locatieRepository.deleteAll();
-    }
+   
 }
