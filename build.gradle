@@ -33,6 +33,14 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-mongodb'
 	implementation 'commons-io:commons-io:2.18.0'
 	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+	implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0' // Added Jakarta Persistence (considering MySQL)
+	implementation 'org.projectlombok:lombok:1.18.30' // Added Lombok
+
+	// Lombok for test scope
+	testImplementation 'org.projectlombok:lombok:1.18.30'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+	annotationProcessor 'org.projectlombok:lombok:1.18.30' // Required for Lombok
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
