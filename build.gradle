@@ -35,6 +35,9 @@ dependencies {
 	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
 	implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0' // Added Jakarta Persistence (considering MySQL)
 	implementation 'org.projectlombok:lombok:1.18.30' // Added Lombok
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	implementation 'org.modelmapper:modelmapper:3.2.0'
 
 	// Lombok for test scope
 	testImplementation 'org.projectlombok:lombok:1.18.30'
