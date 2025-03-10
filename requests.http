@@ -51,3 +51,68 @@ DELETE http://localhost:8080/orders/{{deleteOrderId}}
 
 
 # TODO add requests for your own endpoints!
+
+
+### Create a new inventory item
+POST http://localhost:8080/inventory
+Content-Type: application/json
+
+{
+    "id": "2",
+    "name": "Item A",
+    "stock": 100,
+    "threshold": 10
+}
+
+
+
+#### Get all inventory items
+GET http://localhost:8080/inventory
+
+#### Get inventory item by ID
+# Replace `{id}` with the actual inventory item ID
+GET http://localhost:8080/inventory/{id}
+
+#### Create a new inventory item
+POST http://localhost:8080/inventory
+Content-Type: application/json
+
+{
+    "id": "1",
+    "name": "Item A",
+    "stock": 100
+}
+
+#### Update inventory stock
+# Replace `{id}` with the actual inventory item ID
+PUT http://localhost:8080/inventory/{id}/stock?stock=150
+
+#### Delete inventory item
+# Replace `{id}` with the actual inventory item ID
+DELETE http://localhost:8080/inventory/{id}
+
+---
+
+### Robot Endpoints
+
+#### Get all robots
+GET http://localhost:8080/robots
+
+#### Get robot by ID
+GET http://localhost:8080/robots/{id}
+
+#### Create a new robot
+POST http://localhost:8080/robots
+Content-Type: application/json
+
+{
+    "id": "101",
+    "name": "Robot A",
+    "status": "active"
+}
+
+#### Update robot status
+PUT http://localhost:8080/robots/{id}/status?status=inactive
+
+
+DELETE http://localhost:8080/robots/{id}
