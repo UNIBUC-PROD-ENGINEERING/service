@@ -30,7 +30,7 @@ public class ProprietarController {
     }
     
     @GetMapping("/api/proprietar")
-    public List<ProprietarEntity> getAllProprietari(){
+    public List<Proprietar> getAllProprietari(){
         return proprietarService.getAllProprietari()
                 .stream()
                 .map(this::convertToDto)
@@ -38,10 +38,11 @@ public class ProprietarController {
     }
 
     @GetMapping("/api/proprietar/{id}")
-    @ResponseBody
-    public Proprietar getProprietarById(@PathVariable String id){
-        Optional<ProprietarEntity> proprietar = proprietarService.getProprietarById(id);
-        return proprietar.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Proprietar> getProprietarById(@PathVariable String id){
+        return proprietarService.getProprietarById(id)
+                .map(this::convertToDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/api/proprietar")
@@ -51,15 +52,20 @@ public class ProprietarController {
     }
 
     @PutMapping("/api/proprietar/{id}")
-    @ResponseBody
-    public Proprietar updateProprietar(@PathVariable String id, @RequestBody Proprietar proprietar) throws EntityNotFoundException{
-        return proprietarService.updateProprietar(id, proprietar);
+    public ResponseEntity<Proprietar> updateProprietar(@PathVariable String id, @RequestBody Proprietar proprietar) throws EntityNotFoundException {
+        ProprietarEntity proprietarEntity = new ProprietarEntity(
+                proprietar.getId(),
+                proprietar.getNume(),
+                proprietar.getPrenume(),
+                proprietar.getEmail()
+        );
+        
+        Optional<ProprietarEntity> updatedEntity = proprietarService.updateProprietar(id, proprietarEntity);
+        
+        return updatedEntity.map(entity -> ResponseEntity.ok(convertToDto(entity)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/api/proprietar/{id}")
-    @ResponseBody
-    public void deleteProprietar(@PathVariable String id) throws EntityNotFoundException{
-        proprietarService.deleteProprietar(id);
-    }
+    
     
 }

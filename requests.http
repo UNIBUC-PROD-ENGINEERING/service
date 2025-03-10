@@ -5,7 +5,9 @@
 
 
 # Requests for API endpoints of the sample project:
+
 GET http://localhost:8080/api/proprietar
+
 ### Hello world endpoint: get response "Hello, Stranger!"
 GET http://localhost:8080/hello-world
 

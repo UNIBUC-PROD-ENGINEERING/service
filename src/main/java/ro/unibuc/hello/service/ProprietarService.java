@@ -46,20 +46,14 @@ public class ProprietarService {
     }
 
     public Optional<ProprietarEntity> updateProprietar(String id, ProprietarEntity proprietarDetails){
-        return proprietarDetails.findById(id).map(existingProprietar ->{
+        return proprietarRepository.findById(id).map(existingProprietar ->{
             existingProprietar.setNume(proprietarDetails.getNume());
             existingProprietar.setPrenume(proprietarDetails.getPrenume());
-            existingProprietar.setEmail(proprietarDetails.setEmail());
+            existingProprietar.setEmail(proprietarDetails.getEmail());
+
+            return proprietarRepository.save(existingProprietar);
         });
     }
     
-    public void deleteProprietar(String id) throws EntityNotFoundException {
-        ProprietarEntity proprietar = proprietarRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
-        proprietarepository.delete(entity);
-    }
-
-    public void deleteAllProprietari() {
-        proprietarRepository.deleteAll();
-    }
+    
 }
