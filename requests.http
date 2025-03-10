@@ -7,6 +7,7 @@
 # Requests for API endpoints of the sample project:
 
 ### Hello world endpoint: get response "Hello, Stranger!"
+
 GET http://localhost:8080/hello-world
 
 ### Hello world with a request param passed.
@@ -51,3 +52,7 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 
 # TODO add requests for your own endpoints!
+
+### get all users
+GET http://localhost:8080/users/all
+

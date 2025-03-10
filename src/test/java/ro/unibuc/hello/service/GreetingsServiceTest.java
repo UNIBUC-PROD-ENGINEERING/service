@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
-import ro.unibuc.hello.dto.Greeting;
+import ro.unibuc.hello.dto.response.Greeting;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;

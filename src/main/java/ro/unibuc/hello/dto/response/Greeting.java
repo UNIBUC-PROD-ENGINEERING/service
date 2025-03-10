@@ -1,4 +1,4 @@
-package ro.unibuc.hello.dto;
+package ro.unibuc.hello.dto.response;
 
 public class Greeting {
 

@@ -3,6 +3,8 @@ package ro.unibuc.hello.dto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import ro.unibuc.hello.dto.response.Greeting;
+
 class GreetingTest {
 
     Greeting myGreeting = new Greeting("1", "John");

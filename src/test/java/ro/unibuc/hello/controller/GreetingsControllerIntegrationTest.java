@@ -2,8 +2,6 @@ package ro.unibuc.hello.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ro.unibuc.hello.dto.Greeting;
-
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +14,7 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import ro.unibuc.hello.dto.response.Greeting;
 import ro.unibuc.hello.service.GreetingsService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
