@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ro.unibuc.hello.dto.Greeting;
+import main.java.ro.unibuc.hello.dto.RezervareDto;
+import main.java.ro.unibuc.hello.service.RezervareService;
 import ro.unibuc.hello.exception.EntityNotFoundException;
-import ro.unibuc.hello.service.GreetingsService;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -21,7 +21,7 @@ public class RezervareController {
     @GetMapping("/api/rezervare/{id_proprietar}")
     @ResponseBody
     public List<RezervareDto> getReservationsByOwnerId(@PathVariable String id_proprietar) {
-        
+        return rezervareService.getAllReservations();
     }
 }
 
