@@ -3,25 +3,28 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users") 
+@Document(collection = "users")
 public class UserEntity {
 
     @Id
     private String id;
     private String name;
-    private String role; 
+    private String role;
+    private String password; 
 
     public UserEntity() {}
 
-    public UserEntity(String name, String role) {
+    public UserEntity(String name, String role, String password) { 
         this.name = name;
         this.role = role;
+        this.password = password;
     }
 
-    public UserEntity(String id, String name, String role) {
+    public UserEntity(String id, String name, String role, String password) { 
         this.id = id;
         this.name = name;
         this.role = role;
+        this.password = password;
     }
 
     public String getId() { return id; }
@@ -32,6 +35,9 @@ public class UserEntity {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    public String getPassword() { return password; } 
+    public void setPassword(String password) { this.password = password; }
 
     @Override
     public String toString() {

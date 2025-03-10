@@ -1,5 +1,7 @@
 package ro.unibuc.hello.service;
 
+import ro.unibuc.hello.service.UserService;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.data.UserEntity;
@@ -18,20 +20,22 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(user -> new User(user.getId(), user.getName(), user.getRole()))
+                .map(userEntity -> new User(userEntity.getId(), userEntity.getName(), userEntity.getRole(), userEntity.getPassword()))
                 .collect(Collectors.toList());
     }
+    
 
     public User getUserById(String id) throws EntityNotFoundException {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
-        return new User(user.getId(), user.getName(), user.getRole());
+        return new User(user.getId(), user.getName(), user.getRole(), user.getPassword());
+
     }
 
     public User saveUser(User User) {
         UserEntity user = new UserEntity(User.getId(), User.getName(), User.getRole());
         userRepository.save(user);
-        return new User(user.getId(), user.getName(), user.getRole());
+        return new User(user.getId(), user.getName(), user.getRole(), user.getPassword());
     }
 
     public User updateUser(String id, User User) throws EntityNotFoundException {
@@ -40,7 +44,7 @@ public class UserService {
         user.setName(User.getName());
         user.setRole(User.getRole());
         userRepository.save(user);
-        return new User(user.getId(), user.getName(), user.getRole());
+        return new User(user.getId(), user.getName(), user.getRole(), user.getPassword());
     }
 
     public void deleteUser(String id) throws EntityNotFoundException {
