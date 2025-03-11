@@ -2,21 +2,22 @@ package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ro.unibuc.hello.data.User;
 import ro.unibuc.hello.service.UsersService;
+import ro.unibuc.hello.dto.User;
+import ro.unibuc.hello.data.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UsersService usersService;
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@RequestBody UserEntity user) {
         return usersService.createUser(user);
     }
 
@@ -27,13 +28,12 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable String id) {
-        Optional<User> user = usersService.getUserById(id);
-        return user.orElse(null); // Return null if not found, Spring will send 404
+        return usersService.getUserById(id).orElse(null); 
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable String id, @RequestBody User user) {
-        return usersService.updateUser(id, user);
+    public User updateUser(@PathVariable String id, @RequestBody UserEntity user) {
+        return usersService.updateUser(id, user).orElse(null); 
     }
 
     @DeleteMapping("/{id}")
@@ -44,6 +44,10 @@ public class UserController {
 
     @GetMapping("/email/{email}")
     public User getUserByEmail(@PathVariable String email) {
-        return usersService.getUserByEmail(email);
+        return usersService.getUserByEmail(email).orElse(null);
+    }
+    @GetMapping("/fullName/{fullName}")
+    public User getUserByFullName(@PathVariable String fullName) {
+        return usersService.getUserByFullName(fullName).orElse(null);
     }
 }

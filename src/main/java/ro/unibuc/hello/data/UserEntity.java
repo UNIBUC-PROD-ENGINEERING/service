@@ -1,21 +1,18 @@
 package ro.unibuc.hello.data;
-
 import org.springframework.data.annotation.Id;
 
-public class User {
-
+public class UserEntity {
     @Id
     private String id;
-
     private String fullName;
     private int age;
     private String email;
     private String password;
     private String phoneNumber;
 
-    public User() {}
+    public UserEntity() {}
 
-    public User(String fullName, int age, String email, String password, String phoneNumber) {
+    public UserEntity(String fullName, int age, String email, String password, String phoneNumber) {
         this.fullName = fullName;
         this.age = age;
         this.email = email;
@@ -23,7 +20,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public User(String id, String fullName, int age, String email, String password, String phoneNumber) {
+    public UserEntity(String id, String fullName, int age, String email, String password, String phoneNumber) {
         this.id = id;
         this.fullName = fullName;
         this.age = age;
@@ -53,7 +50,7 @@ public class User {
     @Override
     public String toString() {
         return String.format(
-                "User[id='%s', fullName='%s', age='%d', email='%s', phoneNumber='%s']",
+                "UserEntity[id='%s', fullName='%s', age='%d', email='%s', phoneNumber='%s']",
                 id, fullName, age, email, phoneNumber);
     }
 }

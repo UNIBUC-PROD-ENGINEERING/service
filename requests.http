@@ -5,7 +5,7 @@
 @postUserPhone = 1234567890
 @postUserPassword = helloworld1234
 @postUserAge = 21
-POST http://localhost:8080/api/users
+POST http://localhost:8080/users
 Content-Type: application/json
 
 {
@@ -17,16 +17,33 @@ Content-Type: application/json
     "password": "{{postUserPassword}}"
 }
 
-### Get all users
-GET http://localhost:8080/api/users
+@postUserId2 = 2
+@postUserName2 = Anne Doe
+@postUserEmail2 = adoe@yahoo.com
+@postUserPhone2 = 0745773920
+@postUserPassword2 = password2
+@postUserAge2 = 25
 
-GET http://localhost:8080/api/users/{{postUserId}}
+POST http://localhost:8080/users
+Content-Type: application/json
 
-### Update an existing user
+{
+    "id": "{{postUserId2}}",
+    "fullName": "{{postUserName2}}",
+    "email": "{{postUserEmail2}}",
+    "age": "{{postUserAge2}}",
+    "phoneNumber": "{{postUserPhone2}}",
+    "password": "{{postUserPassword2}}"
+}
+
+GET http://localhost:8080/users
+
+GET http://localhost:8080/users/{{postUserId}}
+
 @putUserId = 1
-@putUserPhone = 0987654321
+@putUserPhone = 0771208023
 @putUserPassword = newsecurepassword
-PUT http://localhost:8080/api/users/{{putUserId}}
+PUT http://localhost:8080/users/{{putUserId}}
 Content-Type: application/json
 
 {
@@ -38,8 +55,8 @@ Content-Type: application/json
     "password": "{{putUserPassword}}"
 }
 
-GET http://localhost:8080/api/users/email/{{postUserEmail}}
-DELETE http://localhost:8080/api/users/{{putUserId}}
+GET http://localhost:8080/users/email/{{postUserEmail}}
+DELETE http://localhost:8080/users/{{putUserId}}
 
 
 
