@@ -1,7 +1,12 @@
 package ro.unibuc.hello.repository;
 
 import ro.unibuc.hello.data.BookingEntity;
+
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 public interface BookingRepository extends MongoRepository<BookingEntity, String> {
     List<BookingEntity> findByApartmentId(String apartmentId);
