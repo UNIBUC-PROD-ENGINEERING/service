@@ -10,7 +10,7 @@ services:
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
       FIREBASE_KEY_PATH: /run/secrets/firebase-key.json  # Path to the secret
     volumes:
-        - /Users/andrei/Documents/GitHub/service/private-key-booking.json:/run/secrets/firebase-key.json
+        - ${FIREBASE_SECRET_PATH}:/run/secrets/firebase-key.json
     restart: always
     profiles:
       - "booking-service"
@@ -130,7 +130,7 @@ services:
     image: mtchavez/docker-wrk
     profiles:
       - "perf"
-    command: wrk -t4 -c10 -d300s http://booking:8080/booking-world
+    command: wrk -t4 -c10 -d300s http://booking:8080/booking
     logging:
       driver: loki
       options:
