@@ -6,7 +6,7 @@
 
 # Requests for API endpoints of the sample project:
 # @prompt id The id to find the user
-GET http://localhost:8081/users/{{id}}
+GET http://localhost:8080/users/{{id}}
 
 ### All users
 GET http://localhost:8081/users
@@ -33,12 +33,11 @@ Content-Type: application/json
 }
 
 ### Create new user
-@firstName = Razvan
-@lastName = Cutuliga
-@mail = razvancutuliga1@gmail.com 
-@phoneNumber = 0787828282
+@firstName = Andrei
+@lastName = Popescu
+@mail = andreimail1@gmail.com 
+@phoneNumber = 0723521006
 @password = parolamea123
-
 POST http://localhost:8081/users
 Content-Type: application/json
 

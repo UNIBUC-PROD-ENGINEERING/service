@@ -52,6 +52,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CREATED).body(null);
         } catch (DuplicateKeyException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     } 
 }

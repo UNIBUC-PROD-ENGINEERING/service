@@ -32,9 +32,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserResponseDTO createUser(UserRequestDTO userDto) throws DuplicateKeyException {
-        if (userRepository.findByMail(userDto.getEmail()).isPresent()) {
-            throw new DuplicateKeyException("Email already exists: " + userDto.getEmail());
+    public UserResponseDTO createUser(UserRequestDTO userDto) throws Exception {
+        if (userRepository.findByMail(userDto.getMail()).isPresent()) {
+            throw new DuplicateKeyException("Email already exists: " + userDto.getMail());
+        } else if (userRepository.findByPhoneNumber(userDto.getPhoneNumber()).isPresent()) {
+            throw new DuplicateKeyException("Phone number " +
+                                            userDto.getPhoneNumber() + 
+                                            " already used");
         }
 
         User newUser = userDto.toEntity();

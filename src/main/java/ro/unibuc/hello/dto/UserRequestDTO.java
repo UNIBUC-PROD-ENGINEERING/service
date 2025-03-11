@@ -29,11 +29,11 @@ public class UserRequestDTO {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
+    public String getMail() {
         return mail;
     }
 
-    public void setEmail(String email) {
+    public void setMail(String email) {
         this.mail = email;
     }
 
@@ -63,5 +63,15 @@ public class UserRequestDTO {
         );
         
         return user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRequestDTO{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mail='" + mail + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }
