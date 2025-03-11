@@ -27,6 +27,8 @@ services:
     profiles:
       - "hello-service"
     user: 0:0
+
+# MONGO DB SERVICES
   mongo:
     image: mongo:6.0.20
     restart: always
@@ -50,6 +52,28 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: adobe
     profiles:
       - "mongo"
+
+# POSTGRES DB SERVICES
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: incidents
+      POSTGRES_PASSWORD: incidents
+      POSTGRES_DB: incidents
+    profiles:
+      - "postgres"
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "8432:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    profiles:
+      - "postgres"
+
 # MONITORING SERVICES
   cadvisor: # container metric prometheus exporter
     image: gcr.io/cadvisor/cadvisor:v0.51.0
