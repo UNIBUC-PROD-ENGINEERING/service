@@ -12,19 +12,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "users")
 public class UserEntity{
     @Id
-    private String id;
+    @Getter @Setter private String id;
 
     @Indexed(unique = true)
-    private String username;
+    @Getter @Setter private String username;
 
     @Indexed(unique = true)
-    private String email;
+    @Getter @Setter private String email;
 
-    private String passwordHash;
-    private String name;
-    private Date dateOfBirth;
-    private String bio;
-    private String profilePicture;
+    @Getter @Setter private String passwordHash;
+    @Getter @Setter private String name;
+    @Getter @Setter private Date dateOfBirth;
+    @Getter @Setter private String bio;
+    @Getter @Setter private String profilePicture;
     private Date createdAt = new Date();
 
 }

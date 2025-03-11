@@ -45,7 +45,7 @@ public class UserService {
 
         user.setUsername(userData.getUsername());
         user.setEmail(userData.getEmail());
-        user.setFullName(userData.getName());
+        user.setName(userData.getName());
 
         userRepository.save(user);
         return user;
