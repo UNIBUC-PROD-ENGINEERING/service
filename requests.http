@@ -4,23 +4,23 @@
 @postUserEmail = dariahorga@yahoo.com
 @postUserPhone = 1234567890
 @postUserPassword = helloworld1234
+@postUserAge = 21
 POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
     "id": "{{postUserId}}",
-    "name": "{{postUserName}}",
+    "fullName": "{{postUserName}}",
     "email": "{{postUserEmail}}",
-    "phone": "{{postUserPhone}}",
+    "age": "{{postUserAge}}",
+    "phoneNumber": "{{postUserPhone}}",
     "password": "{{postUserPassword}}"
 }
 
 ### Get all users
 GET http://localhost:8080/api/users
 
-### Get user by ID
-# @prompt userId Enter user ID to fetch
-GET http://localhost:8080/api/users/{{userId}}
+GET http://localhost:8080/api/users/{{postUserId}}
 
 ### Update an existing user
 @putUserId = 1
@@ -30,16 +30,16 @@ PUT http://localhost:8080/api/users/{{putUserId}}
 Content-Type: application/json
 
 {
-    "phone": "{{putUserPhone}}",
+    "id": "{{postUserId}}",
+    "fullName": "{{postUserName}}",
+    "email": "{{postUserEmail}}",
+    "age": "{{postUserAge}}",
+    "phoneNumber": "{{putUserPhone}}",
     "password": "{{putUserPassword}}"
 }
 
-### Delete user by ID
-# @prompt deleteUserId Enter user ID to delete
-DELETE http://localhost:8080/api/users/{{deleteUserId}}
+GET http://localhost:8080/api/users/email/{{postUserEmail}}
+DELETE http://localhost:8080/api/users/{{putUserId}}
 
-### Get user by email
-# @prompt userEmail Enter user email to fetch
-GET http://localhost:8080/api/users/email/{{userEmail}}
 
 
