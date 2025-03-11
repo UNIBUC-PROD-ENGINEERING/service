@@ -5,13 +5,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "reviews")
 public class ReviewEntity {
+    
     @Id
     private String id;
+
     private String comment;
-    private Integer rating;
+
+    private Integer rating; // Rating-ul review-ului (între 1 și 5)
+
     private String apartmentId;
     private String userId;
 
+    // Constructori, getteri și setteri
     public ReviewEntity() {}
 
     public ReviewEntity(String comment, Integer rating, String apartmentId, String userId) {
@@ -21,18 +26,44 @@ public class ReviewEntity {
         this.userId = userId;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // Getteri și setteri
+    public String getId() {
+        return id;
+    }
 
-    public String getComment() { return comment; }
-    public void setComment(String comment) { this.comment = comment; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public Integer getRating() { return rating; }
-    public void setRating(Integer rating) { this.rating = rating; }
+    public String getComment() {
+        return comment;
+    }
 
-    public String getApartmentId() { return apartmentId; }
-    public void setApartmentId(String apartmentId) { this.apartmentId = apartmentId; }
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public String getApartmentId() {
+        return apartmentId;
+    }
+
+    public void setApartmentId(String apartmentId) {
+        this.apartmentId = apartmentId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

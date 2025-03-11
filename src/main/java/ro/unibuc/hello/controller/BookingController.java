@@ -26,9 +26,14 @@ public class BookingController {
         return bookingService.getBookingById(id);
     }
 
-    @PostMapping
+@PostMapping
     public BookingEntity createBooking(@RequestBody BookingEntity booking) {
-        return bookingService.createBooking(booking);
+        try {
+            return bookingService.createBooking(booking);
+        } catch (IllegalArgumentException e) {
+            // Afișează doar un mesaj simplu de eroare
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
