@@ -1,4 +1,4 @@
-package ro.unibuc.hello.model.entity.common;
+package ro.unibuc.hello.entity.common;
 
 import jakarta.persistence.*;
 import lombok.Getter;
