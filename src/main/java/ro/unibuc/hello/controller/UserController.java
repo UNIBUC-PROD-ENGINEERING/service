@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ro.unibuc.hello.data.user.User;
 import ro.unibuc.hello.data.user.UserDTO;
 import ro.unibuc.hello.service.UserService;
+import ro.unibuc.hello.data.loyalty.LoyaltyCardEntity;
 import java.util.List;
 import java.util.Map;
 
@@ -70,5 +71,34 @@ public class UserController {
     // Endpoint-uri noi pentru cardurile de fidelitate
     
     @PostMapping("/api/users/{id}/loyalty-cards")
-    // TO DO LOGICA CARDURI
+    @ResponseBody
+    public LoyaltyCardEntity issueCardToUser(@PathVariable String id, 
+                                           @RequestBody Map<String, String> requestBody) {
+        try {
+            LoyaltyCardEntity.CardType cardType = LoyaltyCardEntity.CardType.valueOf(requestBody.get("cardType"));
+            return userService.issueCardToUser(id, cardType);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid card type");
+        } catch (Exception e) {
+            if (e.getMessage().equals(HttpStatus.NOT_FOUND.toString())) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+            } else {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Service not available");
+            }
+        }
+    }
+    
+    @GetMapping("/api/users/{id}/loyalty-cards")
+    @ResponseBody
+    public List<LoyaltyCardEntity> getUserCards(@PathVariable String id) {
+        try {
+            return userService.getUserCards(id);
+        } catch (Exception e) {
+            if (e.getMessage().equals(HttpStatus.NOT_FOUND.toString())) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+            } else {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Service not available");
+            }
+        }
+    }
 }
