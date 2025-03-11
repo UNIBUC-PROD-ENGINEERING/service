@@ -1,9 +1,11 @@
 package ro.unibuc.hello.controller;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.ApartmentEntity;
 import ro.unibuc.hello.service.ApartmentService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +36,20 @@ public class ApartmentController {
     @DeleteMapping("/{id}")
     public void deleteApartment(@PathVariable String id) {
         apartmentService.deleteApartment(id);
+    }
+
+    @GetMapping("/available")
+    public List<ApartmentEntity> getAvailableApartments(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return apartmentService.findAvailableApartments(startDate, endDate);
+    }
+    
+    @GetMapping("/{id}/available")
+    public boolean isApartmentAvailable(
+            @PathVariable String id,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return apartmentService.isApartmentAvailable(id, startDate, endDate);
     }
 }
