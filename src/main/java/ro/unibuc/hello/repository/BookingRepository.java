@@ -4,8 +4,6 @@ import ro.unibuc.hello.data.BookingEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface BookingRepository extends MongoRepository<BookingEntity, String> {
-<<<<<<< Updated upstream
-=======
     List<BookingEntity> findByApartmentId(String apartmentId);
     
     @Query("{'apartmentId': ?0, '$or': [{'startDate': {'$lte': ?2}, 'endDate': {'$gte': ?1}}, {'startDate': {'$lte': ?2, '$gte': ?1}}]}")
@@ -15,5 +13,4 @@ public interface BookingRepository extends MongoRepository<BookingEntity, String
     List<BookingEntity> findBookedApartmentIds(LocalDate startDate, LocalDate endDate);
 
     List<BookingEntity> findByApartmentIdAndUserId(String apartmentId, String userId);
->>>>>>> Stashed changes
 }
