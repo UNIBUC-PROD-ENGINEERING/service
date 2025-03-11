@@ -1,4 +1,4 @@
-package ro.unibuc.hello.service;
+package ro.unibuc.booking.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

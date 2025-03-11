@@ -1,4 +1,4 @@
-package ro.unibuc.hello.controller;
+package ro.unibuc.booking.controller;
  
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

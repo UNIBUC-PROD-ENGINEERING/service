@@ -1,4 +1,4 @@
-package ro.unibuc.hello.e2e.util;
+package ro.unibuc.booking.e2e.util;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.ClientHttpRequest;

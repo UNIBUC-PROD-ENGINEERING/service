@@ -1,4 +1,4 @@
-package ro.unibuc.hello.e2e.steps;
+package ro.unibuc.booking.e2e.steps;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,9 +13,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.client.RestTemplate;
 import ro.unibuc.booking.dto.Greeting;
-import ro.unibuc.hello.e2e.util.HeaderSetup;
-import ro.unibuc.hello.e2e.util.ResponseErrorHandler;
-import ro.unibuc.hello.e2e.util.ResponseResults;
+import ro.unibuc.booking.e2e.util.HeaderSetup;
+import ro.unibuc.booking.e2e.util.ResponseErrorHandler;
+import ro.unibuc.booking.e2e.util.ResponseResults;
 
 import java.util.HashMap;
 import java.util.Map;

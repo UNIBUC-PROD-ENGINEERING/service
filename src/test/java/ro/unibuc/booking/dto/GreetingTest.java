@@ -1,4 +1,4 @@
-package ro.unibuc.hello.dto;
+package ro.unibuc.booking.dto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

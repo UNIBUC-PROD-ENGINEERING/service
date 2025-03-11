@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Artist {
     
+    private String id;
     private String name;
     private List<String> photos; // first photo is the profile photo, the rest are in the gallery
     private String description;

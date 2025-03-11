@@ -1,4 +1,4 @@
-package ro.unibuc.hello.controller;
+package ro.unibuc.booking.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

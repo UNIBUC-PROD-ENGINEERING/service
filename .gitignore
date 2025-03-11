@@ -47,5 +47,5 @@ infrastructure/loki/durable/
 
 ##### Firebase key ####
 
-secrets/private-key-booking.json
+secrets/firebase-key.json
 .env

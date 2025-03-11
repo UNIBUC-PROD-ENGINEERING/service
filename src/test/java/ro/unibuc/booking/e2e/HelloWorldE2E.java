@@ -1,4 +1,4 @@
-package ro.unibuc.hello.e2e;
+package ro.unibuc.booking.e2e;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
