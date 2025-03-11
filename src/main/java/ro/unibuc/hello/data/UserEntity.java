@@ -1,6 +1,10 @@
 package ro.unibuc.hello.data;
 
 import lombok.*;
+
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @Document(collection = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails{
     @Id
     private String id;
 
@@ -23,5 +27,10 @@ public class UserEntity {
         this.username=username;
         this.email=email;
         this.password=password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of((GrantedAuthority) () ->"ROLE_"+ role.name());
     }
 }

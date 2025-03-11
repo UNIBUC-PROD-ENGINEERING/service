@@ -8,20 +8,37 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.data.UserEntity;
+import ro.unibuc.hello.dto.request.LoginDto;
 import ro.unibuc.hello.dto.request.RegisterDto;
 import ro.unibuc.hello.dto.response.UserDto;
 import ro.unibuc.hello.dto.response.UserListDto;
 import ro.unibuc.hello.exception.EntityAlreadyExistsException;
+
+import java.util.List;
 import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-public class UserService {
+public class UserService implements userDetails{
     
     @Autowired
     private UserRepository userRepository;
 
     private ModelMapper modelMapper;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            User user = userRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name());
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                List.of(authority)
+        );
+    }
 
     public UserDto register(RegisterDto registerDto){
         userRepository.findByUsername(registerDto.getUsername())
@@ -44,7 +61,7 @@ public class UserService {
     }
 
     public UserDto login(LoginDto LoginDto){
-        
+
     }
 
     public UserDto updateUser(String username, RegisterDto registerDto){
