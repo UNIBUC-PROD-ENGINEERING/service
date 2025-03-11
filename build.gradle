@@ -54,12 +54,6 @@ dependencies {
 	testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
 	testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
 	testImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
-
-	// Dependență pentru validare
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-    // Dependență pentru Spring Web (pentru ResponseStatusException și HttpStatus)
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
 dependencyManagement {
