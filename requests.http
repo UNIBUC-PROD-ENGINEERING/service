@@ -9,6 +9,29 @@
 ### Hello world endpoint: get response "Hello, Stranger!"
 GET http://localhost:8080/hello-world
 
+
+### Hello world endpoint: get response "Hello!"### Get all products
+GET http://localhost:8080/api/products
+
+### Initialize a product (create a test product)
+POST http://localhost:8080/init-product
+
+### Create a new product
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "Cremă hidratantă",
+  "price": 49.99,
+  "inStock": true,
+  "stockSize": 15,
+  "category": "Îngrijire ten",
+  "brand": "NaturaSkin",
+  "description": "Cremă hidratantă pentru toate tipurile de ten"
+}
+
+
+
 ### Hello world with a request param passed.
 # When sending the request it will ask you for the name
 # hitting enter will avoid passing the param, and do the default behaviour above
