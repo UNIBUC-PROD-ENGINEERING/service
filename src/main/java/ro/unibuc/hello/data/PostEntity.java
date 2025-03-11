@@ -20,7 +20,16 @@ public class PostEntity {
     private String mediaUrl;
 
     private Date createdAt = new Date();
+    private Date updatedAt = null;
 
+    public enum PostVisibility {
+        PUBLIC,
+        FRIENDS_ONLY
+    }
+
+    private PostVisibility visibility;
+
+    
     public PostEntity(){
 
     }

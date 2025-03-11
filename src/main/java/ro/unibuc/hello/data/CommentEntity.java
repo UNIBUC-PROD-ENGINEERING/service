@@ -22,4 +22,5 @@ public class CommentEntity {
 
     private String content;      
     private Date createdAt = new Date();
+    private Date updatedAt = null;
 }

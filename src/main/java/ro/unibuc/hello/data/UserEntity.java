@@ -15,13 +15,13 @@ public class UserEntity{
     private String id;
 
     @Indexed(unique = true)
-    private String username;
+    @Getter @Setter private String username;
 
     @Indexed(unique = true)
-    private String email;
+    @Getter @Setter private String email;
 
     private String passwordHash;
-    private String name;
+    @Getter @Setter private String name;
     private Date dateOfBirth;
     private String bio;
     private String profilePicture;
