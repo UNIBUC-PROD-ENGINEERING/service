@@ -46,8 +46,17 @@ public class UserService {
     public UserDto updateUser(String username, RegisterDto registerDto){
         var user = userRepository.findByUsername(username)
                                 .orElseThrow(EntityAlreadyExistsException::new); // Do not let user update username to existing one
-        userRepository.save(modelMapper.map(registerDto, UserEntity.class));
-        return modelMapper.map(registerDto,UserDto.class);
+        
+        user.setEmail(registerDto.getEmail());
+        user.setPassword(registerDto.getPassword());
+
+        // Save the updated user
+        userRepository.save(user);
+
+         // Save the updated user
+        userRepository.save(user);
+
+        return modelMapper.map(user, UserDto.class);
     }
 
 

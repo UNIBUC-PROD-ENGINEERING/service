@@ -11,7 +11,7 @@ import ro.unibuc.hello.data.UserEntity;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication(scanBasePackages = "ro.unibuc.hello")
-@EnableMongoRepositories(basePackages = {"ro.unibuc.hello.data.InformationRepository","ro.unibuc.hello.data.UserRepository"})
+@EnableMongoRepositories(basePackages = "ro.unibuc.hello.data")
 
 public class HelloApplication {
 

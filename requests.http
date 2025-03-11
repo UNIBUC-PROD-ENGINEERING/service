@@ -56,3 +56,27 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 ### get all users
 GET http://localhost:8080/users/all
 
+### create user
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+    "username":"abc",
+    "email":"emailwithpatternssoon",
+    "password":"notencryptedyet"
+}
+
+### update user with PUT
+PUT http://localhost:8080/users/abc 
+Content-Type: application/json
+
+{
+    "username":"abc",
+    "email":"email_updated",
+    "password":"password_updated"
+}
+
+### delete user
+
+DELETE http://localhost:8080/users/abc
+
