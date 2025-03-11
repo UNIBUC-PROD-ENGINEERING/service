@@ -1,6 +1,10 @@
 package ro.unibuc.hello.repository;
 
 import ro.unibuc.hello.data.BookingEntity;
+
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;               
 import java.time.LocalDate;          
