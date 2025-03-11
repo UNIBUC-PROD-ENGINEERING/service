@@ -23,7 +23,7 @@ public class UserService {
 
     private ModelMapper modelMapper;
 
-    public UserDto createUser(RegisterDto registerDto){
+    public UserDto register(RegisterDto registerDto){
         userRepository.findByUsername(registerDto.getUsername())
                 .ifPresent(user -> { throw new EntityAlreadyExistsException(); });
 
@@ -41,6 +41,10 @@ public class UserService {
     public UserDto getUser(String username) {
         var user = loadUser(username);
         return modelMapper.map(user, UserDto.class);
+    }
+
+    public UserDto login(LoginDto LoginDto){
+        
     }
 
     public UserDto updateUser(String username, RegisterDto registerDto){

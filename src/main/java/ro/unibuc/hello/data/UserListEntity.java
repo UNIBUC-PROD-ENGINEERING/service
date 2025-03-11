@@ -9,13 +9,9 @@ public class UserListEntity {
 
     private boolean isOwner;
 
-    public InformationEntity() {}
+    public UserListEntity() {}
 
-    public InformationEntity(boolean isOwner) {
-        this.isOwner = isOwner;
-    }
-
-    public InformationEntity(boolean isOwner) {
+    public UserListEntity(boolean isOwner) {
         this.isOwner = isOwner;
     }
 
