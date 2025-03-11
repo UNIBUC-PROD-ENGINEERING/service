@@ -1,16 +1,18 @@
 package ro.unibuc.hello;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import ro.unibuc.hello.config.properties.JwtConfigProperties;
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
 
-import jakarta.annotation.PostConstruct;
-
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses = InformationRepository.class)
+@EnableConfigurationProperties({JwtConfigProperties.class})
 public class HelloApplication {
 
 	@Autowired
