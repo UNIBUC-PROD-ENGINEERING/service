@@ -1,3 +1,5 @@
+package ro.unibuc.hello.dto;
+
 import java.util.Date;
 
 public class PostDto {
@@ -6,7 +8,7 @@ public class PostDto {
     private String mediaUrl;
     private Date createdAt = new Date();
 
-    public PostEntity(){
+    public PostDto(){
 
     }
 }

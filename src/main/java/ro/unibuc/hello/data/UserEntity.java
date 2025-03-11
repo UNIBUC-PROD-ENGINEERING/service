@@ -1,4 +1,10 @@
+package ro.unibuc.hello.data;
+
 import java.util.Date;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AccessLevel;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,11 +26,5 @@ public class UserEntity{
     private String bio;
     private String profilePicture;
     private Date createdAt = new Date();
-
-
-    public UserEntity(){
-
-    }
-
 
 }

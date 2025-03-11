@@ -1,3 +1,5 @@
+package ro.unibuc.hello.dto;
+
 import java.util.Date;
 
 public class LikeDto {

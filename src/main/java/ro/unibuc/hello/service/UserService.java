@@ -1,6 +1,9 @@
-import com.example.socialmedia.exception.EntityNotFoundException;
-import com.example.socialmedia.model.User;
-import com.example.socialmedia.repository.UserRepository;
+package ro.unibuc.hello.service;
+
+import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.data.UserEntity;
+import ro.unibuc.hello.dto.UserDto;
+import ro.unibuc.hello.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,34 +20,32 @@ public class UserService {
 
     private final AtomicLong counter = new AtomicLong();
 
-    public List<User> getAllUsers() {
+    public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public UserDto getUserById(String id) throws EntityNotFoundException {
-        Optional<UserDto> optionalUser = userRepository.findById(id);
+    public UserEntity getUserById(String id) throws EntityNotFoundException {
+        Optional<UserEntity> optionalUser = userRepository.findById(id);
         return optionalUser.orElseThrow(() -> new EntityNotFoundException(id));
     }
 
-    public UserDto saveUser(UserDto user) {
+    public UserEntity saveUser(UserEntity user) {
         return userRepository.save(user);
     }
 
     // --- SAVE ALL (creare în masă)
-    public List<User> saveAllUsers(List<User> users) {
+    public List<UserEntity> saveAllUsers(List<UserEntity> users) {
         return userRepository.saveAll(users);
     }
 
     // --- UPDATE
-    public User updateUser(String id, User userData) throws EntityNotFoundException {
-        User user = userRepository.findById(id)
+    public UserEntity updateUser(String id, UserEntity userData) throws EntityNotFoundException {
+        UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
 
-        // Actualizezi câmpurile dorite (exemplu)
         user.setUsername(userData.getUsername());
         user.setEmail(userData.getEmail());
-        user.setFullName(userData.getFullName());
-        // ... alte câmpuri
+        user.setFullName(userData.getName());
 
         userRepository.save(user);
         return user;
@@ -52,7 +53,7 @@ public class UserService {
 
     // --- DELETE
     public void deleteUser(String id) throws EntityNotFoundException {
-        User user = userRepository.findById(id)
+        UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
         userRepository.delete(user);
     }
