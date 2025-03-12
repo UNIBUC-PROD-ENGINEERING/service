@@ -12,5 +12,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SubscriptionRepository extends MongoRepository<SubscriptionEntity, String> {
 
-    List<SubscriptionEntity> findAllEntities();
 }
