@@ -14,9 +14,13 @@ public class TransactionEntity {
     public boolean useDiscount;       // Flag pentru aplicarea discount-ului
     public LocalDateTime date;        // Data tranzacției
     public double totalAmount;        // Suma totală înainte de discount
-    public double discountAmount;     // Valoarea discount-ului aplicat
+    public double discountAmount;     // Valoarea discount-ului din cardul de fidelitate
+    public double promotionDiscount;  // Discount din promoții
+    public double loyaltyDiscount;    // Discount din card de fidelitate
+    public double totalDiscount;      // Discount total
     public double finalAmount;        // Suma finală după aplicarea discount-ului
 
+    // Getters și setters
     public String getId() {
         return id;
     }
@@ -79,6 +83,30 @@ public class TransactionEntity {
 
     public void setDiscountAmount(double discountAmount) {
         this.discountAmount = discountAmount;
+    }
+    
+    public double getPromotionDiscount() {
+        return promotionDiscount;
+    }
+
+    public void setPromotionDiscount(double promotionDiscount) {
+        this.promotionDiscount = promotionDiscount;
+    }
+
+    public double getLoyaltyDiscount() {
+        return loyaltyDiscount;
+    }
+
+    public void setLoyaltyDiscount(double loyaltyDiscount) {
+        this.loyaltyDiscount = loyaltyDiscount;
+    }
+
+    public double getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public void setTotalDiscount(double totalDiscount) {
+        this.totalDiscount = totalDiscount;
     }
 
     public double getFinalAmount() {
