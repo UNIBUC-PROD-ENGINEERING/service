@@ -7,7 +7,7 @@ import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.UserService;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
