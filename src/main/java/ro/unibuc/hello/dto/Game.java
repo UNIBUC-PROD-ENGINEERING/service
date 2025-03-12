@@ -7,7 +7,8 @@ public class Game{
 
     public Game() {}
 
-    public Game(String title, int tier) {
+    public Game(String id, String title, int tier) {
+        this.id = id;
         this.title = title;
         this.tier = tier;
     }

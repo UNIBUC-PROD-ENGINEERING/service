@@ -8,7 +8,14 @@
 
 GET http://localhost:8080/games
 
+### add a game
+@game_name = Minecraft
+@game_tier = 2
 
+POST http://localhost:8080/add-game
+    ?title={{game_name}}
+    &tier={{game_tier}}
+###
 ### Hello world endpoint: get response "Hello, Stranger!"
 GET http://localhost:8080/hello-world
 

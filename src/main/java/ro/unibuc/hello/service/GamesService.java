@@ -20,7 +20,24 @@ public class GamesService {
     public List<Game> getAllGames(){
         List<GameEntity> entities = gameRepository.findAll();
         return entities.stream()
-            .map(entity -> new Game(entity.getTitle(), entity.getTier()))
+            .map(entity -> new Game(entity.getId(), entity.getTitle(), entity.getTier()))
+            .collect(Collectors.toList());
+    }
+
+    public Game saveGame(Game game){
+        GameEntity entity = new GameEntity();
+        entity.setTier(game.getTier());
+        entity.setTitle(game.getTitle());
+        gameRepository.save(entity);
+        return new Game(entity.getTitle(), entity.getTier());
+    }
+
+    public List<Game> getGamesAvailable(int tier){
+        List<GameEntity> entities = gameRepository.findAll();
+
+        return entities.stream()
+            .filter(entity -> entity.getTier() <= tier)
+            .map(entity -> new Game(entity.getId(), entity.getTitle(), entity.getTier()))
             .collect(Collectors.toList());
     }
 }

@@ -13,6 +13,7 @@ import ro.unibuc.hello.service.GreetingsService;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class GamesController {
@@ -23,11 +24,25 @@ public class GamesController {
 
     @GetMapping("/games")
     @ResponseBody
-    public List<Game> getAllGames() {
+    public List<Game> getGames(
+        @RequestParam("tier") Optional<Integer> tier
+    ) {
+        if(tier.isPresent()){
+            return gamesService.getGamesAvailable(tier.get());
+        }
+        
         return gamesService.getAllGames();
     }
 
-    
+    @PostMapping("/add-game")
+    @ResponseBody
+    public Game saveGame(
+        @RequestParam(name="title", required=true) String title,
+        @RequestParam(name="tier", required=true) int tier
+    ){
+        Game game = new Game(title, tier);
+        return gamesService.saveGame(game);
+    }
 
 }
 
