@@ -48,24 +48,24 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@RequestBody User user, HttpSession session) {
-        User existingUser = userService.getUserById(user.getId()); 
+        User existingUser = userService.getUserById(user.getId());
         if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
-            session.setAttribute("loggedUser", existingUser);  
-            return "Login successful"; 
+            session.setAttribute("loggedUser", existingUser);
+            return "Login successful";
         } else {
-            return "Invalid credentials"; 
+            return "Invalid credentials";
         }
     }
 
     @PostMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate();  
+        session.invalidate();
         return "Logout successful";
     }
 
     @GetMapping("/loggedUser")
     @ResponseBody
     public User getLoggedUser(HttpSession session) {
-        return (User) session.getAttribute("loggedUser");  
+        return (User) session.getAttribute("loggedUser");
     }
 }
