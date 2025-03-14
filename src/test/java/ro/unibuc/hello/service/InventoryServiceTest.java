@@ -36,93 +36,92 @@ class InventoryServiceTest {
     @Test
     void testGetAllInventoryItems() {
         List<InventoryEntity> entities = Arrays.asList(
-                new InventoryEntity("item1", 50, 10),
-                new InventoryEntity("item2", 30, 5)
+                new InventoryEntity("item1", "Item 1", 50, 10),
+                new InventoryEntity("item2", "Item 2", 30, 5)
         );
         when(inventoryRepository.findAll()).thenReturn(entities);
 
         List<InventoryDTO> inventoryItems = inventoryService.getAllInventoryItems();
 
         assertEquals(2, inventoryItems.size());
-        assertEquals("item1", inventoryItems.get(0).getName());
-        assertEquals("item2", inventoryItems.get(1).getName());
+        assertEquals("item1", inventoryItems.get(0).getItemId());  
+        assertEquals("item2", inventoryItems.get(1).getItemId());  
     }
 
     @Test
     void testGetInventoryItemById_ExistingEntity() throws EntityNotFoundException {
-        String id = "1";
-        InventoryEntity entity = new InventoryEntity("item1", 50, 10);
-        entity.setId(id);
-        when(inventoryRepository.findById(id)).thenReturn(Optional.of(entity));
+        String itemId = "item1"; 
+        InventoryEntity entity = new InventoryEntity(itemId,"Item 1", 50, 10);
+        when(inventoryRepository.findById(itemId)).thenReturn(Optional.of(entity));
 
-        InventoryDTO inventoryItem = inventoryService.getInventoryItemById(id);
+        InventoryDTO inventoryItem = inventoryService.getInventoryItemById(itemId);
 
         assertNotNull(inventoryItem);
-        assertEquals(id, inventoryItem.getId());
-        assertEquals("item1", inventoryItem.getName());
+        assertEquals(itemId, inventoryItem.getItemId()); 
+        assertEquals("Item 1", inventoryItem.getName());
     }
 
     @Test
     void testGetInventoryItemById_NonExistingEntity() {
-        String id = "NonExistingId";
-        when(inventoryRepository.findById(id)).thenReturn(Optional.empty());
+        String itemId = "NonExistingId";
+        when(inventoryRepository.findById(itemId)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> inventoryService.getInventoryItemById(id));
+        assertThrows(EntityNotFoundException.class, () -> inventoryService.getInventoryItemById(itemId));
     }
 
     @Test
     void testCreateInventoryItem() {
-        InventoryDTO inventoryDTO = new InventoryDTO(null, "item1", 50, 10);
-        InventoryEntity entity = new InventoryEntity("item1", 50, 10);
+        InventoryDTO inventoryDTO = new InventoryDTO("item1", "Item 1", 50, 10);  
+        InventoryEntity entity = new InventoryEntity("item1", "Item 1", 50, 10);
         when(inventoryRepository.save(any(InventoryEntity.class))).thenReturn(entity);
 
         InventoryDTO createdInventoryItem = inventoryService.createInventoryItem(inventoryDTO);
 
         assertNotNull(createdInventoryItem);
-        assertEquals("item1", createdInventoryItem.getName());
+        assertEquals("item1", createdInventoryItem.getItemId());  
+        assertEquals("Item 1", createdInventoryItem.getName());
     }
 
     @Test
     void testUpdateInventoryStock_ExistingEntity() throws EntityNotFoundException {
-        String id = "1";
+        String itemId = "item1";
         Integer stock = 60;
-        InventoryEntity entity = new InventoryEntity("item1", 50, 10);
-        entity.setId(id);
-        when(inventoryRepository.findById(id)).thenReturn(Optional.of(entity));
+        InventoryEntity entity = new InventoryEntity(itemId,"Item 1",50, 10);
+        when(inventoryRepository.findById(itemId)).thenReturn(Optional.of(entity));
         when(inventoryRepository.save(any(InventoryEntity.class))).thenReturn(entity);
 
-        InventoryDTO updatedInventoryItem = inventoryService.updateInventoryStock(id, stock);
+        InventoryDTO updatedInventoryItem = inventoryService.updateInventoryStock(itemId, stock);
 
         assertNotNull(updatedInventoryItem);
         assertEquals(stock, updatedInventoryItem.getStock());
+        assertEquals(itemId, updatedInventoryItem.getItemId());  
     }
 
     @Test
     void testUpdateInventoryStock_NonExistingEntity() {
-        String id = "NonExistingId";
+        String itemId = "NonExistingId";
         Integer stock = 60;
-        when(inventoryRepository.findById(id)).thenReturn(Optional.empty());
+        when(inventoryRepository.findById(itemId)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> inventoryService.updateInventoryStock(id, stock));
+        assertThrows(EntityNotFoundException.class, () -> inventoryService.updateInventoryStock(itemId, stock));
     }
 
     @Test
     void testDeleteInventoryItem_ExistingEntity() throws EntityNotFoundException {
-        String id = "1";
-        InventoryEntity entity = new InventoryEntity("item1", 50, 10);
-        entity.setId(id);
-        when(inventoryRepository.findById(id)).thenReturn(Optional.of(entity));
+        String itemId = "item1";
+        InventoryEntity entity = new InventoryEntity(itemId, "Item 1", 50, 10);
+        when(inventoryRepository.findById(itemId)).thenReturn(Optional.of(entity));
 
-        inventoryService.deleteInventoryItem(id);
+        inventoryService.deleteInventoryItem(itemId);
 
         verify(inventoryRepository, times(1)).delete(entity);
     }
 
     @Test
     void testDeleteInventoryItem_NonExistingEntity() {
-        String id = "NonExistingId";
-        when(inventoryRepository.findById(id)).thenReturn(Optional.empty());
+        String itemId = "NonExistingId";
+        when(inventoryRepository.findById(itemId)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> inventoryService.deleteInventoryItem(id));
+        assertThrows(EntityNotFoundException.class, () -> inventoryService.deleteInventoryItem(itemId));
     }
 }

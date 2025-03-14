@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import ro.unibuc.hello.data.OrderStatus; // Import OrderStatus
 import ro.unibuc.hello.dto.OrderDTO;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.OrderService;
@@ -15,8 +16,6 @@ import ro.unibuc.hello.service.OrderService;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -43,8 +42,8 @@ class OrderControllerTest {
     void testGetAllOrders() throws Exception {
         // Arrange
         List<OrderDTO> orders = Arrays.asList(
-                new OrderDTO("1", "worker1", "pending", "item1", 10, "location1"),
-                new OrderDTO("2", "worker2", "completed", "item2", 20, "location2")
+                new OrderDTO("1", "worker1", OrderStatus.PENDING, "item1", 10, "location1"),
+                new OrderDTO("2", "worker2", OrderStatus.COMPLETED, "item2", 20, "location2")
         );
         when(orderService.getAllOrders()).thenReturn(orders);
 
@@ -52,47 +51,47 @@ class OrderControllerTest {
         mockMvc.perform(get("/orders"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value("1"))
-                .andExpect(jsonPath("$[0].workerId").value("worker1"))
+                .andExpect(jsonPath("$[0].robotId").value("worker1"))
                 .andExpect(jsonPath("$[1].id").value("2"))
-                .andExpect(jsonPath("$[1].workerId").value("worker2"));
+                .andExpect(jsonPath("$[1].robotId").value("worker2"));
     }
 
     @Test
     void testGetOrderById_ExistingEntity() throws Exception {
         // Arrange
         String id = "1";
-        OrderDTO order = new OrderDTO(id, "worker1", "pending", "item1", 10, "location1");
+        OrderDTO order = new OrderDTO(id, "worker1", OrderStatus.PENDING, "item1", 10, "location1");
         when(orderService.getOrderById(id)).thenReturn(order);
 
         // Act & Assert
         mockMvc.perform(get("/orders/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.workerId").value("worker1"));
+                .andExpect(jsonPath("$.robotId").value("worker1"));
     }
 
     @Test
     void testCreateOrder() throws Exception {
         // Arrange
-        OrderDTO newOrder = new OrderDTO(null, "worker1", "pending", "item1", 10, "location1");
-        OrderDTO createdOrder = new OrderDTO("1", "worker1", "pending", "item1", 10, "location1");
+        OrderDTO newOrder = new OrderDTO(null, "worker1", OrderStatus.PENDING, "item1", 10, "location1");
+        OrderDTO createdOrder = new OrderDTO("1", "worker1", OrderStatus.PENDING, "item1", 10, "location1");
         when(orderService.createOrder(any(OrderDTO.class))).thenReturn(createdOrder);
 
         // Act & Assert
         mockMvc.perform(post("/orders")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"workerId\":\"worker1\",\"status\":\"pending\",\"itemId\":\"item1\",\"quantity\":10,\"location\":\"location1\"}"))
+                .content("{\"robotId\":\"worker1\",\"status\":\"PENDING\",\"itemId\":\"item1\",\"quantity\":10,\"location\":\"location1\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.workerId").value("worker1"));
+                .andExpect(jsonPath("$.robotId").value("worker1"));
     }
 
     @Test
     void testUpdateOrderStatus_ExistingEntity() throws Exception {
         // Arrange
         String id = "1";
-        String status = "completed";
-        OrderDTO updatedOrder = new OrderDTO(id, "worker1", status, "item1", 10, "location1");
+        String status = "COMPLETED";
+        OrderDTO updatedOrder = new OrderDTO(id, "worker1", OrderStatus.COMPLETED, "item1", 10, "location1");
         when(orderService.updateOrderStatus(eq(id), eq(status))).thenReturn(updatedOrder);
 
         // Act & Assert
@@ -100,7 +99,7 @@ class OrderControllerTest {
                 .param("status", status))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.status").value(status));
+                .andExpect(jsonPath("$.status").value("COMPLETED"));
     }
 
     @Test
@@ -115,5 +114,4 @@ class OrderControllerTest {
 
         verify(orderService, times(1)).deleteOrder(id);
     }
-
 }

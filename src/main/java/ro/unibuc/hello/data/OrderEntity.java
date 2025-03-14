@@ -2,6 +2,7 @@ package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
 
 @Document(collection = "orders")
@@ -9,8 +10,8 @@ public class OrderEntity {
 
     @Id
     private String id;
-    private String workerId;
-    private String status; // "in_progress", "completed", "error"
+    private String robotId;
+    private OrderStatus status; 
     private String itemId;
     private int quantity;
     private String location;
@@ -21,8 +22,8 @@ public class OrderEntity {
 
     public OrderEntity() {}
 
-    public OrderEntity(String workerId, String status, String itemId, int quantity, String location) {
-        this.workerId = workerId;
+    public OrderEntity(String robotId, OrderStatus status, String itemId, int quantity, String location) {
+        this.robotId = robotId;
         this.status = status;
         this.itemId = itemId;
         this.quantity = quantity;
@@ -34,11 +35,11 @@ public class OrderEntity {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getWorkerId() { return workerId; }
-    public void setWorkerId(String workerId) { this.workerId = workerId; }
+    public String getRobotId() { return robotId; }
+    public void setWorkerId(String robotId) { this.robotId = robotId; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public OrderStatus getStatus() { return status; }
+    public void setStatus(OrderStatus status) { this.status = status; }
 
     public String getItemId() { return itemId; }
     public void setItemId(String itemId) { this.itemId = itemId; }
@@ -63,7 +64,7 @@ public class OrderEntity {
 
     @Override
     public String toString() {
-        return String.format("Order[id='%s', workerId='%s', status='%s', item='%s', quantity=%d, location='%s']", 
-                id, workerId, status, itemId, quantity, location);
+        return String.format("Order[id='%s', robotId='%s', status='%s', item='%s', quantity=%d, location='%s']",
+                id, robotId, status, itemId, quantity, location);
     }
 }

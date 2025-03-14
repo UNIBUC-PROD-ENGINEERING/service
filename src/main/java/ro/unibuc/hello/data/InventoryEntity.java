@@ -1,5 +1,7 @@
 package ro.unibuc.hello.data;
 
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,25 +9,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class InventoryEntity {
 
     @Id
-    private String id;
+    private String itemId;
     private String name;
     private Integer stock;
     private Integer threshold;
 
     public InventoryEntity() {}
 
-    public InventoryEntity(String name, Integer stock, Integer threshold) {
+    public InventoryEntity(String itemId, String name, int stock, int threshold) {
+        this.itemId = itemId;
         this.name = name;
         this.stock = stock;
         this.threshold = threshold;
     }
 
-    public String getId() {
-        return id;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getName() {
@@ -54,7 +57,7 @@ public class InventoryEntity {
 
     @Override
     public String toString() {
-        return String.format("Inventory[id='%s', name='%s', stock=%d, threshold=%d]", 
-                id, name, stock, threshold);
+        return String.format("Inventory[itemId='%s', name='%s', stock=%d, threshold=%d]", 
+                itemId, name, stock, threshold);
     }
 }

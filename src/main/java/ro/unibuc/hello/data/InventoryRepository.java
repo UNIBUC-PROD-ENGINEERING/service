@@ -11,4 +11,5 @@ public interface InventoryRepository extends MongoRepository<InventoryEntity, St
     List<InventoryEntity> findByName(String name);
     List<InventoryEntity> findByStockLessThan(Integer stock);
     List<InventoryEntity> findByThresholdLessThan(Integer threshold);
+    List<InventoryEntity> findByItemId(String itemId);
 }

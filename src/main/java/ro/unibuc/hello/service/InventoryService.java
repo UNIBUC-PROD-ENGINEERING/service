@@ -8,6 +8,7 @@ import ro.unibuc.hello.dto.InventoryDTO;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,24 +20,26 @@ public class InventoryService {
     public List<InventoryDTO> getAllInventoryItems() {
         List<InventoryEntity> entities = inventoryRepository.findAll();
         return entities.stream()
-                .map(entity -> new InventoryDTO(entity.getId(), entity.getName(), entity.getStock(), entity.getThreshold()))
+                .map(entity -> new InventoryDTO(entity.getItemId(), entity.getName(), entity.getStock(), entity.getThreshold()))
                 .collect(Collectors.toList());
     }
 
     public InventoryDTO getInventoryItemById(String id) throws EntityNotFoundException {
         InventoryEntity entity = inventoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Inventory item with ID " + id + " not found"));
-        return new InventoryDTO(entity.getId(), entity.getName(), entity.getStock(), entity.getThreshold());
+        return new InventoryDTO(entity.getItemId(), entity.getName(), entity.getStock(), entity.getThreshold());
     }
 
     public InventoryDTO createInventoryItem(InventoryDTO inventoryDTO) {
+
         InventoryEntity inventoryItem = new InventoryEntity(
-                inventoryDTO.getName(),
-                inventoryDTO.getStock(),
-                inventoryDTO.getThreshold()
-        );
+            inventoryDTO.getItemId(),
+            inventoryDTO.getName(),
+            inventoryDTO.getStock() != null ? inventoryDTO.getStock() : 0,
+            inventoryDTO.getThreshold() != null ? inventoryDTO.getThreshold() : 0
+            );
         inventoryRepository.save(inventoryItem);
-        return new InventoryDTO(inventoryItem.getId(), inventoryItem.getName(), inventoryItem.getStock(), inventoryItem.getThreshold());
+        return new InventoryDTO(inventoryItem.getItemId(), inventoryItem.getName(), inventoryItem.getStock(), inventoryItem.getThreshold());
     }
 
     public InventoryDTO updateInventoryStock(String id, Integer stock) throws EntityNotFoundException {
@@ -44,7 +47,7 @@ public class InventoryService {
                 .orElseThrow(() -> new EntityNotFoundException("Inventory item with ID " + id + " not found"));
         inventoryItem.setStock(stock);
         inventoryRepository.save(inventoryItem);
-        return new InventoryDTO(inventoryItem.getId(), inventoryItem.getName(), inventoryItem.getStock(), inventoryItem.getThreshold());
+        return new InventoryDTO(inventoryItem.getItemId(), inventoryItem.getName(), inventoryItem.getStock(), inventoryItem.getThreshold());
     }
 
     public void deleteInventoryItem(String id) throws EntityNotFoundException {

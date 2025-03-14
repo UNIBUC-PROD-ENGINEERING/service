@@ -47,9 +47,9 @@ class InventoryControllerTest {
 
         mockMvc.perform(get("/inventory"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value("1"))
+                .andExpect(jsonPath("$[0].itemId").value("1"))
                 .andExpect(jsonPath("$[0].name").value("Item 1"))
-                .andExpect(jsonPath("$[1].id").value("2"))
+                .andExpect(jsonPath("$[1].itemId").value("2"))
                 .andExpect(jsonPath("$[1].name").value("Item 2"));
     }
 
@@ -61,7 +61,7 @@ class InventoryControllerTest {
 
         mockMvc.perform(get("/inventory/{id}", id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.itemId").value(id))
                 .andExpect(jsonPath("$.name").value("Item 1"));
     }
 
@@ -75,7 +75,7 @@ class InventoryControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Item 3\",\"stock\":200,\"threshold\":20}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("3"))
+                .andExpect(jsonPath("$.itemId").value("3"))
                 .andExpect(jsonPath("$.name").value("Item 3"));
     }
 
@@ -89,7 +89,7 @@ class InventoryControllerTest {
         mockMvc.perform(put("/inventory/{id}/stock", id)
                 .param("stock", newStock.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.itemId").value(id))
                 .andExpect(jsonPath("$.stock").value(newStock));
     }
 
