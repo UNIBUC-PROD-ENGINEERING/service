@@ -8,6 +8,10 @@ default: build
 clean:
 	# Remove the build folder
 	rm -rf build
+
+	docker rm hello-builder-container || true
+
+	./stop.sh
 	
 	# Remove the builder image and service image
 	docker rmi $(BUILDER_TAG) || true
@@ -40,6 +44,8 @@ build: clean
 	
 	# Builds the docker image for running the service.
 	docker build -t $(IMAGE_TAG):$(IMAGE_VERSION) .
+
+	./start.sh
 	echo "Success"
 
 post-deploy-build:
