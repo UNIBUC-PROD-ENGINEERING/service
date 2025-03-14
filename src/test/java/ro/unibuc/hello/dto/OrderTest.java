@@ -2,10 +2,11 @@ package ro.unibuc.hello.dto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ro.unibuc.hello.data.OrderStatus; // Import OrderStatus
 
 class OrderDTOTest {
 
-    OrderDTO order = new OrderDTO("1", "worker1", "pending", "item1", 10, "location1");
+    OrderDTO order = new OrderDTO("1", "worker1", OrderStatus.PENDING, "item1", 10, "location1");
 
     @Test
     void test_getId() {
@@ -18,27 +19,26 @@ class OrderDTOTest {
         Assertions.assertEquals("2", order.getId());
     }
 
-    
     @Test
     void test_getWorkerId() {
-        Assertions.assertEquals("worker1", order.getWorkerId());
+        Assertions.assertEquals("worker1", order.getRobotId());
     }
 
     @Test
     void test_setWorkerId() {
         order.setWorkerId("worker2");
-        Assertions.assertEquals("worker2", order.getWorkerId());
+        Assertions.assertEquals("worker2", order.getRobotId());
     }
 
     @Test
     void test_getStatus() {
-        Assertions.assertEquals("pending", order.getStatus());
+        Assertions.assertEquals(OrderStatus.PENDING, order.getStatus());
     }
 
     @Test
     void test_setStatus() {
-        order.setStatus("completed");
-        Assertions.assertEquals("completed", order.getStatus());
+        order.setStatus(OrderStatus.COMPLETED);
+        Assertions.assertEquals(OrderStatus.COMPLETED, order.getStatus());
     }
 
     @Test

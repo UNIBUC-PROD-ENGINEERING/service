@@ -1,53 +1,101 @@
-
-# You can use this file to easily send requests to your API.
-# Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
-# High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
-
-
 # Requests for API endpoints of the sample project:
 
-### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8080/hello-world
+### Orders Endpoints
 
-### Hello world with a request param passed.
-# When sending the request it will ask you for the name
-# hitting enter will avoid passing the param, and do the default behaviour above
-# @prompt name The name to display in response
-GET http://localhost:8080/hello-world
-    ?name={{name}}
+#### Get all orders
+GET http://localhost:8080/orders
 
-### Save a greeting to database
-@postOrderId = 1001
-@postOrderContent = Hello!
+
+#### Create a new order (Valid Request)
 POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "id": "{{postOrderId}}",
-    "content": "{{postOrderContent}}"
+    "robotId": "robot003",  
+    "status": "PENDING",
+    "itemId": "item123",  
+    "quantity": 10,
+    "location": "Aisle 3"
 }
 
-### Get all orders
-GET http://localhost:8080/orders
-
-### Get info for greeting with given content
-# @prompt content Order content to look for, defaults to "Overview"
-GET http://localhost:8080/info
-    ?title={{content}}
-
-### Update an existing greeting
-@putOrderId = 1001
-@putOrderContent = Hello again!
-PUT http://localhost:8080/orders/{{putOrderId}}
+#### Create a new order (Bad Request - Missing Required Field)
+POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "content": "{{putOrderContent}}"
+    "robotId": "",  # Missing robotId (should fail @NotBlank validation)
+    "status": "PENDING",
+    "itemId": "item1",
+    "quantity": 10,
+    "location": "location1"
 }
 
-### Delete greeting
-@deleteOrderId = 1001
-DELETE http://localhost:8080/orders/{{deleteOrderId}}
+#### Create a new order (Bad Request - Invalid Status)
+POST http://localhost:8080/orders
+Content-Type: application/json
+
+{
+    "robotId": "worker1",
+    "status": "INVALID_STATUS",  # Invalid status (should fail enum validation)
+    "itemId": "item1",
+    "quantity": 10,
+    "location": "location1"
+}
+
+#### Create a new order (Bad Request - Negative Quantity)
+POST http://localhost:8080/orders
+Content-Type: application/json
+
+{
+    "robotId": "worker1",
+    "status": "PENDING",
+    "itemId": "item1",
+    "quantity": -10,  # Negative quantity (should fail @Positive validation)
+    "location": "location1"
+}
+
+#### Get order by ID (Valid Request)
+@orderId = 1
+GET http://localhost:8080/orders/{{orderId}}
+
+#### Get order by ID (Bad Request - Non-Existent ID)
+@nonExistentOrderId = 9999
+GET http://localhost:8080/orders/{{nonExistentOrderId}}
+
+#### Update order status (Valid Request)
+@orderId = 1
+PUT http://localhost:8080/orders/{{orderId}}/status
+Content-Type: application/json
+
+{
+    "status": "COMPLETED"
+}
+
+#### Update order status (Bad Request - Invalid Status)
+@orderId = 1
+PUT http://localhost:8080/orders/{{orderId}}/status
+Content-Type: application/json
+
+{
+    "status": "INVALID_STATUS"  # Invalid status (should fail enum validation)
+}
+
+#### Update order status (Bad Request - Non-Existent ID)
+@nonExistentOrderId = 9999
+PUT http://localhost:8080/orders/{{nonExistentOrderId}}/status
+Content-Type: application/json
+
+{
+    "status": "COMPLETED"
+}
+
+#### Delete order (Valid Request)
+@orderId = 1
+DELETE http://localhost:8080/orders/{{orderId}}
+
+#### Delete order (Bad Request - Non-Existent ID)
+@nonExistentOrderId = 9999
+DELETE http://localhost:8080/orders/{{nonExistentOrderId}}
 
 
 # TODO add requests for your own endpoints!

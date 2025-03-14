@@ -8,14 +8,23 @@ class InventoryDTOTest {
     InventoryDTO inventory = new InventoryDTO("1", "item1", 100, 10);
 
     @Test
+    void testConstructor() {
+        InventoryDTO inventoryDTO = new InventoryDTO("3", "item3", 150, 30);
+        Assertions.assertEquals("3", inventoryDTO.getItemId());
+        Assertions.assertEquals("item3", inventoryDTO.getName());
+        Assertions.assertEquals(150, inventoryDTO.getStock());
+        Assertions.assertEquals(30, inventoryDTO.getThreshold());
+    }
+
+    @Test
     void test_getId() {
-        Assertions.assertEquals("1", inventory.getId());
+        Assertions.assertEquals("1", inventory.getItemId());
     }
 
     @Test
     void test_setId() {
-        inventory.setId("2");
-        Assertions.assertEquals("2", inventory.getId());
+        inventory.setItemId("2");
+        Assertions.assertEquals("2", inventory.getItemId());
     }
 
     @Test

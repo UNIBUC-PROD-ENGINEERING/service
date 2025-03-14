@@ -2,22 +2,22 @@ package ro.unibuc.hello.dto;
 
 public class InventoryDTO {
 
-    private String id;
+    private String itemId; 
     private String name;
     private Integer stock;
     private Integer threshold;
 
     public InventoryDTO() {}
 
-    public InventoryDTO(String id, String name, Integer stock, Integer threshold) {
-        this.id = id;
+    public InventoryDTO(String itemId, String name, Integer stock, Integer threshold) {
+        this.itemId = itemId;
         this.name = name;
         this.stock = stock;
         this.threshold = threshold;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getItemId() { return itemId; }  
+    public void setItemId(String itemId) { this.itemId = itemId; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

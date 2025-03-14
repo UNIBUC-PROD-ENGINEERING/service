@@ -1,19 +1,19 @@
 package ro.unibuc.hello.dto;
 
+import ro.unibuc.hello.data.OrderStatus;
+
 public class OrderDTO {
 
     private String id;
-    private String workerId;
-    private String status;
+    private String robotId;
+    private OrderStatus status;
     private String itemId;
     private int quantity;
     private String location;
 
-    public OrderDTO() {}
-
-    public OrderDTO(String id, String workerId, String status, String itemId, int quantity, String location) {
+    public OrderDTO(String id, String robotId, OrderStatus status, String itemId, int quantity, String location) {
         this.id = id;
-        this.workerId = workerId;
+        this.robotId = robotId;
         this.status = status;
         this.itemId = itemId;
         this.quantity = quantity;
@@ -23,11 +23,11 @@ public class OrderDTO {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getWorkerId() { return workerId; }
-    public void setWorkerId(String workerId) { this.workerId = workerId; }
+    public String getRobotId() { return robotId; }
+    public void setWorkerId(String robotId) { this.robotId = robotId; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public OrderStatus getStatus() { return status; }
+    public void setStatus(OrderStatus status) { this.status = status; }
 
     public String getItemId() { return itemId; }
     public void setItemId(String itemId) { this.itemId = itemId; }

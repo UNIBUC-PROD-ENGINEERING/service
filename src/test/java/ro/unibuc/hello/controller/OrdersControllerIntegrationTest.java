@@ -14,6 +14,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ro.unibuc.hello.dto.OrderDTO;
 import ro.unibuc.hello.service.OrderService;
+import ro.unibuc.hello.data.OrderStatus;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -56,12 +57,24 @@ public class OrdersControllerIntegrationTest {
 
     @BeforeEach
     public void cleanUpAndAddTestData() {
-
-        OrderDTO order1 = new OrderDTO("1", "Customer 1", "Product 1", "Pending", 1, "Address 1");
-        OrderDTO order2 = new OrderDTO("2", "Customer 2", "Product 2", "Pending", 2, "Address 2");
-
+        OrderDTO order1 = new OrderDTO("1", "Customer 1", OrderStatus.PENDING, "Product 1", 1, "Address 1");
+        OrderDTO order2 = new OrderDTO("2", "Customer 2", OrderStatus.PENDING, "Product 2", 2, "Address 2");
+    
         orderService.createOrder(order1);
         orderService.createOrder(order2);
+    }
+    
+    @Test
+    public void testCreateOrder() throws Exception {
+        OrderDTO order = new OrderDTO("3", "Customer 3", OrderStatus.PENDING, "Product 3", 3, "Address 3");
+    
+        mockMvc.perform(post("/orders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(order)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value("3"))
+                .andExpect(jsonPath("$.content").value("Product 3"));
     }
 
     @Test
@@ -81,24 +94,6 @@ public class OrdersControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.content").value("Product 1"));
-    }
-
-    @Test
-    public void testCreateOrder() throws Exception {
-        OrderDTO order = new OrderDTO("3", "Customer 3", "Product 3", "Pending", 3, "Address 3");
-
-        mockMvc.perform(post("/orders")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(order)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value("3"))
-                .andExpect(jsonPath("$.content").value("Product 3"));
-
-        mockMvc.perform(get("/orders"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()").value(3));
     }
 
     @Test

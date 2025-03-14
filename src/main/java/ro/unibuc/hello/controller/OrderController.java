@@ -1,10 +1,15 @@
 package ro.unibuc.hello.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import ro.unibuc.hello.dto.OrderDTO;
-import ro.unibuc.hello.exception.EntityNotFoundException;
-import ro.unibuc.hello.service.OrderService;
+import jakarta.validation.Valid;  
+import org.springframework.http.ResponseEntity;  
+import org.springframework.http.HttpStatus;  
+import org.springframework.beans.factory.annotation.Autowired;  
+import org.springframework.web.bind.annotation.*;  
+import ro.unibuc.hello.dto.OrderDTO;  
+import ro.unibuc.hello.exception.EntityNotFoundException;  
+import ro.unibuc.hello.service.OrderService;  
+import ro.unibuc.hello.data.OrderStatus;  
+
 
 import java.util.List;
 
@@ -26,17 +31,44 @@ public class OrderController {
     }
 
     @PostMapping
-    public OrderDTO createOrder(@RequestBody OrderDTO orderDTO) {
+    public OrderDTO createOrder(@Valid @RequestBody OrderDTO orderDTO) {
+        if (orderService.hasActiveOrder()) {
+            throw new IllegalStateException("The robot already has an active order. Please wait for it to finish.");
+        }
         return orderService.createOrder(orderDTO);
     }
 
     @PutMapping("/{id}/status")
     public OrderDTO updateOrderStatus(@PathVariable String id, @RequestParam String status) throws EntityNotFoundException {
-        return orderService.updateOrderStatus(id, status);
+        try {
+            OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
+            return orderService.updateOrderStatus(id, orderStatus.name());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid status: must be PENDING, IN_PROGRESS, COMPLETED, or CANCELED");
+        }
     }
 
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable String id) throws EntityNotFoundException {
         orderService.deleteOrder(id);
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<String> getOrderStats() {
+        int completedOrders = orderService.countCompletedOrders();
+        int canceledOrders = orderService.countCanceledOrders();
+        return ResponseEntity.ok(
+            String.format("Completed Orders: %d, Canceled Orders: %d", completedOrders, canceledOrders)
+        );
+    }
+
+    @ExceptionHandler({EntityNotFoundException.class, IllegalArgumentException.class})
+    public ResponseEntity<String> handleExceptions(Exception ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleConflict(Exception ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 }
