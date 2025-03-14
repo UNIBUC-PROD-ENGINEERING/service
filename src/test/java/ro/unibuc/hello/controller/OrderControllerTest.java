@@ -93,10 +93,11 @@ class OrderControllerTest {
         String status = "COMPLETED";
         OrderDTO updatedOrder = new OrderDTO(id, "worker1", OrderStatus.COMPLETED, "item1", 10, "location1");
         when(orderService.updateOrderStatus(eq(id), eq(status))).thenReturn(updatedOrder);
-
+    
         // Act & Assert
         mockMvc.perform(put("/orders/{id}/status", id)
-                .param("status", status))
+                .content(status)  // Send the status in the request body as a string
+                .contentType("text/plain"))  // Assuming status is plain text; change if needed
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.status").value("COMPLETED"));

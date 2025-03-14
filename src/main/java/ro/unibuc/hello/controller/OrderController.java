@@ -39,14 +39,16 @@ public class OrderController {
     }
 
     @PutMapping("/{id}/status")
-    public OrderDTO updateOrderStatus(@PathVariable String id, @RequestParam String status) throws EntityNotFoundException {
+    public OrderDTO updateOrderStatus(@PathVariable String id, @RequestBody String status) throws EntityNotFoundException {
         try {
+            // Convert the status to enum and update the order status
             OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
             return orderService.updateOrderStatus(id, orderStatus.name());
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid status: must be PENDING, IN_PROGRESS, COMPLETED, or CANCELED");
         }
     }
+    
 
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable String id) throws EntityNotFoundException {
