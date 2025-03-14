@@ -1,4 +1,4 @@
-package ro.unibuc.hello.dto;
+package ro.unibuc.hello.dto.user;
 
 import java.time.Instant;
 import java.util.List;

@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import ro.unibuc.hello.dto.UserResponseDTO;
+import ro.unibuc.hello.dto.user.UserResponseDTO;
 import ro.unibuc.hello.enums.Role;
 
 @Document(collection = "users")

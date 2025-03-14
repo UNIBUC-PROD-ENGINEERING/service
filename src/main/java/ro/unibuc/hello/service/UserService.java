@@ -3,10 +3,8 @@ package ro.unibuc.hello.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
-
-
-import ro.unibuc.hello.dto.UserRequestDTO;
-import ro.unibuc.hello.dto.UserResponseDTO;
+import ro.unibuc.hello.dto.user.UserRequestDTO;
+import ro.unibuc.hello.dto.user.UserResponseDTO;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.model.User;
 import ro.unibuc.hello.repository.UserRepository;

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.dao.DuplicateKeyException;
 
-import ro.unibuc.hello.dto.UserRequestDTO;
-import ro.unibuc.hello.dto.UserResponseDTO;
+import ro.unibuc.hello.dto.user.UserRequestDTO;
+import ro.unibuc.hello.dto.user.UserResponseDTO;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.model.User;
 import ro.unibuc.hello.service.UserService;
