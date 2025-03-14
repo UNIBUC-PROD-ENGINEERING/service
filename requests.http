@@ -1,3 +1,5 @@
+requests.https: 
+
 # Requests for API endpoints of the sample project:
 
 ### Orders Endpoints
@@ -11,7 +13,7 @@ POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "robotId": "robot003",  
+    "robotId": "robot002",  
     "status": "PENDING",
     "itemId": "item123",  
     "quantity": 10,
@@ -23,7 +25,7 @@ POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "robotId": "",  # Missing robotId (should fail @NotBlank validation)
+    "robotId": "",
     "status": "PENDING",
     "itemId": "item1",
     "quantity": 10,
@@ -36,7 +38,7 @@ Content-Type: application/json
 
 {
     "robotId": "worker1",
-    "status": "INVALID_STATUS",  # Invalid status (should fail enum validation)
+    "status": "INVALID_STATUS",  
     "itemId": "item1",
     "quantity": 10,
     "location": "location1"
@@ -47,23 +49,26 @@ POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "robotId": "worker1",
+    "robotId": "robot001",
     "status": "PENDING",
     "itemId": "item1",
-    "quantity": -10,  # Negative quantity (should fail @Positive validation)
+    "quantity": -10, 
     "location": "location1"
 }
 
 #### Get order by ID (Valid Request)
-@orderId = 1
+@orderId = "67d492b09eb49c5514f7b36c"
 GET http://localhost:8080/orders/{{orderId}}
+
+
+GET http://localhost:8080/orders/67d492b09eb49c5514f7b36c
 
 #### Get order by ID (Bad Request - Non-Existent ID)
 @nonExistentOrderId = 9999
 GET http://localhost:8080/orders/{{nonExistentOrderId}}
 
 #### Update order status (Valid Request)
-@orderId = 1
+@orderId = "67d481fab8083965d51b19e1"
 PUT http://localhost:8080/orders/{{orderId}}/status
 Content-Type: application/json
 
@@ -90,7 +95,7 @@ Content-Type: application/json
 }
 
 #### Delete order (Valid Request)
-@orderId = 1
+@orderId = "67d481fab8083965d51b19e1"
 DELETE http://localhost:8080/orders/{{orderId}}
 
 #### Delete order (Bad Request - Non-Existent ID)
@@ -154,9 +159,9 @@ POST http://localhost:8080/robots
 Content-Type: application/json
 
 {
-    "id": "101",
+    "id": "robot002",
     "name": "Robot A",
-    "status": "active"
+    "status": "ACTIVE"
 }
 
 #### Update robot status

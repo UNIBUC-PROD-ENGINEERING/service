@@ -32,9 +32,9 @@ public class OrderController {
 
     @PostMapping
     public OrderDTO createOrder(@Valid @RequestBody OrderDTO orderDTO) {
-        if (orderService.hasActiveOrder()) {
-            throw new IllegalStateException("The robot already has an active order. Please wait for it to finish.");
-        }
+        if (orderService.hasActiveOrderForRobot(orderDTO.getRobotId())) {
+            throw new IllegalStateException("This robot already has an active order. Please wait for it to finish.");
+        }        
         return orderService.createOrder(orderDTO);
     }
 
