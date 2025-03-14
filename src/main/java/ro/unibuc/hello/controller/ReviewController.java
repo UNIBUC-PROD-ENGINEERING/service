@@ -19,10 +19,10 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping
-    public List<ReviewEntity> getAllReviews() {
-        return reviewService.getAllReviews();
-    }
+    // @GetMapping
+    // public List<ReviewEntity> getAllReviews() {
+    //     return reviewService.getAllReviews();
+    // }
 
     @GetMapping("/{id}")
     public Optional<ReviewEntity> getReviewById(@PathVariable String id) {
@@ -42,5 +42,39 @@ public class ReviewController {
     @DeleteMapping("/{id}")
     public void deleteReview(@PathVariable String id) {
         reviewService.deleteReview(id);
+    }
+
+     @GetMapping
+    public List<ReviewEntity> getAllReviewsSortedByRating() {
+        return reviewService.getAllReviewsSortedByRating(); 
+    }
+
+    // Obține review-urile bune (rating > 3)
+    @GetMapping("/good")
+    public List<ReviewEntity> getGoodReviews() {
+        return reviewService.getGoodReviews();
+    }
+
+    // Obține review-urile rele (rating <= 3)
+    @GetMapping("/bad")
+    public List<ReviewEntity> getBadReviews() {
+        return reviewService.getBadReviews();
+    }
+
+    // Adaugă un like la review
+    @PostMapping("/{reviewId}/like")
+    public String addLike(@PathVariable String reviewId, @RequestParam String userId) {
+        return reviewService.addLike(reviewId, userId);
+    }
+
+    // Adaugă un dislike la review
+    @PostMapping("/{reviewId}/dislike")
+    public String addDislike(@PathVariable String reviewId, @RequestParam String userId) {
+        return reviewService.addDislike(reviewId, userId);
+    }
+
+    @PostMapping("/{reviewId}/removeReaction")
+    public String removeReaction(@PathVariable String reviewId, @RequestParam String userId) {
+        return reviewService.removeReaction(reviewId, userId);
     }
 }

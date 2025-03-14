@@ -3,6 +3,9 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Document(collection = "reviews")
 public class ReviewEntity {
     
@@ -15,6 +18,10 @@ public class ReviewEntity {
 
     private String apartmentId;
     private String userId;
+
+     private Set<String> likes = new HashSet<>();
+    private Set<String> dislikes = new HashSet<>();
+
 
     // Constructori, getteri și setteri
     public ReviewEntity() {}
@@ -66,4 +73,30 @@ public class ReviewEntity {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    // Getters și Setters pentru like-uri și dislike-uri
+    public Set<String> getLikes() {
+        return likes;
+    }
+
+    public void addLike(String userId) {
+        this.likes.add(userId);
+    }
+
+    public void removeLike(String userId) {
+        this.likes.remove(userId);
+    }
+
+    public Set<String> getDislikes() {
+        return dislikes;
+    }
+
+    public void addDislike(String userId) {
+        this.dislikes.add(userId);
+    }
+
+    public void removeDislike(String userId) {
+        this.dislikes.remove(userId);
+    }
+
 }
