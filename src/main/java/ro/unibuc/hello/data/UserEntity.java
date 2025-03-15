@@ -28,17 +28,18 @@ public class UserEntity implements UserDetails{
     private String role;
 
     public Role getRole(){
-    return Role.valueOf(role);
+        return Role.valueOf(role);
     }
 
     public void setRole(Role role){
         this.role = role.name();
     }
 
-    public UserEntity(String username, String email, String password){
+    public UserEntity(String username, String email, String password, Role role){
         this.username=username;
         this.email=email;
         this.password=password;
+        this.setRole(role);
     }
 
     @Override

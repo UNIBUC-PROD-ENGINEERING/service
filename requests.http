@@ -28,6 +28,7 @@ Content-Type: application/json
     "content": "{{postGreetingContent}}"
 }
 
+
 ### Get all greetings
 GET http://localhost:8080/greetings
 
@@ -45,6 +46,7 @@ Content-Type: application/json
 {
     "content": "{{putGreetingContent}}"
 }
+
 
 ### Delete greeting
 @deleteGreetingId = 1001
