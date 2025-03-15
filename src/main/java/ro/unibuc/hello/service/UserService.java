@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import ro.unibuc.hello.data.UserRepository;
+import ro.unibuc.hello.data.Role;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.dto.request.RegisterDto;
 import ro.unibuc.hello.dto.response.UserDto;
@@ -100,6 +101,7 @@ public class UserService implements UserDetailsService{
 
     public void delete(String username){
         var user = loadUser(username);
-        userRepository.delete(user);
+        if (username!=getAuthenticatedUser().getUsername() && getAuthenticatedUser().getRole()!=Role.ADMIN)
+            userRepository.delete(user);
     }
 }
