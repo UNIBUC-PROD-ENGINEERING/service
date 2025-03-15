@@ -1,11 +1,11 @@
-package ro.unibuc.hello.models;
+package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Document(collection = "parties")
-public class Party {
+public class PartyEntity {
     @Id
     private String id;
     private String name;
@@ -17,9 +17,9 @@ public class Party {
     private List<String> taskIds;  // Tasks to complete
     private int partyPoints;  // Sum of all users' points
 
-    public Party() {}
+    public PartyEntity() {}
 
-    public Party(String name, String date) {
+    public PartyEntity(String name, String date) {
         this.name = name;
         this.date = date;
         this.partyPoints = 0;

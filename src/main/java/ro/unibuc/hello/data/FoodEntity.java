@@ -1,24 +1,23 @@
-package ro.unibuc.hello.models;
+package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "locations")
-public class Location {
+@Document(collection = "foods")
+public class FoodEntity {
     @Id
     private String id;
     private String name;
-    private String address;
     private float rating;
     private float price;
-    private int discountPointsRequired;  // Points needed for a discount
+    private int discountPointsRequired;
 
-    public Location() {}
+    public FoodEntity() {}
 
-    public Location(String name, String address, int price, int discountPointsRequired) {
+    public FoodEntity(String name, int price, int rating, int discountPointsRequired) {
         this.name = name;
-        this.address = address;
         this.price = price;
+        this.rating = rating;
         this.discountPointsRequired = discountPointsRequired;
     }
 
@@ -40,12 +39,20 @@ public class Location {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public float getRating() {
+        return rating;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public int getDiscountPointsRequired() {
@@ -56,19 +63,4 @@ public class Location {
         this.discountPointsRequired = discountPointsRequired;
     }
 
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-    
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
 }

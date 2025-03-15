@@ -1,10 +1,10 @@
-package ro.unibuc.hello.models;
+package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
-public class User {
+public class UserEntity {
     @Id
     private String id;
     private String name;
@@ -12,9 +12,9 @@ public class User {
     private String password; // Encrypted password
     private int points; // Points earned by completing tasks
 
-    public User() {}
+    public UserEntity() {}
 
-    public User(String name, String email, String password) {
+    public UserEntity(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;

@@ -1,7 +1,8 @@
 package ro.unibuc.hello.service;
 
 import org.springframework.stereotype.Service;
-import ro.unibuc.hello.models.Party;
+
+import ro.unibuc.hello.data.PartyEntity;
 import ro.unibuc.hello.repositories.PartyRepository;
 import java.util.List;
 
@@ -14,15 +15,15 @@ public class PartyService {
         this.partyRepository = partyRepository;
     }
 
-    public List<Party> getAllParties() {
+    public List<PartyEntity> getAllParties() {
         return partyRepository.findAll();
     }
 
-    public List<Party> getPartiesForUser(String userId) {
+    public List<PartyEntity> getPartiesForUser(String userId) {
         return partyRepository.findByUserIdsContaining(userId);
     }
 
-    public Party createParty(Party party) {
+    public PartyEntity createParty(PartyEntity party) {
         return partyRepository.save(party);
     }
 }
