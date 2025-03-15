@@ -23,7 +23,9 @@ public class UserListEntity {
         this.id = id;
     }
 
-    public String getTitle() {
+    //TODO: faceti metoda asta mai clara: get title -> isOwner?
+
+    public boolean getTitle() {
         return isOwner;
     }
 

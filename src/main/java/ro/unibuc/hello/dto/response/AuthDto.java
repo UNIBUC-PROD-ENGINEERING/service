@@ -10,8 +10,9 @@ import ro.unibuc.hello.data.Role;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
+public class AuthDto {
     private String username;
     private String email;
-    private String role;
+    private Role role;
+    private String token;
 }

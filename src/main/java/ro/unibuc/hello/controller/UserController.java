@@ -1,7 +1,6 @@
 package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.service.UserService;
 import jakarta.validation.Valid;
@@ -18,21 +17,11 @@ public class UserController {
     @Autowired
     private final UserService userService;
 
-
-    //TODO: login functionality
-
-    // @PostMapping("/login")
-
-    // public UserDto login(@RequestBody @Valid LoginDto loginDto) {return userService.login(loginDto);}
-    
-    // @PostMapping("/logout")
-    // public void logout(){userService.logout();}
-
-    @PostMapping("/register")
-    public UserDto register(@RequestBody @Valid RegisterDto registerDto) {return userService.createUser(registerDto);}
-
     @GetMapping("/all")
     public UserListDto getAll() {return userService.getAll();}
+
+    @GetMapping("/me")
+    public UserDto getSelf() {return userService.getSelf();}
 
     @PutMapping("/{username}")
     public UserDto updateUser(@PathVariable String username, @RequestBody @Valid RegisterDto registerDto) {return userService.updateUser(username, registerDto);}
@@ -43,6 +32,4 @@ public class UserController {
     }
     
     
-    @GetMapping("/test")
-    public UserDto test() {return new UserDto("abc","abc");}
 }

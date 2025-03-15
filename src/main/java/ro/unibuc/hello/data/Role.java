@@ -1,5 +1,5 @@
 package ro.unibuc.hello.data;
 
-public enum ROLES {
+public enum Role {
     USER, ADMIN
 }
