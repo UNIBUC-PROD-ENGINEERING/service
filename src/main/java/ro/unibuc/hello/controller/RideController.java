@@ -29,11 +29,8 @@ public class RideController {
 
     // GET /rides 
     @GetMapping
-    public ResponseEntity<List<RideResponseDTO>> getAllRides() {
-        List<RideResponseDTO> rides = rideService.getAllRides()
-                                              .stream()
-                                              .map(RideResponseDTO::toDTO)
-                                              .collect(Collectors.toList());
+    public ResponseEntity<List<Ride>> getAllRides() {
+        List<Ride> rides = rideService.getAllRides();
         return ResponseEntity.ok(rides);
     }
 
@@ -58,26 +55,53 @@ public class RideController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (RideConflictException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error creating ride: " + e.getMessage());
         }
     }
 
     @PatchMapping("/{rideId}/start")
-    public ResponseEntity<RideResponseDTO> updateRideStatusToInProgress(@PathVariable String rideId) {
-        return ResponseEntity.ok(rideService.updateRideStatusToInProgress(rideId));
+    public ResponseEntity<?> updateRideStatusToInProgress(@PathVariable String rideId) {
+        try {
+            rideService.updateRideStatusToInProgress(rideId);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        } catch (InvalidRideException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error starting ride: " + e.getMessage());
+        }
     }
 
     // PATCH /rides/{rideId}/complete
     @PatchMapping("/{rideId}/complete")
-    public ResponseEntity<RideResponseDTO> updateRideStatusToCompleted(
+    public ResponseEntity<?> updateRideStatusToCompleted(
             @PathVariable String rideId,
             @RequestParam String currentLocation) {
-        return ResponseEntity.ok(rideService.updateRideStatusToCompleted(rideId, currentLocation));
+        try {
+            rideService.updateRideStatusToCompleted(rideId, currentLocation);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        } catch (InvalidRideException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error completing ride: " + e.getMessage());
+        }
     }
 
     // PATCH /rides/{rideId}/cancel
     @PatchMapping("/{rideId}/cancel")
-    public ResponseEntity<RideResponseDTO> updateRideStatusToCancelled(@PathVariable String rideId) {
-        return ResponseEntity.ok(rideService.updateRideStatusToCancelled(rideId));
+    public ResponseEntity<?> updateRideStatusToCancelled(@PathVariable String rideId) {
+        try {
+            rideService.updateRideStatusToCancelled(rideId);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
+        } catch (InvalidRideException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error completing ride: " + e.getMessage());
+        }
     }
 
 

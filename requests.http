@@ -9,7 +9,7 @@
 GET http://localhost:8080/users/{{id}}
 
 ### All users
-GET http://localhost:8081/vehicles
+GET http://localhost:8081/users
 ### Hello world endpoint: get response "Hello, Stranger!"
 GET http://localhost:8081/hello-world
 
@@ -71,28 +71,36 @@ Content-Type: application/json
 @driverId = 67d02c7ce08f3e1e5c96ef95
 @startLocation = Bucharest
 @endLocation = Cluj-Napoca
-@departureTime = 2025-03-16T08:00:00Z
-@arrivalTime = 2025-03-16T12:00:00Z
+@departureTime = 2025-03-16T08:00:00.000Z
+@arrivalTime = 2025-03-16T12:00:00.000Z
 @seatPrice = 50
 @seatsAvailable = 3
 @carLicensePlate = B123XYZ
-
 POST http://localhost:8081/rides
 Content-Type: application/json
 
 {
-    "driverId": "{{driverId}}",
-    "startLocation": "{{startLocation}}",
-    "endLocation": "{{endLocation}}",
-    "departureTime": "{{departureTime}}",
-    "arrivalTime": "{{arrivalTime}}",
-    "seatPrice": "{{seatPrice}}",
-    "seatsAvailable": "{{seatsAvailable}}",
-    "carLicensePlate": "{{carLicensePlate}}"
+    "driverId": "67d02c7ce08f3e1e5c96ef95",
+    "startLocation": "Bucharest",
+    "endLocation": "Cluj-Napoca",
+    "departureTime": "2025-03-16T12:00:00.000Z",
+    "arrivalTime": "2025-03-16T14:00:00.000Z",
+    "seatPrice": 50,
+    "seatsAvailable": 3,
+    "carLicensePlate": "B123XYZ"
 }
 
 ### Get all greetings
-GET http://localhost:8080/greetings
+GET http://localhost:8081/rides
+
+### Move to IN_PROGRESS
+PATCH http://localhost:8081/rides/67d60988a42dae58c46903e8/start?currentLocation=Cluj-Napoca
+
+### Move to COMPLETED
+PATCH http://localhost:8081/rides/67d60988a42dae58c46903e8/complete?currentLocation=Cluj-Napoca
+
+### Move to CANCELLED
+PATCH http://localhost:8081/rides/67d60988a42dae58c46903e8/cancel?currentLocation=Cluj-Napoca
 
 ### Get info for greeting with given content
 # @prompt content Greeting content to look for, defaults to "Overview"

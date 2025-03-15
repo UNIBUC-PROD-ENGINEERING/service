@@ -3,16 +3,20 @@ package ro.unibuc.hello.dto.ride;
 import ro.unibuc.hello.model.Ride;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 
 public class RideRequestDTO {
     private String driverId;
     private String startLocation;
     private String endLocation;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", timezone = "UTC")
     private Instant departureTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", timezone = "UTC")
     private Instant arrivalTime;
-    private Integer seatPrice;
-    private Integer seatsAvailable;
+    private int seatPrice;
+    private int seatsAvailable;
     private String carLicensePlate;
 
     public Ride toEntity() {
@@ -68,19 +72,19 @@ public class RideRequestDTO {
         this.arrivalTime = arrivalTime;
     }
 
-    public Integer getSeatPrice() {
+    public int getSeatPrice() {
         return seatPrice;
     }
 
-    public void setSeatPrice(Integer seatPrice) {
+    public void setSeatPrice(int seatPrice) {
         this.seatPrice = seatPrice;
     }
 
-    public Integer getSeatsAvailable() {
+    public int getSeatsAvailable() {
         return seatsAvailable;
     }
 
-    public void setSeatsAvailable(Integer seatsAvailable) {
+    public void setSeatsAvailable(int seatsAvailable) {
         this.seatsAvailable = seatsAvailable;
     }
 

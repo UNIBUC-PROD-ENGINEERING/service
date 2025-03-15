@@ -32,7 +32,7 @@ public class UserResponseDTO {
             user.getLastName(),
             user.getMail(),
             user.getPhoneNumber(),
-            user.getCreatedAt(),
+            user.getCreatedAt(),    
             user.getAvgRating()
         );
         

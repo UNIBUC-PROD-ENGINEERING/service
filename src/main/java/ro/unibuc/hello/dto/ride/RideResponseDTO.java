@@ -2,6 +2,9 @@ package ro.unibuc.hello.dto.ride;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 import ro.unibuc.hello.enums.RideStatus;
 import ro.unibuc.hello.model.Ride;
 
@@ -9,10 +12,12 @@ public class RideResponseDTO {
     private String driverFullName;
     private String startLocation;
     private String endLocation;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", timezone = "UTC")
     private Instant departureTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", timezone = "UTC")
     private Instant arrivalTime;
-    private Integer seatPrice;
-    private Integer seatsAvailable;
+    private int seatPrice;
+    private int seatsAvailable;
     private String carLicensePlate;
     private Double driverRating;
     private RideStatus status;
@@ -20,7 +25,7 @@ public class RideResponseDTO {
     public RideResponseDTO() {}
 
     public RideResponseDTO(String startLocation, String endLocation, Instant departureTime,
-                            Instant arrivalTime, Integer seatPrice, Integer seatsAvailable, 
+                            Instant arrivalTime, int seatPrice, int seatsAvailable, 
                             String carLicensePlate, RideStatus status) {
         
         this.startLocation = startLocation;

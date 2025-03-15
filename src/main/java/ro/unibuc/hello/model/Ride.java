@@ -4,6 +4,9 @@ import java.time.Instant;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,19 +25,20 @@ public class Ride {
     private String endLocation;
     private Instant departureTime;
     private Instant arrivalTime;
-    private Integer seatPrice;
-    private Integer seatsAvailable;
+    private int seatPrice;
+    private int seatsAvailable;
     private String carLicensePlate;
     private RideStatus status;
 
     
     public Ride(String driverId, String startLocation, String endLocation, 
-                Instant departureTime, Instant arrivalTime, Integer seatPrice, 
-                Integer seatsAvailable, String carLicensePlate) {
+                Instant departureTime, Instant arrivalTime, int seatPrice, 
+                int seatsAvailable, String carLicensePlate) {
         this.driverId = driverId;
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
         this.seatPrice = seatPrice;
         this.seatsAvailable = seatsAvailable;
         this.carLicensePlate = carLicensePlate;
@@ -109,7 +113,7 @@ public class Ride {
         return seatPrice;
     }
 
-    public void setSeatPrice(Integer seatPrice) {
+    public void setSeatPrice(int seatPrice) {
         this.seatPrice = seatPrice;
     }
 
@@ -117,7 +121,7 @@ public class Ride {
         return seatsAvailable;
     }
 
-    public void setSeatsAvailable(Integer seatsAvailable) {
+    public void setSeatsAvailable(int seatsAvailable) {
         this.seatsAvailable = seatsAvailable;
     }
 
