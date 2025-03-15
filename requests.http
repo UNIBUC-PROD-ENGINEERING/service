@@ -9,7 +9,7 @@
 GET http://localhost:8080/users/{{id}}
 
 ### All users
-GET http://localhost:8081/users
+GET http://localhost:8081/vehicles
 ### Hello world endpoint: get response "Hello, Stranger!"
 GET http://localhost:8081/hello-world
 
@@ -33,10 +33,10 @@ Content-Type: application/json
 }
 
 ### Create new user
-@firstName = Andrei
-@lastName = Popescu
-@mail = andreimail1@gmail.com 
-@phoneNumber = 0723521006
+@firstName = Mrius
+@lastName = Popa
+@mail = marius@gmail.com 
+@phoneNumber = 0723521025
 @password = parolamea123
 POST http://localhost:8081/users
 Content-Type: application/json
@@ -47,6 +47,48 @@ Content-Type: application/json
     "mail": "{{mail}}",
     "phoneNumber": "{{phoneNumber}}",
     "password": "{{password}}"
+}
+
+### Get all vehicles
+GET http://localhost:8081/vehicles
+
+### Add new vehicle
+@userId = 67d02c7ce08f3e1e5c96ef95
+@brand = Dacia
+@model = Logan
+@licensePlate = B123XYZ
+POST http://localhost:8081/vehicles
+Content-Type: application/json
+
+{
+    "userId": "{{userId}}",
+    "brand": "{{brand}}",
+    "model": "{{model}}",
+    "licensePlate": "{{licensePlate}}"
+}
+
+### Create new ride
+@driverId = 67d02c7ce08f3e1e5c96ef95
+@startLocation = Bucharest
+@endLocation = Cluj-Napoca
+@departureTime = 2025-03-16T08:00:00Z
+@arrivalTime = 2025-03-16T12:00:00Z
+@seatPrice = 50
+@seatsAvailable = 3
+@carLicensePlate = B123XYZ
+
+POST http://localhost:8081/rides
+Content-Type: application/json
+
+{
+    "driverId": "{{driverId}}",
+    "startLocation": "{{startLocation}}",
+    "endLocation": "{{endLocation}}",
+    "departureTime": "{{departureTime}}",
+    "arrivalTime": "{{arrivalTime}}",
+    "seatPrice": "{{seatPrice}}",
+    "seatsAvailable": "{{seatsAvailable}}",
+    "carLicensePlate": "{{carLicensePlate}}"
 }
 
 ### Get all greetings

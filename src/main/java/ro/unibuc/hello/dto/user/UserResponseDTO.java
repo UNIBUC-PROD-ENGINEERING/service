@@ -12,15 +12,18 @@ public class UserResponseDTO {
     private String mail;
     private String phoneNumber;
     private Instant createdAt;
+    private Double avgRating;
     private List<Role> roles;
     
-    public UserResponseDTO(String firstName, String lastName, String mail, String phoneNumber, Instant createdAt, List<Role> roles) {
+    public UserResponseDTO(String firstName, String lastName, String mail, 
+                            String phoneNumber, Instant createdAt, 
+                            Double rating) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mail = mail;
         this.phoneNumber = phoneNumber;
         this.createdAt = createdAt;
-        this.roles = roles;
+        this.avgRating = rating;
     }
 
     public static UserResponseDTO toDTO(User user) {
@@ -30,7 +33,7 @@ public class UserResponseDTO {
             user.getMail(),
             user.getPhoneNumber(),
             user.getCreatedAt(),
-            user.getRoles()
+            user.getAvgRating()
         );
         
         return dto;
