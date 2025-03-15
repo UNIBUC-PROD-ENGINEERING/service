@@ -8,13 +8,13 @@ public class FoodEntity {
     @Id
     private String id;
     private String name;
-    private float rating;
-    private float price;
+    private double rating;
+    private double price;
     private int discountPointsRequired;
 
     public FoodEntity() {}
 
-    public FoodEntity(String name, int price, int rating, int discountPointsRequired) {
+    public FoodEntity(String name, double price, double rating, int discountPointsRequired) {
         this.name = name;
         this.price = price;
         this.rating = rating;
@@ -39,19 +39,19 @@ public class FoodEntity {
         this.name = name;
     }
 
-    public float getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
