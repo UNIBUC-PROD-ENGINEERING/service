@@ -129,11 +129,11 @@ public class RideService {
                 .orElseThrow(() -> new InvalidRideException("Ride not found."));
         
         if (ride.getStatus() != RideStatus.SCHEDULED) {
-            throw new InvalidRideException("Only SCHEDULED rides can be cancelled.");
+            throw new InvalidRideException("Only SCHEDULED rides can be canceled.");
         }
         
         if (Instant.now().isAfter(ride.getDepartureTime())) {
-            throw new InvalidRideException("Ride cannot be cancelled after departure time.");
+            throw new InvalidRideException("Ride cannot be canceled after departure time.");
         }
         
         ride.setStatus(RideStatus.CANCELLED);
