@@ -55,8 +55,11 @@ dependencies {
 	testImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
 
 	//firebase
-	implementation 'com.google.firebase:firebase-admin:9.2.0'
-	implementation 'com.google.cloud:google-cloud-storage:2.3.0'
+	// implementation 'com.google.firebase:firebase-admin:9.2.0'
+	// implementation 'com.google.cloud:google-cloud-storage:2.3.0'
+	// https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
+    implementation group: 'com.google.firebase', name: 'firebase-admin', version: '9.4.3'
+
 
 }
 
