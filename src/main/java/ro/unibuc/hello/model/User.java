@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import ro.unibuc.hello.dto.UserResponseDTO;
+import ro.unibuc.hello.dto.user.UserResponseDTO;
 import ro.unibuc.hello.enums.Role;
 
 @Document(collection = "users")
@@ -24,6 +24,7 @@ public class User {
     private String phoneNumber;
     private String passwordHash;
     private Instant createdAt;
+    private Double avgRating;
     private List<Role> roles;
 
     public User() {}
@@ -44,7 +45,7 @@ public class User {
             this.getMail(),
             this.getPhoneNumber(),
             this.getCreatedAt(),
-            this.getRoles()
+            this.getAvgRating()
         );
         
         return dto;
@@ -56,6 +57,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double rating) {
+        this.avgRating = rating;
     }
 
     public String getFirstName() {

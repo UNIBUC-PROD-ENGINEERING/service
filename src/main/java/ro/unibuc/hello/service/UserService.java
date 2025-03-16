@@ -3,10 +3,9 @@ package ro.unibuc.hello.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
-
-
-import ro.unibuc.hello.dto.UserRequestDTO;
-import ro.unibuc.hello.dto.UserResponseDTO;
+import ro.unibuc.hello.dto.user.UserRequestDTO;
+import ro.unibuc.hello.dto.user.UserResponseDTO;
+import ro.unibuc.hello.events.UserUpdatedEvent;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.model.User;
 import ro.unibuc.hello.repository.UserRepository;
@@ -14,6 +13,7 @@ import ro.unibuc.hello.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,10 +22,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, 
+                        ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.eventPublisher = eventPublisher;
     }
 
     public List<User> getAllUsers() {
@@ -67,5 +71,19 @@ public class UserService {
     public boolean existsByMail(String mail) {
         return userRepository.findByMail(mail)
                 .isPresent();
+    }
+
+    public void updateUserName(String id, String newFirstName, String newLastName) {
+        
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setFirstName(newFirstName);
+            user.setLastName(newLastName);
+            userRepository.save(user);
+
+            eventPublisher.publishEvent(new UserUpdatedEvent(id, newFirstName, newLastName));
+        }
+
     }
 }

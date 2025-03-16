@@ -1,4 +1,4 @@
-package ro.unibuc.hello.dto;
+package ro.unibuc.hello.dto.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,15 +54,13 @@ public class UserRequestDTO {
     }
 
     public User toEntity() {
-        User user = new User(
+        return new User(
             this.firstName,
             this.lastName,
             this.mail,
             this.phoneNumber,
             new ArrayList<>()
         );
-        
-        return user;
     }
 
     @Override
