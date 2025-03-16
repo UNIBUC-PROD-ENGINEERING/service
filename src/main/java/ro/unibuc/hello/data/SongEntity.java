@@ -1,10 +1,10 @@
-package ro.unibuc.hello.models;
+package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "songs")
-public class Song {
+public class SongEntity {
     @Id
     private String id;
     private String title;
@@ -12,9 +12,9 @@ public class Song {
     private String partyId;  // Reference to Party
     private String path;
 
-    public Song() {}
+    public SongEntity() {}
 
-    public Song(String title, String artist, String partyId, String path) {
+    public SongEntity(String title, String artist, String partyId, String path) {
         this.title = title;
         this.artist = artist;
         this.partyId = partyId;

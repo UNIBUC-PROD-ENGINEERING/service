@@ -1,10 +1,10 @@
-package ro.unibuc.hello.models;
+package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "tasks")
-public class Task {
+public class TaskEntity {
     @Id
     private String id;
     private String description;
@@ -13,9 +13,9 @@ public class Task {
     private boolean completed;
     private int rewardPoints;  // Points earned when completed
 
-    public Task() {}
+    public TaskEntity() {}
 
-    public Task(String description, String partyId, int rewardPoints) {
+    public TaskEntity(String description, String partyId, int rewardPoints) {
         this.description = description;
         this.partyId = partyId;
         this.rewardPoints = rewardPoints;

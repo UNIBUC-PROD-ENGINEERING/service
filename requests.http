@@ -51,3 +51,6 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 
 # TODO add requests for your own endpoints!
+
+### Get all parties
+GET http://localhost:8080/parties
