@@ -146,7 +146,7 @@ public class StudentController {
         return studentService.getStudentById(id)
                 .map(student -> new ResponseEntity<>(student, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+    
 
     // Create a new student
     @PostMapping("/students")
