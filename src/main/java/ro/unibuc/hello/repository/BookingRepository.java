@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import java.util.List;               
+import java.time.LocalDate;          
+import org.springframework.data.mongodb.repository.Query;  
 
 public interface BookingRepository extends MongoRepository<BookingEntity, String> {
     List<BookingEntity> findByApartmentId(String apartmentId);
@@ -16,4 +18,6 @@ public interface BookingRepository extends MongoRepository<BookingEntity, String
     
     @Query(value = "{'$or': [{'startDate': {'$lte': ?1}, 'endDate': {'$gte': ?0}}, {'startDate': {'$lte': ?1, '$gte': ?0}}]}", fields = "{'apartmentId': 1}")
     List<BookingEntity> findBookedApartmentIds(LocalDate startDate, LocalDate endDate);
+
+    List<BookingEntity> findByApartmentIdAndUserId(String apartmentId, String userId);
 }

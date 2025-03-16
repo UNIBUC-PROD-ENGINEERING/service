@@ -3,15 +3,27 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Document(collection = "reviews")
 public class ReviewEntity {
+    
     @Id
     private String id;
+
     private String comment;
-    private Integer rating;
+
+    private Integer rating; // Rating-ul review-ului (între 1 și 5)
+
     private String apartmentId;
     private String userId;
 
+     private Set<String> likes = new HashSet<>();
+    private Set<String> dislikes = new HashSet<>();
+
+
+    // Constructori, getteri și setteri
     public ReviewEntity() {}
 
     public ReviewEntity(String comment, Integer rating, String apartmentId, String userId) {
@@ -21,18 +33,70 @@ public class ReviewEntity {
         this.userId = userId;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // Getteri și setteri
+    public String getId() {
+        return id;
+    }
 
-    public String getComment() { return comment; }
-    public void setComment(String comment) { this.comment = comment; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public Integer getRating() { return rating; }
-    public void setRating(Integer rating) { this.rating = rating; }
+    public String getComment() {
+        return comment;
+    }
 
-    public String getApartmentId() { return apartmentId; }
-    public void setApartmentId(String apartmentId) { this.apartmentId = apartmentId; }
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public String getApartmentId() {
+        return apartmentId;
+    }
+
+    public void setApartmentId(String apartmentId) {
+        this.apartmentId = apartmentId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    // Getters și Setters pentru like-uri și dislike-uri
+    public Set<String> getLikes() {
+        return likes;
+    }
+
+    public void addLike(String userId) {
+        this.likes.add(userId);
+    }
+
+    public void removeLike(String userId) {
+        this.likes.remove(userId);
+    }
+
+    public Set<String> getDislikes() {
+        return dislikes;
+    }
+
+    public void addDislike(String userId) {
+        this.dislikes.add(userId);
+    }
+
+    public void removeDislike(String userId) {
+        this.dislikes.remove(userId);
+    }
+
 }
