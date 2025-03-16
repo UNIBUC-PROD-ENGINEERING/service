@@ -56,6 +56,8 @@ dependencies {
 
 	//firebase
 	implementation 'com.google.firebase:firebase-admin:9.2.0'
+	implementation 'com.google.cloud:google-cloud-storage:2.3.0'
+
 }
 
 dependencyManagement {
