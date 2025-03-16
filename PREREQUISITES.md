@@ -10,9 +10,25 @@ All the lab examples are built to work with:
 * OS-X
 * Ubuntu
 
-If you DO NOT have one of those OSs installed we will use the following section to configure an Ubuntu virtual machine and use it for the lab.
+If you DO NOT have one of those OSs installed we will use the following section to configure WSL or an Ubuntu virtual machine and use it for the lab.
 
-## Install Virtual Box
+# 1. Install WSL
+  * Follow the instructions from the official Microsoft documentation: https://docs.microsoft.com/en-us/windows/wsl/install
+  * Install Java 21 in WSL
+  * Install Docker in WSL
+
+## Open WSL in Visual Studio Code
+  * Install the Remote - WSL extension in Visual Studio Code
+  * Open the WSL terminal in Visual Studio Code
+  * Navigate to your Gradle project folder:
+    * Locally:
+      * ```chmod +x gradlew``` to make the gradlew script executable
+      * ```./gradlew build``` to build the project
+      * ```./gradlew bootRun``` to run the project
+    * Follow the steps in the README.md file to build and run the project with Docker
+
+
+# 2. Install Virtual Box
 
 * Download Virtual Box: https://www.virtualbox.org/wiki/Downloads
 * Download Ubuntu Virtual Box image: https://www.osboxes.org/ubuntu/#ubuntu-22-04-jammy-vbox
@@ -50,8 +66,8 @@ Install IntelliJ Community Edition:
   * Adding an alias is done by adding in your ~/.bashrc file the path like this: ```alias IntelliJ=/home/osboxes/Downloads/ideaIC-2021.2.3/idea-IC-212.5457.46/bin/idea.sh```
 * Source the new profile: `source ~/.profile`
 
-Install OpenJDK 11:  
-* `sudo apt install openjdk-11-jdk`
+Install OpenJDK 21:  
+* `sudo apt install openjdk-21-jdk`
 
 Install Make: 
 * `sudo apt install make`
