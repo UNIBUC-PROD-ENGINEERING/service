@@ -90,9 +90,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwia
 ### 4️⃣ Create another bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjMyODcxLCJleHAiOjE3NDIyNjg4NzF9.r_EEKOD0bzeEnMQenkR4o06WeW_r9lsJjRbxz4FCk2E
 
 {
-  "accountNumber": "987654321",
+  "accountNumber": "987656349",
   "balance": 2500.0
 }
 
@@ -138,6 +139,7 @@ Content-Type: application/json
 
 ### 9️⃣ Get all clients
 GET http://localhost:8080/api/clients
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjMyODcxLCJleHAiOjE3NDIyNjg4NzF9.r_EEKOD0bzeEnMQenkR4o06WeW_r9lsJjRbxz4FCk2E
 
 ### 🔟 Get all bank accounts
 GET http://localhost:8080/api/bank-accounts
