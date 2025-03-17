@@ -207,4 +207,24 @@ public class PartyService {
 //         return partyRepository.save(party);  // Salvează petrecerea actualizată
 //     }
 
+public PartyEntity removeLocationFromParty(String partyId) {
+    Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
+    if (partyOpt.isPresent()) {
+        PartyEntity party = partyOpt.get();
+        party.setLocationId(null);  // Șterge locația
+        return partyRepository.save(party);
+    }
+    return null;
+}
+
+public PartyEntity removeFoodFromParty(String partyId, String foodId) {
+    Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
+    if (partyOpt.isPresent()) {
+        PartyEntity party = partyOpt.get();
+        party.getFoodIds().remove(foodId); // Elimină mâncarea din listă
+        return partyRepository.save(party);
+    }
+    return null;
+}
+
 }

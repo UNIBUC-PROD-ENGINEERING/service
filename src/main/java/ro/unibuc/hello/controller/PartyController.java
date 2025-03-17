@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.PartyEntity;
 import ro.unibuc.hello.data.PartyWithSongsResponse;
 import ro.unibuc.hello.data.SongEntity;
+import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.repositories.PartyRepository;
 
 import ro.unibuc.hello.service.PartyService;
@@ -16,6 +17,9 @@ import ro.unibuc.hello.service.PartyService;
 import ro.unibuc.hello.data.TaskEntity;
 import ro.unibuc.hello.repositories.SongRepository;
 import ro.unibuc.hello.service.YouTubeService;
+import ro.unibuc.hello.repositories.UserRepository;  // Import UserRepository
+import ro.unibuc.hello.repositories.FoodRepository;  // Import FoodRepository
+import ro.unibuc.hello.repositories.LocationRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,17 +43,24 @@ public class PartyController {
     private final PartyService partyService; // Adăugăm PartyService pentru logica de business
     private final SongRepository songRepository;
     private final YouTubeService youTubeService;
+    private final UserRepository userRepository;
+    private final FoodRepository foodRepository;
+    private final LocationRepository locationRepository;
 
-    // Injectăm dependențele
+
     public PartyController(PartyRepository partyRepository, TaskRepository taskRepository, PartyService partyService,
-            SongRepository songRepository, YouTubeService youTubeService) {
-        this.partyRepository = partyRepository;
-        this.taskRepository = taskRepository;
-        this.partyService = partyService;
-        this.songRepository = songRepository;
-        this.youTubeService = youTubeService;
+                       SongRepository songRepository, YouTubeService youTubeService,
+                       UserRepository userRepository, FoodRepository foodRepository, LocationRepository locationRepository) {
+    this.partyRepository = partyRepository;
+    this.taskRepository = taskRepository;
+    this.partyService = partyService;
+    this.songRepository = songRepository;
+    this.youTubeService = youTubeService;
+    this.userRepository = userRepository;
+    this.foodRepository = foodRepository;
+    this.locationRepository = locationRepository;
+}
 
-    }
 
     // @GetMapping
     // public List<PartyEntity> getAllParties() {
@@ -66,33 +77,61 @@ public class PartyController {
         List<PartyWithSongsResponse> partyResponses = new ArrayList<>();
 
         for (PartyEntity party : parties) {
-            // Fetch song details for the party and concatenate title, artist, and path
+            // Fetch Song Names
             List<String> songNames = new ArrayList<>();
             for (String songId : party.getPlaylistIds()) {
-                Optional<SongEntity> songOptional = songRepository.findById(songId);
-                songOptional.ifPresent(song -> {
-                    String songDetails = song.getTitle() + " - " + song.getArtist() + " (" + song.getPath() + ")";
-                    songNames.add(songDetails);
-                });
+                songRepository.findById(songId).ifPresent(song ->
+                    songNames.add(song.getTitle() + " - " + song.getArtist() + " (" + song.getPath() + ")")
+                );
             }
 
-            // Create the custom response object for each party
+            // Fetch User Names
+            List<String> userNames = new ArrayList<>();
+            for (String userId : party.getUserIds()) {
+                userRepository.findById(userId).ifPresent(user ->
+                    userNames.add(user.getName())
+                );
+            }
+
+            // Fetch Food Names
+            List<String> foodNames = new ArrayList<>();
+            for (String foodId : party.getFoodIds()) {
+                foodRepository.findById(foodId).ifPresent(food ->
+                    foodNames.add(food.getName())
+                );
+            }
+
+            // Fetch Task Descriptions
+            List<String> taskDescriptions = new ArrayList<>();
+            for (String taskId : party.getTaskIds()) {
+                taskRepository.findById(taskId).ifPresent(task ->
+                    taskDescriptions.add(task.getDescription())
+                );
+            }
+
+            // Fetch Location Name
+            String locationName = party.getLocationId() != null ?
+                locationRepository.findById(party.getLocationId()).map(LocationEntity::getName).orElse("Unknown Location")
+                : "Unknown Location";
+
+            // Create the custom response object
             PartyWithSongsResponse response = new PartyWithSongsResponse(
-                    party.getId(),
-                    party.getName(),
-                    party.getDate(),
-                    party.getLocationId(),
-                    party.getFoodIds(),
-                    party.getUserIds(),
-                    songNames, // This will contain concatenated song details
-                    party.getTaskIds(),
-                    party.getPartyPoints());
+                party.getId(),
+                party.getName(),
+                party.getDate(),
+                locationName,
+                foodNames,
+                userNames,
+                songNames,
+                taskDescriptions,
+                party.getPartyPoints()
+            );
 
             partyResponses.add(response);
         }
-
         return partyResponses;
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PartyWithSongsResponse> getPartyById(@PathVariable String id) {
@@ -113,20 +152,49 @@ public class PartyController {
             });
         }
 
+        // Fetch user names for the party
+        List<String> userNames = new ArrayList<>();
+        for (String userId : party.getUserIds()) {
+            Optional<UserEntity> userOptional = userRepository.findById(userId);
+            userOptional.ifPresent(user -> userNames.add(user.getName()));
+        }
+
+        // Fetch location name for the party
+        String locationName = "";
+        Optional<LocationEntity> locationOptional = locationRepository.findById(party.getLocationId());
+        if (locationOptional.isPresent()) {
+            locationName = locationOptional.get().getName();
+        }
+
+        // Fetch food names for the party
+        List<String> foodNames = new ArrayList<>();
+        for (String foodId : party.getFoodIds()) {
+            Optional<FoodEntity> foodOptional = foodRepository.findById(foodId);
+            foodOptional.ifPresent(food -> foodNames.add(food.getName()));
+        }
+
+        // Fetch task descriptions for the party
+        List<String> taskDescriptions = new ArrayList<>();
+        for (String taskId : party.getTaskIds()) {
+            Optional<TaskEntity> taskOptional = taskRepository.findById(taskId);
+            taskOptional.ifPresent(task -> taskDescriptions.add(task.getDescription()));
+        }
+
         // Create the custom response object
         PartyWithSongsResponse response = new PartyWithSongsResponse(
                 party.getId(),
                 party.getName(),
                 party.getDate(),
-                party.getLocationId(),
-                party.getFoodIds(),
-                party.getUserIds(),
+                locationName,
+                foodNames,
+                userNames,
                 songNames, // This will contain concatenated song details
-                party.getTaskIds(),
+                taskDescriptions,
                 party.getPartyPoints());
 
         return ResponseEntity.ok(response);
     }
+
 
     // GET: Retrieve tasks for a party
     @GetMapping("/{partyId}/tasks")
@@ -157,7 +225,7 @@ public class PartyController {
         return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/{partyId}/locations/{locationId}")
+    @PostMapping("/{partyId}/location/{locationId}")
     public ResponseEntity<PartyEntity> addLocationToParty(@PathVariable String partyId,
             @PathVariable String locationId) {
         PartyEntity updatedParty = partyService.addLocationToParty(partyId, locationId);
@@ -272,6 +340,45 @@ public class PartyController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();  // Respond with 204 No Content
 
     }
+
+    @PostMapping("/{partyId}/tasks")
+public ResponseEntity<PartyEntity> addTaskToParty(@PathVariable String partyId, @RequestBody TaskEntity newTask) {
+    // Find the party by ID
+    Optional<PartyEntity> partyOptional = partyRepository.findById(partyId);
+    
+    // Check if the party exists
+    if (partyOptional.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+    
+    // Create the new task and save it to the task repository
+    TaskEntity savedTask = taskRepository.save(newTask);
+
+    // Retrieve the party entity
+    PartyEntity party = partyOptional.get();
+    
+    // Add the task ID to the party's task list
+    party.addTask(savedTask.getId());
+
+    // Add the task points to the party's total points
+    party.setPartyPoints(party.getPartyPoints() + savedTask.getPoints());  // Assuming 'getPoints()' exists in TaskEntity
+    partyRepository.save(party);
+
+    return ResponseEntity.ok(party);
+}
+
+@DeleteMapping("/{partyId}/location")
+        public ResponseEntity<PartyEntity> removeLocationFromParty(@PathVariable String partyId) {
+        PartyEntity updatedParty = partyService.removeLocationFromParty(partyId);
+        return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{partyId}/foods/{foodId}")
+        public ResponseEntity<PartyEntity> removeFoodFromParty(@PathVariable String partyId, @PathVariable String foodId) {
+        PartyEntity updatedParty = partyService.removeFoodFromParty(partyId, foodId);
+        return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
+    }
+
 
 
 }

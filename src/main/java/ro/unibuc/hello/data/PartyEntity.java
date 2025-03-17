@@ -109,8 +109,11 @@ public class PartyEntity {
         return taskIds;
     }
 
-    public void setTaskIds(List<String> taskIds) {
-        this.taskIds = taskIds;
+    public void addTask(String taskId) {
+        if (this.taskIds == null) {
+            this.taskIds = new ArrayList<>();
+        }
+        this.taskIds.add(taskId);
     }
 
     public int getPartyPoints() {

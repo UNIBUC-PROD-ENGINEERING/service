@@ -198,3 +198,18 @@ Content-Type: application/json
   "taskIds": [],
   "partyPoints": points
 }
+
+POST http://localhost:8080/parties/{partyId}/tasks
+Content-Type: application/json
+
+{
+  "description": "Clean the party venue",
+  "points": 10
+}
+
+
+DELETE http://localhost:8080/parties/{partyId}/location
+Content-Type: application/json
+
+DELETE http://localhost:8080/parties/{partyId}/foods/{foodId}
+Content-Type: application/json

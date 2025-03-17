@@ -6,27 +6,27 @@ public class PartyWithSongsResponse {
     private String id;
     private String name;
     private String date;
-    private String locationId;
-    private List<String> foodIds;
-    private List<String> userIds;
-    private List<String> songNames;  // To hold song names
-    private List<String> taskIds;
+    private String locationName;
+    private List<String> foodNames;
+    private List<String> userNames;
+    private List<String> songNames;
+    private List<String> taskDescriptions;
     private int partyPoints;
 
-    public PartyWithSongsResponse(String id, String name, String date, String locationId, List<String> foodId,
-                                  List<String> userIds, List<String> songNames, List<String> taskIds, int partyPoints) {
+    public PartyWithSongsResponse(String id, String name, String date, String locationName, List<String> foodNames,
+                                  List<String> userNames, List<String> songNames, List<String> taskDescriptions, int partyPoints) {
         this.id = id;
         this.name = name;
         this.date = date;
-        this.locationId = locationId;
-        this.foodIds = foodId;
-        this.userIds = userIds;
+        this.locationName = locationName;
+        this.foodNames = foodNames;
+        this.userNames = userNames;
         this.songNames = songNames;
-        this.taskIds = taskIds;
+        this.taskDescriptions = taskDescriptions;
         this.partyPoints = partyPoints;
     }
 
-    // Getters and setters
+    // Getters and Setters
 
     public String getId() {
         return id;
@@ -52,33 +52,28 @@ public class PartyWithSongsResponse {
         this.date = date;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public String getLocationName() {
+        return locationName;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
-    public List<String> getFoodIds() {
-        return foodIds;
+    public List<String> getFoodNames() {
+        return foodNames;
     }
 
-    public void setFoodIds(List<String> foodIds) {
-        this.foodIds = foodIds;
+    public void setFoodNames(List<String> foodNames) {
+        this.foodNames = foodNames;
     }
 
-    public void addFood(String foodId) {
-        this.foodIds.add(foodId);
+    public List<String> getUserNames() {
+        return userNames;
     }
 
-
-    public List<String> getUserIds() {
-        return userIds;
-    }
-
-    public void setUserIds(List<String> userIds) {
-        this.userIds = userIds;
+    public void setUserNames(List<String> userNames) {
+        this.userNames = userNames;
     }
 
     public List<String> getSongNames() {
@@ -89,12 +84,12 @@ public class PartyWithSongsResponse {
         this.songNames = songNames;
     }
 
-    public List<String> getTaskIds() {
-        return taskIds;
+    public List<String> getTaskDescriptions() {
+        return taskDescriptions;
     }
 
-    public void setTaskIds(List<String> taskIds) {
-        this.taskIds = taskIds;
+    public void setTaskDescriptions(List<String> taskDescriptions) {
+        this.taskDescriptions = taskDescriptions;
     }
 
     public int getPartyPoints() {
