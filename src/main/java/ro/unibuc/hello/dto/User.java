@@ -5,17 +5,18 @@ import java.util.List;
 
 import ro.unibuc.hello.data.ItemEntity;
 
-public class User{
-    
+public class User {
+
     private String name;
     private String username;
     private String Id;
-    
+
     private List<Item> ownedItems = new ArrayList<>();
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String name,String username) {
+    public User(String name, String username) {
         this.name = name;
         this.username = username;
     }
@@ -24,16 +25,16 @@ public class User{
         this.Id = Id;
         this.name = name;
         this.username = username;
-        
-        items.forEach(
-            item -> {
-                Item newItem = new Item( item.getName(), item.getDescription(), item.getOwner().getName());
-                this.ownedItems.add(newItem);
-            }
-        );
+
+        if (items != null) {
+            items.forEach(
+                    item -> {
+                        Item newItem = new Item(item.getName(), item.getDescription(), item.getOwner().getName());
+                        this.ownedItems.add(newItem);
+                    });
+        }
     }
 
-   
     public String getUsername() {
         return username;
     }
@@ -65,14 +66,17 @@ public class User{
     public void setName(String name) {
         this.name = name;
     }
-    
 
     @Override
     public String toString() {
-        StringBuilder print = new StringBuilder("Users: " + "Name: " + name + " Username: " + username + " Owned items: ");
+        StringBuilder print = new StringBuilder(
+                "Users: " + "Name: " + name + " Username: " + username + " Owned items: ");
+        
+                if(ownedItems != null){
         for (Item item : ownedItems) {
             print.append(" ").append(item.toString());
         }
+    }
         return print.toString();
     }
 }
