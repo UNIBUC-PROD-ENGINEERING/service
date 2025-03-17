@@ -98,43 +98,104 @@ DELETE http://localhost:8080/orders/{{nonExistentOrderId}}
 # TODO add requests for your own endpoints!
 
 
-### Create a new inventory item
+### Inventory Endpoints
+
+#### Create a new inventory item (Valid Request)
 POST http://localhost:8080/inventory
 Content-Type: application/json
 
 {
-    "id": "2",
+    "itemId": "2",
     "name": "Item A",
     "stock": 100,
     "threshold": 10
 }
 
-
-
-#### Get all inventory items
-GET http://localhost:8080/inventory
-
-#### Get inventory item by ID
-# Replace `{id}` with the actual inventory item ID
-GET http://localhost:8080/inventory/{id}
-
-#### Create a new inventory item
+#### Create a new inventory item (Bad Request - Missing Required Field)
 POST http://localhost:8080/inventory
 Content-Type: application/json
 
 {
-    "id": "1",
-    "name": "Item A",
-    "stock": 100
+    "itemId": "2",
+    "stock": 100,
+    "threshold": 10
 }
 
-#### Update inventory stock
-# Replace `{id}` with the actual inventory item ID
-PUT http://localhost:8080/inventory/{id}/stock?stock=150
+#### Create a new inventory item (Bad Request - Negative Stock)
+POST http://localhost:8080/inventory
+Content-Type: application/json
 
-#### Delete inventory item
-# Replace `{id}` with the actual inventory item ID
-DELETE http://localhost:8080/inventory/{id}
+{
+    "itemId": "3",
+    "name": "Item B",
+    "stock": -50,
+    "threshold": 10
+}
+
+#### Create a new inventory item (Bad Request - Stock Exceeds Limit)
+POST http://localhost:8080/inventory
+Content-Type: application/json
+
+{
+    "itemId": "4",
+    "name": "Item C",
+    "stock": 100001,
+    "threshold": 10
+}
+
+#### Create a new inventory item (Bad Request - Negative Threshold)
+POST http://localhost:8080/inventory
+Content-Type: application/json
+
+{
+    "itemId": "5",
+    "name": "Item D",
+    "stock": 100,
+    "threshold": -5
+}
+
+#### Create a new inventory item (Bad Request - Threshold Exceeds Limit)
+POST http://localhost:8080/inventory
+Content-Type: application/json
+
+{
+    "itemId": "6",
+    "name": "Item E",
+    "stock": 100,
+    "threshold": 1001
+}
+
+#### Create a new inventory item (Bad Request - Duplicate Item ID)
+POST http://localhost:8080/inventory
+Content-Type: application/json
+
+{
+    "itemId": "2",
+    "name": "Item F",
+    "stock": 100,
+    "threshold": 10
+}
+
+#### Get all inventory items
+GET http://localhost:8080/inventory
+
+#### Get inventory item by ID (Valid Request)
+GET http://localhost:8080/inventory/item001
+
+#### Get inventory item by ID (Bad Request - Non-Existent ID)
+GET http://localhost:8080/inventory/nonExistentItemId
+
+#### Update inventory stock (Valid Request)
+PUT http://localhost:8080/inventory/item001/stock?stock=150
+
+#### Update inventory stock (Bad Request - Negative Stock)
+PUT http://localhost:8080/inventory/item001/stock?stock=-10
+
+#### Delete inventory item (Valid Request)
+DELETE http://localhost:8080/inventory/item001
+
+#### Delete inventory item (Bad Request - Non-Existent ID)
+DELETE http://localhost:8080/inventory/nonExistentItemId
 
 ---
 
