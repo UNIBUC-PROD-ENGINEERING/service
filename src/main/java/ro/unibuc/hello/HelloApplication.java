@@ -10,6 +10,7 @@ import java.time.LocalDate;
 
 import jakarta.annotation.PostConstruct;
 import java.util.List;
+import java.util.Arrays;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = "ro.unibuc.hello.repository")
@@ -52,9 +53,33 @@ public class HelloApplication {
         userRepository.save(user);
 
         // Adaugă un apartament de test
-        ApartmentEntity apartment = new ApartmentEntity("Luxury Apartment", "București", 250.0, user.getId());
+        ApartmentEntity apartment = new ApartmentEntity(
+            "Luxury Apartment", 
+            "București", 
+            250.0, 
+            user.getId(), 
+            3, 
+            2, 
+            true, 
+            Arrays.asList("Wi-Fi", "TV", "balcon", "aer condiționat"), 
+            90.0, 
+            false
+        );
         apartmentRepository.save(apartment);
 
+        ApartmentEntity apartment2 = new ApartmentEntity(
+            "Modern Flat", 
+            "Cluj-Napoca", 
+            180.0, 
+            user.getId(), 
+            2, 
+            1, 
+            false, 
+            Arrays.asList("Wi-Fi", "TV", "mașină de spălat"), 
+            65.5, 
+            true
+        );
+        apartmentRepository.save(apartment2);
         // Adaugă o rezervare de test (apel corect al constructorului)
         BookingEntity booking = new BookingEntity(
                 LocalDate.parse("2025-04-01"),  // Start date
