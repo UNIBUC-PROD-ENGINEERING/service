@@ -1,4 +1,4 @@
-# Prerequisites
+<!--# Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
 Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a local virtual machine with Ubuntu, Docker, IntelliJ.
@@ -64,3 +64,34 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
 * You can test other API endpoints using [requests.http](requests.http)
 * You can access the MongoDB Admin UI at:
   * http://localhost:8090 
+
+-->
+# Auction System Application
+
+The Auction System Application simulates a real-world auction platform where users can both create and manage auctions, as well as participate in them. Each user has the flexibility to act as both an Auctioneer (creating and managing auctions) and a Bidder (placing bids and claiming items). The system supports CRUD (Create, Read, Update, Delete) operations for users, auctions, and items, ensuring a dynamic and robust auction environment. Built with MongoDB for data storage and the Spring Framework for backend development, it provides an efficient and scalable solution for online auctions.
+
+## Key Features
+
+### User Management
+- **Registration & Authentication**: Users can register, log in, and manage profiles.
+- **Profile Update**: Users can update personal information.
+
+### Auction Management
+- **Create, Update, Delete Auctions**: Auctioneers can manage auctions.
+- **Timed Auctions**: Auctions close automatically after a set duration.
+
+### Bidding System
+- **Place Bids**: Bidders can place bids on active auctions.
+- **Real-Time Updates**: Bid status is updated in real-time.
+
+### Item Management
+- **Add & Update Items**: Auctioneers can add and update items.
+- **Item Transfer**: After the auction ends, the item is transferred to the highest bidder.
+
+## Technologies Used
+- **Java**: Core programming language for application logic.
+- **Spring Boot**: Simplified application setup.
+- **MongoDB**
+- **Spring JDBC**: For MongoDB interaction and CRUD operations.
+- **RestTemplate**: For making HTTP requests within the application.
+
