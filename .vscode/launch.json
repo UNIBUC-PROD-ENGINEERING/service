@@ -9,6 +9,13 @@
             "name": "HelloApplication",
             "request": "launch",
             "mainClass": "ro.unibuc.hello.HelloApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "HelloApplication",
+            "request": "launch",
+            "mainClass": "ro.unibuc.hello.HelloApplication",
             "projectName": "service"
         },
         {

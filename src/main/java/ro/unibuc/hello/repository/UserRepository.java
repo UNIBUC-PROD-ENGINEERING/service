@@ -9,4 +9,5 @@ import ro.unibuc.hello.model.User;
 public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findByMail(String mail);
     Optional<User> findByPhoneNumber(String phoneNumber);
+    Optional<User> findById(String userId);
 }
