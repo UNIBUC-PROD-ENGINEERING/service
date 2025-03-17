@@ -42,6 +42,38 @@ public class PartyService {
         return partyRepository.save(party);
     }
 
+    public List<FoodEntity> getAvailableFoodsForParty(String partyId, Double minRating, Double maxPrice, Integer maxPoints) {
+        List<FoodEntity> foods = foodRepository.findAll();
+        PartyEntity party = partyRepository.findById(partyId).orElse(null);
+        int partyPoints = party.getPartyPoints();
+
+        for (FoodEntity food : foods) {
+            double discountedPrice = (partyPoints >= food.getDiscountPointsRequired()) 
+                ? food.getPrice() * 0.85  
+                : food.getPrice();
+    
+            food.setDiscountedPrice(discountedPrice); // Setăm prețul redus în obiect
+        }
+    
+        if (minRating != null) {
+            foods = foods.stream()
+                    .filter(food -> food.getRating() >= minRating)
+                    .toList();
+        }
+        if (maxPrice != null) {
+            foods = foods.stream()
+                    .filter(food -> food.getDiscountedPrice() <= maxPrice)
+                    .toList();
+        }
+        if (maxPoints != null) {
+            foods = foods.stream()
+                    .filter(food -> food.getDiscountPointsRequired() <= maxPoints)
+                    .toList();
+        }
+    
+        return foods;
+    }
+
     public PartyEntity addFoodToParty(String partyId, String foodId) {
         Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
         Optional<FoodEntity> foodOpt = foodRepository.findById(foodId);
@@ -54,6 +86,38 @@ public class PartyService {
 
         return null;  // Dacă partyId sau foodId nu există, returnăm null
     }
+
+    public List<LocationEntity> getAvailableLocationsForParty(String partyId, Double minRating, Double maxPrice, Integer maxPoints) {
+        PartyEntity party = partyRepository.findById(partyId).orElse(null);
+        int partyPoints = party.getPartyPoints();
+        List<LocationEntity> locations = locationRepository.findAll();
+
+        for (LocationEntity location : locations) {
+            double discountedPrice = (partyPoints >= location.getDiscountPointsRequired()) 
+                ? location.getPrice() * 0.85  
+                : location.getPrice();
+    
+            location.setDiscountedPrice(discountedPrice); // Setăm prețul redus în obiect
+        }
+    
+        if (minRating != null) {
+            locations = locations.stream()
+                    .filter(location -> location.getRating() >= minRating)
+                    .toList();
+        }
+        if (maxPrice != null) {
+            locations = locations.stream()
+                    .filter(location -> location.getDiscountedPrice() <= maxPrice)
+                    .toList();
+        }
+        if (maxPoints != null) {
+            locations = locations.stream()
+                    .filter(location -> location.getDiscountPointsRequired() <= maxPoints)
+                    .toList();
+        }
+    
+        return locations;
+    }    
 
     public PartyEntity addLocationToParty(String partyId, String locationId) {
         Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);

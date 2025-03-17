@@ -3,6 +3,8 @@ package ro.unibuc.hello.controller;
 import ro.unibuc.hello.data.PartyEntity;
 import ro.unibuc.hello.repositories.PartyRepository;
 import ro.unibuc.hello.service.PartyService;
+import ro.unibuc.hello.data.LocationEntity;
+import ro.unibuc.hello.data.FoodEntity;
 
 
 import org.springframework.http.ResponseEntity;
@@ -49,7 +51,7 @@ public class PartyController {
 
     @PostMapping("/{partyId}/foods/{foodId}")
     public ResponseEntity<PartyEntity> addFoodToParty(@PathVariable String partyId, @PathVariable String foodId) {
-        PartyEntity updatedParty = partyService.addFoodToParty(partyId, foodId); // Corectat
+        PartyEntity updatedParty = partyService.addFoodToParty(partyId, foodId);
         return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
     }
 
@@ -58,5 +60,26 @@ public class PartyController {
         PartyEntity updatedParty = partyService.addLocationToParty(partyId, locationId);
         return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/{id}/locations")
+    public List<LocationEntity> getAvailableLocationsForParty(
+            @PathVariable String id,
+            @RequestParam(required = false) Double minRating,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Integer maxPoints) {
+        
+        return partyService.getAvailableLocationsForParty(id, minRating, maxPrice, maxPoints);
+    }
+
+    @GetMapping("/{id}/foods")
+    public List<FoodEntity> getAvailableFoodsForParty(
+            @PathVariable String id,
+            @RequestParam(required = false) Double minRating,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Integer maxPoints) {
+        
+        return partyService.getAvailableFoodsForParty(id, minRating, maxPrice, maxPoints);
+    }
+
 
 }
