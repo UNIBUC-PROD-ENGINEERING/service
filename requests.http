@@ -56,6 +56,51 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 GET http://localhost:8080/parties
 
 
+GET http://localhost:8080/parties/{id}
+
+### Get all locations
+GET http://localhost:8080/parties/{id}/locations
+
+### Filter locations by rating (minimum rating)
+# @prompt minRating Introdu rating-ul minim
+GET http://localhost:8080/parties/{id}/locations?minRating={{minRating}}
+
+### Filter locations by price (maximum price)
+# @prompt maxPrice Introdu prețul maxim
+GET http://localhost:8080/parties/{id}/locations?maxPrice={{maxPrice}}
+
+### Filter locations by discount points (maximum required points)
+# @prompt maxPoints Introdu numărul maxim de puncte de discount
+GET http://localhost:8080/parties/{id}/locations?maxPoints={{maxPoints}}
+
+### Obține toate produsele alimentare
+GET http://localhost:8080/parties/{id}/foods
+
+### Obține alimentele cu rating mai mare sau egal cu o valoare dată
+# @prompt minRating Introdu rating-ul minim
+GET http://localhost:8080/parties/{id}/foods?minRating={{minRating}}
+
+### Obține alimentele cu preț mai mic sau egal cu o valoare dată
+# @prompt maxPrice Introdu prețul maxim
+GET http://localhost:8080/parties/{id}/foods?maxPrice={{maxPrice}}
+
+### Obține alimentele care necesită un număr de puncte de discount mai mic sau egal cu o valoare dată
+# @prompt maxPoints Introdu numărul maxim de puncte de discount
+GET http://localhost:8080/parties/{id}/foods?maxPoints={{maxPoints}}
+
+
+### Adaugă un produs alimentar la o petrecere
+# @prompt partyId Introdu ID-ul petrecerii
+# @prompt foodId Introdu ID-ul produsului alimentar
+POST http://localhost:8080/parties/{{partyId}}/foods/{{foodId}}
+Content-Type: application/json
+
+### Adaugă un produs alimentar la o petrecere
+# @prompt partyId Introdu ID-ul petrecerii
+# @prompt locationId Introdu ID-ul produsului alimentar
+POST http://localhost:8080/parties/{{partyId}}/location/{{locationId}}
+Content-Type: application/json
+
 ### Get all tasks for a party
 # @prompt partyId Party ID to get the tasks for
 GET http://localhost:8080/parties/{{partyId}}/tasks
@@ -156,5 +201,3 @@ Content-Type: application/json
   "taskIds": [],
   "partyPoints": points
 }
-
-

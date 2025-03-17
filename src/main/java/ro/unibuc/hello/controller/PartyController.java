@@ -6,6 +6,11 @@ import ro.unibuc.hello.data.PartyEntity;
 import ro.unibuc.hello.data.PartyWithSongsResponse;
 import ro.unibuc.hello.data.SongEntity;
 import ro.unibuc.hello.repositories.PartyRepository;
+
+import ro.unibuc.hello.service.PartyService;
+import ro.unibuc.hello.data.LocationEntity;
+import ro.unibuc.hello.data.FoodEntity;
+
 import ro.unibuc.hello.repositories.TaskRepository;
 import ro.unibuc.hello.service.PartyService;
 import ro.unibuc.hello.data.TaskEntity;
@@ -15,6 +20,7 @@ import ro.unibuc.hello.service.YouTubeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,12 +31,15 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/parties")
 public class PartyController {
-private static final Logger logger = LoggerFactory.getLogger(PartyController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(PartyController.class);
+
     private final PartyRepository partyRepository;
     private final TaskRepository taskRepository;  // Repository pentru taskuri
     private final PartyService partyService;      // Adăugăm PartyService pentru logica de business
     private final SongRepository songRepository;
     private final YouTubeService youTubeService;
+
 
     // Injectăm dependențele
     public PartyController(PartyRepository partyRepository, TaskRepository taskRepository, PartyService partyService, SongRepository songRepository, YouTubeService youTubeService) {
@@ -42,6 +51,17 @@ private static final Logger logger = LoggerFactory.getLogger(PartyController.cla
 
     }
 
+
+
+//     @GetMapping
+//     public List<PartyEntity> getAllParties() {
+//         return partyService.getAllParties();
+//     }
+
+//     @GetMapping("/{id}")
+//     public PartyEntity getPartyById(@PathVariable String id) {
+//         return partyService.getPartyById(id);
+  
     @GetMapping
     public List<PartyWithSongsResponse> getAllParties() {
         List<PartyEntity> parties = partyRepository.findAll();
@@ -117,9 +137,9 @@ private static final Logger logger = LoggerFactory.getLogger(PartyController.cla
     @GetMapping("/{partyId}/tasks")
     public List<TaskEntity> getTasksByParty(@PathVariable String partyId) {
         return taskRepository.findByPartyId(partyId);  // Metodă pentru a obține taskurile pentru petrecerea respectivă
+
     }
 
-    // POST: Create a new party
     @PostMapping
     public PartyEntity createParty(@RequestBody PartyEntity party) {
         return partyRepository.save(party);
@@ -135,6 +155,38 @@ private static final Logger logger = LoggerFactory.getLogger(PartyController.cla
     public void deleteParty(@PathVariable String id) {
         partyRepository.deleteById(id);
     }
+
+
+    @PostMapping("/{partyId}/foods/{foodId}")
+    public ResponseEntity<PartyEntity> addFoodToParty(@PathVariable String partyId, @PathVariable String foodId) {
+        PartyEntity updatedParty = partyService.addFoodToParty(partyId, foodId);
+        return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/{partyId}/locations/{locationId}")
+    public ResponseEntity<PartyEntity> addLocationToParty(@PathVariable String partyId, @PathVariable String locationId) {
+        PartyEntity updatedParty = partyService.addLocationToParty(partyId, locationId);
+        return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/locations")
+    public List<LocationEntity> getAvailableLocationsForParty(
+            @PathVariable String id,
+            @RequestParam(required = false) Double minRating,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Integer maxPoints) {
+        
+        return partyService.getAvailableLocationsForParty(id, minRating, maxPrice, maxPoints);
+    }
+
+    @GetMapping("/{id}/foods")
+    public List<FoodEntity> getAvailableFoodsForParty(
+            @PathVariable String id,
+            @RequestParam(required = false) Double minRating,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Integer maxPoints) {
+        
+        return partyService.getAvailableFoodsForParty(id, minRating, maxPrice, maxPoints);
 
     // POST: Adăugăm un user la o petrecere
     @PostMapping("/{partyId}/addUser/{userId}")
@@ -220,6 +272,7 @@ private static final Logger logger = LoggerFactory.getLogger(PartyController.cla
             songRepository.delete(song);  
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();  // Respond with 204 No Content
+
     }
 
 

@@ -10,6 +10,7 @@ public class FoodEntity {
     private String name;
     private double rating;
     private double price;
+    private double discountedPrice;
     private int discountPointsRequired;
 
     public FoodEntity() {}
@@ -61,6 +62,14 @@ public class FoodEntity {
 
     public void setDiscountPointsRequired(int discountPointsRequired) {
         this.discountPointsRequired = discountPointsRequired;
+    }
+
+    public double getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(double discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 
 }

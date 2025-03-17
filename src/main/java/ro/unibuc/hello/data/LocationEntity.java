@@ -11,6 +11,7 @@ public class LocationEntity {
     private String address;
     private double rating;
     private double price;
+    private double discountedPrice;
     private int discountPointsRequired;  // Points needed for a discount
 
     public LocationEntity() {}
@@ -71,5 +72,13 @@ public class LocationEntity {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(double discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 }

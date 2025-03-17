@@ -1,27 +1,44 @@
 package ro.unibuc.hello.service;
 
 import org.springframework.stereotype.Service;
+
+import ro.unibuc.hello.data.FoodEntity;
+import ro.unibuc.hello.data.LocationEntity;
+
 import ro.unibuc.hello.data.PartyEntity;
 import ro.unibuc.hello.data.TaskEntity;
 import ro.unibuc.hello.data.UserEntity;  // Importă UserEntity pentru a lucra cu utilizatori
 import ro.unibuc.hello.repositories.PartyRepository;
+
+import ro.unibuc.hello.repositories.FoodRepository;
+import ro.unibuc.hello.repositories.LocationRepository;
+
+import java.util.ArrayList;
+
 import ro.unibuc.hello.repositories.TaskRepository;
 import ro.unibuc.hello.repositories.UserRepository;  // Importă UserRepository
 import java.util.ArrayList;  // Importă pentru a inițializa lista dacă e null
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PartyService {
 
     private final PartyRepository partyRepository;
+    
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
+    private final FoodRepository foodRepository;
+    private final LocationRepository locationRepository;
 
     // Constructor pentru injectarea dependențelor
-    public PartyService(PartyRepository partyRepository, UserRepository userRepository, TaskRepository taskRepository) {
+    public PartyService(PartyRepository partyRepository, UserRepository userRepository, TaskRepository taskRepository, FoodRepository foodRepository, LocationRepository locationRepository) {
         this.partyRepository = partyRepository;
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
+        this.foodRepository = foodRepository;
+        this.locationRepository = locationRepository;
     }
 
     public PartyEntity addUserToParty(String partyId, String userId) {
@@ -84,6 +101,10 @@ public class PartyService {
         return partyRepository.findAll();
     }
 
+    public PartyEntity getPartyById(String id) {
+        return partyRepository.findById(id).orElse(null);
+    }    
+
     public List<PartyEntity> getPartiesForUser(String userId) {
         return partyRepository.findByUserIdsContaining(userId);
     }
@@ -92,11 +113,98 @@ public class PartyService {
         return partyRepository.save(party);
     }
 
-    public PartyEntity getPartyById(String id) {
-        return partyRepository.findById(id).orElse(null);
+    public List<FoodEntity> getAvailableFoodsForParty(String partyId, Double minRating, Double maxPrice, Integer maxPoints) {
+        List<FoodEntity> foods = foodRepository.findAll();
+        PartyEntity party = partyRepository.findById(partyId).orElse(null);
+        int partyPoints = party.getPartyPoints();
+
+        for (FoodEntity food : foods) {
+            double discountedPrice = (partyPoints >= food.getDiscountPointsRequired()) 
+                ? food.getPrice() * 0.85  
+                : food.getPrice();
+    
+            food.setDiscountedPrice(discountedPrice); // Setăm prețul redus în obiect
+        }
+    
+        if (minRating != null) {
+            foods = foods.stream()
+                    .filter(food -> food.getRating() >= minRating)
+                    .toList();
+        }
+        if (maxPrice != null) {
+            foods = foods.stream()
+                    .filter(food -> food.getDiscountedPrice() <= maxPrice)
+                    .toList();
+        }
+        if (maxPoints != null) {
+            foods = foods.stream()
+                    .filter(food -> food.getDiscountPointsRequired() <= maxPoints)
+                    .toList();
+        }
+    
+        return foods;
     }
 
-    public PartyEntity saveParty(PartyEntity party) {
-        return partyRepository.save(party);  // Salvează petrecerea actualizată
+    public PartyEntity addFoodToParty(String partyId, String foodId) {
+        Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
+        Optional<FoodEntity> foodOpt = foodRepository.findById(foodId);
+
+        if (partyOpt.isPresent() && foodOpt.isPresent()) {
+            PartyEntity party = partyOpt.get();
+            party.getFoodIds().add(foodId);
+            return partyRepository.save(party);
+        }
+
+        return null;  // Dacă partyId sau foodId nu există, returnăm null
     }
+
+    public List<LocationEntity> getAvailableLocationsForParty(String partyId, Double minRating, Double maxPrice, Integer maxPoints) {
+        PartyEntity party = partyRepository.findById(partyId).orElse(null);
+        int partyPoints = party.getPartyPoints();
+        List<LocationEntity> locations = locationRepository.findAll();
+
+        for (LocationEntity location : locations) {
+            double discountedPrice = (partyPoints >= location.getDiscountPointsRequired()) 
+                ? location.getPrice() * 0.85  
+                : location.getPrice();
+    
+            location.setDiscountedPrice(discountedPrice); // Setăm prețul redus în obiect
+        }
+    
+        if (minRating != null) {
+            locations = locations.stream()
+                    .filter(location -> location.getRating() >= minRating)
+                    .toList();
+        }
+        if (maxPrice != null) {
+            locations = locations.stream()
+                    .filter(location -> location.getDiscountedPrice() <= maxPrice)
+                    .toList();
+        }
+        if (maxPoints != null) {
+            locations = locations.stream()
+                    .filter(location -> location.getDiscountPointsRequired() <= maxPoints)
+                    .toList();
+        }
+    
+        return locations;
+    }    
+
+    public PartyEntity addLocationToParty(String partyId, String locationId) {
+        Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
+        Optional<LocationEntity> locationOpt = locationRepository.findById(locationId);
+
+        if (partyOpt.isPresent() && locationOpt.isPresent()) {
+            PartyEntity party = partyOpt.get();
+            party.setLocationId(locationId);  // Setează locația pentru petrecere
+            return partyRepository.save(party);
+        }
+
+        return null;  // Dacă partyId sau locationId nu există
+    }
+
+//     public PartyEntity saveParty(PartyEntity party) {
+//         return partyRepository.save(party);  // Salvează petrecerea actualizată
+//     }
+
 }

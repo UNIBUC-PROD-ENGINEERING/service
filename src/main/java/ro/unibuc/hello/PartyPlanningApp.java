@@ -64,16 +64,19 @@ public class PartyPlanningApp {
         UserEntity user1 = userRepository.save(new UserEntity("John Doe", "john@example.com", "securepassword"));
         userRepository.save(new UserEntity("Paul Rudd", "paul@example.com", "securepassword1"));
         userRepository.save(new UserEntity("Tony Stark", "tony@example.com", "securepassword2"));
-        locationRepository.save(new LocationEntity("Club X", "123 Party Street", 200, 5, 100));
+        locationRepository.save(new LocationEntity("Club X", "123 Party Street", 700, 5, 200));
         locationRepository.save(new LocationEntity("Club Z", "456 Party Street", 500, 3.2, 150));
         foodRepository.save(new FoodEntity("Pizza", 20, 4.5, 30));
         foodRepository.save(new FoodEntity("Pasta", 30, 5, 50));
         foodRepository.save(new FoodEntity("Taco", 50, 3.8, 90));
         foodRepository.save(new FoodEntity("KFC", 40, 4.9, 70));
+
         PartyEntity party = new PartyEntity("Party1", "12.05.2025");
+        party.setPartyPoints(175);
         party.setUserIds(new ArrayList<>()); 
         party.getUserIds().add(user1.getId()); 
         partyRepository.save(party); 
+
         partyRepository.save(new PartyEntity("Party2", "10.08.2025"));
         
 	}

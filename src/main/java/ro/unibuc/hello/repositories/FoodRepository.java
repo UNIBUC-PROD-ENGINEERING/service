@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface FoodRepository extends MongoRepository<FoodEntity, String> {
     List<FoodEntity> findByName(String name);
+    List<FoodEntity> findByRatingGreaterThanEqual(double minRating);
+    List<FoodEntity> findByPriceLessThanEqual(double maxPrice);
+    List<FoodEntity> findByDiscountPointsRequiredLessThanEqual(int maxPoints);
 }
