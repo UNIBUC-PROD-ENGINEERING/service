@@ -40,5 +40,8 @@ public class UserController {
     @GetMapping(path="/search")
     public UserListDto searchUsers(@RequestParam String keyword){return userService.getRelevantUsers(keyword);}
     
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @GetMapping(path="/{username}")
+    public UserDto getUser(@PathVariable String username) {return userService.getUser(username);}
     
 }

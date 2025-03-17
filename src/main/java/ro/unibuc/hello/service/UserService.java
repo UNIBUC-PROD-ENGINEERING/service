@@ -114,7 +114,10 @@ public class UserService implements UserDetailsService{
 
     public void delete(String username){
         var user = loadUser(username);
-        if (username!=getAuthenticatedUser().getUsername() && getAuthenticatedUser().getRole()!=Role.ADMIN)
+        if (username!=getAuthenticatedUser().getUsername() && user.getRole()!=Role.ADMIN)
             userRepository.delete(user);
+        else {
+            throw new EntityNotFoundException("user");
+        }
     }
 }

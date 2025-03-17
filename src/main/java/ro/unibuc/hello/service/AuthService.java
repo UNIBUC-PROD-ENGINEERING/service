@@ -29,7 +29,7 @@ public class AuthService {
 
     public UserEntity loadUser(String username) {
         return userRepository.findByUsername(username)
-                                .orElseThrow(()->new EntityNotFoundException("user"));
+                                .orElseThrow(EntityNotFoundException::new);
     }
 
     public AuthDto register(RegisterDto registerDto){
@@ -65,7 +65,7 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()
                     ));
         }catch(Exception e){
-            throw new EntityNotFoundException(loginDto.getUsername());
+            throw new EntityNotFoundException("user");
         }
     }
 
