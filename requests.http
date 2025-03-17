@@ -97,5 +97,53 @@ Content-Type: application/json
 # delete song from party 
 DELETE /parties/{partyId}/songs/{songId}
 
+### Get all users
+GET http://localhost:8080/users
+
+### Get a user by ID with their parties
+GET http://localhost:8080/users/{userId}
+
+### Create a new user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Name",
+  "email": "name@example.com",
+  "points": 100
+}
+
+### Update a user
+PUT http://localhost:8080/users/{userId}
+Content-Type: application/json
+
+{
+  "name": "Updated Name",
+  "email": "updatedemail@example.com",
+  "points": 150
+}
+
+### Delete a user
+DELETE http://localhost:8080/users/{userId}
+
+### Add a user to a party
+POST http://localhost:8080/users/{userId}/join/{partyId}
+
+### Create a new party as a user
+POST http://localhost:8080/users/{userId}/createParty
+Content-Type: application/json
+
+{
+  "name": "Party name",
+  "date": "Date",
+  "locationId": "someLocation",
+  "foodIds": ["food1", "food2"],
+  "userIds": [],
+  "playlistIds": [],
+  "taskIds": [],
+  "partyPoints": points
+}
+
+
 
 
