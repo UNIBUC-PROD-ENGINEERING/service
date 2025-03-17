@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import ro.unibuc.hello.dto.review.ReviewRequestDTO;
 import ro.unibuc.hello.dto.review.ReviewResponseDTO;
 import ro.unibuc.hello.enums.RideStatus;
+import ro.unibuc.hello.enums.RideBookingStatus;
 import ro.unibuc.hello.model.Review;
+import ro.unibuc.hello.model.RideBooking;
 import ro.unibuc.hello.model.Ride;
 import ro.unibuc.hello.repository.ReviewRepository;
 
@@ -19,20 +21,24 @@ import ro.unibuc.hello.exceptions.review.InvalidReviewException;
 
 import ro.unibuc.hello.repository.RideRepository;
 import ro.unibuc.hello.repository.UserRepository;
+import ro.unibuc.hello.repository.RideBookingRepository;
 
 @Service
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final RideRepository rideRepository;
     private final UserRepository userRepository;
+    private final RideBookingRepository rideBookingRepository;
 
     public ReviewService(ReviewRepository reviewRepository, 
                         RideRepository rideRepository, 
-                        UserRepository userRepository
+                        UserRepository userRepository,
+                        RideBookingRepository rideBookingRepository
                         ) {
         this.reviewRepository = reviewRepository;
         this.rideRepository = rideRepository;
         this.userRepository = userRepository;
+        this.rideBookingRepository = rideBookingRepository;
     }
 
     public List<Review> getReviewsByRide(String id) {
@@ -58,19 +64,29 @@ public class ReviewService {
             throw new InvalidReviewException("Ride is not completed.");
         }
 
-        // TODO The booking status (for ride_id and reviewer_id) must not be CANCELLED.
+
+        List<RideBooking> rideBookingList = rideBookingRepository.findByRideIdAndPassengerId(
+            reviewRequestDTO.getRideId(), reviewRequestDTO.getReviewerId());
+
+        // Check if reviewer is passenger
+        if (rideBookingList.isEmpty()) {
+            throw new InvalidReviewException("Reviewer is not a passenger.");
+        }
+
+        RideBooking rideBooking = rideBookingList.get(0);
+
+        // Check if reviewer cancelled the ride
+        if (rideBooking.getRideBookingStatus().equals(RideBookingStatus.CANCELLED)) {
+            throw new InvalidReviewException("Reviewer cancelled ride.");
+        }
 
         Optional<Review> existingReview = reviewRepository.findByRideIdAndReviewerId(
-        reviewRequestDTO.getRideId(), reviewRequestDTO.getReviewerId());
+            reviewRequestDTO.getRideId(), reviewRequestDTO.getReviewerId());
 
         // Check if reviewer already reviewed ride
         if (existingReview.isPresent()) {
             throw new InvalidReviewException("Reviewer already made a review for this ride");
         }
-
-        // TODO reviewer_id must be listed as a passenger_id in the ride with the given ride_id
-
-        // TODO The reviewer_id’s booking status for that ride must be BOOKED
 
         // Check if reviewer exists in users table
         if (!userRepository.existsById(reviewRequestDTO.getReviewerId())) {
