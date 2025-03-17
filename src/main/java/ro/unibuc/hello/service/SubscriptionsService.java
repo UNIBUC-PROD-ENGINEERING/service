@@ -27,4 +27,10 @@ public class SubscriptionsService {
             .map(entity -> new Subscription(entity.getTier(), entity.getPrice()))
             .collect(Collectors.toList());
     }
+
+    public Subscription createSubscription(SubscriptionEntity subscriptionEntity) {
+        subscriptionRepository.save(subscriptionEntity);
+        return new Subscription(subscriptionEntity.getTier(), subscriptionEntity.getPrice());
+    }
+
 }
