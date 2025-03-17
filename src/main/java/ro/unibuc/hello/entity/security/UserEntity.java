@@ -10,7 +10,6 @@ import ro.unibuc.hello.entity.common.BaseEntity;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Builder
 @Getter
@@ -20,10 +19,6 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "users")
 public class UserEntity extends BaseEntity implements UserDetails {
-//    @NotEmpty
-//    @Column(nullable = false)
-//    private String fullName;
-
     @NotEmpty
     @Column(nullable = false, unique = true)
     private String username;
@@ -39,16 +34,6 @@ public class UserEntity extends BaseEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<RoleEntity> roles;
-
-//    @Override
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    @Override
-//    public String getPassword() {
-//        return password;
-//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
