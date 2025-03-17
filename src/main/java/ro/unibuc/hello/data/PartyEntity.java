@@ -116,6 +116,8 @@ public class PartyEntity {
         this.playlistIds.add(songId);
     }
     
-
+    public void removeSong(String songId) {
+        this.playlistIds.remove(songId);
+    }
     
 }
