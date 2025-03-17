@@ -1,6 +1,8 @@
 package ro.unibuc.hello.service;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,16 @@ public class ToDoService {
         return false;
     }
     public boolean deleteBind(String username, String toDoList) {
+        return false;
+    }
+
+    public boolean createRequest(String toDoList, String text) {
+        return false;
+    }
+    public boolean acceptRequest(String username, String toDoList) {
+        return false;
+    }
+    public boolean denyRequest(String username, String toDoList) {
         return false;
     }
 }
