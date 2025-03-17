@@ -1,9 +1,9 @@
-package main.java.ro.unibuc.hello.service;
+package ro.unibuc.hello.service;
 
-import main.java.ro.unibuc.hello.data.ProductEntity;
-import main.java.ro.unibuc.hello.data.ProductRepository;
-import main.java.ro.unibuc.hello.dto.ProductDTO;
-import main.java.ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.data.ProductEntity;
+import ro.unibuc.hello.data.ProductRepository;
+import ro.unibuc.hello.dto.ProductDTO;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

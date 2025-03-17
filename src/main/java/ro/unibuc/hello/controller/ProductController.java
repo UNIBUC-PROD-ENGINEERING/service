@@ -1,8 +1,8 @@
-package main.java.ro.unibuc.hello.controller;
+package ro.unibuc.hello.controller;
 
-import main.java.ro.unibuc.hello.dto.ProductDTO;
-import main.java.ro.unibuc.hello.exception.EntityNotFoundException;
-import main.java.ro.unibuc.hello.service.ProductService;
+import ro.unibuc.hello.dto.ProductDTO;
+import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

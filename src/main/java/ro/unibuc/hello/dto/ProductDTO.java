@@ -1,6 +1,4 @@
-package main.java.ro.unibuc.hello.data;
-
-import org.springframework.data.annotation.Id;
+package ro.unibuc.hello.dto;
 
 public class ProductDTO {
 
@@ -9,15 +7,15 @@ public class ProductDTO {
     private Long price;
     private Long stock;
 
-    public ProductEntity() {}
+    public ProductDTO() {}
 
-    public ProductEntity(String description, Long price, Long stock) {
+    public ProductDTO(String description, Long price, Long stock) {
         this.description = description;
         this.price = price;
         this.stock = stock;
     }
 
-    public ProductEntity(String id, String description, Long price, Long stock) {
+    public ProductDTO(String id, String description, Long price, Long stock) {
         this.id = id;
         this.description = description;
         this.price = price;
