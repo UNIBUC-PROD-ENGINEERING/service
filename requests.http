@@ -51,3 +51,117 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 
 # TODO add requests for your own endpoints!
+
+
+
+
+
+
+
+### 1️⃣ Register a new client
+POST http://localhost:8080/api/clients/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "securepassword"
+}
+
+### 2️⃣ Login client
+POST http://localhost:8080/api/clients/login
+Content-Type: application/json
+Authorization: None
+
+{
+  "email": "test@example.com",
+  "password": "securepassword"
+}
+
+### 3️⃣ Create a new bank account
+POST http://localhost:8080/api/bank-accounts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjMyODcxLCJleHAiOjE3NDIyNjg4NzF9.r_EEKOD0bzeEnMQenkR4o06WeW_r9lsJjRbxz4FCk2E
+
+{
+  "accountNumber": "123456789",
+  "balance": 1000.0
+}
+
+### 4️⃣ Create another bank account
+POST http://localhost:8080/api/bank-accounts
+Content-Type: application/json
+
+{
+  "accountNumber": "987654321",
+  "balance": 2500.0
+}
+
+### 5️⃣ Create a new card
+POST http://localhost:8080/api/cards
+Content-Type: application/json
+
+{
+  "cardNumber": "4111111111111111",
+  "expirationDate": "12/26",
+  "cvv": "123"
+}
+
+### 6️⃣ Create another card
+POST http://localhost:8080/api/cards
+Content-Type: application/json
+
+{
+  "cardNumber": "5555555555554444",
+  "expirationDate": "11/27",
+  "cvv": "456"
+}
+
+### 7️⃣ Create a new transaction
+POST http://localhost:8080/api/transactions
+Content-Type: application/json
+
+{
+  "amount": 150.75,
+  "fromAccountId": "123456789",
+  "toAccountId": "987654321"
+}
+
+### 8️⃣ Create another transaction
+POST http://localhost:8080/api/transactions
+Content-Type: application/json
+
+{
+  "amount": 500.00,
+  "fromAccountId": "987654321",
+  "toAccountId": "123456789"
+}
+
+### 9️⃣ Get all clients
+GET http://localhost:8080/api/clients
+
+### 🔟 Get all bank accounts
+GET http://localhost:8080/api/bank-accounts
+
+### 1️⃣1️⃣ Get a specific bank account by ID
+GET http://localhost:8080/api/bank-accounts/123456789
+
+### 1️⃣2️⃣ Get all cards
+GET http://localhost:8080/api/cards
+
+### 1️⃣3️⃣ Get a specific card by ID
+GET http://localhost:8080/api/cards/4111111111111111
+
+### 1️⃣4️⃣ Get all transactions
+GET http://localhost:8080/api/transactions
+
+### 1️⃣5️⃣ Get a specific transaction by ID
+GET http://localhost:8080/api/transactions/transactionId
+
+### 1️⃣6️⃣ Delete a transaction
+DELETE http://localhost:8080/api/transactions/transactionId
+
+### 1️⃣7️⃣ Delete a card
+DELETE http://localhost:8080/api/cards/4111111111111111
+
+### 1️⃣8️⃣ Delete a bank account
+DELETE http://localhost:8080/api/bank-accounts/123456789

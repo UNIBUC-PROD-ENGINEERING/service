@@ -1,4 +1,4 @@
-package main.java.ro.unibuc.hello.entity;
+package ro.unibuc.hello.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,13 +13,17 @@ import java.util.ArrayList;
 public class Client {
 
     @Id
-    private String id; // Use String instead of int for MongoDB compatibility
+    private String id; 
 
     private String name;
 
     private String phoneNumber;
 
-    private List<String> bankAccountIds = new ArrayList<>(); // Store references as String IDs
+    private String email;
 
-    private List<String> transactionIds = new ArrayList<>(); // Store references as String IDs
+    private String password;
+
+    private List<String> bankAccountIds = new ArrayList<>();
+
+    private List<String> transactionIds = new ArrayList<>(); 
 }

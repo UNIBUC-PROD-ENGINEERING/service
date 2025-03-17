@@ -6,11 +6,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
+import ro.unibuc.hello.repository.BankAccountRepository;
+import ro.unibuc.hello.repository.*;
 
 import jakarta.annotation.PostConstruct;
 
-@SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = InformationRepository.class)
+@SpringBootApplication(scanBasePackages = "ro.unibuc.hello")
+@EnableMongoRepositories(basePackageClasses = {InformationRepository.class,
+											   ClientRepository.class,
+											   BankAccountRepository.class,
+											   CardRepository.class,
+											   GroupRepository.class,
+											   TransactionRepository.class}
+											   )
 public class HelloApplication {
 
 	@Autowired

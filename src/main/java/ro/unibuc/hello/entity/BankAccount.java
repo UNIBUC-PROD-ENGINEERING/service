@@ -1,4 +1,4 @@
-package main.java.ro.unibuc.hello.entity;
+package ro.unibuc.hello.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +11,7 @@ import lombok.*;
 public class BankAccount {
 
     @Id
-    private String id;  // Use String instead of int for MongoDB compatibility
+    private String id;  
 
     private String name;
 
@@ -19,5 +19,5 @@ public class BankAccount {
 
     private int balance;
 
-    private String clientId; // Store Client reference as a String (MongoDB does not use @ManyToOne)
+    private String clientId; 
 }
