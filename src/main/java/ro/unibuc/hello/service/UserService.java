@@ -2,6 +2,9 @@ package ro.unibuc.hello.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import ro.unibuc.hello.data.UserRepository;
+import ro.unibuc.hello.data.UserSearchRepository;
 import ro.unibuc.hello.data.Role;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.dto.request.RegisterDto;
@@ -33,7 +37,10 @@ public class UserService implements UserDetailsService{
     
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserSearchRepository userSearchRepository;
     private ModelMapper modelMapper;
+    private MongoTemplate mongoTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -99,9 +106,18 @@ public class UserService implements UserDetailsService{
                 .toList());
     }
 
+    public UserListDto getRelevantUsers(String keyword){
+        return new UserListDto(userSearchRepository.searchUsers(keyword).stream()
+                              .map(user -> modelMapper.map(user,UserDto.class))
+                              .toList());
+    }
+
     public void delete(String username){
         var user = loadUser(username);
-        if (username!=getAuthenticatedUser().getUsername() && getAuthenticatedUser().getRole()!=Role.ADMIN)
+        if (username!=getAuthenticatedUser().getUsername() && user.getRole()!=Role.ADMIN)
             userRepository.delete(user);
+        else {
+            throw new EntityNotFoundException("user");
+        }
     }
 }

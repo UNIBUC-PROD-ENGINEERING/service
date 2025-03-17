@@ -18,11 +18,11 @@ public class UserController {
     @Autowired
     private final UserService userService;
 
-    @Secured("{ROLE_USER,ROLE_ADMIN}")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/all")
     public UserListDto getAll() {return userService.getAll();}
 
-    @Secured("{ROLE_USER,ROLE_ADMIN}")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/me")
     public UserDto getSelf() {return userService.getSelf();}
 
@@ -35,6 +35,13 @@ public class UserController {
     public void delete (@PathVariable String username) {
         userService.delete(username);
     }
+
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @GetMapping(path="/search")
+    public UserListDto searchUsers(@RequestParam String keyword){return userService.getRelevantUsers(keyword);}
     
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @GetMapping(path="/{username}")
+    public UserDto getUser(@PathVariable String username) {return userService.getUser(username);}
     
 }

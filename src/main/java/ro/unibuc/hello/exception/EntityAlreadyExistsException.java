@@ -1,15 +1,12 @@
 package ro.unibuc.hello.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class EntityAlreadyExistsException extends RuntimeException {
-
-    private static final String message = "Entity already exists";
+public class EntityAlreadyExistsException extends StoreException {
 
     public EntityAlreadyExistsException() {
-        super(message);
+        this.setHttpStatus(HttpStatus.BAD_REQUEST);
+        this.setMessage("Entity already exists");
     }
 }
 
