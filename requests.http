@@ -33,10 +33,10 @@ Content-Type: application/json
 }
 
 ### Create new user
-@firstName = Mrius
+@firstName = Alina
 @lastName = Popa
-@mail = marius@gmail.com 
-@phoneNumber = 0723521025
+@mail = alina@gmail.com 
+@phoneNumber = 0723521027
 @password = parolamea123
 POST http://localhost:8081/users
 Content-Type: application/json
@@ -53,7 +53,7 @@ Content-Type: application/json
 GET http://localhost:8081/vehicles
 
 ### Add new vehicle
-@userId = 67d02c7ce08f3e1e5c96ef95
+@userId = 67d767dca086f159e0e3ad65
 @brand = Dacia
 @model = Logan
 @licensePlate = B123XYZ
@@ -68,7 +68,7 @@ Content-Type: application/json
 }
 
 ### Create new ride
-@driverId = 67d02c7ce08f3e1e5c96ef95
+@driverId = 67d767dca086f159e0e3ad65
 @startLocation = Bucharest
 @endLocation = Cluj-Napoca
 @departureTime = 2025-03-16T08:00:00.000Z
@@ -80,11 +80,11 @@ POST http://localhost:8081/rides
 Content-Type: application/json
 
 {
-    "driverId": "67d02c7ce08f3e1e5c96ef95",
+    "driverId": "67d767dca086f159e0e3ad65",
     "startLocation": "Bucharest",
     "endLocation": "Cluj-Napoca",
-    "departureTime": "2025-03-16T12:00:00.000Z",
-    "arrivalTime": "2025-03-16T14:00:00.000Z",
+    "departureTime": "2025-03-17T02:13:00.000Z",
+    "arrivalTime": "2025-03-17T02:14:00.000Z",
     "seatPrice": 50,
     "seatsAvailable": 3,
     "carLicensePlate": "B123XYZ"
@@ -94,10 +94,10 @@ Content-Type: application/json
 GET http://localhost:8081/rides
 
 ### Move to IN_PROGRESS
-PATCH http://localhost:8081/rides/67d60988a42dae58c46903e8/start?currentLocation=Cluj-Napoca
+PATCH http://localhost:8081/rides/67d76935a086f159e0e3ad69/start?currentLocation=Cluj-Napoca
 
 ### Move to COMPLETED
-PATCH http://localhost:8081/rides/67d60988a42dae58c46903e8/complete?currentLocation=Cluj-Napoca
+PATCH http://localhost:8081/rides/67d76935a086f159e0e3ad69/complete?currentLocation=Cluj-Napoca
 
 ### Move to CANCELLED
 PATCH http://localhost:8081/rides/67d60988a42dae58c46903e8/cancel?currentLocation=Cluj-Napoca
@@ -121,5 +121,22 @@ Content-Type: application/json
 @deleteGreetingId = 1001
 DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
+### Create new review
+POST http://localhost:8081/reviews
+Content-Type: application/json
 
-# TODO add requests for your own endpoints!
+{
+    "reviewerId": "67d7eab84600c955f3785f7c",
+    "reviewedId": "67d767dca086f159e0e3ad65",
+    "rideId": "67d76935a086f159e0e3ad69",
+    "rating": 5,
+    "comment": "good driver"
+}
+
+
+# @prompt id Ride id
+GET http://localhost:8081/reviews/by-ride/{{id}}
+
+
+# @prompt id Driver id
+GET http://localhost:8081/reviews/by-driver/{{id}}
