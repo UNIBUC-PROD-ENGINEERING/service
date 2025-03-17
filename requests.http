@@ -55,6 +55,19 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 ### Get all parties
 GET http://localhost:8080/parties
 
+
+### Get all tasks for a party
+# @prompt partyId Party ID to get the tasks for
+GET http://localhost:8080/parties/{{partyId}}/tasks
+
+### Get task by ID
+# @prompt taskId Task ID to get details for
+GET http://localhost:8080/tasks/{{taskId}}
+
+### Delete a task
+# @prompt taskId Task ID to delete
+DELETE http://localhost:8080/tasks/{{taskId}}
+
 # @prompt partyId The ID of the party to fetch
 GET http://localhost:8080/parties/{{partyId}}
 
@@ -143,7 +156,5 @@ Content-Type: application/json
   "taskIds": [],
   "partyPoints": points
 }
-
-
 
 

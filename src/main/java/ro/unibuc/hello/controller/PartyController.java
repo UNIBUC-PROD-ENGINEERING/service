@@ -1,9 +1,14 @@
 package ro.unibuc.hello.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.PartyEntity;
 import ro.unibuc.hello.data.PartyWithSongsResponse;
 import ro.unibuc.hello.data.SongEntity;
 import ro.unibuc.hello.repositories.PartyRepository;
+import ro.unibuc.hello.repositories.TaskRepository;
+import ro.unibuc.hello.service.PartyService;
+import ro.unibuc.hello.data.TaskEntity;
 import ro.unibuc.hello.repositories.SongRepository;
 import ro.unibuc.hello.service.YouTubeService;
 
@@ -20,16 +25,21 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/parties")
 public class PartyController {
+private static final Logger logger = LoggerFactory.getLogger(PartyController.class);
     private final PartyRepository partyRepository;
+    private final TaskRepository taskRepository;  // Repository pentru taskuri
+    private final PartyService partyService;      // Adăugăm PartyService pentru logica de business
     private final SongRepository songRepository;
     private final YouTubeService youTubeService;
 
-    private static final Logger logger = LoggerFactory.getLogger(PartyController.class);
-
-    public PartyController(PartyRepository partyRepository, SongRepository songRepository, YouTubeService youTubeService) {
+    // Injectăm dependențele
+    public PartyController(PartyRepository partyRepository, TaskRepository taskRepository, PartyService partyService, SongRepository songRepository, YouTubeService youTubeService) {
         this.partyRepository = partyRepository;
+        this.taskRepository = taskRepository;
+        this.partyService = partyService;
         this.songRepository = songRepository;
         this.youTubeService = youTubeService;
+
     }
 
     @GetMapping
@@ -103,6 +113,13 @@ public class PartyController {
         return ResponseEntity.ok(response);
     }
 
+    // GET: Retrieve tasks for a party
+    @GetMapping("/{partyId}/tasks")
+    public List<TaskEntity> getTasksByParty(@PathVariable String partyId) {
+        return taskRepository.findByPartyId(partyId);  // Metodă pentru a obține taskurile pentru petrecerea respectivă
+    }
+
+    // POST: Create a new party
     @PostMapping
     public PartyEntity createParty(@RequestBody PartyEntity party) {
         return partyRepository.save(party);
@@ -117,6 +134,43 @@ public class PartyController {
     @DeleteMapping("/{id}")
     public void deleteParty(@PathVariable String id) {
         partyRepository.deleteById(id);
+    }
+
+    // POST: Adăugăm un user la o petrecere
+    @PostMapping("/{partyId}/addUser/{userId}")
+    public ResponseEntity<?> addUserToParty(
+            @PathVariable String partyId,
+            @PathVariable String userId) {
+        try {
+            PartyEntity updatedParty = partyService.addUserToParty(partyId, userId);
+
+            if (updatedParty != null) {
+                return ResponseEntity.ok(updatedParty);
+            } else {
+                return ResponseEntity.status(400).body("Petrecerea sau utilizatorul nu există sau utilizatorul este deja adăugat.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Eroare internă a serverului: " + e.getMessage());
+        }
+    }
+
+    // POST: Actualizăm punctele petrecerii după completarea unui task
+    @PostMapping("/{partyId}/user/{userId}/completeTask/{taskId}")
+    public ResponseEntity<PartyEntity> completeTaskAndUpdatePartyPoints(
+            @PathVariable String partyId,
+            @PathVariable String userId,
+            @PathVariable String taskId) {
+
+    // Apelăm metoda din PartyService pentru a actualiza punctele petrecerii
+    PartyEntity updatedParty = partyService.updatePartyPointsAfterTaskCompletion(partyId, userId, taskId);
+
+    // Dacă petrecerea a fost actualizată cu succes
+    if (updatedParty != null) {
+        return ResponseEntity.ok(updatedParty); // Returnăm petrecerea actualizată
+    } else {
+        // Dacă petrecerea nu există sau userul nu este la petrecere
+        return ResponseEntity.status(404).body(null);  // Returnăm un mesaj de eroare cu status 404
     }
 
     @PostMapping("/{partyId}/songs")
@@ -169,4 +223,5 @@ public class PartyController {
     }
 
 
+}
 }
