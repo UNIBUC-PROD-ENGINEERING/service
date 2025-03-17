@@ -57,8 +57,12 @@ public class RobotControllerIntegrationTest {
 
     @BeforeEach
     public void cleanUpAndAddTestData() {
-        RobotDTO robot1 = new RobotDTO("1", "active", "1", 10, "none");
-        RobotDTO robot2 = new RobotDTO("2", "inactive", "2", 5, "battery low");
+        // Ensure clean database before each test
+        robotService.deleteRobot("1");
+        robotService.deleteRobot("2");
+
+        RobotDTO robot1 = new RobotDTO("1", "active", "order1", 10, "none");
+        RobotDTO robot2 = new RobotDTO("2", "inactive", null, 5, "battery low");
 
         robotService.createRobot(robot1);
         robotService.createRobot(robot2);
@@ -84,8 +88,14 @@ public class RobotControllerIntegrationTest {
     }
 
     @Test
+    public void testGetRobotById_NotFound() throws Exception {
+        mockMvc.perform(get("/robots/999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void testCreateRobot() throws Exception {
-        RobotDTO robot = new RobotDTO("3", "active", "3", 0, "none");
+        RobotDTO robot = new RobotDTO("3", "active", "order3", 0, "none");
 
         mockMvc.perform(post("/robots")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -118,6 +128,14 @@ public class RobotControllerIntegrationTest {
     }
 
     @Test
+    public void testUpdateRobotStatus_NotFound() throws Exception {
+        mockMvc.perform(put("/robots/999/status")
+                .param("status", "active")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void testDeleteRobot() throws Exception {
         mockMvc.perform(delete("/robots/1"))
                 .andExpect(status().isOk());
@@ -127,5 +145,11 @@ public class RobotControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].status").value("inactive"));
+    }
+
+    @Test
+    public void testDeleteRobot_NotFound() throws Exception {
+        mockMvc.perform(delete("/robots/999"))
+                .andExpect(status().isNotFound());
     }
 }
