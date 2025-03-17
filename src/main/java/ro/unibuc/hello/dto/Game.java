@@ -13,6 +13,11 @@ public class Game{
         this.tier = tier;
     }
 
+    public Game(String title, int tier) {
+        this.title = title;
+        this.tier = tier;
+    }
+
     public String getId() {
         return id;
     }

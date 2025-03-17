@@ -25,12 +25,26 @@ public class GamesController {
     @GetMapping("/games")
     @ResponseBody
     public List<Game> getGames(
-        @RequestParam("tier") Optional<Integer> tier
+        @RequestParam("tier") Optional<Integer> tier,
+        @RequestParam("id") Optional<String> id,
+        @RequestParam("title") Optional<String> title
     ) {
+        if(id.isPresent()){
+            return gamesService.getGamebyId(id.get());
+        }
+
+        if(tier.isPresent() && title.isPresent()){
+            return gamesService.getGamesByTitleAndTier(title.get(), tier.get());
+        }
+
         if(tier.isPresent()){
             return gamesService.getGamesAvailable(tier.get());
         }
-        
+
+        if(title.isPresent()){
+            return gamesService.getGamesByTitle(title.get());
+        }
+
         return gamesService.getAllGames();
     }
 
@@ -44,5 +58,17 @@ public class GamesController {
         return gamesService.saveGame(game);
     }
 
+
+    @PostMapping("/delete-game")
+    @ResponseBody
+    public String deleteGame(
+        @RequestParam(name="id", required=true) String id
+    ){
+        if(gamesService.deleteGame(id)){
+            return "Success.";
+        }
+
+        return "No game with this id.";
+    }
 }
 

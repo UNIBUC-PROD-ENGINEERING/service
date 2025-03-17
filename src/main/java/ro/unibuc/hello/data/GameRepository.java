@@ -13,5 +13,7 @@ import ro.unibuc.hello.data.GameEntity;
  */
 @Repository
 public interface GameRepository extends MongoRepository<GameEntity, String> {
-
+    List<GameEntity> findByTitleLike(String title);
+    List<GameEntity> findByTierBetween(int low, int high);
+    List<GameEntity> findByTitleLikeAndTierBetween(String title, int low, int high);
 }

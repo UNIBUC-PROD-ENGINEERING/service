@@ -1,63 +1,35 @@
-
-# You can use this file to easily send requests to your API.
-# Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
-# High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
-
-
-# Requests for API endpoints of the sample project:
-
+### see all games
 GET http://localhost:8080/games
 
-### add a game
-@game_name = Minecraft
-@game_tier = 2
+### see games available for a tier
 
+GET http://localhost:8080/games
+    ?tier=3
+
+### search game by id
+
+GET http://localhost:8080/games
+    ?id=67d889d2d070de1600cf2b48
+
+### search game by title
+
+GET http://localhost:8080/games
+    ?title=Half-Life
+
+### search game by title and tier
+
+GET http://localhost:8080/games
+    ?title=Half-Life
+    &tier=2
+
+### add a game
+@game_name = Half-Life:Alyx
+@game_tier = 3
 POST http://localhost:8080/add-game
     ?title={{game_name}}
     &tier={{game_tier}}
-###
-### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8080/hello-world
 
-### Hello world with a request param passed.
-# When sending the request it will ask you for the name
-# hitting enter will avoid passing the param, and do the default behaviour above
-# @prompt name The name to display in response
-GET http://localhost:8080/hello-world
-    ?name={{name}}
+### delete a game
 
-### Save a greeting to database
-@postGreetingId = 1001
-@postGreetingContent = Hello!
-POST http://localhost:8080/greetings
-Content-Type: application/json
-
-{
-    "id": "{{postGreetingId}}",
-    "content": "{{postGreetingContent}}"
-}
-
-### Get all greetings
-GET http://localhost:8080/greetings
-
-### Get info for greeting with given content
-# @prompt content Greeting content to look for, defaults to "Overview"
-GET http://localhost:8080/info
-    ?title={{content}}
-
-### Update an existing greeting
-@putGreetingId = 1001
-@putGreetingContent = Hello again!
-PUT http://localhost:8080/greetings/{{putGreetingId}}
-Content-Type: application/json
-
-{
-    "content": "{{putGreetingContent}}"
-}
-
-### Delete greeting
-@deleteGreetingId = 1001
-DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
-
-
-# TODO add requests for your own endpoints!
+POST http://localhost:8080/delete-game
+    ?id=67d892cdb65bb038c7c6302a
