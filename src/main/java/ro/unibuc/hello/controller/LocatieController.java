@@ -1,13 +1,13 @@
-package main.java.ro.unibuc.hello.controller;
+package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import main.java.ro.unibuc.hello.dto.Locatie;
-import main.java.ro.unibuc.hello.data.LocatieEntity;
+import ro.unibuc.hello.dto.Locatie;
+import ro.unibuc.hello.data.LocatieEntity;
 import ro.unibuc.hello.exception.EntityNotFoundException;
-import main.java.ro.unibuc.hello.service.LocatieService;
+import ro.unibuc.hello.service.LocatieService;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;

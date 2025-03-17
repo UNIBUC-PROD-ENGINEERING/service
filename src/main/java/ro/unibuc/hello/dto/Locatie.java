@@ -1,4 +1,4 @@
-package main.java.ro.unibuc.hello.dto;
+package ro.unibuc.hello.dto;
 
 public class Locatie {
     private String id;
