@@ -15,7 +15,7 @@ public class PartyEntity {
     private String locationId;  // Reference to a Location
     private List<String> foodIds;  // References to Food items
     private List<String> userIds;  // Users in the party
-    private List<String> playlistIds;  // Songs in the playlist
+    private List<String> playlistIds = new ArrayList<>();  // Songs in the playlist
     private List<String> taskIds;  // Tasks to complete
     private int partyPoints;  // Sum of all users' points
 
@@ -30,7 +30,18 @@ public class PartyEntity {
         this.playlistIds = new ArrayList<>();
         this.taskIds = new ArrayList<>();
         this.partyPoints = 0;
+
     }
+
+  
+    public PartyEntity(String name, String date, String userId) {
+    this.name = name;
+    this.date = date;
+    this.partyPoints = 0;
+    this.userIds = new ArrayList<>();
+    this.userIds.add(userId);
+}
+
 
     // Getters and Setters
     
@@ -108,6 +119,14 @@ public class PartyEntity {
 
     public void setPartyPoints(int partyPoints) {
         this.partyPoints = partyPoints;
+    }
+
+    public void addSong(String songId) {
+        this.playlistIds.add(songId);
+    }
+    
+    public void removeSong(String songId) {
+        this.playlistIds.remove(songId);
     }
     
 }

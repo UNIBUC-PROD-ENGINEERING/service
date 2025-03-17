@@ -55,6 +55,7 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 ### Get all parties
 GET http://localhost:8080/parties
 
+
 GET http://localhost:8080/parties/{id}
 
 ### Get all locations
@@ -99,3 +100,104 @@ Content-Type: application/json
 # @prompt locationId Introdu ID-ul produsului alimentar
 POST http://localhost:8080/parties/{{partyId}}/location/{{locationId}}
 Content-Type: application/json
+
+### Get all tasks for a party
+# @prompt partyId Party ID to get the tasks for
+GET http://localhost:8080/parties/{{partyId}}/tasks
+
+### Get task by ID
+# @prompt taskId Task ID to get details for
+GET http://localhost:8080/tasks/{{taskId}}
+
+### Delete a task
+# @prompt taskId Task ID to delete
+DELETE http://localhost:8080/tasks/{{taskId}}
+
+# @prompt partyId The ID of the party to fetch
+GET http://localhost:8080/parties/{{partyId}}
+
+
+# @prompt partyName The name of the new party
+# @prompt partyDate The date of the party
+POST http://localhost:8080/parties
+Content-Type: application/json
+
+{
+  "name": "{{partyName}}",
+  "date": "{{partyDate}}"
+}
+
+# @prompt partyId The ID of the party to update
+# @prompt partyName The new name for the party
+# @prompt partyDate The new date for the party
+PUT http://localhost:8080/parties/{{partyId}}
+Content-Type: application/json
+
+{
+  "name": "{{partyName}}",
+  "date": "{{partyDate}}"
+}
+
+# @prompt partyId The ID of the party to delete
+DELETE http://localhost:8080/parties/{{partyId}}
+
+# @prompt partyId The ID of the party
+# @prompt songTitle The title of the song to add
+# @prompt songArtist The artist of the song to add
+POST http://localhost:8080/parties/{{partyId}}/songs
+Content-Type: application/json
+
+{
+  "title": "{{songTitle}}",
+  "artist": "{{songArtist}}"
+}
+
+# delete song from party 
+DELETE /parties/{partyId}/songs/{songId}
+
+### Get all users
+GET http://localhost:8080/users
+
+### Get a user by ID with their parties
+GET http://localhost:8080/users/{userId}
+
+### Create a new user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Name",
+  "email": "name@example.com",
+  "points": 100
+}
+
+### Update a user
+PUT http://localhost:8080/users/{userId}
+Content-Type: application/json
+
+{
+  "name": "Updated Name",
+  "email": "updatedemail@example.com",
+  "points": 150
+}
+
+### Delete a user
+DELETE http://localhost:8080/users/{userId}
+
+### Add a user to a party
+POST http://localhost:8080/users/{userId}/join/{partyId}
+
+### Create a new party as a user
+POST http://localhost:8080/users/{userId}/createParty
+Content-Type: application/json
+
+{
+  "name": "Party name",
+  "date": "Date",
+  "locationId": "someLocation",
+  "foodIds": ["food1", "food2"],
+  "userIds": [],
+  "playlistIds": [],
+  "taskIds": [],
+  "partyPoints": points
+}
