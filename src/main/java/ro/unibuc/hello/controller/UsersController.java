@@ -54,7 +54,7 @@ public class UsersController {
     @PutMapping("/users/{id}")
     @ResponseBody
     public User updateUser(@PathVariable String id, @RequestBody UserPost user) throws EntityNotFoundException {
-        return userService.updateUser(id, user);
+        return userService.updateUser(id, user);  //itemurile precizate sunt adaugate la cele existente pt userul user 
     }
 
     @DeleteMapping("/users/{id}")
