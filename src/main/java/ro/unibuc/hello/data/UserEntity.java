@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import ro.unibuc.hello.dto.Item;
+
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
@@ -19,7 +21,7 @@ public class UserEntity {
     private String username;
 
     @JsonManagedReference
-    private List<ItemEntity> items;
+    private List<ItemEntity> items = new ArrayList<>();
 
     public UserEntity() {}
 
@@ -93,12 +95,26 @@ public class UserEntity {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder print = new StringBuilder("Users: " + "Name: " + name + " Username: " + username + " Owned items: ");
-        for (ItemEntity item : items) {
-            print.append(" ").append(item.toString());
+     public List<ItemEntity> updateItems(List<Item> items) {
+        this.items.clear();
+        if(items != null){
+            for (Item item : items) {
+            ItemEntity newItem = new ItemEntity(item.getName(), item.getDescription());
+            newItem.setOwner(this);
+            this.items.add(newItem);  
+            }
         }
-        return print.toString();
+
+        return this.items;
     }
+
+
+    // @Override
+    // public String toString() {
+    //     StringBuilder print = new StringBuilder("Users: " + "Name: " + name + " Username: " + username + " Owned items: ");
+    //     for (ItemEntity item : items) {
+    //         print.append(" ").append(item.toString());
+    //     }
+    //     return print.toString();
+    // }
 }

@@ -20,6 +20,14 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
     @Aggregation(pipeline = {
             "{ '$lookup': { 'from': 'itemEntity', 'localField': '_id', 'foreignField': 'owner', 'as': 'items' } }"
     })
-    List<UserEntity> findAllWithPosts();
+    List<UserEntity> findAllWithItems();
+
+
+    @Aggregation(pipeline = {
+        "{ '$match': { '_id': ?0 } }", // Match the user by ID
+        "{ '$lookup': { 'from': 'itemEntity', 'localField': '_id', 'foreignField': 'owner', 'as': 'items' } }"
+    })
+    Optional<UserEntity> findByIdWithItems(String id);
+    
 
 }

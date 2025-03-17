@@ -32,16 +32,16 @@ public class UserService {
     private MongoTemplate mongoTemplate;  // Inject MongoTemplate
 
     public List<User> getAllUsers() {
-        List<UserEntity> entities = userRepository.findAllWithPosts();
+        List<UserEntity> entities = userRepository.findAllWithItems();
         return entities.stream()
                 .map(entity -> new User(entity.getId(), entity.getName(),  entity.getUsername(), entity.getItems()))
                 .collect(Collectors.toList());
     }
 
     public User getUserById(String id) throws EntityNotFoundException {
-        Optional<UserEntity> optionalEntity = userRepository.findById(id);
-        System.out.println(optionalEntity);
+        Optional<UserEntity> optionalEntity = userRepository.findByIdWithItems(id);
         UserEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
+        // System.out.println(optionalEntity);
         return new User(entity.getId(), entity.getName(),  entity.getUsername(), entity.getItems());
    }
 
@@ -76,6 +76,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    //face update la itemuri
     public User updateUser(String id, UserPost user) throws EntityNotFoundException {
         UserEntity entity = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
@@ -83,9 +84,11 @@ public class UserService {
         entity.setName(user.getName());
         entity.setUsername(user.getUsername());
         entity.setPassword(user.getPassword());
-
+        List<ItemEntity> newItems = entity.updateItems(user.getOwnedItems());
+        
+        itemRepository.saveAll(newItems);
         userRepository.save(entity);
-        return new User(entity.getName(),  entity.getUsername());
+        return new User(entity.getId(), entity.getName(),  entity.getUsername(), entity.getItems());
     }
 
     public void deleteUser(String id) throws EntityNotFoundException {
