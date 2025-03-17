@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.hello.dto.Subscription;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 // import ro.unibuc.hello.service.GamesService;
-import ro.unibuc.hello.service.SubscriptionService;
+import ro.unibuc.hello.service.SubscriptionsService;
 import ro.unibuc.hello.service.GreetingsService;
 
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import java.util.List;
 public class SubscriptionController {
     
     @Autowired
-    private SubscriptionService subscriptionsService;
+    private SubscriptionsService subscriptionsService;
 
     @GetMapping("/subscriptions")
     @ResponseBody
