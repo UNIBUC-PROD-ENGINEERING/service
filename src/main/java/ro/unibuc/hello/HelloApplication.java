@@ -31,13 +31,15 @@ public class HelloApplication {
 
 	@PostConstruct
 	public void runAfterObjectCreated() {
-		// informationRepository.deleteAll();
-		// informationRepository.save(new InformationEntity("Overview",
-		// 		"This is an example of using a data storage engine running separately from our applications server"));
 		
 		gamesRepository.deleteAll();
-		gamesRepository.save(new GameEntity("Half-Life 2", 1));
 		gamesRepository.save(new GameEntity("Balatro", 1));
+
+		gamesRepository.save(new GameEntity("Half-Life", 1));
+		gamesRepository.save(new GameEntity("Half-Life 2", 1));
+		gamesRepository.save(new GameEntity("Minecraft", 2));
+		gamesRepository.save(new GameEntity("Half-Life:Alyx", 3));
+		gamesRepository.save(new GameEntity("Cyberpunk 2077", 3));
 
 		subscriptionsRepository.deleteAll();
 		subscriptionsRepository.save(new SubscriptionEntity(1, 40));
