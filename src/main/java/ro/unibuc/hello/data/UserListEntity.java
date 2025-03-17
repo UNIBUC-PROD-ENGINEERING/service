@@ -1,42 +1,41 @@
 package ro.unibuc.hello.data;
 
+import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@NoArgsConstructor 
+@AllArgsConstructor
+@Data 
+@Document(collection = "user_lists")
 public class UserListEntity {
 
     @Id
-    private String id;
+    private UserListId id; 
 
-    private boolean isOwner;
+    @DBRef
+    @ToString.Exclude
+    private UserEntity user; 
 
-    public UserListEntity() {}
+    @DBRef
+    @ToString.Exclude
+    private ToDoListEntity toDoList; 
 
-    public UserListEntity(boolean isOwner) {
-        this.isOwner = isOwner;
-    }
+    private boolean isOwner; 
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    //TODO: faceti metoda asta mai clara: get title -> isOwner?
-
-    public boolean getTitle() {
-        return isOwner;
-    }
-
-    public void setTitle(boolean isOwner) {
+    public UserListEntity(UserEntity user, ToDoListEntity toDoList, boolean isOwner) {
+        this.id = new UserListId(user.getId(), toDoList.getId()); 
+        this.user = user;
+        this.toDoList = toDoList;
         this.isOwner = isOwner;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "Information[id='%s', isOwner='%b']",
-                id, isOwner);
+                "UserListEntity[id='%s', user='%s', toDoList='%s', isOwner='%b']",
+                id, user, toDoList, isOwner);
     }
 }
