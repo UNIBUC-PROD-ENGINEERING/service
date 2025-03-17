@@ -4,9 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import ro.unibuc.hello.data.*;
 
 import jakarta.annotation.PostConstruct;
+import ro.unibuc.hello.data.AuctionEntity;
+import ro.unibuc.hello.data.AuctionRepository;
+import ro.unibuc.hello.data.BidEntity;
+import ro.unibuc.hello.data.BidRepository;
+import ro.unibuc.hello.data.InformationEntity;
+import ro.unibuc.hello.data.InformationRepository;
+import ro.unibuc.hello.data.ItemEntity;
+import ro.unibuc.hello.data.ItemRepository;
+import ro.unibuc.hello.data.UserEntity;
+import ro.unibuc.hello.data.UserRepository;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses = {
@@ -59,18 +68,18 @@ public class HelloApplication {
         item2.setOwner(user);
         item2 = itemRepository.save(item2);
 
-        bidRepository.deleteAll();
-        BidEntity bid1 = new BidEntity(1000, user.getId());
-        bid1 = bidRepository.save(bid1);
-
         auctionRepository.deleteAll();
         AuctionEntity auction1 = new AuctionEntity("licitatie1 1", "O super licitatie", 1000);
         auction1.setAuctioneer(user);
         auction1.setItem(item2);
-        auction1.setHighestBid(bid1);
         auction1 = auctionRepository.save(auction1);
 
-        
+        bidRepository.deleteAll();
+        BidEntity bid1 = new BidEntity(1000, user, auction1);
+        bid1 = bidRepository.save(bid1);
+
+        auction1.setHighestBid(bid1);
+        auction1 = auctionRepository.save(auction1);
     }
 
 }
