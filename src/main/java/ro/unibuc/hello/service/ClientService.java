@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unibuc.hello.entity.Client;
 import ro.unibuc.hello.repository.ClientRepository;
+import ro.unibuc.hello.config.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
@@ -14,11 +15,13 @@ public class ClientService {
     
     private final ClientRepository clientRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil; // ✅ Adăugat pentru generarea token-ului JWT
 
     @Autowired
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, JwtUtil jwtUtil) {
         this.clientRepository = clientRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
+        this.jwtUtil = jwtUtil;
     }
 
     public List<Client> getAllClients() {
@@ -38,6 +41,10 @@ public class ClientService {
     }
 
     public Client registerClient(Client client) {
+        Optional<Client> existingClient = clientRepository.findByEmail(client.getEmail());
+        if (existingClient.isPresent()) {
+            throw new IllegalArgumentException("Email-ul este deja folosit!");
+        }
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         return clientRepository.save(client);
     }
@@ -47,9 +54,10 @@ public class ClientService {
         if (clientOptional.isPresent()) {
             Client client = clientOptional.get();
             if (passwordEncoder.matches(password, client.getPassword())) {
-                return "Login successful";
+                return jwtUtil.generateToken(email);
             }
         }
-        return "Invalid credentials";
+        throw new IllegalArgumentException("Email sau parolă incorectă!");
     }
+    
 }

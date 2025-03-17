@@ -70,6 +70,7 @@ Content-Type: application/json
 ### 2️⃣ Login client
 POST http://localhost:8080/api/clients/login
 Content-Type: application/json
+Authorization: None
 
 {
   "email": "test@example.com",
@@ -79,6 +80,7 @@ Content-Type: application/json
 ### 3️⃣ Create a new bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjMyODcxLCJleHAiOjE3NDIyNjg4NzF9.r_EEKOD0bzeEnMQenkR4o06WeW_r9lsJjRbxz4FCk2E
 
 {
   "accountNumber": "123456789",
