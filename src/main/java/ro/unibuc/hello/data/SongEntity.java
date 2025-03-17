@@ -1,3 +1,4 @@
+
 package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
@@ -9,15 +10,13 @@ public class SongEntity {
     private String id;
     private String title;
     private String artist;
-    private String partyId;  // Reference to Party
     private String path;
 
     public SongEntity() {}
 
-    public SongEntity(String title, String artist, String partyId, String path) {
+    public SongEntity(String title, String artist, String path) {
         this.title = title;
         this.artist = artist;
-        this.partyId = partyId;
         this.path = path;
     }
 
@@ -47,13 +46,6 @@ public class SongEntity {
         this.artist = artist;
     }
 
-    public String getPartyId(){
-        return partyId;
-    }
-
-    public void setPartyId(String partyId){
-        this.partyId = partyId;
-    }
 
     public String getPath(){
         return path;

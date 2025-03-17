@@ -1,5 +1,7 @@
 package ro.unibuc.hello;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -59,7 +61,7 @@ public class PartyPlanningApp {
         taskRepository.deleteAll();
         foodRepository.deleteAll();
 		
-        userRepository.save(new UserEntity("John Doe", "john@example.com", "securepassword"));
+        UserEntity user1 = userRepository.save(new UserEntity("John Doe", "john@example.com", "securepassword"));
         userRepository.save(new UserEntity("Paul Rudd", "paul@example.com", "securepassword1"));
         userRepository.save(new UserEntity("Tony Stark", "tony@example.com", "securepassword2"));
         locationRepository.save(new LocationEntity("Club X", "123 Party Street", 200, 5, 100));
@@ -68,7 +70,10 @@ public class PartyPlanningApp {
         foodRepository.save(new FoodEntity("Pasta", 30, 5, 50));
         foodRepository.save(new FoodEntity("Taco", 50, 3.8, 90));
         foodRepository.save(new FoodEntity("KFC", 40, 4.9, 70));
-        partyRepository.save(new PartyEntity("Party1", "12.05.2025"));
+        PartyEntity party = new PartyEntity("Party1", "12.05.2025");
+        party.setUserIds(new ArrayList<>()); 
+        party.getUserIds().add(user1.getId()); 
+        partyRepository.save(party); 
         partyRepository.save(new PartyEntity("Party2", "10.08.2025"));
         
 	}
