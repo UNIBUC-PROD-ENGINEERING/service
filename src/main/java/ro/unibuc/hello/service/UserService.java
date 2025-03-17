@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import com.mongodb.internal.connection.ClusterDescriptionHelper.Predicate;
+
 import ro.unibuc.hello.data.ItemEntity;
 import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
@@ -18,6 +20,7 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -38,10 +41,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public User getUserById(String id) throws EntityNotFoundException {
-        Optional<UserEntity> optionalEntity = userRepository.findByIdWithItems(id);
-        UserEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
-        // System.out.println(optionalEntity);
+    public User getUserById(String id)  {
+        UserEntity entity = userRepository.findById(id)
+                            .orElseThrow(() -> new EntityNotFoundException(id));
+                            
+        System.out.println(entity);
         return new User(entity.getId(), entity.getName(),  entity.getUsername(), entity.getItems());
    }
 

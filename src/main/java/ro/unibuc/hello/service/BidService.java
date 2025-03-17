@@ -2,6 +2,9 @@ package ro.unibuc.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import ro.unibuc.hello.data.AuctionEntity;
+import ro.unibuc.hello.data.AuctionRepository;
 import ro.unibuc.hello.data.BidEntity;
 import ro.unibuc.hello.data.BidRepository;
 import ro.unibuc.hello.data.UserEntity;
@@ -22,14 +25,21 @@ public class BidService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AuctionRepository auctionRepository;
+
     public List<Bid> getAllBids() {
         List<BidEntity> entities = bidRepository.findAll();
         return entities.stream()
                 .map(entity -> {
-                String userName = userRepository.findById(entity.getBidderId())
+                String userName = userRepository.findById(entity.getBidder().getId())
                         .map(UserEntity::getName) 
                         .orElse("Unknown User");
-                return new Bid(entity.getPrice(), userName);
+
+                String auctionName = auctionRepository.findById(entity.getAuction().getId())
+                        .map(AuctionEntity::getTitle) 
+                        .orElse("Unknown Auction");
+                return new Bid(entity.getPrice(), userName, auctionName);
             })
                 .collect(Collectors.toList());
     }
@@ -38,21 +48,29 @@ public class BidService {
         Optional<BidEntity> optionalEntity = bidRepository.findById(id);
         BidEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
 
-        String userName = userRepository.findById(entity.getBidderId())
+        String userName = userRepository.findById(entity.getBidder().getId())
                         .map(UserEntity::getName) 
                         .orElse("Unknown User");
-        return new Bid(entity.getPrice(), userName);
+
+        
+        String auctionName = auctionRepository.findById(entity.getAuction().getId())
+                        .map(AuctionEntity::getTitle) 
+                        .orElse("Unknown Auction");    
+
+        return new Bid(entity.getPrice(), userName, auctionName);
     }
 
     public Bid saveBid(BidPost bid) {
-        BidEntity entity = new BidEntity(bid.getPrice(), bid.getBidderId());
+
+        UserEntity bidder = userRepository.findByUsername(bid.getBidderUsername());
+        AuctionEntity auction = auctionRepository.findById(bid.getAuctionId())
+                            .orElseThrow(() -> new EntityNotFoundException(String.valueOf(bid.getAuctionId())));;
+
+        BidEntity entity = new BidEntity(bid.getPrice(), bidder, auction);
+
         bidRepository.save(entity);
 
-        String userName = userRepository.findById(bid.getBidderId())
-                        .map(UserEntity::getName) 
-                        .orElse("Unknown User");
-
-        return new Bid(entity.getPrice(), userName);
+        return new Bid(entity.getPrice(), bidder.getName(), auction.getTitle());
     }
 
     public List<Bid> saveAll(List<Bid> bids) {
@@ -68,25 +86,35 @@ public class BidService {
 
         return savedEntities.stream()
                 .map(entity ->  {
-                String userName = userRepository.findById(entity.getBidderId())
+                String userName = userRepository.findById(entity.getBidder().getId())
                         .map(UserEntity::getName) 
                         .orElse("Unknown User");
-                return new Bid(entity.getPrice(), userName);
+                
+                String auctionName = auctionRepository.findById(entity.getAuction().getId())
+                        .map(AuctionEntity::getTitle) 
+                        .orElse("Unknown Auction");
+                return new Bid(entity.getPrice(), userName, auctionName);
             })
                 .collect(Collectors.toList());
     }
 
-    public Bid updateBid(String id, Bid bid) throws EntityNotFoundException {
+    public Bid updateBid(String id, BidPost bid) throws EntityNotFoundException {
+
         BidEntity entity = bidRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
+
         entity.setPrice(bid.getPrice());
+
+        UserEntity user = userRepository.findByUsername(bid.getBidderUsername());
+        entity.setBidder(user);
+        
         bidRepository.save(entity);
 
-        String userName = userRepository.findById(entity.getBidderId())
-                        .map(UserEntity::getName) 
-                        .orElse("Unknown User");
+        String auctionName = auctionRepository.findById(entity.getAuction().getId())
+                        .map(AuctionEntity::getTitle) 
+                        .orElse("Unknown Auction");
 
-        return new Bid(bid.getPrice(), userName);
+        return new Bid(bid.getPrice(), user.getName(), auctionName);
     }
 
     public void deleteBid(String id) throws EntityNotFoundException {

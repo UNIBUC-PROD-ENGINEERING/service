@@ -1,8 +1,10 @@
 package ro.unibuc.hello.data;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -29,5 +31,9 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
     })
     Optional<UserEntity> findByIdWithItems(String id);
     
+
+    @Query("{id :?0}")                                                  //SQL Equivalent : SELECT * FROM BOOK WHERE ID=?
+    Optional<UserEntity> findById(String id);
+
 
 }

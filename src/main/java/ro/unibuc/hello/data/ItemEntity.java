@@ -12,8 +12,8 @@ public class ItemEntity {
     private String name;
     private String description;
 
-    @JsonBackReference
-    @DocumentReference
+    // @JsonBackReference
+    // @DocumentReference
     private UserEntity owner;
 
     public ItemEntity() {}

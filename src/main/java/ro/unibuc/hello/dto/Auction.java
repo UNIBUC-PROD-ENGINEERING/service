@@ -22,7 +22,7 @@ public class Auction{
         this.startPrice = startPrice;
         this.auctioneer = auctioneer;
 
-        this.highestBid = new Bid(highestBid.getPrice(), item.getOwner().getName());
+        this.highestBid = new Bid(highestBid.getPrice(), item.getOwner().getName(), title);
         this.item = new Item(item.getName(), item.getDescription(), item.getOwner().getName());
     }
 

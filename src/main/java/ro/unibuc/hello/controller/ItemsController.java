@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ro.unibuc.hello.dto.Item;
-import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.ItemsService;
 
