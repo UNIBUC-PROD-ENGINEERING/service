@@ -1,25 +1,51 @@
-package main.java.ro.unibuc.hello.controller;
+package ro.unibuc.hello.controller;
 
-import main.java.ro.unibuc.hello.entity.Client;
-import main.java.ro.unibuc.hello.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.unibuc.hello.entity.Client;
+import ro.unibuc.hello.service.ClientService;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clients")
 public class ClientController {
 
+    private final ClientService clientService;
+
     @Autowired
-    private ClientService clientService;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
+    @GetMapping
+    public List<Client> getAllClients() {
+        return clientService.getAllClients();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Client> getClientById(@PathVariable String id) {
+        return clientService.getClientById(id);
+    }
+
+    @PostMapping
+    public Client createClient(@RequestBody Client client) {
+        return clientService.saveClient(client);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteClient(@PathVariable String id) {
+        clientService.deleteClient(id);
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Client client, @RequestParam String password, @RequestParam String email) {
-        return clientService.register(client, password, email);
+    public Client registerClient(@RequestBody Client client) {
+        return clientService.registerClient(client);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
-        return clientService.login(email, password);
+    public String loginClient(@RequestBody Client client) {
+        return clientService.loginClient(client.getEmail(), client.getPassword());
     }
 }
