@@ -90,10 +90,14 @@ public class RobotService {
             throw new ValidationException("Robot cannot have an order while in 'error' status");
         }
     }
-
     private void validateStatusChange(String oldStatus, String newStatus) {
         if (!VALID_STATUSES.contains(newStatus)) {
             throw new ValidationException("Invalid status: " + newStatus);
         }
+    
+        if ("completed".equals(oldStatus) && "in_progress".equals(newStatus)) {
+            throw new ValidationException("Cannot transition from 'completed' to 'in_progress'");
+        }
     }
+    
 }
