@@ -1,12 +1,12 @@
-package main.java.ro.unibuc.hello.service;
+package ro.unibuc.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import main.java.ro.unibuc.hello.dto.Proprietar;
+import ro.unibuc.hello.dto.Proprietar;
 import ro.unibuc.hello.data.InformationEntity;
-import main.java.ro.unibuc.hello.data.ProprietarEntity;
-import main.java.ro.unibuc.hello.data.ProprietarRepository;
+import ro.unibuc.hello.data.ProprietarEntity;
+import ro.unibuc.hello.data.ProprietarRepository;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
