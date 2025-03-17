@@ -11,7 +11,7 @@ GET http://localhost:8080/users/{{id}}
 ### All users
 GET http://localhost:8081/users
 ### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8081/hello-world
+GET http://localhost:8080/hello-world
 
 ### Hello world with a request param passed.
 # When sending the request it will ask you for the name
@@ -24,7 +24,7 @@ GET http://localhost:8081/hello-world
 @postGreetingId = 1001
 @userId = 0
 @postGreetingContent = Hello!
-POST http://localhost:8081/greetings
+POST http://localhost:8080/greetings
 Content-Type: application/json
 
 {
@@ -33,10 +33,10 @@ Content-Type: application/json
 }
 
 ### Create new user
-@firstName = Alina
+@firstName = Eduard
 @lastName = Popa
-@mail = alina@gmail.com 
-@phoneNumber = 0723521027
+@mail = eduard@gmail.com 
+@phoneNumber = 0724571085
 @password = parolamea123
 POST http://localhost:8081/users
 Content-Type: application/json
@@ -53,10 +53,10 @@ Content-Type: application/json
 GET http://localhost:8081/vehicles
 
 ### Add new vehicle
-@userId = 67d767dca086f159e0e3ad65
-@brand = Dacia
-@model = Logan
-@licensePlate = B123XYZ
+@userId = 67d81e2934b60a69129eff6d
+@brand = BMW
+@model = Series3
+@licensePlate = B123MMM
 POST http://localhost:8081/vehicles
 Content-Type: application/json
 
@@ -68,26 +68,26 @@ Content-Type: application/json
 }
 
 ### Create new ride
-@driverId = 67d767dca086f159e0e3ad65
+@driverId = 67d81e2934b60a69129eff6d
 @startLocation = Bucharest
 @endLocation = Cluj-Napoca
-@departureTime = 2025-03-16T08:00:00.000Z
-@arrivalTime = 2025-03-16T12:00:00.000Z
+@departureTime = 2025-03-20T10:00:00.000Z
+@arrivalTime = 2025-03-18T12:00:00.000Z
 @seatPrice = 50
 @seatsAvailable = 3
-@carLicensePlate = B123XYZ
+@carLicensePlate = B123MMM
 POST http://localhost:8081/rides
 Content-Type: application/json
 
 {
-    "driverId": "67d767dca086f159e0e3ad65",
+    "driverId": "67d81e2934b60a69129eff6d",
     "startLocation": "Bucharest",
     "endLocation": "Cluj-Napoca",
-    "departureTime": "2025-03-17T02:13:00.000Z",
-    "arrivalTime": "2025-03-17T02:14:00.000Z",
+    "departureTime": "2025-03-20T10:00:00.000Z",
+    "arrivalTime": "2025-03-18T12:00:00.000Z",
     "seatPrice": 50,
     "seatsAvailable": 3,
-    "carLicensePlate": "B123XYZ"
+    "carLicensePlate": "B123MMM"
 }
 
 ### Get all greetings
@@ -106,6 +106,27 @@ PATCH http://localhost:8081/rides/67d60988a42dae58c46903e8/cancel?currentLocatio
 # @prompt content Greeting content to look for, defaults to "Overview"
 GET http://localhost:8080/info
     ?title={{content}}
+
+### Add a passenger to a ride
+@rideId = 67d81fa934b60a69129eff71
+@passengerId = 67d81f2c34b60a69129eff6f
+@createdAt = 2024-03-17T12:00:00.000Z
+POST http://localhost:8081/bookings
+Content-Type: application/json
+
+{
+    "rideId": "{{rideId}}",
+    "passengerId": "{{passengerId}}",
+    "createdAt": "{{createdAt}}"
+}
+
+### Get passengers for a ride
+# @prompt rideId The ID of the ride
+GET http://localhost:8081/bookings/{{rideId}}/passengers
+
+###Change status to cancelled
+# @prompt rideId The ID of the ride
+PATCH http://localhost:8081/bookings/{{rideId}}/cancel
 
 ### Update an existing greeting
 @putGreetingId = 1001
