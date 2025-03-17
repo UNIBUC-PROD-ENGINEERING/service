@@ -9,7 +9,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,6 +27,21 @@ public class UserEntity implements UserDetails{
     private String password;
 
     private String role;
+
+    //Pentru asocierea cu un toDoList
+    @DBRef(lazy = true) 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore 
+    private List<UserListEntity> userLists;
+
+    //Pentru a da request de join la alte toDoLists
+    @DBRef(lazy = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<RequestEntity> requests;
+
 
     public Role getRole(){
         return Role.valueOf(role);

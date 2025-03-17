@@ -1,45 +1,40 @@
 package ro.unibuc.hello.data;
 
+import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Document(collection = "requests")
 public class RequestEntity {
 
     @Id
-    private String id;
+    private RequestId id; 
 
-    private String text;
+    @DBRef
+    @ToString.Exclude
+    private UserEntity user;
 
-    public RequestEntity() {}
+    @DBRef
+    @ToString.Exclude
+    private ToDoListEntity toDoList;
 
-    public RequestEntity(String text) {
-        this.text = text;
-    }
+    private String text; 
 
-    public RequestEntity(String id, String text) {
-        this.id = id;
-        this.text = text;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
+    public RequestEntity(UserEntity user, ToDoListEntity toDoList, String text) {
+        this.id = new RequestId(user.getId(), toDoList.getId());
+        this.user = user;
+        this.toDoList = toDoList;
         this.text = text;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "Information[id='%s', text='%s']",
-                id, text);
+                "RequestEntity[user='%s', toDoList='%s', text='%s']",
+                user.getUsername(), toDoList.getName(), text);
     }
 }
