@@ -1,0 +1,33 @@
+### SUBSCRIPTIONS ###
+
+### Get all subscriptions
+GET http://localhost:8080/subscriptions
+
+### Get subscription by tier
+GET http://localhost:8080/subscriptions/info?tier=1
+
+### Create a new subscription
+@postTier = 2
+@postPrice = 150
+POST http://localhost:8080/subscriptions
+Content-Type: application/json
+
+{
+    "tier": {{postTier}},
+    "price": {{postPrice}}
+}
+
+### Update a subscription
+@putTier = 2
+@putPrice = 200
+PUT http://localhost:8080/subscriptions/{{putTier}}
+Content-Type: application/json
+
+{
+    "tier": {{putTier}},
+    "price": {{putPrice}}
+}
+
+### Delete a subscription
+@deleteTier = 2
+DELETE http://localhost:8080/subscriptions/{{deleteTier}}

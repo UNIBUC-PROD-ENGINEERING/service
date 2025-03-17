@@ -14,5 +14,7 @@ import ro.unibuc.hello.data.SubscriptionEntity;
  */
 @Repository
 public interface SubscriptionRepository extends MongoRepository<SubscriptionEntity, String> {
-
+    // Optional<SubscriptionEntity> findByTier(int tier);
+    // boolean existsByTier(int tier);
+    // void deleteByTier(int tier);
 }
