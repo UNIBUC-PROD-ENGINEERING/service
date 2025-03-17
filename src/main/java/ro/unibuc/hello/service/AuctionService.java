@@ -51,15 +51,22 @@ public class AuctionService {
         entity.setDescription(auction.getDescription());
         entity.setStartPrice(auction.getStartPrice());
 
-
         UserEntity user = userRepository.findByUsername(auction.getAuctioneerUsername());
         entity.setAuctioneer(user);
 
-        Optional<ItemEntity> item = itemRepository.findById(auction.getItem());
-        // entity.setItem(item);
+        // if(auction.getItem().equals("67d81d8a22dff66530467a49")){
+        //     System.out.println("HELLOO");
+        // }
 
-        Optional<BidEntity> bid = bidRepository.findById(auction.getHighestBid());
-        // entity.setHighestBid(bid);
+        ItemEntity item = itemRepository.findById(auction.getItem())
+                          .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+        entity.setItem(item);
+        // itemRepository.findById(auction.getItem()).ifPresent(entity::setItem);
+
+
+        BidEntity bid = bidRepository.findById(auction.getHighestBid())
+                                 .orElseThrow(() -> new EntityNotFoundException("Item not found"));;
+        entity.setHighestBid(bid);
 
         auctionRepository.save(entity);
         return new Auction(entity.getTitle(), entity.getDescription(), entity.getStartPrice(), entity.getItem(), entity.getHighestBid(), entity.getAuctioneer().getName());

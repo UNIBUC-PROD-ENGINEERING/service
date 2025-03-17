@@ -29,10 +29,12 @@ public class ItemsService {
     }
 
     public Item getItemById(String id) throws EntityNotFoundException {
-        Optional<ItemEntity> optionalEntity = itemRepository.findById(id);
-        System.out.println(optionalEntity);
-        ItemEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
-        return new Item(entity.getName(), entity.getDescription());
+        // Optional<ItemEntity> optionalEntity = itemRepository.findById(id);
+        // System.out.println(optionalEntity);
+        // ItemEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
+        ItemEntity entity = itemRepository.findById("67d81d8a22dff66530467a49")
+                          .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+        return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName());
     }
 
     public Item saveItem(Item item) {
@@ -71,7 +73,7 @@ public class ItemsService {
         // entity.setOwner(item.getOwner());
         
         itemRepository.save(entity);
-        return new Item(entity.getName(), entity.getDescription());
+        return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName());
     }
 
     public void deleteItem(String id) throws EntityNotFoundException {
