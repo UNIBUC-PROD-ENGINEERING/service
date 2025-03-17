@@ -28,6 +28,7 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.session:spring-session-core'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.data:spring-data-mongodb'
@@ -38,6 +39,8 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 	implementation 'org.modelmapper:modelmapper:3.2.0'
+	implementation 'io.jsonwebtoken:jjwt:0.12.3'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
 
 	// Lombok for test scope
 	testImplementation 'org.projectlombok:lombok:1.18.30'

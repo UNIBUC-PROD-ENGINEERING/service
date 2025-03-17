@@ -1,15 +1,21 @@
 package ro.unibuc.hello.data;
 
 import lombok.*;
+
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Document(collection = "users")
-public class UserEntity {
+@Data
+public class UserEntity implements UserDetails{
     @Id
     private String id;
 
@@ -19,9 +25,25 @@ public class UserEntity {
 
     private String password;
 
-    public UserEntity(String username, String email, String password){
+    private String role;
+
+    public Role getRole(){
+        return Role.valueOf(role);
+    }
+
+    public void setRole(Role role){
+        this.role = role.name();
+    }
+
+    public UserEntity(String username, String email, String password, Role role){
         this.username=username;
         this.email=email;
         this.password=password;
+        this.setRole(role);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of((GrantedAuthority) () ->"ROLE_"+ getRole());
     }
 }

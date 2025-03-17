@@ -28,6 +28,7 @@ Content-Type: application/json
     "content": "{{postGreetingContent}}"
 }
 
+
 ### Get all greetings
 GET http://localhost:8080/greetings
 
@@ -46,6 +47,7 @@ Content-Type: application/json
     "content": "{{putGreetingContent}}"
 }
 
+
 ### Delete greeting
 @deleteGreetingId = 1001
 DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
@@ -53,18 +55,43 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 # TODO add requests for your own endpoints!
 
+### auth: register an user
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+    "username":"abcd",
+    "email":"email",
+    "password":"password123"
+}
+
+@token = response.body.token
+
+### auth: login user 
+
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "username":"abcd",
+    "email":"email",
+    "password":"password123"
+}
+
+@token = response.body.token
+
+### auth: logout user 
+POST http://localhost:8080/auth/logout
+
+### get logged in user 
+GET http://localhost:8080/users/me
+Authorization: Bearer {{token}}
+
 ### get all users
 GET http://localhost:8080/users/all
 
 ### create user
-POST http://localhost:8080/users/register
-Content-Type: application/json
 
-{
-    "username":"abc",
-    "email":"emailwithpatternssoon",
-    "password":"notencryptedyet"
-}
 
 ### update user with PUT
 PUT http://localhost:8080/users/abc 

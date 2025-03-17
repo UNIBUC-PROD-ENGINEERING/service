@@ -11,7 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RequestRepository extends MongoRepository<RequestEntity, String> {
-
-    RequestEntity findById(String id);
-
+  //Already has findbyid
 }

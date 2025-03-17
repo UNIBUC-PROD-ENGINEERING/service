@@ -10,7 +10,9 @@ public class ToDoListEntity {
     private String name;
     private String description;
 
-    public ToDoListEntity() {}
+    public ToDoListEntity() {
+
+    }
 
     public ToDoListEntity(String name, String description) {
         this.name = name;
