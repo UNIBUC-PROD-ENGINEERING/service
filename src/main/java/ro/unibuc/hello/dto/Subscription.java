@@ -1,4 +1,4 @@
-package ro.unibuc.hello.data;
+package ro.unibuc.hello.dto;
 
 public class Subscription {
     private int tier;

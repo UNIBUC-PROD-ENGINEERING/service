@@ -58,7 +58,6 @@ public class GamesController {
         return gamesService.saveGame(game);
     }
 
-
     @PostMapping("/delete-game")
     @ResponseBody
     public String deleteGame(
