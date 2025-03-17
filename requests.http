@@ -60,6 +60,7 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 ### 1️⃣ Register a new client
 POST http://localhost:8080/api/clients/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
 Content-Type: application/json
 
 {
@@ -69,6 +70,7 @@ Content-Type: application/json
 
 ### 2️⃣ Login client
 POST http://localhost:8080/api/clients/login
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
 Content-Type: application/json
 Authorization: None
 
@@ -80,7 +82,7 @@ Authorization: None
 ### 3️⃣ Create a new bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjMyODcxLCJleHAiOjE3NDIyNjg4NzF9.r_EEKOD0bzeEnMQenkR4o06WeW_r9lsJjRbxz4FCk2E
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
 
 {
   "accountNumber": "123456789",
@@ -90,7 +92,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwia
 ### 4️⃣ Create another bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjMyODcxLCJleHAiOjE3NDIyNjg4NzF9.r_EEKOD0bzeEnMQenkR4o06WeW_r9lsJjRbxz4FCk2E
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
 
 {
   "accountNumber": "987656349",
@@ -98,7 +100,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwia
 }
 
 ### 5️⃣ Create a new card
-POST http://localhost:8080/api/cards
+POST http://localhost:8080/api/cards/67d88473fc2a30395f9943bf
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
 Content-Type: application/json
 
 {

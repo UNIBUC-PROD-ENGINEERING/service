@@ -64,17 +64,7 @@ public class BankAccountService {
 
         return savedAccount;
     }
-
-    private void logToFile(String message) {
-        try (FileWriter fw = new FileWriter("/logs.txt", true);
-            PrintWriter pw = new PrintWriter(fw)) {
-            pw.println(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     
-
     public void deleteBankAccount(String id) {
         bankAccountRepository.deleteById(id);
     }

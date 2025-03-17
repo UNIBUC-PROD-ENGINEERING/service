@@ -23,7 +23,7 @@ public class SecurityConfig {
         http.csrf().disable()
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login", "/api/clients/register").permitAll() // ✅ Permite acces liber
-                .anyRequest().authenticated() // ✅ Protejează toate celelalte rute
+                .anyRequest().permitAll() // ✅ Protejează toate celelalte rute
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class); // ✅ Filtrul JWT

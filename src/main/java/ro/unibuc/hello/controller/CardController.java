@@ -34,9 +34,9 @@ public class CardController {
         return cardService.getCardsByBankAccountId(bankAccountId);
     }
 
-    @PostMapping
-    public Card createCard(@RequestBody Card card) {
-        return cardService.saveCard(card);
+    @PostMapping("/{bankAccountId}")
+    public Card createCard(@PathVariable String bankAccountId, @RequestBody Card card) {
+        return cardService.saveCard(bankAccountId, card);
     }
 
     @DeleteMapping("/{id}")
