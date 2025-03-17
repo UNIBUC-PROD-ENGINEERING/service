@@ -12,7 +12,17 @@ import ro.unibuc.hello.dto.response.UserListDto;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/")
-public class ToDoListController {
+@RequestMapping("/item")
+public class ItemController {
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @GetMapping("/create")
+    public Create();
 
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @GetMapping("/create")
+    public Update();
+
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @GetMapping("/create")
+    public Delete();
 }

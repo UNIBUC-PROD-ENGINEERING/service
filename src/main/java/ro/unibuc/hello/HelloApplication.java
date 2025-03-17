@@ -46,10 +46,10 @@ public class HelloApplication {
 
 		userRepository.save(new UserEntity("admin","admin",passwordEncoder.encode("admin"),Role.ADMIN));
 
-		try { itemRepository.save(new ItemEntity()); } catch (Exception exception) { }
-		try { requestRepository.save(new RequestEntity()); } catch (Exception exception) { }
-		try { toDoListRepository.save(new ToDoListEntity()); } catch (Exception exception) { }
-		try { userListRepository.save(new UserListEntity()); } catch (Exception exception) { }
+		try { toDoListRepository.save(new ToDoListEntity("test", "test")); } catch (Exception exception) { }
+		try { requestRepository.save(new RequestEntity("admin", "test", "ceau")); } catch (Exception exception) { }
+		try { itemRepository.save(new ItemEntity("test", "test", "test")); } catch (Exception exception) { }
+		try { userListRepository.save(new UserListEntity("admin", "test", true)); } catch (Exception exception) { }
 	}
 
 }

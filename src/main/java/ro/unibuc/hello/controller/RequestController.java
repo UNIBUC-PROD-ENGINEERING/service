@@ -13,6 +13,6 @@ import ro.unibuc.hello.dto.response.UserListDto;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/")
-public class ToDoListController {
-
+public class RequestController {
+    
 }
