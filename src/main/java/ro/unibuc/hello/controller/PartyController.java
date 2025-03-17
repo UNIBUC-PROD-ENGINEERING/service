@@ -35,14 +35,14 @@ public class PartyController {
     private static final Logger logger = LoggerFactory.getLogger(PartyController.class);
 
     private final PartyRepository partyRepository;
-    private final TaskRepository taskRepository;  // Repository pentru taskuri
-    private final PartyService partyService;      // Adăugăm PartyService pentru logica de business
+    private final TaskRepository taskRepository; // Repository pentru taskuri
+    private final PartyService partyService; // Adăugăm PartyService pentru logica de business
     private final SongRepository songRepository;
     private final YouTubeService youTubeService;
 
-
     // Injectăm dependențele
-    public PartyController(PartyRepository partyRepository, TaskRepository taskRepository, PartyService partyService, SongRepository songRepository, YouTubeService youTubeService) {
+    public PartyController(PartyRepository partyRepository, TaskRepository taskRepository, PartyService partyService,
+            SongRepository songRepository, YouTubeService youTubeService) {
         this.partyRepository = partyRepository;
         this.taskRepository = taskRepository;
         this.partyService = partyService;
@@ -51,17 +51,15 @@ public class PartyController {
 
     }
 
+    // @GetMapping
+    // public List<PartyEntity> getAllParties() {
+    // return partyService.getAllParties();
+    // }
 
+    // @GetMapping("/{id}")
+    // public PartyEntity getPartyById(@PathVariable String id) {
+    // return partyService.getPartyById(id);
 
-//     @GetMapping
-//     public List<PartyEntity> getAllParties() {
-//         return partyService.getAllParties();
-//     }
-
-//     @GetMapping("/{id}")
-//     public PartyEntity getPartyById(@PathVariable String id) {
-//         return partyService.getPartyById(id);
-  
     @GetMapping
     public List<PartyWithSongsResponse> getAllParties() {
         List<PartyEntity> parties = partyRepository.findAll();
@@ -86,17 +84,15 @@ public class PartyController {
                     party.getLocationId(),
                     party.getFoodIds(),
                     party.getUserIds(),
-                    songNames,  // This will contain concatenated song details
+                    songNames, // This will contain concatenated song details
                     party.getTaskIds(),
-                    party.getPartyPoints()
-            );
+                    party.getPartyPoints());
 
             partyResponses.add(response);
         }
 
         return partyResponses;
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<PartyWithSongsResponse> getPartyById(@PathVariable String id) {
@@ -125,10 +121,9 @@ public class PartyController {
                 party.getLocationId(),
                 party.getFoodIds(),
                 party.getUserIds(),
-                songNames,  // This will contain concatenated song details
+                songNames, // This will contain concatenated song details
                 party.getTaskIds(),
-                party.getPartyPoints()
-        );
+                party.getPartyPoints());
 
         return ResponseEntity.ok(response);
     }
@@ -136,7 +131,7 @@ public class PartyController {
     // GET: Retrieve tasks for a party
     @GetMapping("/{partyId}/tasks")
     public List<TaskEntity> getTasksByParty(@PathVariable String partyId) {
-        return taskRepository.findByPartyId(partyId);  // Metodă pentru a obține taskurile pentru petrecerea respectivă
+        return taskRepository.findByPartyId(partyId); // Metodă pentru a obține taskurile pentru petrecerea respectivă
 
     }
 
@@ -156,7 +151,6 @@ public class PartyController {
         partyRepository.deleteById(id);
     }
 
-
     @PostMapping("/{partyId}/foods/{foodId}")
     public ResponseEntity<PartyEntity> addFoodToParty(@PathVariable String partyId, @PathVariable String foodId) {
         PartyEntity updatedParty = partyService.addFoodToParty(partyId, foodId);
@@ -164,7 +158,8 @@ public class PartyController {
     }
 
     @PostMapping("/{partyId}/locations/{locationId}")
-    public ResponseEntity<PartyEntity> addLocationToParty(@PathVariable String partyId, @PathVariable String locationId) {
+    public ResponseEntity<PartyEntity> addLocationToParty(@PathVariable String partyId,
+            @PathVariable String locationId) {
         PartyEntity updatedParty = partyService.addLocationToParty(partyId, locationId);
         return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
     }
@@ -175,7 +170,7 @@ public class PartyController {
             @RequestParam(required = false) Double minRating,
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) Integer maxPoints) {
-        
+
         return partyService.getAvailableLocationsForParty(id, minRating, maxPrice, maxPoints);
     }
 
@@ -185,8 +180,9 @@ public class PartyController {
             @RequestParam(required = false) Double minRating,
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) Integer maxPoints) {
-        
+
         return partyService.getAvailableFoodsForParty(id, minRating, maxPrice, maxPoints);
+    }
 
     // POST: Adăugăm un user la o petrecere
     @PostMapping("/{partyId}/addUser/{userId}")
@@ -199,7 +195,8 @@ public class PartyController {
             if (updatedParty != null) {
                 return ResponseEntity.ok(updatedParty);
             } else {
-                return ResponseEntity.status(400).body("Petrecerea sau utilizatorul nu există sau utilizatorul este deja adăugat.");
+                return ResponseEntity.status(400)
+                        .body("Petrecerea sau utilizatorul nu există sau utilizatorul este deja adăugat.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -224,6 +221,7 @@ public class PartyController {
         // Dacă petrecerea nu există sau userul nu este la petrecere
         return ResponseEntity.status(404).body(null);  // Returnăm un mesaj de eroare cu status 404
     }
+}
 
     @PostMapping("/{partyId}/songs")
     public ResponseEntity<?> addSongToParty(@PathVariable String partyId, @RequestBody SongEntity song) {
@@ -276,5 +274,4 @@ public class PartyController {
     }
 
 
-}
 }

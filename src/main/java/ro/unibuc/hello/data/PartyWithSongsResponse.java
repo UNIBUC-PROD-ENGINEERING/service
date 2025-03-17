@@ -7,19 +7,19 @@ public class PartyWithSongsResponse {
     private String name;
     private String date;
     private String locationId;
-    private String foodId;
+    private List<String> foodIds;
     private List<String> userIds;
     private List<String> songNames;  // To hold song names
     private List<String> taskIds;
     private int partyPoints;
 
-    public PartyWithSongsResponse(String id, String name, String date, String locationId, String foodId,
+    public PartyWithSongsResponse(String id, String name, String date, String locationId, List<String> foodId,
                                   List<String> userIds, List<String> songNames, List<String> taskIds, int partyPoints) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.locationId = locationId;
-        this.foodId = foodId;
+        this.foodIds = foodId;
         this.userIds = userIds;
         this.songNames = songNames;
         this.taskIds = taskIds;
@@ -60,13 +60,18 @@ public class PartyWithSongsResponse {
         this.locationId = locationId;
     }
 
-    public String getFoodId() {
-        return foodId;
+    public List<String> getFoodIds() {
+        return foodIds;
     }
 
-    public void setFoodId(String foodId) {
-        this.foodId = foodId;
+    public void setFoodIds(List<String> foodIds) {
+        this.foodIds = foodIds;
     }
+
+    public void addFood(String foodId) {
+        this.foodIds.add(foodId);
+    }
+
 
     public List<String> getUserIds() {
         return userIds;

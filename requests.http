@@ -122,10 +122,7 @@ GET http://localhost:8080/parties/{{partyId}}
 POST http://localhost:8080/parties
 Content-Type: application/json
 
-{
-  "name": "{{partyName}}",
-  "date": "{{partyDate}}"
-}
+ 
 
 # @prompt partyId The ID of the party to update
 # @prompt partyName The new name for the party
@@ -153,7 +150,7 @@ Content-Type: application/json
 }
 
 # delete song from party 
-DELETE /parties/{partyId}/songs/{songId}
+DELETE http://localhost:8080/parties/{partyId}/songs/{songId}
 
 ### Get all users
 GET http://localhost:8080/users
