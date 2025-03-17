@@ -54,3 +54,48 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 ### Get all parties
 GET http://localhost:8080/parties
+
+GET http://localhost:8080/parties/{id}
+
+### Get all locations
+GET http://localhost:8080/locations
+
+### Filter locations by rating (minimum rating)
+# @prompt minRating Introdu rating-ul minim
+GET http://localhost:8080/locations/filter/rating?minRating={{minRating}}
+
+### Filter locations by price (maximum price)
+# @prompt maxPrice Introdu prețul maxim
+GET http://localhost:8080/locations/filter/price?maxPrice={{maxPrice}}
+
+### Filter locations by discount points (maximum required points)
+# @prompt maxPoints Introdu numărul maxim de puncte de discount
+GET http://localhost:8080/locations/filter/discount?maxPoints={{maxPoints}}
+
+### Obține toate produsele alimentare
+GET http://localhost:8080/foods
+
+### Obține alimentele cu rating mai mare sau egal cu o valoare dată
+# @prompt minRating Introdu rating-ul minim
+GET http://localhost:8080/foods/filter/rating?minRating={{minRating}}
+
+### Obține alimentele cu preț mai mic sau egal cu o valoare dată
+# @prompt maxPrice Introdu prețul maxim
+GET http://localhost:8080/foods/filter/price?maxPrice={{maxPrice}}
+
+### Obține alimentele care necesită un număr de puncte de discount mai mic sau egal cu o valoare dată
+# @prompt maxPoints Introdu numărul maxim de puncte de discount
+GET http://localhost:8080/foods/filter/discount?maxPoints={{maxPoints}}
+
+
+### Adaugă un produs alimentar la o petrecere
+# @prompt partyId Introdu ID-ul petrecerii
+# @prompt foodId Introdu ID-ul produsului alimentar
+POST http://localhost:8080/parties/{{partyId}}/foods/{{foodId}}
+Content-Type: application/json
+
+### Adaugă un produs alimentar la o petrecere
+# @prompt partyId Introdu ID-ul petrecerii
+# @prompt locationId Introdu ID-ul produsului alimentar
+POST http://localhost:8080/parties/{{partyId}}/location/{{locationId}}
+Content-Type: application/json

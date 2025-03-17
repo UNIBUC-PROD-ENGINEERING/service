@@ -2,6 +2,8 @@ package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "parties")
@@ -11,7 +13,7 @@ public class PartyEntity {
     private String name;
     private String date;
     private String locationId;  // Reference to a Location
-    private String foodId;  // References to Food items
+    private List<String> foodIds;  // References to Food items
     private List<String> userIds;  // Users in the party
     private List<String> playlistIds;  // Songs in the playlist
     private List<String> taskIds;  // Tasks to complete
@@ -22,6 +24,11 @@ public class PartyEntity {
     public PartyEntity(String name, String date) {
         this.name = name;
         this.date = date;
+        this.locationId = "";
+        this.foodIds = new ArrayList<>();
+        this.userIds = new ArrayList<>();
+        this.playlistIds = new ArrayList<>();
+        this.taskIds = new ArrayList<>();
         this.partyPoints = 0;
     }
 
@@ -59,16 +66,20 @@ public class PartyEntity {
         this.locationId = locationId;
     }
 
-    public String getFoodIds() {
-        return foodId;
+    public List<String> getFoodIds() {
+        return foodIds;
     }
 
-    public void setFoodIds(String foodId) {
-        this.foodId = foodId;
+    public void setFoodIds(List<String> foodIds) {
+        this.foodIds = foodIds;
     }
 
     public List<String> getUserIds() {
         return userIds;
+    }
+
+    public void addFood(String foodId) {
+        this.foodIds.add(foodId);
     }
 
     public void setUserIds(List<String> userIds) {
