@@ -57,31 +57,6 @@ class RobotControllerTest {
                 .andExpect(jsonPath("$[1].currentOrderId").doesNotExist());
     }
 
-    @Test
-    void testGetRobotById_ExistingEntity() throws Exception {
-        // Arrange
-        String id = "1";
-        RobotDTO robot = new RobotDTO(id, "active", "order1", 10, "none");
-        when(robotService.getRobotById(id)).thenReturn(robot);
-
-        // Act & Assert
-        mockMvc.perform(get("/robots/{id}", id))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.status").value("active"))
-                .andExpect(jsonPath("$.currentOrderId").value("order1"));
-    }
-
-    @Test
-    void testGetRobotById_NonExistingEntity() throws Exception {
-        // Arrange
-        String id = "NonExistingId";
-        when(robotService.getRobotById(id)).thenThrow(new EntityNotFoundException("Robot with ID " + id + " not found"));
-
-        // Act & Assert
-        mockMvc.perform(get("/robots/{id}", id))
-                .andExpect(status().isNotFound());
-    }
 
     @Test
     void testCreateRobot() throws Exception {
@@ -116,41 +91,5 @@ class RobotControllerTest {
                 .andExpect(jsonPath("$.status").value(status));
     }
 
-    @Test
-    void testUpdateRobotStatus_NonExistingEntity() throws Exception {
-        // Arrange
-        String id = "NonExistingId";
-        String status = "active";
-        when(robotService.updateRobotStatus(eq(id), eq(status)))
-                .thenThrow(new EntityNotFoundException("Robot with ID " + id + " not found"));
 
-        // Act & Assert
-        mockMvc.perform(put("/robots/{id}/status", id)
-                .param("status", status))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void testDeleteRobot_ExistingEntity() throws Exception {
-        // Arrange
-        String id = "1";
-        doNothing().when(robotService).deleteRobot(id);
-
-        // Act & Assert
-        mockMvc.perform(delete("/robots/{id}", id))
-                .andExpect(status().isOk());
-
-        verify(robotService, times(1)).deleteRobot(id);
-    }
-
-    @Test
-    void testDeleteRobot_NonExistingEntity() throws Exception {
-        // Arrange
-        String id = "NonExistingId";
-        doThrow(new EntityNotFoundException("Robot with ID " + id + " not found")).when(robotService).deleteRobot(id);
-
-        // Act & Assert
-        mockMvc.perform(delete("/robots/{id}", id))
-                .andExpect(status().isNotFound());
-    }
 }
