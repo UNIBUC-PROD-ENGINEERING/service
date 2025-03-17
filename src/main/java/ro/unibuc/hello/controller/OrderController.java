@@ -12,6 +12,7 @@ import ro.unibuc.hello.data.OrderStatus;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/orders")
@@ -32,14 +33,19 @@ public class OrderController {
 
     @PostMapping
     public OrderDTO createOrder(@Valid @RequestBody OrderDTO orderDTO) {
-        if (orderService.hasActiveOrder()) {
-            throw new IllegalStateException("The robot already has an active order. Please wait for it to finish.");
-        }
+        if (orderService.hasActiveOrderForRobot(orderDTO.getRobotId())) {
+            throw new IllegalStateException("This robot already has an active order. Please wait for it to finish.");
+        }        
         return orderService.createOrder(orderDTO);
     }
 
     @PutMapping("/{id}/status")
-    public OrderDTO updateOrderStatus(@PathVariable String id, @RequestParam String status) throws EntityNotFoundException {
+    public OrderDTO updateOrderStatus(@PathVariable String id, @RequestBody Map<String, String> body) throws EntityNotFoundException {
+        String status = body.get("status");
+        if (status == null) {
+            throw new IllegalArgumentException("Status is required");
+        }
+
         try {
             OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
             return orderService.updateOrderStatus(id, orderStatus.name());
@@ -47,6 +53,8 @@ public class OrderController {
             throw new IllegalArgumentException("Invalid status: must be PENDING, IN_PROGRESS, COMPLETED, or CANCELED");
         }
     }
+
+    
 
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable String id) throws EntityNotFoundException {

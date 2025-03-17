@@ -1,3 +1,5 @@
+requests.https: 
+
 # Requests for API endpoints of the sample project:
 
 ### Orders Endpoints
@@ -11,7 +13,7 @@ POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "robotId": "robot003",  
+    "robotId": "robot002",  
     "status": "PENDING",
     "itemId": "item123",  
     "quantity": 10,
@@ -23,7 +25,6 @@ POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "robotId": "",  # Missing robotId (should fail @NotBlank validation)
     "status": "PENDING",
     "itemId": "item1",
     "quantity": 10,
@@ -36,7 +37,7 @@ Content-Type: application/json
 
 {
     "robotId": "worker1",
-    "status": "INVALID_STATUS",  # Invalid status (should fail enum validation)
+    "status": "INVALID_STATUS",  
     "itemId": "item1",
     "quantity": 10,
     "location": "location1"
@@ -47,23 +48,23 @@ POST http://localhost:8080/orders
 Content-Type: application/json
 
 {
-    "robotId": "worker1",
+    "robotId": "robot003",
     "status": "PENDING",
     "itemId": "item1",
-    "quantity": -10,  # Negative quantity (should fail @Positive validation)
+    "quantity": -10, 
     "location": "location1"
 }
 
 #### Get order by ID (Valid Request)
 @orderId = 1
+@nonExistentOrderId = 9999
 GET http://localhost:8080/orders/{{orderId}}
 
 #### Get order by ID (Bad Request - Non-Existent ID)
-@nonExistentOrderId = 9999
+
 GET http://localhost:8080/orders/{{nonExistentOrderId}}
 
 #### Update order status (Valid Request)
-@orderId = 1
 PUT http://localhost:8080/orders/{{orderId}}/status
 Content-Type: application/json
 
@@ -72,16 +73,14 @@ Content-Type: application/json
 }
 
 #### Update order status (Bad Request - Invalid Status)
-@orderId = 1
 PUT http://localhost:8080/orders/{{orderId}}/status
 Content-Type: application/json
 
 {
-    "status": "INVALID_STATUS"  # Invalid status (should fail enum validation)
+    "status": "INVALID_STATUS"
 }
 
 #### Update order status (Bad Request - Non-Existent ID)
-@nonExistentOrderId = 9999
 PUT http://localhost:8080/orders/{{nonExistentOrderId}}/status
 Content-Type: application/json
 
@@ -90,11 +89,9 @@ Content-Type: application/json
 }
 
 #### Delete order (Valid Request)
-@orderId = 1
 DELETE http://localhost:8080/orders/{{orderId}}
 
 #### Delete order (Bad Request - Non-Existent ID)
-@nonExistentOrderId = 9999
 DELETE http://localhost:8080/orders/{{nonExistentOrderId}}
 
 
@@ -154,9 +151,9 @@ POST http://localhost:8080/robots
 Content-Type: application/json
 
 {
-    "id": "101",
+    "id": "robot002",
     "name": "Robot A",
-    "status": "active"
+    "status": "ACTIVE"
 }
 
 #### Update robot status

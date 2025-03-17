@@ -88,19 +88,19 @@ class OrderControllerTest {
 
     @Test
     void testUpdateOrderStatus_ExistingEntity() throws Exception {
-        // Arrange
         String id = "1";
         String status = "COMPLETED";
         OrderDTO updatedOrder = new OrderDTO(id, "worker1", OrderStatus.COMPLETED, "item1", 10, "location1");
         when(orderService.updateOrderStatus(eq(id), eq(status))).thenReturn(updatedOrder);
-
-        // Act & Assert
+    
         mockMvc.perform(put("/orders/{id}/status", id)
-                .param("status", status))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"status\":\"COMPLETED\"}")) 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.status").value("COMPLETED"));
     }
+    
 
     @Test
     void testDeleteOrder_ExistingEntity() throws Exception {
