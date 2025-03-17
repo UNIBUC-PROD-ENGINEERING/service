@@ -12,6 +12,7 @@ import ro.unibuc.hello.data.OrderStatus;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/orders")
@@ -39,15 +40,20 @@ public class OrderController {
     }
 
     @PutMapping("/{id}/status")
-    public OrderDTO updateOrderStatus(@PathVariable String id, @RequestBody String status) throws EntityNotFoundException {
+    public OrderDTO updateOrderStatus(@PathVariable String id, @RequestBody Map<String, String> body) throws EntityNotFoundException {
+        String status = body.get("status");
+        if (status == null) {
+            throw new IllegalArgumentException("Status is required");
+        }
+
         try {
-            // Convert the status to enum and update the order status
             OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
             return orderService.updateOrderStatus(id, orderStatus.name());
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid status: must be PENDING, IN_PROGRESS, COMPLETED, or CANCELED");
         }
     }
+
     
 
     @DeleteMapping("/{id}")

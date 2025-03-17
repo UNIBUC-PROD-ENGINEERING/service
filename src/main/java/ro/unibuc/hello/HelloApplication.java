@@ -58,7 +58,7 @@ public class HelloApplication {
             0,     // completedOrders
             null            // errors
         );
-        robot2.setId("robot003");
+        robot3.setId("robot003");
         robotRepository.save(robot3);
 
         // Initialize Orders
