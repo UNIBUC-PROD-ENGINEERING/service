@@ -77,13 +77,19 @@ class GreetingsServiceTest {
         Greeting greeting = new Greeting("1", "Hello");
 
         // Act
-        when(informationRepository.save(any(InformationEntity.class))).thenReturn(new InformationEntity("1", "Hello", null));
         Greeting savedGreeting = greetingsService.saveGreeting(greeting);
 
         // Assert
         assertNotNull(savedGreeting);
         assertEquals("1", savedGreeting.getId());
         assertEquals("Hello", savedGreeting.getContent());
+
+        verify(
+            informationRepository,
+            times(1)
+        ).save(
+            argThat(e -> e.getTitle().equals("Hello") && e.getId().equals("1"))
+        );
     }
 
     @Test
@@ -93,7 +99,6 @@ class GreetingsServiceTest {
         Greeting greeting = new Greeting(id, "Updated Greeting");
         InformationEntity entity = new InformationEntity(id, "Old Greeting", "Description");
         when(informationRepository.findById(id)).thenReturn(Optional.of(entity));
-        when(informationRepository.save(any(InformationEntity.class))).thenReturn(new InformationEntity(id, "Updated Greeting", "Description"));
 
         // Act
         Greeting updatedGreeting = greetingsService.updateGreeting(id, greeting);
@@ -102,6 +107,13 @@ class GreetingsServiceTest {
         assertNotNull(updatedGreeting);
         assertEquals(id, updatedGreeting.getId());
         assertEquals("Updated Greeting", updatedGreeting.getContent());
+
+        verify(
+            informationRepository,
+            times(1)
+        ).save(
+            argThat(e -> e.getTitle().equals("Updated Greeting"))
+        );
     }
 
     @Test
