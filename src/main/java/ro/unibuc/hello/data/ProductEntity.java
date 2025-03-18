@@ -6,21 +6,24 @@ public class ProductEntity {
 
     @Id
     private String id;
-
+    
+    private String name;
     private String description;
     private Long price;
     private Long stock;
 
     public ProductEntity() {}
 
-    public ProductEntity(String description, Long price, Long stock) {
+    public ProductEntity(String name, String description, Long price, Long stock) {
+        this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
     }
 
-    public ProductEntity(String id, String description, Long price, Long stock) {
+    public ProductEntity(String name, String id, String description, Long price, Long stock) {
         this.id = id;
+        this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
@@ -32,6 +35,14 @@ public class ProductEntity {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     public String getDescription() {
@@ -61,7 +72,7 @@ public class ProductEntity {
     @Override
     public String toString() {
         return String.format(
-                "Product[id='%s', drescription='%s', price='%s', stock='%s']",
+                "Product[id='%s', name='%s', drescription='%s', price='%s', stock='%s']",
                 id, description, price, stock);
     }
 }
