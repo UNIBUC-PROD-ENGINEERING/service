@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ro.unibuc.hello.dto.request.ItemDto;
+import ro.unibuc.hello.dto.ItemDto;
 import ro.unibuc.hello.dto.request.RegisterDto;
 import ro.unibuc.hello.dto.response.UserDto;
 import ro.unibuc.hello.dto.response.UserListDto;

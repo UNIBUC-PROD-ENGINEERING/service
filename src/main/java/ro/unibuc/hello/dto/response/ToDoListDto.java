@@ -1,13 +1,15 @@
 package ro.unibuc.hello.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserListDto {
-    private List<UserDto> userList;
+@Builder
+public class ToDoListDto {
+    String name;
+    String description;
 }

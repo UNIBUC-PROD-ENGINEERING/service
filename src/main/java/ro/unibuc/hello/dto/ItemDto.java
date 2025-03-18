@@ -1,4 +1,4 @@
-package ro.unibuc.hello.dto.request;
+package ro.unibuc.hello.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
