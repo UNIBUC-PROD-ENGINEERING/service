@@ -1,5 +1,7 @@
 package ro.unibuc.hello.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import ro.unibuc.hello.exception.*;
 @AllArgsConstructor
 @Service
 public class ToDoService {
+
     @Autowired
     private ItemRepository itemRepository;
 
@@ -24,6 +27,19 @@ public class ToDoService {
 
     @Autowired
     private final UserService userService;
+
+    @Autowired
+    private final UserRepository userRepository;
+
+    @Autowired
+    private final ToDoListRepository toDoListRepository;
+
+    @Autowired
+    private final UserListRepository userListRepository;
+
+    @Autowired
+    private final RequestRepository requestRepository;
+
 
     public boolean createItem(ItemDto itemDto) {
         if (itemRepository.findByName(itemDto.getName()) == null)
@@ -85,20 +101,104 @@ public class ToDoService {
     }
 
     public boolean createBind(String username, String toDoList, boolean isOwner) {
+
+       try{
+
+        Optional<UserListEntity> existingUserList = userListRepository.findByUsernameAndToDoListAndIsOwner(username, toDoList, isOwner);
+        
+        if (existingUserList.isPresent()) {
+
+            return false;
+        }
+
+        userListRepository.save(new UserListEntity(username,toDoList,isOwner));
+
+       }
+       catch (Exception exception)
+       {
         return false;
-    }
-    public boolean deleteBind(String username, String toDoList) {
-        return false;
+       }
+       return true;
     }
 
+    public boolean deleteBind(String username, String toDoList) {
+        try {
+           
+            Optional<UserListEntity> existingUserList = userListRepository.findByUsernameAndToDoList(username, toDoList);
+    
+            if (existingUserList.isPresent()) {
+               
+                userListRepository.delete(existingUserList.get());
+                return true;
+            } else {
+                
+                return false;
+            }
+        } catch (Exception exception) {
+           
+            return false;
+        }
+    }
+    
+        
     public boolean createRequest(String toDoList, String text) {
-        return false;
+        try {
+
+            var user = userService.getAuthenticatedUser();
+    
+            RequestEntity newRequest = new RequestEntity(user.getUsername(), toDoList, text);
+            requestRepository.save(newRequest);  
+    
+        } catch (Exception exception) {
+            
+            return false;
+        }
+        return true;  
     }
+    
+
     public boolean acceptRequest(String username, String toDoList) {
-        return false;
+        try {
+           
+            Optional<RequestEntity> requestOpt = requestRepository.findByUsernameAndToDoList(username, toDoList);
+            
+            if (requestOpt.isPresent()) {
+                
+                createBind(username, toDoList, false);
+                
+                
+                requestRepository.delete(requestOpt.get());
+                
+                return true;  
+            } else {
+                return false;  
+            }
+        } catch (Exception exception) {
+           
+            System.out.println("Error accepting request: " + exception.getMessage());
+            return false;
+        }
     }
+
+
     public boolean denyRequest(String username, String toDoList) {
-        return false;
+        try {
+           
+            Optional<RequestEntity> requestOpt = requestRepository.findByUsernameAndToDoList(username, toDoList);
+            
+            if (requestOpt.isPresent()) {
+                
+                requestRepository.delete(requestOpt.get());
+                
+                return true;  
+            } else {
+                return false;  
+            }
+        } catch (Exception exception) {
+           
+            System.out.println("Error accepting request: " + exception.getMessage());
+            return false;
+        }
     }
 
     public boolean createToDoList(String name, String description) {
