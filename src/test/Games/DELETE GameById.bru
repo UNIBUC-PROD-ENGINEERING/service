@@ -1,0 +1,15 @@
+meta {
+  name: DELETE GameById
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:8080/games/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 
+}

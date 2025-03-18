@@ -30,9 +30,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.session:spring-session-core'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.data:spring-data-mongodb'
 	implementation 'commons-io:commons-io:2.18.0'
 	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+	implementation 'jakarta.validation:jakarta.validation-api'
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'

@@ -1,0 +1,25 @@
+meta {
+  name: POST Game
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/games
+  body: json
+  auth: none
+}
+
+params:query {
+  : 
+}
+
+body:json {
+  {
+    "id": 0,
+    "name": "Joc",
+    "platform": "PC",
+    "genre": "Horia",
+    "releasedYear": "2002"
+  }
+}
