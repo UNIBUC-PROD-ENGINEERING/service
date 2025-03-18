@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.ProductOrderEntity;
 import ro.unibuc.hello.dto.OrderDTO;
 import ro.unibuc.hello.service.OrderService;
+import ro.unibuc.hello.data.UserEntity;
+
 
 import java.util.List;
 

@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.OrderDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 public class OrderService {
     
@@ -44,11 +46,12 @@ public class OrderService {
                 .filter(o -> o.getUser().getId().equals(user.getId()))
                 .collect(Collectors.toList());
         
-        OrderEntity order = new OrderEntity(user, productOrders, status, history);
+        OrderEntity order = new OrderEntity(null,user, productOrders, status, LocalDateTime.now(), history);
         orderRepository.save(order);
         return new OrderDTO(order.getId(), user.getId(), null, status, order.getCreatedAt(), history.stream()
                 .map(o -> new OrderDTO(o.getId(), o.getUser().getId(), null, o.getStatus(), o.getCreatedAt(), null))
                 .collect(Collectors.toList()));
     }
 }
+
 
