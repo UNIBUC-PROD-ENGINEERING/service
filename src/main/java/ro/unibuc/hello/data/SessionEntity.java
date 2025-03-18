@@ -25,14 +25,12 @@ public class SessionEntity {
         this.expiresAt = expiresAt;
     }
 
-    // FIXME: is the constructor with id correct?
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
-        this.id = id; // FIXME: is this correct? -> changing the id?
+        this.id = id;
     }
 
     public LocalDateTime getExpiresAt() {
