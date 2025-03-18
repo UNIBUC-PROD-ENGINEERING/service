@@ -13,7 +13,9 @@ public class Transaction {
     @Id
     private String id;
 
-    private int amount;
+    private double amount; 
 
-    private String recipientId;
+    private String fromAccountId; 
+
+    private String toAccountId; 
 }

@@ -29,9 +29,12 @@ public class BankAccountController {
     }
 
     @PostMapping
-    public BankAccount createBankAccount(@RequestBody BankAccount bankAccount) {
-        return bankAccountService.saveBankAccount(bankAccount);
+    public BankAccount createBankAccount(@RequestHeader("Authorization") String token, @RequestBody BankAccount bankAccount) {
+        System.out.println("Received Token: " + token);
+        return bankAccountService.saveBankAccount(token, bankAccount);
     }
+
+
 
     @DeleteMapping("/{id}")
     public void deleteBankAccount(@PathVariable String id) {

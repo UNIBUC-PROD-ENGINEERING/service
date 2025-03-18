@@ -52,7 +52,7 @@ public class JwtUtil {
     }
 
     private Date extractExpiration(String token) {
-        return Jwts.parser() // ✅ Schimbat din `parserBuilder()` în `parser()`
+        return Jwts.parser() // Schimbat din `parserBuilder()` în `parser()`
                 .verifyWith(secret)
                 .build()
                 .parseSignedClaims(token)

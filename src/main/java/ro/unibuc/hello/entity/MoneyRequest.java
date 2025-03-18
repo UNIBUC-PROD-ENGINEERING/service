@@ -4,16 +4,20 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.*;
 
-@Document(collection = "card")
+@Document(collection = "money_requests")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @ToString
-public class Card {
-    
+public class MoneyRequest {
+
     @Id
-    private String id; 
+    private String id;
 
-    private String bankAccountId; 
+    private String fromAccountId; 
 
-    private Integer cvv;
+    private String toAccountId; 
+
+    private double amount;
+
+    private String status; 
 }
