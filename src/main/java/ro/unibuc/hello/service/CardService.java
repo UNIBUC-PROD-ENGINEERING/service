@@ -34,7 +34,6 @@ public class CardService {
     }
 
     public Card saveCard(Card card) {
-        // Validate that the provided bankAccountId exists
         Optional<BankAccount> bankAccountOpt = bankAccountRepository.findById(card.getBankAccountId());
         if (bankAccountOpt.isEmpty()) {
             throw new IllegalArgumentException("BankAccount ID not found: " + card.getBankAccountId());

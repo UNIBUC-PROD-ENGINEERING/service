@@ -31,7 +31,7 @@ public class CardController {
 
     @PostMapping("/create")
     public Card createCard(@RequestBody Card card) {
-        System.out.println("Received Card: " + card); // 🔍 Debugging Log
+        System.out.println("Received Card: " + card); 
         return cardService.saveCard(card);
     }
 

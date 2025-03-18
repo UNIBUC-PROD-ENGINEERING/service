@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface MoneyRequestRepository extends MongoRepository<MoneyRequest, String> {
-    List<MoneyRequest> findByToAccountId(String toAccountId); // Get all requests for a user
-    List<MoneyRequest> findByFromAccountId(String fromAccountId); // Get requests a user made
+    List<MoneyRequest> findByToAccountId(String toAccountId); 
+    List<MoneyRequest> findByFromAccountId(String fromAccountId); 
 }

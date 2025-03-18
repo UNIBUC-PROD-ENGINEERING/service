@@ -40,25 +40,21 @@ public class BankAccountService {
         // Remove "Bearer " prefix if present
         String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
 
-        // Extract email from JWT token
         String email = jwtUtil.extractEmail(jwt);
-        System.out.println("Extracted Email: " + email); // ✅ Debugging Step
+        System.out.println("Extracted Email: " + email); 
 
-        // Find client by extracted email
         Optional<Client> clientOpt = clientRepository.findByEmail(email);
         if (clientOpt.isEmpty()) {
-            System.out.println("Client not found for email: " + email); // ✅ Debugging Step
+            System.out.println("Client not found for email: " + email); 
             throw new IllegalArgumentException("Client not found");
         }
 
         Client client = clientOpt.get();
-        System.out.println("Client ID Found: " + client.getId()); // ✅ Debugging Step
+        System.out.println("Client ID Found: " + client.getId()); 
 
-        // Set client ID in the bank account
         bankAccount.setClientId(client.getId());
         BankAccount savedAccount = bankAccountRepository.save(bankAccount);
 
-        // Update client to include new bank account ID
         client.getBankAccountIds().add(savedAccount.getId());
         clientRepository.save(client);
 

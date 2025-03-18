@@ -64,7 +64,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwia
 Content-Type: application/json
 
 {
-  "email": "test1@example.com",
+  "email": "test2@example.com",
   "password": "securepassword"
 }
 
@@ -75,18 +75,18 @@ Content-Type: application/json
 Authorization: None
 
 {
-  "email": "test1@example.com",
+  "email": "test2@example.com",
   "password": "securepassword"
 }
 
 ### 3️⃣ Create a new bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjgyMywiZXhwIjoxNzQyMzU4ODIzfQ.QnPwzeo6QI9-m8Lnb5EuswDegQA2IhXc3yVUQU_ZqNg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMzkzMywiZXhwIjoxNzQyMzU5OTMzfQ.-o88qgIwchbWL7uAG3HVUVOCc0b1mdU8dAc8BPrjVCw
 
 {
   "accountNumber": "123456782",
-  "balance": 1000.0
+  "balance": 2000.0
 }
 
 ### 4️⃣ Create another bank account
@@ -105,7 +105,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjI5NSwiZXhwIjoxNzQyMzU4Mjk1fQ.tzcjpc-v6xHybaHtxI2Beu-Ym3eSjvwdEdNm8ZsKk58
 
 {
-  "bankAccountId": "67d9baaeb67a9577d98ebb1b",
+  "bankAccountId": "67d9c0bb34bf035f7eeacfe4",
   "cvv": 564
 }
 
@@ -125,8 +125,8 @@ Content-Type: application/json
 
 {
   "amount": 150.75,
-  "fromAccountId": "67d9ba6bb67a9577d98ebb17",
-  "toAccountId": "67d9ba8fb67a9577d98ebb19"
+  "fromAccountId": "67d9c0fb34bf035f7eeacfe6",
+  "toAccountId": "67d9c0bb34bf035f7eeacfe4"
 }
 
 ### 8️⃣ Create another transaction
@@ -171,21 +171,21 @@ DELETE http://localhost:8080/api/cards/4111111111111111
 DELETE http://localhost:8080/api/bank-accounts/123456789
 
 
-### 🔹 1️⃣ Request Money from Another User
+### 🔹 19. Request Money from Another User
 POST http://localhost:8080/api/money-requests
 Content-Type: application/json
 
 {
   "amount": 21.00,
-  "fromAccountId": "67d9a60e397f680e5a1c206a",
-  "toAccountId": "67d9a560397f680e5a1c2061"
+  "fromAccountId": "67d9c0bb34bf035f7eeacfe4",
+  "toAccountId": "67d9c0fb34bf035f7eeacfe6"
 }
 
-### 🔹 2️⃣ Get All Money Requests for a User
+### 🔹 2️0. Get All Money Requests for a User
 GET http://localhost:8080/api/money-requests/user/67d9a60e397f680e5a1c206a
 
-### 🔹 3️⃣ Approve a Money Request
-PUT http://localhost:8080/api/money-requests/67d9b4f09dffc1684c37ac72/status?status=APPROVED
+### 🔹 21. Approve a Money Request
+PUT http://localhost:8080/api/money-requests/67d9c16734bf035f7eeacfe8/status?status=APPROVED
 
-### 🔹 4️⃣ Decline a Money Request
+### 🔹 22. Decline a Money Request
 PUT http://localhost:8080/api/money-requests/67d9a984a28e381568267412/status?status=DECLINED

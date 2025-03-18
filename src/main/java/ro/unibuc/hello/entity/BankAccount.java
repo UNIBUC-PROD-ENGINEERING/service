@@ -17,7 +17,11 @@ public class BankAccount {
 
     private String IBAN;
 
-    private int balance;
+    private double balance;
 
     private String clientId; 
+
+    public void updateBalance(double amount) {
+        this.balance += amount;
+    }
 }

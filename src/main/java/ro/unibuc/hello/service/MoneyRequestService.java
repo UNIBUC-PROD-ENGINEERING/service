@@ -49,15 +49,15 @@ public class MoneyRequestService {
         request.setStatus(status);
         moneyRequestRepository.save(request);
     
-        System.out.println("✅ Money request status updated: " + request); // Debugging Log
+        System.out.println("✅ Money request status updated: " + request); 
     
         // If approved, create a transaction
         if (status.equals("APPROVED")) {
             System.out.println("🚀 Creating a transaction for approved request...");
             
             Transaction transaction = new Transaction();
-            transaction.setFromAccountId(request.getToAccountId()); // The one sending money
-            transaction.setToAccountId(request.getFromAccountId()); // The one receiving money
+            transaction.setFromAccountId(request.getToAccountId()); 
+            transaction.setToAccountId(request.getFromAccountId()); 
             transaction.setAmount(request.getAmount());
     
             transactionService.saveTransaction(transaction);

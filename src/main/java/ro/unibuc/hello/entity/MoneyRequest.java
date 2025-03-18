@@ -13,11 +13,11 @@ public class MoneyRequest {
     @Id
     private String id;
 
-    private String fromAccountId; // The sender who is requesting money
+    private String fromAccountId; 
 
-    private String toAccountId; // The recipient who is asked to send money
+    private String toAccountId; 
 
     private double amount;
 
-    private String status; // "PENDING", "APPROVED", "DECLINED"
+    private String status; 
 }

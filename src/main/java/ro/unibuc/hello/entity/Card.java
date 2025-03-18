@@ -11,11 +11,9 @@ import lombok.*;
 public class Card {
     
     @Id
-    private String id; // Use String instead of int for MongoDB compatibility
+    private String id; 
 
-    private String bankAccountId; // Referință către contul bancar
-
-    //private String abonamentId; // Store reference as String
+    private String bankAccountId; 
 
     private Integer cvv;
 }
