@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Component
 public class ProprietarService {
     @Autowired
-    private final ProprietarRepository proprietarRepository;
+    private ProprietarRepository proprietarRepository;
 
     public ProprietarService(ProprietarRepository proprietarRepository){
         this.proprietarRepository = proprietarRepository;
@@ -54,6 +54,4 @@ public class ProprietarService {
             return proprietarRepository.save(existingProprietar);
         });
     }
-    
-    
 }

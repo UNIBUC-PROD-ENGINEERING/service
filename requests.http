@@ -56,7 +56,7 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 #Proprietar endpoints
 
-GET http://localhost:8080/api/proprietar
+
 
 POST http://localhost:8080/api/proprietar
 Content-Type: application/json
