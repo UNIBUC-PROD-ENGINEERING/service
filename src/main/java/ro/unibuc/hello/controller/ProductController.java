@@ -1,5 +1,8 @@
 package ro.unibuc.hello.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import ro.unibuc.hello.dto.ProductDTO;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.ProductService;

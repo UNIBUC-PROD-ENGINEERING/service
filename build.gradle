@@ -33,6 +33,10 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-mongodb'
 	implementation 'commons-io:commons-io:2.18.0'
 	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+	implementation 'org.mindrot:jbcrypt:0.4'
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5'
+
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
