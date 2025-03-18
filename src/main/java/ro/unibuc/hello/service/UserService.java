@@ -44,13 +44,13 @@ public class UserService {
         );
     }
 
-    public Optional<userEntity> updateuser(String id, userEntity userDetails){
-        return userRepository.findById(id).map(existinguser ->{
-            existinguser.setNume(userDetails.getNume());
-            existinguser.setPrenume(userDetails.getPrenume());
-            existinguser.setEmail(userDetails.getEmail());
+    public Optional<UserEntity> updateUser(String id, UserEntity userDetails){
+        return userRepository.findById(id).map(existingUser ->{
+            existingUser.setNume(userDetails.getNume());
+            existingUser.setPrenume(userDetails.getPrenume());
+            existingUser.setEmail(userDetails.getEmail());
 
-            return userRepository.save(existinguser);
+            return userRepository.save(existingUser);
         });
     }
 }
