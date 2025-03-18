@@ -25,8 +25,8 @@ public class ToDoListController {
     public ToDoListResponseDto Update(@RequestBody @Valid ToDoListDto toDoListDto, @PathVariable String toDoListName) { return toDoService.updateToDoList(toDoListDto, toDoListName); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/delete")
-    public boolean Delete(String name) { return toDoService.deleteToDoList(name); }
+    @PostMapping("/delete/{name}")
+    public boolean Delete(@PathVariable String name) { return toDoService.deleteToDoList(name); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/all")
