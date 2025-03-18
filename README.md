@@ -64,3 +64,36 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
 * You can test other API endpoints using [requests.http](requests.http)
 * You can access the MongoDB Admin UI at:
   * http://localhost:8090 
+
+---
+
+# Warehouse Robot Order Management System  
+
+This project manages warehouse robot orders — ensuring smooth item retrieval, delivery, and stock tracking. It supports creating, updating, and deleting orders while handling stock validations and error scenarios.
+
+---
+
+## Architecture Overview  
+
+- **Controller Layer**: Handles incoming HTTP requests and returns appropriate responses (JSON).  
+- **Service Layer**: Contains business logic — order processing, status updates, stock checks, and error handling.  
+- **Data Layer**: Connects to MongoDB for order and stock persistence.  
+- **Exception Handling**: Manages custom errors like `EntityNotFoundException` and stock conflicts.  
+
+---
+
+## Core Features  
+
+- **Order Management**: Create, retrieve, update, and delete orders.  
+- **Status Tracking**: Supports statuses like `PENDING`, `IN_PROGRESS`, `COMPLETED`, and `CANCELED`.  
+- **Stock Validation**: Prevents robots from taking orders when stock is unavailable.  
+- **Concurrency Control**: Ensures a robot handles only one active order at a time.   
+
+---
+
+## Error Scenarios Handled  
+
+- **Order Not Found**: Handles requests for non-existing orders gracefully.  
+- **Stock Depletion**: Prevents orders when items are out of stock.  
+- **Active Order Restriction**: Ensures one active order per robot.  
+- **Malformed Requests**: Handles invalid payloads or incorrect status values.  
