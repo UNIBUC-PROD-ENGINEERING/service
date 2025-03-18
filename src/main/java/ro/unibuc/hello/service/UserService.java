@@ -1,27 +1,17 @@
 package ro.unibuc.hello.service;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import com.mongodb.internal.connection.ClusterDescriptionHelper.Predicate;
 
 import ro.unibuc.hello.data.ItemEntity;
 import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
-import ro.unibuc.hello.dto.Item;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserPost;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,8 +21,6 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private ItemRepository itemRepository;
-    @Autowired
-    private MongoTemplate mongoTemplate;  // Inject MongoTemplate
 
     public List<User> getAllUsers() {
         List<UserEntity> entities = userRepository.findAllWithItems();
@@ -42,7 +30,7 @@ public class UserService {
     }
 
     public User getUserById(String id)  {
-        UserEntity entity = userRepository.findById(id)
+        UserEntity entity = userRepository.findByIdWithItems(id)
                             .orElseThrow(() -> new EntityNotFoundException(id));
                             
         System.out.println(entity);
