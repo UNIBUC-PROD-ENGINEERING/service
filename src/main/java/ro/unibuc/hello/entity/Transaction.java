@@ -13,7 +13,9 @@ public class Transaction {
     @Id
     private String id;
 
-    private int amount;
+    private double amount; // Use double for financial transactions
 
-    private String recipientId;
+    private String fromAccountId; // Sender's bank account ID
+
+    private String toAccountId; // Receiver's bank account ID
 }

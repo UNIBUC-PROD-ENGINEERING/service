@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/cards")
+@RequestMapping("/cards")
 public class CardController {
 
     private final CardService cardService;
@@ -29,20 +29,14 @@ public class CardController {
         return cardService.getCardById(id);
     }
 
-    @GetMapping("/by-account/{bankAccountId}")
-    public List<Card> getCardsByBankAccountId(@PathVariable String bankAccountId) {
-        return cardService.getCardsByBankAccountId(bankAccountId);
-    }
-
-    @PostMapping("/{bankAccountId}")
-    public Card createCard(@PathVariable String bankAccountId, @RequestBody Card card) {
-        return cardService.saveCard(bankAccountId, card);
+    @PostMapping("/create")
+    public Card createCard(@RequestBody Card card) {
+        System.out.println("Received Card: " + card); // 🔍 Debugging Log
+        return cardService.saveCard(card);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCard(@PathVariable String id) {
         cardService.deleteCard(id);
     }
-
-    
 }

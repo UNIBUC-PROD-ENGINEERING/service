@@ -17,5 +17,5 @@ public class Card {
 
     //private String abonamentId; // Store reference as String
 
-    private int cvv;
+    private Integer cvv;
 }

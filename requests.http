@@ -64,60 +64,59 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwia
 Content-Type: application/json
 
 {
-  "email": "test@example.com",
+  "email": "test1@example.com",
   "password": "securepassword"
 }
 
 ### 2️⃣ Login client
 POST http://localhost:8080/api/clients/login
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMTM0NywiZXhwIjoxNzQyMzU3MzQ3fQ.xyR_8fWuHMOmfTKqEaOCwRyEiTw2CvSY5hjOXBtdp4U
 Content-Type: application/json
 Authorization: None
 
 {
-  "email": "test@example.com",
+  "email": "test1@example.com",
   "password": "securepassword"
 }
 
 ### 3️⃣ Create a new bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjgyMywiZXhwIjoxNzQyMzU4ODIzfQ.QnPwzeo6QI9-m8Lnb5EuswDegQA2IhXc3yVUQU_ZqNg
 
 {
-  "accountNumber": "123456789",
+  "accountNumber": "123456782",
   "balance": 1000.0
 }
 
 ### 4️⃣ Create another bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjI5NSwiZXhwIjoxNzQyMzU4Mjk1fQ.tzcjpc-v6xHybaHtxI2Beu-Ym3eSjvwdEdNm8ZsKk58
 
 {
-  "accountNumber": "987656349",
-  "balance": 2500.0
+  "accountNumber": "123744782",
+  "balance": 1200.0
 }
 
 ### 5️⃣ Create a new card
-POST http://localhost:8080/api/cards/67d88473fc2a30395f9943bf
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
+POST http://localhost:8080/cards/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjI5NSwiZXhwIjoxNzQyMzU4Mjk1fQ.tzcjpc-v6xHybaHtxI2Beu-Ym3eSjvwdEdNm8ZsKk58
 
 {
-  "cardNumber": "4111111111111111",
-  "expirationDate": "12/26",
-  "cvv": "123"
+  "bankAccountId": "67d9baaeb67a9577d98ebb1b",
+  "cvv": 564
 }
 
 ### 6️⃣ Create another card
-POST http://localhost:8080/api/cards
+POST http://localhost:8080/cards/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjI5NSwiZXhwIjoxNzQyMzU4Mjk1fQ.tzcjpc-v6xHybaHtxI2Beu-Ym3eSjvwdEdNm8ZsKk58
 
 {
-  "cardNumber": "5555555555554444",
-  "expirationDate": "11/27",
-  "cvv": "456"
+  "bankAccountId": "67d9b71f23d95c5affd70905",
+  "cvv": 123
 }
 
 ### 7️⃣ Create a new transaction
@@ -126,8 +125,8 @@ Content-Type: application/json
 
 {
   "amount": 150.75,
-  "fromAccountId": "123456789",
-  "toAccountId": "987654321"
+  "fromAccountId": "67d9ba6bb67a9577d98ebb17",
+  "toAccountId": "67d9ba8fb67a9577d98ebb19"
 }
 
 ### 8️⃣ Create another transaction
@@ -136,13 +135,13 @@ Content-Type: application/json
 
 {
   "amount": 500.00,
-  "fromAccountId": "987654321",
-  "toAccountId": "123456789"
+  "fromAccountId": "67d9bc9eb67a9577d98ebb1f",
+  "toAccountId": "67d9baaeb67a9577d98ebb1b"
 }
 
 ### 9️⃣ Get all clients
 GET http://localhost:8080/api/clients
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjMyODcxLCJleHAiOjE3NDIyNjg4NzF9.r_EEKOD0bzeEnMQenkR4o06WeW_r9lsJjRbxz4FCk2E
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMxNTAyMywiZXhwIjoxNzQyMzUxMDIzfQ.aGU3Z9zVhvfN7SoRechcSQKbl-JOlWdVrO1l-nhDMxs
 
 ### 🔟 Get all bank accounts
 GET http://localhost:8080/api/bank-accounts
@@ -151,7 +150,7 @@ GET http://localhost:8080/api/bank-accounts
 GET http://localhost:8080/api/bank-accounts/123456789
 
 ### 1️⃣2️⃣ Get all cards
-GET http://localhost:8080/api/cards
+GET http://localhost:8080/cards
 
 ### 1️⃣3️⃣ Get a specific card by ID
 GET http://localhost:8080/api/cards/4111111111111111
@@ -163,10 +162,30 @@ GET http://localhost:8080/api/transactions
 GET http://localhost:8080/api/transactions/transactionId
 
 ### 1️⃣6️⃣ Delete a transaction
-DELETE http://localhost:8080/api/transactions/transactionId
+DELETE http://localhost:8080/api/transactions/67d9a5ed397f680e5a1c2068
 
 ### 1️⃣7️⃣ Delete a card
 DELETE http://localhost:8080/api/cards/4111111111111111
 
 ### 1️⃣8️⃣ Delete a bank account
 DELETE http://localhost:8080/api/bank-accounts/123456789
+
+
+### 🔹 1️⃣ Request Money from Another User
+POST http://localhost:8080/api/money-requests
+Content-Type: application/json
+
+{
+  "amount": 21.00,
+  "fromAccountId": "67d9a60e397f680e5a1c206a",
+  "toAccountId": "67d9a560397f680e5a1c2061"
+}
+
+### 🔹 2️⃣ Get All Money Requests for a User
+GET http://localhost:8080/api/money-requests/user/67d9a60e397f680e5a1c206a
+
+### 🔹 3️⃣ Approve a Money Request
+PUT http://localhost:8080/api/money-requests/67d9b4f09dffc1684c37ac72/status?status=APPROVED
+
+### 🔹 4️⃣ Decline a Money Request
+PUT http://localhost:8080/api/money-requests/67d9a984a28e381568267412/status?status=DECLINED

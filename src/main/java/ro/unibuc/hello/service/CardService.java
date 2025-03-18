@@ -13,10 +13,12 @@ import java.util.Optional;
 public class CardService {
 
     private final CardRepository cardRepository;
+    private final BankAccountRepository bankAccountRepository;
 
     @Autowired
-    public CardService(CardRepository cardRepository) {
+    public CardService(CardRepository cardRepository, BankAccountRepository bankAccountRepository) {
         this.cardRepository = cardRepository;
+        this.bankAccountRepository = bankAccountRepository;
     }
 
     public List<Card> getAllCards() {
@@ -31,15 +33,12 @@ public class CardService {
         return cardRepository.findByBankAccountId(bankAccountId);
     }
 
-    public Card saveCard(String bankAccountId, Card card) {
-        // ✅ Fix incorrect class name
-        Optional<BankAccount> bankAccountOpt = bankAccountRepository.findById(bankAccountId);
+    public Card saveCard(Card card) {
+        // Validate that the provided bankAccountId exists
+        Optional<BankAccount> bankAccountOpt = bankAccountRepository.findById(card.getBankAccountId());
         if (bankAccountOpt.isEmpty()) {
-            throw new IllegalArgumentException("Bank account not found with ID: " + bankAccountId);
+            throw new IllegalArgumentException("BankAccount ID not found: " + card.getBankAccountId());
         }
-
-        BankAccount bankAccount = bankAccountOpt.get();
-        card.setBankAccountId(bankAccount.getId()); // ✅ Link the card to the bank account
 
         return cardRepository.save(card);
     }
@@ -47,6 +46,5 @@ public class CardService {
     public void deleteCard(String id) {
         cardRepository.deleteById(id);
     }
-
-    
 }
+
