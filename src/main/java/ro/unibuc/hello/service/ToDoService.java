@@ -102,15 +102,45 @@ public class ToDoService {
     }
 
     public boolean createToDoList(String name, String description) {
-        // Owner
-        return false;
+        try
+        {
+            toDoListRepository.save(new TodoListEntity(name, description));
+            UserEntity user = userService.getSelf().getUser();
+            createBind(user.getName(), name, true);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+        return true;
     }
     public boolean updateToDoList(String oldName, String name, String description) {
-        return false;
+        ToDoListEntity toDoListEntity = toDoListRepository.findByName(oldName);
+        try
+        {
+            toDoListEntity.setName(name);
+            toDoListEntity.setDescription(description);
+            toDoListRepository.save(toDoListEntity);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
     public boolean deleteToDoList(String name) {
-        // + bind urile existente
-        return false;
+        ToDoListEntity toDoListEntity = toDoListRepository.findByName(oldName);
+        try
+        {
+            toDoListRepository.delete(toDoListEntity);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
     public ToDoListCollectionDto getMyToDoLists() {
         return new ToDoListCollectionDto();
