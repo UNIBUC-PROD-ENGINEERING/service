@@ -89,7 +89,7 @@ public class ToDoService {
     public boolean createRequest(String toDoList, String text) {
         try {
 
-            UserDto user = userService.getSelf();
+            var user = userService.getAuthenticatedUser();
     
             RequestEntity newRequest = new RequestEntity(user.getUsername(), toDoList, text);
             requestRepository.save(newRequest);  
