@@ -15,6 +15,4 @@ public interface RequestRepository extends MongoRepository<RequestEntity, String
 
     Optional<RequestEntity> findByUsernameAndToDoList(String username, String toDoList);
     
-    void deleteById(String id);
-   
 }

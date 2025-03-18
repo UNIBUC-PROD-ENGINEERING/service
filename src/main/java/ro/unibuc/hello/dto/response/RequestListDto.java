@@ -9,5 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestListDto {
-    private List<RequestDto> requestList;
+    private List<RequestResponseDto> requestList;
 }

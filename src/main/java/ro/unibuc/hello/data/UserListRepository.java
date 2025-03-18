@@ -16,4 +16,5 @@ public interface UserListRepository extends MongoRepository<UserListEntity, Stri
     Optional<UserListEntity> findByUsernameAndToDoListAndIsOwner(String username, String toDoList, boolean isOwner);
     Optional<UserListEntity> findByUsernameAndToDoList(String username, String toDoList);
 
+
 }

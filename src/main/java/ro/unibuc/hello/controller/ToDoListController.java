@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ro.unibuc.hello.dto.request.*;
+import ro.unibuc.hello.dto.request.ToDoListDto;
 import ro.unibuc.hello.dto.response.*;
 
 @RestController
@@ -18,11 +18,11 @@ public class ToDoListController {
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/create")
-    public boolean Create(String name, String description) { return toDoService.createToDoList(name, description); }
+    public ToDoListResponseDto Create(@RequestBody @Valid ToDoListDto toDoListDto) { return toDoService.createToDoList(toDoListDto); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/update")
-    public boolean Update(String oldName, String name, String description) { return toDoService.updateToDoList(oldName, name, description); }
+    @PostMapping("/update/{toDoListName}")
+    public ToDoListResponseDto Update(@RequestBody @Valid ToDoListDto toDoListDto, @PathVariable String toDoListName) { return toDoService.updateToDoList(toDoListDto, toDoListName); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/delete")

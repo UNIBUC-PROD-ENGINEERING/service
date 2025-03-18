@@ -2,18 +2,15 @@ package ro.unibuc.hello.service;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import ro.unibuc.hello.data.*;
-import ro.unibuc.hello.dto.*;
 import ro.unibuc.hello.dto.request.*;
+import ro.unibuc.hello.dto.request.ToDoListDto;
 import ro.unibuc.hello.dto.response.*;
-import ro.unibuc.hello.exception.*;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 
 @AllArgsConstructor
 @Service
@@ -32,38 +29,38 @@ public class ToDoService {
     private final UserRepository userRepository;
 
     @Autowired
-    private final ToDoListRepository toDoListRepository;
-
-    @Autowired
     private final UserListRepository userListRepository;
 
     @Autowired
     private final RequestRepository requestRepository;
 
+    private final ModelMapper modelMapper;
 
-    public boolean createItem(ItemDto itemDto) {
+
+    public ItemResponseDto createItem(ItemDto itemDto) {
         if (itemRepository.findByName(itemDto.getName()) == null)
         {
-            return false;
+            throw new EntityNotFoundException("item");
         }
 
         try
         {
-            itemRepository.save(new ItemEntity(itemDto.getName(), itemDto.getDescription(), itemDto.getTodoList()));
+            var itemEntity = new ItemEntity(itemDto.getName(), itemDto.getDescription(), itemDto.getTodoList());
+            itemRepository.save(itemEntity);
+            return modelMapper.map(itemEntity,ItemResponseDto.class);
         }
         catch (Exception exception)
         {
-            return false;
+            throw new EntityNotFoundException("item");
         }
 
-        return true;
     }
-    public boolean updateItem(ItemDto itemDto) {
-        ItemEntity itemEntity = itemRepository.findByName(itemDto.getName());
+    public ItemResponseDto updateItem(ItemDto itemDto, String itemName) {
+        ItemEntity itemEntity = itemRepository.findByName(itemName);
 
         if (itemEntity == null)
         {
-            return false;
+            throw new EntityNotFoundException("item");
         }
 
         try
@@ -72,20 +69,20 @@ public class ToDoService {
             itemEntity.setDescription(itemDto.getDescription());
             itemEntity.setTodoList(itemDto.getTodoList());
             itemRepository.save(itemEntity);
+            return modelMapper.map(itemEntity,ItemResponseDto.class);
         }
         catch (Exception exception)
         {
-            return false;
+            throw new EntityNotFoundException("item");
         }
 
-        return true;
     }
     public boolean deleteItem(ItemDto itemDto) {
         ItemEntity itemEntity = itemRepository.findByName(itemDto.getName());
 
         if (itemEntity == null)
         {
-            return false;
+            throw new EntityNotFoundException("item");
         }
 
         try
@@ -141,35 +138,56 @@ public class ToDoService {
     }
     
         
-    public boolean createRequest(String toDoList, String text) {
+    public RequestResponseDto createRequest(RequestDto requestDto) {
         try {
 
             var user = userService.getAuthenticatedUser();
     
-            RequestEntity newRequest = new RequestEntity(user.getUsername(), toDoList, text);
-            requestRepository.save(newRequest);  
+            RequestEntity newRequest = new RequestEntity(user.getUsername(), requestDto.getToDoList(), requestDto.getDescription());
+            requestRepository.save(newRequest);
+            return modelMapper.map(newRequest, RequestResponseDto.class);  
     
         } catch (Exception exception) {
             
-            return false;
+            throw new EntityNotFoundException("request");
         }
-        return true;  
     }
     
 
-    public boolean acceptRequest(String username, String toDoList) {
+    public RequestResponseDto acceptRequest(RequestDto requestDto) {
         try {
            
-            Optional<RequestEntity> requestOpt = requestRepository.findByUsernameAndToDoList(username, toDoList);
+            Optional<RequestEntity> requestOpt = requestRepository.findByUsernameAndToDoList(requestDto.getUsername(), requestDto.getToDoList());
             
             if (requestOpt.isPresent()) {
                 
-                createBind(username, toDoList, false);
-                
+                createBind(requestDto.getUsername(), requestDto.getToDoList(), false);
                 
                 requestRepository.delete(requestOpt.get());
                 
-                return true;  
+                return modelMapper.map(requestDto,RequestResponseDto.class);
+            } else {
+                throw new EntityNotFoundException("request"); 
+            }
+        } catch (Exception exception) {
+           
+            System.out.println("Error accepting request: " + exception.getMessage());
+            throw new EntityNotFoundException("request"); 
+        }
+    }
+
+
+    public boolean denyRequest(RequestDto requestDto) {
+        try {
+           
+            Optional<RequestEntity> requestOpt = requestRepository.findByUsernameAndToDoList(requestDto.getUsername(), requestDto.getToDoList());
+            
+            if (requestOpt.isPresent()) {
+                
+                requestRepository.delete(requestOpt.get());
+
+                return true;
+                
             } else {
                 return false;  
             }
@@ -180,57 +198,37 @@ public class ToDoService {
         }
     }
 
-
-    public boolean denyRequest(String username, String toDoList) {
-        try {
-           
-            Optional<RequestEntity> requestOpt = requestRepository.findByUsernameAndToDoList(username, toDoList);
-            
-            if (requestOpt.isPresent()) {
-                
-                requestRepository.delete(requestOpt.get());
-                
-                return true;  
-            } else {
-                return false;  
-            }
-        } catch (Exception exception) {
-           
-            System.out.println("Error accepting request: " + exception.getMessage());
-            return false;
-        }
-    }
-
-    public boolean createToDoList(String name, String description) {
+    public ToDoListResponseDto createToDoList(ToDoListDto toDoListDto) {
         try
         {
-            toDoListRepository.save(new TodoListEntity(name, description));
-            UserEntity user = userService.getSelf().getUser();
-            createBind(user.getName(), name, true);
+            var toDoList = modelMapper.map(toDoListDto, ToDoListEntity.class);
+            toDoListRepository.save(toDoList);
+            UserEntity user = userService.getAuthenticatedUser();
+            createBind(user.getUsername(), toDoList.getName(), true);
+            return modelMapper.map(toDoList, ToDoListResponseDto.class);
         }
         catch (Exception exception)
         {
-            return false;
+            throw new EntityNotFoundException("todolist");
         }
-        return true;
     }
-    public boolean updateToDoList(String oldName, String name, String description) {
-        ToDoListEntity toDoListEntity = toDoListRepository.findByName(oldName);
+    public ToDoListResponseDto updateToDoList(ToDoListDto toDoListDto, String toDoListName) {
+        ToDoListEntity toDoListEntity = toDoListRepository.findByName(toDoListName);
         try
         {
-            toDoListEntity.setName(name);
-            toDoListEntity.setDescription(description);
+            toDoListEntity.setName(toDoListDto.getName());
+            toDoListEntity.setDescription(toDoListDto.getDescription());
             toDoListRepository.save(toDoListEntity);
+            return modelMapper.map(toDoListEntity,ToDoListResponseDto.class);
         }
         catch (Exception exception)
         {
-            return false;
+            throw new EntityNotFoundException("toDoList");
         }
 
-        return true;
     }
     public boolean deleteToDoList(String name) {
-        ToDoListEntity toDoListEntity = toDoListRepository.findByName(oldName);
+        ToDoListEntity toDoListEntity = toDoListRepository.findByName(name);
         try
         {
             toDoListRepository.delete(toDoListEntity);

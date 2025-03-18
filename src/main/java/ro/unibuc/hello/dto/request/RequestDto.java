@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginDto {
+public class RequestDto {
     @NotBlank
-    private String username;
+    String username;
     @NotBlank
-    private String password;
+    String toDoList;
 
+    String description;
 }
