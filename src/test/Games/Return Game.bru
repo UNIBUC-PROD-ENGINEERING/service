@@ -1,0 +1,16 @@
+meta {
+  name: Return Game
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8080/rentals/return?userId&gameId
+  body: none
+  auth: inherit
+}
+
+params:query {
+  userId: 
+  gameId: 
+}
