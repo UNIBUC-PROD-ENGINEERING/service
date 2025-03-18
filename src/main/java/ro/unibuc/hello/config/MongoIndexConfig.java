@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.TextIndexDefinition;
 import org.springframework.stereotype.Component;
 

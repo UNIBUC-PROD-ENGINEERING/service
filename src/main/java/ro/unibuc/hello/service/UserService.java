@@ -2,7 +2,6 @@ package ro.unibuc.hello.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
