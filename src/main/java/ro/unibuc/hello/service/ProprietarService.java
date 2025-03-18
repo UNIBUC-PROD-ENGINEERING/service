@@ -1,9 +1,10 @@
-package main.java.ro.unibuc.hello.service;
+package ro.unibuc.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import main.java.ro.unibuc.hello.dto.Proprietar;
+import ro.unibuc.hello.dto.Proprietar;
+import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.ProprietarEntity;
 import ro.unibuc.hello.data.ProprietarRepository;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -45,11 +46,12 @@ public class ProprietarService {
     }
 
     public Optional<ProprietarEntity> updateProprietar(String id, ProprietarEntity proprietarDetails){
-        return proprietarDetails.findById(id).map(existingProprietar ->{
+        return proprietarRepository.findById(id).map(existingProprietar ->{
             existingProprietar.setNume(proprietarDetails.getNume());
             existingProprietar.setPrenume(proprietarDetails.getPrenume());
-            existingProprietar.setEmail(proprietarDetails.setEmail());
+            existingProprietar.setEmail(proprietarDetails.getEmail());
+
+            return proprietarRepository.save(existingProprietar);
         });
     }
-    
 }
