@@ -56,10 +56,5 @@ public class ProprietarController {
         return proprietarService.updateProprietar(id, proprietar);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseBody
-    public void deleteProprietar(@PathVariable String id) throws EntityNotFoundException{
-        proprietarService.deleteProprietar(id);
-    }
     
 }
