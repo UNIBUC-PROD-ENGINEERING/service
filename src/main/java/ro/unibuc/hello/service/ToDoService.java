@@ -17,16 +17,71 @@ import ro.unibuc.hello.exception.*;
 @Service
 public class ToDoService {
     @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private ToDoListRepository toDoListRepository;
+
+    @Autowired
     private final UserService userService;
 
     public boolean createItem(ItemDto itemDto) {
-        return false;
+        if (itemRepository.findByName(itemDto.getName()) == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            itemRepository.save(new ItemEntity(itemDto.getName(), itemDto.getDescription(), itemDto.getTodoList()));
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
     public boolean updateItem(ItemDto itemDto) {
-        return false;
+        ItemEntity itemEntity = itemRepository.findByName(itemDto.getName());
+
+        if (itemEntity == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            itemEntity.setName(itemDto.getName());
+            itemEntity.setDescription(itemDto.getDescription());
+            itemEntity.setTodoList(itemDto.getTodoList());
+            itemRepository.save(itemEntity);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
     public boolean deleteItem(ItemDto itemDto) {
-        return false;
+        ItemEntity itemEntity = itemRepository.findByName(itemDto.getName());
+
+        if (itemEntity == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            itemRepository.delete(itemEntity);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public boolean createBind(String username, String toDoList, boolean isOwner) {
