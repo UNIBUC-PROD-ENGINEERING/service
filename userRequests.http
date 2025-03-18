@@ -1,0 +1,27 @@
+### USERS ###
+
+### Get all users
+GET http://localhost:8080/users
+
+### Get user by ID
+@userId = 67d9fb79c06a4f0241a1d964
+GET http://localhost:8080/users/{{userId}}
+
+### Get users by username
+@username = Andreiutzu
+GET http://localhost:8080/users/info?username={{username}}
+
+### Create a new user
+@postUsername = andrei
+@postPassword = parola
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "username": "{{postUsername}}",
+    "password": "{{postPassword}}"
+}
+
+### Delete a user by ID
+@deleteUserId = 67d9fb79c06a4f0241a1d966
+DELETE http://localhost:8080/users/{{deleteUserId}}
