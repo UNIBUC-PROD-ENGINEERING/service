@@ -17,16 +17,71 @@ import ro.unibuc.hello.exception.*;
 @Service
 public class ToDoService {
     @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private ToDoListRepository toDoListRepository;
+
+    @Autowired
     private final UserService userService;
 
     public boolean createItem(ItemDto itemDto) {
-        return false;
+        if (itemRepository.findByName(itemDto.getName()) == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            itemRepository.save(new ItemEntity(itemDto.getName(), itemDto.getDescription(), itemDto.getTodoList()));
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
     public boolean updateItem(ItemDto itemDto) {
-        return false;
+        ItemEntity itemEntity = itemRepository.findByName(itemDto.getName());
+
+        if (itemEntity == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            itemEntity.setName(itemDto.getName());
+            itemEntity.setDescription(itemDto.getDescription());
+            itemEntity.setTodoList(itemDto.getTodoList());
+            itemRepository.save(itemEntity);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
     public boolean deleteItem(ItemDto itemDto) {
-        return false;
+        ItemEntity itemEntity = itemRepository.findByName(itemDto.getName());
+
+        if (itemEntity == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            itemRepository.delete(itemEntity);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public boolean createBind(String username, String toDoList, boolean isOwner) {
@@ -47,15 +102,45 @@ public class ToDoService {
     }
 
     public boolean createToDoList(String name, String description) {
-        // Owner
-        return false;
+        try
+        {
+            toDoListRepository.save(new TodoListEntity(name, description));
+            UserEntity user = userService.getSelf().getUser();
+            createBind(user.getName(), name, true);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+        return true;
     }
     public boolean updateToDoList(String oldName, String name, String description) {
-        return false;
+        ToDoListEntity toDoListEntity = toDoListRepository.findByName(oldName);
+        try
+        {
+            toDoListEntity.setName(name);
+            toDoListEntity.setDescription(description);
+            toDoListRepository.save(toDoListEntity);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
     public boolean deleteToDoList(String name) {
-        // + bind urile existente
-        return false;
+        ToDoListEntity toDoListEntity = toDoListRepository.findByName(oldName);
+        try
+        {
+            toDoListRepository.delete(toDoListEntity);
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+
+        return true;
     }
     public ToDoListCollectionDto getMyToDoLists() {
         return new ToDoListCollectionDto();

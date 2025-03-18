@@ -34,21 +34,6 @@ public class ItemEntity {
         this.todoList = todoList;
     }
 
-    private void setId(String id)
-    {
-        this.id = id;
-    }
-
-    private void setName(String name)
-    {
-        this.name = name;
-    }
-
-    private void setDescription(String description)
-    {
-        this.description = description;
-    }
-
     @Override
     public String toString() {
         return String.format(
