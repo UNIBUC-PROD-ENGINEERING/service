@@ -6,9 +6,9 @@ public class Locatie {
     private String oras;
     private String strada;
 
-    public Proprietar() {}
+    public Locatie() {}
 
-    public Proprietar(String id, String tara, String oras, String strada) {
+    public Locatie(String id, String tara, String oras, String strada) {
         this.id = id;
         this.tara = tara;
         this.oras = oras;

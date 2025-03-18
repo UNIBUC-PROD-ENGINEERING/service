@@ -46,9 +46,9 @@ public class LocatieService {
 
     public Optional<LocatieEntity> updateLocatie(String id, LocatieEntity locatieDetails){
         return locatieRepository.findById(id).map(existingLocatie ->{
-            existingLocatie.setTara(LocatieDetails.getTara());
-            existingLocatie.setOras(LocatieDetails.getOras());
-            existingLocatie.setStrada(LocatieDetails.getStrada());
+            existingLocatie.setTara(locatieDetails.getTara());
+            existingLocatie.setOras(locatieDetails.getOras());
+            existingLocatie.setStrada(locatieDetails.getStrada());
 
             return locatieRepository.save(existingLocatie);
         });

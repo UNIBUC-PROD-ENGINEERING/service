@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.hello.dto.Locatie;
+import ro.unibuc.hello.dto.Proprietar;
 import ro.unibuc.hello.data.LocatieEntity;
+import ro.unibuc.hello.data.ProprietarEntity;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.LocatieService;
 import org.springframework.http.ResponseEntity;
@@ -38,11 +40,13 @@ public class LocatieController {
     }
 
     @GetMapping("/api/locatie/{id}")
-    @ResponseBody
-    public Locatie getLocatieById(@PathVariable String id){
-        Optional<locatieEntity> locatie = locatieService.getLocatieById(id);
-        return locatie.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Locatie> getLocatieById(@PathVariable String id){
+        return locatieService.getLocatieById(id)
+                .map(this::convertToDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     @PostMapping("/api/locatie")
     @ResponseBody
@@ -51,9 +55,18 @@ public class LocatieController {
     }
 
     @PutMapping("/api/locatie/{id}")
-    @ResponseBody
-    public Locatie updateLocatie(@PathVariable String id, @RequestBody Locatie locatie) throws EntityNotFoundException{
-        return locatieService.updateLocatie(id, locatie);
+    public ResponseEntity<Locatie> updateLocatie(@PathVariable String id, @RequestBody Locatie locatie) throws EntityNotFoundException {
+        LocatieEntity locatieEntity = new LocatieEntity(
+                locatie.getId(),
+                locatie.getTara(),
+                locatie.getOras(),
+                locatie.getStrada()
+        );
+        
+        Optional<LocatieEntity> updatedEntity = locatieService.updateLocatie(id, locatieEntity);
+        
+        return updatedEntity.map(entity -> ResponseEntity.ok(convertToDto(entity)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     
