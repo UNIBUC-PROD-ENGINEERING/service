@@ -6,11 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import ro.unibuc.hello.data.InformationEntity;
-import ro.unibuc.hello.data.InformationRepository;
-import ro.unibuc.hello.data.UserRepository;
-import ro.unibuc.hello.data.UserEntity;
-import ro.unibuc.hello.data.Role;
+import ro.unibuc.hello.data.*;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication(scanBasePackages = "ro.unibuc.hello")
@@ -19,10 +15,19 @@ import jakarta.annotation.PostConstruct;
 public class HelloApplication {
 
 	@Autowired
-	private InformationRepository informationRepository;
+	private UserRepository userRepository;
 
 	@Autowired
-	private UserRepository userRepository;
+	private ItemRepository itemRepository;
+
+	@Autowired
+	private RequestRepository requestRepository;
+
+	@Autowired
+	private ToDoListRepository toDoListRepository;
+
+	@Autowired
+	private UserListRepository userListRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -33,11 +38,18 @@ public class HelloApplication {
 
 	@PostConstruct
 	public void runAfterObjectCreated() {
-		informationRepository.deleteAll();
 		userRepository.deleteAll();
-		informationRepository.save(new InformationEntity("Overview",
-				"This is an example of using a data storage engine running separately from our applications server"));
+		itemRepository.deleteAll();
+		requestRepository.deleteAll();
+		toDoListRepository.deleteAll();
+		userListRepository.deleteAll();
+
 		userRepository.save(new UserEntity("admin","admin",passwordEncoder.encode("admin"),Role.ADMIN));
+
+		try { toDoListRepository.save(new ToDoListEntity("test", "test")); } catch (Exception exception) { }
+		try { requestRepository.save(new RequestEntity("admin", "test", "ceau")); } catch (Exception exception) { }
+		try { itemRepository.save(new ItemEntity("test", "test", "test")); } catch (Exception exception) { }
+		try { userListRepository.save(new UserListEntity("admin", "test", true)); } catch (Exception exception) { }
 	}
 
 }

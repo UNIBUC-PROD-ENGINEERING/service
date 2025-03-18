@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserListDto {
-    private List<UserDto> userList;
+public class ToDoListCollectionDto {
+    private List<ToDoListDto> toDoListCollection;
 }

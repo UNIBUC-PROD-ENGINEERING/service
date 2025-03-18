@@ -1,16 +1,24 @@
 package ro.unibuc.hello.data;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Collection;
 import java.util.List;
 
-@NoArgsConstructor 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-@Data 
 @Document(collection = "todo_lists")
+@Data
 public class ToDoListEntity {
 
     @Id

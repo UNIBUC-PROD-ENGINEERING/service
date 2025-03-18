@@ -12,6 +12,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserListRepository extends MongoRepository<UserListEntity, String> {
 
-    UserListEntity findByTitle(String id);
-
 }

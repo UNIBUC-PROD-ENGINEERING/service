@@ -1,33 +1,37 @@
 package ro.unibuc.hello.data;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@NoArgsConstructor 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-@Data 
 @Document(collection = "user_lists")
+@Data
 public class UserListEntity {
 
     @Id
-    private UserListId id; 
+    private String id; 
 
-    @DBRef
-    @ToString.Exclude
-    private UserEntity user; 
-
-    @DBRef
-    @ToString.Exclude
-    private ToDoListEntity toDoList; 
+    private String username;
+    private String toDoList;
 
     private boolean isOwner; 
 
-    public UserListEntity(UserEntity user, ToDoListEntity toDoList, boolean isOwner) {
-        this.id = new UserListId(user.getId(), toDoList.getId()); 
-        this.user = user;
+    public UserListEntity(String user, String toDoList, boolean isOwner) {
+        this.id = user + toDoList; 
+        this.username = user;
         this.toDoList = toDoList;
         this.isOwner = isOwner;
     }
@@ -36,6 +40,6 @@ public class UserListEntity {
     public String toString() {
         return String.format(
                 "UserListEntity[id='%s', user='%s', toDoList='%s', isOwner='%b']",
-                id, user, toDoList, isOwner);
+                id, username, toDoList, isOwner);
     }
 }

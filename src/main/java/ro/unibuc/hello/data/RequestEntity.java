@@ -1,32 +1,37 @@
 package ro.unibuc.hello.data;
 
 import lombok.*;
+
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Document(collection = "requests")
+@Data
 public class RequestEntity {
 
     @Id
-    private RequestId id; 
+    private String id; 
 
-    @DBRef
-    @ToString.Exclude
-    private UserEntity user;
-
-    @DBRef
-    @ToString.Exclude
-    private ToDoListEntity toDoList;
+    private String username;
+    private String toDoList;
 
     private String text; 
 
-    public RequestEntity(UserEntity user, ToDoListEntity toDoList, String text) {
-        this.id = new RequestId(user.getId(), toDoList.getId());
-        this.user = user;
+    public RequestEntity(String user, String toDoList, String text) {
+        this.id = user + toDoList;
+        this.username = user;
         this.toDoList = toDoList;
         this.text = text;
     }
@@ -35,6 +40,6 @@ public class RequestEntity {
     public String toString() {
         return String.format(
                 "RequestEntity[user='%s', toDoList='%s', text='%s']",
-                user.getUsername(), toDoList.getName(), text);
+                username, toDoList, text);
     }
 }

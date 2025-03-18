@@ -1,7 +1,24 @@
 package ro.unibuc.hello.data;
 
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "items")
+@Data
 public class ItemEntity {
 
     @Id
@@ -9,23 +26,12 @@ public class ItemEntity {
 
     private String name;
     private String description;
+    private String todoList;
 
-    public ItemEntity() {}
-
-    public ItemEntity(String name, String description) {
+    public ItemEntity(String name, String description, String todoList) {
         this.name = name;
         this.description = description;
-    }
-
-    public ItemEntity(String id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-
-    private String getId()
-    {
-        return id;
+        this.todoList = todoList;
     }
 
     private void setId(String id)
@@ -33,19 +39,9 @@ public class ItemEntity {
         this.id = id;
     }
 
-    private String getName()
-    {
-        return name;
-    }
-
     private void setName(String name)
     {
         this.name = name;
-    }
-
-    private String getDescription()
-    {
-        return description;
     }
 
     private void setDescription(String description)
