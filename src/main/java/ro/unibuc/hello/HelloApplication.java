@@ -11,6 +11,8 @@ import ro.unibuc.hello.data.InformationEntity;
 import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.data.SubscriptionEntity;
 import ro.unibuc.hello.data.SubscriptionRepository;
+import ro.unibuc.hello.data.UserEntity;
+import ro.unibuc.hello.data.UserRepository;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
@@ -24,6 +26,9 @@ public class HelloApplication {
 	private GameRepository gamesRepository;
 	@Autowired
 	private SubscriptionRepository subscriptionsRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
@@ -44,6 +49,11 @@ public class HelloApplication {
 		subscriptionsRepository.deleteAll();
 		subscriptionsRepository.save(new SubscriptionEntity(1, 40));
 		subscriptionsRepository.save(new SubscriptionEntity(1, 190));
+
+		userRepository.deleteAll();
+		userRepository.save(new UserEntity("Mihaitza","parola1"));
+		userRepository.save(new UserEntity("Andreiutzu","parola2"));
+		userRepository.save(new UserEntity("Ionel","parola3"));
 
 		System.out.println("Database initialization complete!");
 	}
