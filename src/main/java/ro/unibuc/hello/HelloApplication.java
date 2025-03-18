@@ -60,11 +60,11 @@ public class HelloApplication {
         user2 = userRepository.save(user2);
 
         itemRepository.deleteAll();
-        ItemEntity item = new ItemEntity(" 67d81d8a22dff66530467a47", "nume entitate", "descriere");
+        ItemEntity item = new ItemEntity("67d81d8a22dff66530467a47", "nume entitate", "descriere");
         item.setOwner(user);
         item = itemRepository.save(item);
         
-        ItemEntity item2 = new ItemEntity(" 67d81d8a22dff66530467a49", "nume 2", "descriere");
+        ItemEntity item2 = new ItemEntity("67d81d8a22dff66530467a49", "nume 2", "descriere");
         item2.setOwner(user);
         item2 = itemRepository.save(item2);
 
