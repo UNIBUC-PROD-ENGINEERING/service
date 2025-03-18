@@ -13,13 +13,8 @@ public class RezervareDto {
 
     public RezervareDto() {}
 
-    public RezervareDto(String id, ApartamentEntity apartament, UserEntity user, LocalDate startDate, LocalDate endDate, boolean active) {
+    public RezervareDto(String id) {
         this.id = id;
-        this.apartament = apartament;
-        this.user = user;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.active = active;
     }
 
     public ApartamentEntity getApartament() {

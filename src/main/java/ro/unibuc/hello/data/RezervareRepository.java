@@ -1,4 +1,4 @@
-package main.java.ro.unibuc.hello.data;
+package ro.unibuc.hello.data;
 
 import java.util.List;
 
@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
  * Spring Data MongoDB automatically creates a class it implementing the interface when you run the application.
  */
 @Repository
-public interface RezervareRepository extends MongoRepository<InformationEntity, String> {
-
+public interface RezervareRepository extends MongoRepository<RezervareEntity, String> {
 }

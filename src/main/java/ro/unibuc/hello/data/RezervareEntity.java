@@ -1,4 +1,4 @@
-package main.java.ro.unibuc.hello.data;
+package ro.unibuc.hello.data;
 
 import java.time.LocalDate;
 
@@ -16,6 +16,10 @@ public class RezervareEntity {
     private boolean active;
 
     public RezervareEntity() {}
+
+    public String getId() {
+        return id;
+    }
 
     public ApartamentEntity getApartament() {
         return apartament;
@@ -47,6 +51,14 @@ public class RezervareEntity {
 
     public LocalDate setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public boolean setActive(boolean active) {
+        this.active = active;
     }
 
     @Override
