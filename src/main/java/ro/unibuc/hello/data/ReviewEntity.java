@@ -32,6 +32,14 @@ public class ReviewEntity {
         this.apartmentId = apartmentId;
         this.userId = userId;
     }
+        public ReviewEntity(String id, String comment, Integer rating, String apartmentId, String userId) {
+        this.comment = comment;
+        this.rating = rating;
+        this.apartmentId = apartmentId;
+        this.userId = userId;
+        this.id=id;
+    }
+    
 
     // Getteri și setteri
     public String getId() {
@@ -75,6 +83,14 @@ public class ReviewEntity {
     }
 
     // Getters și Setters pentru like-uri și dislike-uri
+    public void setLikes(Set<String> likes) {
+    this.likes = likes;
+}
+
+public void setDislikes(Set<String> dislikes) {
+    this.dislikes = dislikes;
+}
+    
     public Set<String> getLikes() {
         return likes;
     }
