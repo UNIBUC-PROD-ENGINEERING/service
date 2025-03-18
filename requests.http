@@ -5,6 +5,7 @@
 
 
 # Requests for API endpoints of the sample project:
+GET http://localhost:8080/testttt
 
 GET http://localhost:8080/api/proprietar
 
@@ -19,7 +20,7 @@ GET http://localhost:8080/hello-world
     ?name={{name}}
 
 ### Save a greeting to database
-@postGreetingId = 1001
+@postGreetingId = 1002
 @postGreetingContent = Hello!
 POST http://localhost:8080/greetings
 Content-Type: application/json
@@ -131,6 +132,3 @@ Content-Type: application/json
     "prenume": "Ioana",
     "email": "ioana@test.com"
 }
-
-
-

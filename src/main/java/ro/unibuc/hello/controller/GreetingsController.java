@@ -25,6 +25,12 @@ public class GreetingsController {
         return greetingsService.hello(name);
     }
 
+    @GetMapping("/testttt")
+    @ResponseBody
+    public Greeting sayTest(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
+        return greetingsService.hello(name);
+    }
+
     @GetMapping("/info")
     @ResponseBody
     public Greeting info(@RequestParam(name="title", required=false, defaultValue="Overview") String title) throws EntityNotFoundException {
