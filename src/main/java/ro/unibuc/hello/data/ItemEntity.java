@@ -1,34 +1,34 @@
 package ro.unibuc.hello.data;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document
 public class ItemEntity {
     @Id
     private String id;
+
     private String name;
     private String description;
 
-    @JsonBackReference
     @DocumentReference
     private UserEntity owner;
 
     public ItemEntity() {}
 
-    public ItemEntity(String name, String description) {
+    public ItemEntity(String name, String description, UserEntity owner) {
         this.name = name;
         this.description = description;
+        this.owner = owner;
     }
 
-    public ItemEntity(String Id, String name, String description) {
+    public ItemEntity(String Id, String name, String description, UserEntity owner) {
         this.id = Id;
         this.name = name;
         this.description = description;
+        this.owner = owner;
     }
-
     
     public String getId() {
         return id;
