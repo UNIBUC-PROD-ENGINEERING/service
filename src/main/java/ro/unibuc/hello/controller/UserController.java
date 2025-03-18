@@ -5,11 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.service.UserService;
-import ro.unibuc.hello.exception.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -18,6 +18,24 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // Obține toți utilizatorii
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    // Obține un utilizator după ID
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable String id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    // Obține utilizatori după username
+    @GetMapping("/info")
+    public ResponseEntity<List<User>> getUsersByUsername(@RequestParam String username) {
+        return ResponseEntity.ok(userService.getUsersByUsername(username));
+    }
+
     // Creare utilizator
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -25,25 +43,13 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
-    // Căutare utilizator după ID
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        return ResponseEntity.ok(userService.getUserById(id));
-    }
-
-    // Căutare utilizatori după username
-    @GetMapping
-    public ResponseEntity<List<User>> getUsersByUsername(@RequestParam String username) {
-        return ResponseEntity.ok(userService.getUsersByUsername(username));
-    }
-
-    // Ștergere utilizator după ID
+    // Stergere utilizator
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
-        userService.deleteUserById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+        if (!userService.deleteUserById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
+        }
+        return ResponseEntity.ok("User deleted successfully.");
     }
+
 }
-
-
-
