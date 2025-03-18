@@ -32,8 +32,9 @@ public class ItemsService {
         // Optional<ItemEntity> optionalEntity = itemRepository.findById(id);
         // System.out.println(optionalEntity);
         // ItemEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
-        ItemEntity entity = itemRepository.findById("67d81d8a22dff66530467a49")
+        ItemEntity entity = itemRepository.findById(id)
                           .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+        System.out.println(entity);
         return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName());
     }
 

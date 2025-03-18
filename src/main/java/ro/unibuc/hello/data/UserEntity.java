@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 
 @Document
 public class UserEntity {
+    
     @Id
     private String id;
     private String name;
