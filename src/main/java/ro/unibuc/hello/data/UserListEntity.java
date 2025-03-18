@@ -36,6 +36,15 @@ public class UserListEntity {
         this.isOwner = isOwner;
     }
 
+    public boolean getIsOwner() {
+        return isOwner;
+    }
+
+   
+    public void setIsOwner(boolean isOwner) {
+        this.isOwner = isOwner;
+    }
+
     @Override
     public String toString() {
         return String.format(

@@ -1,6 +1,7 @@
 package ro.unibuc.hello.data;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -11,5 +12,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RequestRepository extends MongoRepository<RequestEntity, String> {
-  //Already has findbyid
+
+    Optional<RequestEntity> findByUsernameAndToDoList(String username, String toDoList);
+    
+    void deleteById(String id);
+   
 }
