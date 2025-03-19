@@ -64,7 +64,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwia
 Content-Type: application/json
 
 {
-  "email": "test2@example.com",
+  "email": "client2@example.com",
   "password": "securepassword"
 }
 
@@ -75,24 +75,24 @@ Content-Type: application/json
 Authorization: None
 
 {
-  "email": "test2@example.com",
+  "email": "client2@example.com",
   "password": "securepassword"
 }
 
 ### 3️⃣ Create a new bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMzkzMywiZXhwIjoxNzQyMzU5OTMzfQ.-o88qgIwchbWL7uAG3HVUVOCc0b1mdU8dAc8BPrjVCw
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbGllbnQyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMzM3MDUxLCJleHAiOjE3NDIzNzMwNTF9.0Ofr812jNitF6hEa6Y2MqImSYZkdvXO3Dcg2iE-un2w
 
 {
-  "accountNumber": "123456782",
+  "accountNumber": "1234567823",
   "balance": 2000.0
 }
 
 ### 4️⃣ Create another bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjI5NSwiZXhwIjoxNzQyMzU4Mjk1fQ.tzcjpc-v6xHybaHtxI2Beu-Ym3eSjvwdEdNm8ZsKk58
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbGllbnQyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMzM3MDUxLCJleHAiOjE3NDIzNzMwNTF9.0Ofr812jNitF6hEa6Y2MqImSYZkdvXO3Dcg2iE-un2w
 
 {
   "accountNumber": "123744782",
@@ -125,8 +125,8 @@ Content-Type: application/json
 
 {
   "amount": 150.75,
-  "fromAccountId": "67d9c0fb34bf035f7eeacfe6",
-  "toAccountId": "67d9c0bb34bf035f7eeacfe4"
+  "fromAccountId": "67d9ef3aa5aa3c14969babfa",
+  "toAccountId": "67d9f602edaf93335978427e"
 }
 
 ### 8️⃣ Create another transaction
@@ -135,8 +135,8 @@ Content-Type: application/json
 
 {
   "amount": 500.00,
-  "fromAccountId": "67d9bc9eb67a9577d98ebb1f",
-  "toAccountId": "67d9baaeb67a9577d98ebb1b"
+  "fromAccountId": "67d9ef3aa5aa3c14969babfa",
+  "toAccountId": "67d9f602edaf93335978427e"
 }
 
 ### 9️⃣ Get all clients
@@ -177,15 +177,37 @@ Content-Type: application/json
 
 {
   "amount": 21.00,
-  "fromAccountId": "67d9c0bb34bf035f7eeacfe4",
-  "toAccountId": "67d9c0fb34bf035f7eeacfe6"
+  "fromAccountId": "67d9ed5da5aa3c14969babf9",
+  "toAccountId": "67d9f40aedaf93335978427d"
 }
 
 ### 🔹 2️0. Get All Money Requests for a User
-GET http://localhost:8080/api/money-requests/user/67d9a60e397f680e5a1c206a
+GET http://localhost:8080/api/money-requests/user/67d9f40aedaf93335978427d
 
 ### 🔹 21. Approve a Money Request
-PUT http://localhost:8080/api/money-requests/67d9c16734bf035f7eeacfe8/status?status=APPROVED
+PUT http://localhost:8080/api/money-requests/67da12939668bd39b656ff0c/status?status=APPROVED
 
 ### 🔹 22. Decline a Money Request
-PUT http://localhost:8080/api/money-requests/67d9a984a28e381568267412/status?status=DECLINED
+PUT http://localhost:8080/api/money-requests/67da0a195b97a9792e3ffe86/status?status=DECLINED
+
+### 🔹 Get all notifications
+GET http://localhost:8080/api/notifications
+
+### 🔹 23. Create a notification manually
+POST http://localhost:8080/api/notifications
+Content-Type: application/json
+
+{
+  "clientId": "client1",
+  "message": "Notificare de test: Acesta este un mesaj de test",
+  "read": false
+}
+
+### 🔹 24. Get notifications for a client by clientid
+GET http://localhost:8080/api/notifications/client/67d9ed5da5aa3c14969babf9
+
+### 🔹 25. Get notification by notifid
+GET http://localhost:8080/api/notifications/667d9f40aedaf93335978427d
+
+### 🔹 26. Marck notification as read
+PUT http://localhost:8080/api/notifications/67d9f091edaf93335978427c/read
