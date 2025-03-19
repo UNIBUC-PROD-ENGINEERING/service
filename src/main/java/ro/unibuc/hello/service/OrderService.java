@@ -25,6 +25,11 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public OrderDTO getOrderById(String id) {
+        Optional<OrderEntity> optionalOrder = orderRepository.findById(id);
+        return optionalOrder.map(order -> new OrderDTO(order.getId(), order.getUser().getId(), null, order.getStatus(), order.getCreatedAt(), null)).orElse(null);
+    }
+
     public List<OrderDTO> getOrderHistoryByUserId(String userId) {
         return orderRepository.findAll().stream()
                 .filter(order -> order.getUser().getId().equals(userId))
@@ -46,12 +51,30 @@ public class OrderService {
                 .filter(o -> o.getUser().getId().equals(user.getId()))
                 .collect(Collectors.toList());
         
-        OrderEntity order = new OrderEntity(null,user, productOrders, status, LocalDateTime.now(), history);
+        OrderEntity order = new OrderEntity(null, user, productOrders, status, LocalDateTime.now(), history);
         orderRepository.save(order);
         return new OrderDTO(order.getId(), user.getId(), null, status, order.getCreatedAt(), history.stream()
                 .map(o -> new OrderDTO(o.getId(), o.getUser().getId(), null, o.getStatus(), o.getCreatedAt(), null))
                 .collect(Collectors.toList()));
     }
+
+    public void deleteOrder(String id) {
+        orderRepository.deleteById(id);
+    }
+
+    public OrderDTO updateOrderStatus(String id, String newStatus) {
+        Optional<OrderEntity> optionalOrder = orderRepository.findById(id);
+        if (optionalOrder.isPresent()) {
+            OrderEntity order = optionalOrder.get();
+            order.setStatus(newStatus);
+            orderRepository.save(order);
+            return new OrderDTO(order.getId(), order.getUser().getId(), null, order.getStatus(), order.getCreatedAt(), order.getOrderHistory().stream()
+                    .map(o -> new OrderDTO(o.getId(), o.getUser().getId(), null, o.getStatus(), o.getCreatedAt(), null))
+                    .collect(Collectors.toList()));
+        }
+        return null;
+    }
 }
+
 
 
