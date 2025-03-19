@@ -20,6 +20,9 @@ public class TransactionService {
     private final ClientRepository clientRepository;
 
     @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
     public TransactionService(TransactionRepository transactionRepository, 
                               BankAccountRepository bankAccountRepository,
                               ClientRepository clientRepository) {
@@ -65,6 +68,16 @@ public class TransactionService {
         bankAccountRepository.save(receiverAccount);
     
         Transaction savedTransaction = transactionRepository.save(transaction);
+
+         String senderClientId = senderAccount.getClientId();
+         String receiverClientId = receiverAccount.getClientId();
+
+         notificationService.createNotification(senderClientId, 
+             "Ai trimis " + transaction.getAmount() + " RON către contul " + receiverAccount.getIBAN());
+ 
+         notificationService.createNotification(receiverClientId, 
+             "Ai primit " + transaction.getAmount() + " RON de la contul " + senderAccount.getIBAN());
+ 
     
         return savedTransaction;
     }
