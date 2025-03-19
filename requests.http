@@ -33,3 +33,27 @@ POST http://localhost:8080/add-game
 
 POST http://localhost:8080/delete-game
     ?id=67d892cdb65bb038c7c6302a
+
+### get account info
+
+GET http://localhost:8080/account
+    ?username=Ionel
+    &password=parola3
+
+### see available subscription upgrades
+GET http://localhost:8080/seeUpgrades
+    ?username=Ionel
+    &password=parola3
+
+### upgrade to a target tier
+
+POST http://localhost:8080/upgradeTier
+    ?username=Ionel
+    &password=parola3
+    &tier=1
+
+### cancel your subscrption
+
+POST http://localhost:8080/cancelSubscription
+    ?username=Ionel
+    &password=parola3
