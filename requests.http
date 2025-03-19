@@ -4,55 +4,6 @@
 # High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
 
 
-# Requests for API endpoints of the sample project:
-
-### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8080/hello-world
-
-### Hello world with a request param passed.
-# When sending the request it will ask you for the name
-# hitting enter will avoid passing the param, and do the default behaviour above
-# @prompt name The name to display in response
-GET http://localhost:8080/hello-world
-    ?name={{name}}
-
-### Save a greeting to database
-@postGreetingId = 1001
-@postGreetingContent = Hello!
-POST http://localhost:8080/greetings
-Content-Type: application/json
-
-{
-    "id": "{{postGreetingId}}",
-    "content": "{{postGreetingContent}}"
-}
-
-### Get all greetings
-GET http://localhost:8080/greetings
-
-### Get info for greeting with given content
-# @prompt content Greeting content to look for, defaults to "Overview"
-GET http://localhost:8080/info
-    ?title={{content}}
-
-### Update an existing greeting
-@putGreetingId = 1001
-@putGreetingContent = Hello again!
-PUT http://localhost:8080/greetings/{{putGreetingId}}
-Content-Type: application/json
-
-{
-    "content": "{{putGreetingContent}}"
-}
-
-### Delete greeting
-@deleteGreetingId = 1001
-DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
-
-
-# TODO add requests for your own endpoints!
-
-
 
 
 
@@ -64,25 +15,25 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwia
 Content-Type: application/json
 
 {
-  "email": "test2@example.com",
+  "email": "test1@example.com",
   "password": "securepassword"
 }
 
 ### 2️⃣ Login client
 POST http://localhost:8080/api/clients/login
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMTM0NywiZXhwIjoxNzQyMzU3MzQ3fQ.xyR_8fWuHMOmfTKqEaOCwRyEiTw2CvSY5hjOXBtdp4U
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.BnWTRXfsCf3DPbWIOg3X5LU7QRCFUwgtmj3tuMNDaTU
 Content-Type: application/json
 Authorization: None
 
 {
-  "email": "test2@example.com",
+  "email": "test1@example.com",
   "password": "securepassword"
 }
 
 ### 3️⃣ Create a new bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMzkzMywiZXhwIjoxNzQyMzU5OTMzfQ.-o88qgIwchbWL7uAG3HVUVOCc0b1mdU8dAc8BPrjVCw
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMzNDEwOSwiZXhwIjoxNzQyMzcwMTA5fQ.SwEtoXU5RJ8nhL7iEU2yy_FgWA9pRWds9l6UYj8Ncv4
 
 {
   "accountNumber": "123456782",
@@ -102,10 +53,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsI
 ### 5️⃣ Create a new card
 POST http://localhost:8080/cards/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjI5NSwiZXhwIjoxNzQyMzU4Mjk1fQ.tzcjpc-v6xHybaHtxI2Beu-Ym3eSjvwdEdNm8ZsKk58
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMzMzk2MCwiZXhwIjoxNzQyMzY5OTYwfQ.xTdGXBNhZdftAhHuYg-vHXS2iScd2HY8aqtgpAG90_8
 
 {
-  "bankAccountId": "67d9c0bb34bf035f7eeacfe4",
+  "bankAccountId": "67d9e84ee0132843d7814455",
   "cvv": 564
 }
 
@@ -124,9 +75,9 @@ POST http://localhost:8080/api/transactions
 Content-Type: application/json
 
 {
-  "amount": 150.75,
-  "fromAccountId": "67d9c0fb34bf035f7eeacfe6",
-  "toAccountId": "67d9c0bb34bf035f7eeacfe4"
+  "amount": 600,
+  "fromAccountId": "67d9e84ee0132843d7814455",
+  "toAccountId": "67d9e8c7e0132843d7814458"
 }
 
 ### 8️⃣ Create another transaction
@@ -181,11 +132,74 @@ Content-Type: application/json
   "toAccountId": "67d9c0fb34bf035f7eeacfe6"
 }
 
-### 🔹 2️0. Get All Money Requests for a User
-GET http://localhost:8080/api/money-requests/user/67d9a60e397f680e5a1c206a
+### 🔹 20. Get All Money Requests for a User
+GET http://localhost:8080/api/money-requests/user/67d9d88fe7ae213e150da599
 
 ### 🔹 21. Approve a Money Request
 PUT http://localhost:8080/api/money-requests/67d9c16734bf035f7eeacfe8/status?status=APPROVED
 
 ### 🔹 22. Decline a Money Request
 PUT http://localhost:8080/api/money-requests/67d9a984a28e381568267412/status?status=DECLINED
+
+
+
+
+
+
+POST http://localhost:8080/api/clients/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.1YrRO17DaiY2K2dwLjh0lAHR98eVWYqmBUG7_Zu_s6I
+Content-Type: application/json
+
+{
+  "email": "test3@example.com",
+  "password": "securepassword"
+}
+
+### 2️⃣ Login client
+POST http://localhost:8080/api/clients/login
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.BnWTRXfsCf3DPbWIOg3X5LU7QRCFUwgtmj3tuMNDaTU
+Content-Type: application/json
+Authorization: None
+
+{
+  "email": "test3@example.com",
+  "password": "securepassword"
+}
+
+### 2️⃣3️⃣ Create a new group
+POST http://localhost:8080/groups
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMzMDkwNiwiZXhwIjoxNzQyMzY2OTA2fQ.cCHDtxw2DZEvKdKUJ5TIAKk7XesMjVf85voJpBH0owc
+Content-Type: application/json
+
+{
+  "name": "Tech Enthusiasts2"
+}
+
+### 2️⃣4️⃣ Get group details by ID
+GET http://localhost:8080/groups/67d9dd5565e57f40921cb9cc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMzMDkwNiwiZXhwIjoxNzQyMzY2OTA2fQ.cCHDtxw2DZEvKdKUJ5TIAKk7XesMjVf85voJpBH0owc
+
+### 2️⃣5️⃣ Invite a user to a group
+PUT http://localhost:8080/groups/67d9dd5565e57f40921cb9cc/invite/67d9e896e0132843d7814457
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMzMDkwNiwiZXhwIjoxNzQyMzY2OTA2fQ.cCHDtxw2DZEvKdKUJ5TIAKk7XesMjVf85voJpBH0owc
+
+### 2️⃣6️⃣ Accept an invitation to a group (Executed by invited user)
+PUT http://localhost:8080/groups/67d9dd5565e57f40921cb9cc/accept
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjM0NDU3NCwiZXhwIjoxNzQyMzgwNTc0fQ.Nh7iGqVfaAZeR-uLcmtvF396QMJXvcpXbOTAo2dak5g
+
+### 2️⃣7️⃣ Remove a user from a group
+PUT http://localhost:8080/groups/660f1a3b2e8a9a001c4d5f67/remove/user456
+Authorization: Bearer <JWT_TOKEN>
+
+### 2️⃣8️⃣ Delete a group (Only creator can perform this action)
+DELETE http://localhost:8080/groups/660f1a3b2e8a9a001c4d5f67
+Authorization: Bearer <JWT_TOKEN>
+
+### 29 Add a transaction to the group
+POST http://localhost:8080/groups/67d9dd5565e57f40921cb9cc/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMzMzk2MCwiZXhwIjoxNzQyMzY5OTYwfQ.xTdGXBNhZdftAhHuYg-vHXS2iScd2HY8aqtgpAG90_8
+Content-Type: application/json
+
+{
+  "transactionId": "67da11b584ab9d07ee4761b8"
+}
