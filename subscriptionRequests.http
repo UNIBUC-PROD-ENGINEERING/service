@@ -7,7 +7,7 @@ GET http://localhost:8080/subscriptions
 GET http://localhost:8080/subscriptions/info?tier=1
 
 ### Create a new subscription
-@postTier = 2
+@postTier = 3
 @postPrice = 150
 POST http://localhost:8080/subscriptions
 Content-Type: application/json
