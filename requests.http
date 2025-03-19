@@ -8,7 +8,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwia
 Content-Type: application/json
 
 {
-  "email": "client2@example.com",
+  "email": "client1@example.com",
   "password": "securepassword"
 }
 
@@ -19,14 +19,14 @@ Content-Type: application/json
 Authorization: None
 
 {
-  "email": "client2@example.com",
+  "email": "client1@example.com",
   "password": "securepassword"
 }
 
 ### 3️⃣ Create a new bank account
 POST http://localhost:8080/api/bank-accounts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbGllbnQyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMzM3MDUxLCJleHAiOjE3NDIzNzMwNTF9.0Ofr812jNitF6hEa6Y2MqImSYZkdvXO3Dcg2iE-un2w
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbGllbnQxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMzQ4NTQ1LCJleHAiOjE3NDIzODQ1NDV9.pTGE1K8WjH8W22JubMVFuSDF-sZPwCQv4lw_wbKnmqQ
 
 {
   "accountNumber": "1234567823",
@@ -69,8 +69,8 @@ Content-Type: application/json
 
 {
   "amount": 600,
-  "fromAccountId": "67d9e84ee0132843d7814455",
-  "toAccountId": "67d9e8c7e0132843d7814458"
+  "fromAccountId": "67da210e2d11ac2eb75c9e48",
+  "toAccountId": "67da20dc2d11ac2eb75c9e46"
 }
 
 ### 🔹 19. Request Money from Another User
@@ -79,18 +79,18 @@ Content-Type: application/json
 
 {
   "amount": 21.00,
-  "fromAccountId": "67d9ed5da5aa3c14969babf9",
-  "toAccountId": "67d9f40aedaf93335978427d"
+  "fromAccountId": "67da210e2d11ac2eb75c9e48",
+  "toAccountId": "67da20dc2d11ac2eb75c9e46"
 }
 
 ### 🔹 20. Get All Money Requests for a User
 GET http://localhost:8080/api/money-requests/user/67d9f40aedaf93335978427d
 
 ### 🔹 21. Approve a Money Request
-PUT http://localhost:8080/api/money-requests/67da12939668bd39b656ff0c/status?status=APPROVED
+PUT http://localhost:8080/api/money-requests/67da21b62d11ac2eb75c9e4c/status?status=APPROVED
 
 ### 🔹 22. Decline a Money Request
-PUT http://localhost:8080/api/money-requests/67da0a195b97a9792e3ffe86/status?status=DECLINED
+PUT http://localhost:8080/api/money-requests/67da22762d11ac2eb75c9e52/status?status=DECLINED
 
 ### 🔹 Get all notifications
 GET http://localhost:8080/api/notifications
