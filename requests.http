@@ -1,62 +1,6 @@
-
 # You can use this file to easily send requests to your API.
 # Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
 # High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
-
-
-# Requests for API endpoints of the sample project:
-
-### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8080/hello-world
-
-### Hello world with a request param passed.
-# When sending the request it will ask you for the name
-# hitting enter will avoid passing the param, and do the default behaviour above
-# @prompt name The name to display in response
-GET http://localhost:8080/hello-world
-    ?name={{name}}
-
-### Save a greeting to database
-@postGreetingId = 1001
-@postGreetingContent = Hello!
-POST http://localhost:8080/greetings
-Content-Type: application/json
-
-{
-    "id": "{{postGreetingId}}",
-    "content": "{{postGreetingContent}}"
-}
-
-### Get all greetings
-GET http://localhost:8080/greetings
-
-### Get info for greeting with given content
-# @prompt content Greeting content to look for, defaults to "Overview"
-GET http://localhost:8080/info
-    ?title={{content}}
-
-### Update an existing greeting
-@putGreetingId = 1001
-@putGreetingContent = Hello again!
-PUT http://localhost:8080/greetings/{{putGreetingId}}
-Content-Type: application/json
-
-{
-    "content": "{{putGreetingContent}}"
-}
-
-### Delete greeting
-@deleteGreetingId = 1001
-DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
-
-
-# TODO add requests for your own endpoints!
-
-
-
-
-
-
 
 ### 1️⃣ Register a new client
 POST http://localhost:8080/api/clients/register
@@ -70,7 +14,7 @@ Content-Type: application/json
 
 ### 2️⃣ Login client
 POST http://localhost:8080/api/clients/login
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMTM0NywiZXhwIjoxNzQyMzU3MzQ3fQ.xyR_8fWuHMOmfTKqEaOCwRyEiTw2CvSY5hjOXBtdp4U
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjQyODgzLCJleHAiOjE3NDIyNzg4ODN9.BnWTRXfsCf3DPbWIOg3X5LU7QRCFUwgtmj3tuMNDaTU
 Content-Type: application/json
 Authorization: None
 
@@ -102,10 +46,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbGllbnQyQGV4YW1wbGUuY29tI
 ### 5️⃣ Create a new card
 POST http://localhost:8080/cards/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMyMjI5NSwiZXhwIjoxNzQyMzU4Mjk1fQ.tzcjpc-v6xHybaHtxI2Beu-Ym3eSjvwdEdNm8ZsKk58
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMzMzk2MCwiZXhwIjoxNzQyMzY5OTYwfQ.xTdGXBNhZdftAhHuYg-vHXS2iScd2HY8aqtgpAG90_8
 
 {
-  "bankAccountId": "67d9c0bb34bf035f7eeacfe4",
+  "bankAccountId": "67d9e84ee0132843d7814455",
   "cvv": 564
 }
 
@@ -124,52 +68,10 @@ POST http://localhost:8080/api/transactions
 Content-Type: application/json
 
 {
-  "amount": 150.75,
-  "fromAccountId": "67d9ef3aa5aa3c14969babfa",
-  "toAccountId": "67d9f602edaf93335978427e"
+  "amount": 600,
+  "fromAccountId": "67d9e84ee0132843d7814455",
+  "toAccountId": "67d9e8c7e0132843d7814458"
 }
-
-### 8️⃣ Create another transaction
-POST http://localhost:8080/api/transactions
-Content-Type: application/json
-
-{
-  "amount": 500.00,
-  "fromAccountId": "67d9ef3aa5aa3c14969babfa",
-  "toAccountId": "67d9f602edaf93335978427e"
-}
-
-### 9️⃣ Get all clients
-GET http://localhost:8080/api/clients
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMxNTAyMywiZXhwIjoxNzQyMzUxMDIzfQ.aGU3Z9zVhvfN7SoRechcSQKbl-JOlWdVrO1l-nhDMxs
-
-### 🔟 Get all bank accounts
-GET http://localhost:8080/api/bank-accounts
-
-### 1️⃣1️⃣ Get a specific bank account by ID
-GET http://localhost:8080/api/bank-accounts/123456789
-
-### 1️⃣2️⃣ Get all cards
-GET http://localhost:8080/cards
-
-### 1️⃣3️⃣ Get a specific card by ID
-GET http://localhost:8080/api/cards/4111111111111111
-
-### 1️⃣4️⃣ Get all transactions
-GET http://localhost:8080/api/transactions
-
-### 1️⃣5️⃣ Get a specific transaction by ID
-GET http://localhost:8080/api/transactions/transactionId
-
-### 1️⃣6️⃣ Delete a transaction
-DELETE http://localhost:8080/api/transactions/67d9a5ed397f680e5a1c2068
-
-### 1️⃣7️⃣ Delete a card
-DELETE http://localhost:8080/api/cards/4111111111111111
-
-### 1️⃣8️⃣ Delete a bank account
-DELETE http://localhost:8080/api/bank-accounts/123456789
-
 
 ### 🔹 19. Request Money from Another User
 POST http://localhost:8080/api/money-requests
@@ -181,7 +83,7 @@ Content-Type: application/json
   "toAccountId": "67d9f40aedaf93335978427d"
 }
 
-### 🔹 2️0. Get All Money Requests for a User
+### 🔹 20. Get All Money Requests for a User
 GET http://localhost:8080/api/money-requests/user/67d9f40aedaf93335978427d
 
 ### 🔹 21. Approve a Money Request
@@ -209,5 +111,14 @@ GET http://localhost:8080/api/notifications/client/67d9ed5da5aa3c14969babf9
 ### 🔹 25. Get notification by notifid
 GET http://localhost:8080/api/notifications/667d9f40aedaf93335978427d
 
-### 🔹 26. Marck notification as read
+### 🔹 26. Mark notification as read
 PUT http://localhost:8080/api/notifications/67d9f091edaf93335978427c/read
+
+### 29 Add a transaction to the group
+POST http://localhost:8080/groups/67d9dd5565e57f40921cb9cc/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBleGFtcGxlLmNvbSIsImlhdCI6MTc0MjMzMzk2MCwiZXhwIjoxNzQyMzY5OTYwfQ.xTdGXBNhZdftAhHuYg-vHXS2iScd2HY8aqtgpAG90_8
+Content-Type: application/json
+
+{
+  "transactionId": "67da11b584ab9d07ee4761b8"
+}
