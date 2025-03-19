@@ -9,8 +9,8 @@ import ro.unibuc.hello.service.BookingService;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -85,6 +85,28 @@ public class BookingController {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/available-apartments")
+    public ResponseEntity<?> getAvailableApartments(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        
+        try {
+            List<String> availableApartmentIds = bookingService.findAvailableApartmentIds(startDate, endDate);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("startDate", startDate);
+            response.put("endDate", endDate);
+            response.put("availableApartmentIds", availableApartmentIds);
+            response.put("count", availableApartmentIds.size());
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
