@@ -17,7 +17,11 @@ public class Group {
 
     private String name; // Numele grupului
 
+    private String createdBy; // ID-ul utilizatorului care a creat grupul
+
     private List<String> clientIds; // Lista de membri ai grupului (referință la Client)
 
     private List<String> transactionIds; // Lista tranzacțiilor asociate grupului (referință la Transaction)
+
+    private List<String> pendingInvites;
 }
