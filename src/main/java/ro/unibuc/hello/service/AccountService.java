@@ -13,6 +13,8 @@ import ro.unibuc.hello.dto.Game;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.Subscription;
 import ro.unibuc.hello.dto.Account;
+import ro.unibuc.hello.dto.Notification;
+
 import ro.unibuc.hello.service.GamesService;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.util.List;
@@ -38,6 +40,16 @@ public class AccountService {
     @Autowired
     private GamesService gamesService;
 
+    private List<Notification> createNotification(String message) {
+        List<Notification> notifications = new ArrayList<>();
+        notifications.add(new Notification(
+            String.valueOf(System.currentTimeMillis()), // Simple ID generation
+            message,
+            new Date()
+        ));
+        return notifications;
+    }
+
     public Account getAccount(String username, String password){
         List<UserEntity> entities = userRepository.findByUsernameContaining(username);
 
@@ -56,17 +68,20 @@ public class AccountService {
         Date expirationDate = user.getExpirationDate();
         Date todayDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
+        // Get notifications from the UserEntity
+        List<Notification> notifications = entity.getNotifications();
+
         if(expirationDate == null){
-            return new Account("Not yet purchased a subscription!", user, null);
+            return new Account("Not yet purchased a subscription!", user, null, notifications);
         }
 
         if(todayDate.after(expirationDate)){
-            return new Account("Subscription expired!", user, null);
+            return new Account("Subscription expired!", user, null, notifications);
         }
 
         List<Game> games = gamesService.getGamesAvailable(entity.getTier());
 
-        return new Account("Logged in!", user, games);
+        return new Account("Logged in!", user, games, notifications);
     }
 
     public String getUpgrades(String username, String password){
@@ -120,11 +135,6 @@ public class AccountService {
                 return String.format("Tier %d for %d$ (Original: %d$)", tier, discountedPrice, originalUpgradeCost);
             })
             .collect(Collectors.toList());
-
-        // List<String> strings = subscriptionsEntities.stream()
-        //     .filter(subs -> subs.getTier() > currentTier)
-        //     .map(subs -> String.format("Tier %d for %d$", subs.getTier(), subs.getPrice() - currentPrice))
-        //     .collect(Collectors.toList());
 
         if (strings.isEmpty()) {
             return "You already have access to all the games!";
@@ -199,68 +209,23 @@ public class AccountService {
         entity.setExpirationDate(cal.getTime());
         entity.setTier(targetTier);
         userRepository.save(entity);
+
+        // Create and save notification
+        List<Notification> notifications = entity.getNotifications();
+        if (notifications == null) {
+            notifications = new ArrayList<>();
+        }
+        notifications.add(new Notification(
+            String.valueOf(System.currentTimeMillis()), // Simple ID generation
+            "You have successfully upgraded to tier " + targetTier + "for $" +  finalPrice + "!",
+            new Date()
+        ));
+        entity.setNotifications(notifications);
+
+        userRepository.save(entity);
     
         return String.format("Purchased tier %d for %d$ (Original: %d$)", targetTier, finalPrice, targetPrice);
     }
-
-    // public String upgradeTier(String username, String password, int targetTier){
-    //     List<UserEntity> entities = userRepository.findByUsernameContaining(username);
-
-    //     if(entities.isEmpty()){
-    //         return "Invalid username!";
-    //     }
-
-    //     UserEntity entity = entities.get(0);
-
-    //     if(!entity.getPassword().equals(password)){
-    //         return "Invalid password!";
-    //     }
-
-    //     boolean isExpired;
-    //     Date expirationDate = entity.getExpirationDate();
-    //     Date todayDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-    //     if(expirationDate != null){
-    //         isExpired = !todayDate.before(expirationDate);
-    //     }else{
-    //         isExpired = true;
-    //     }
-
-    //     List<SubscriptionEntity> subscriptionsEntities = subscriptionRepository.findAll();
-
-    //     int currentTier = !isExpired ? entity.getTier() : 0;        
-
-    //     int currentPrice = subscriptionsEntities.stream()
-    //         .filter(subs -> subs.getTier() == currentTier)
-    //         .mapToInt(SubscriptionEntity::getPrice)
-    //         .findFirst()
-    //         .orElse(0);
-
-    //     int targetPrice = subscriptionsEntities.stream()
-    //         .filter(subs -> subs.getTier() == targetTier)
-    //         .mapToInt(SubscriptionEntity::getPrice)
-    //         .findFirst()
-    //         .orElse(-1);
-
-    //     if(targetPrice == -1){
-    //         return "Tier not found!";
-    //     }
-
-    //     if(currentTier == targetTier)
-    //         return String.format("You already own tier %d!", targetTier);
-
-    //     if(currentTier > targetTier)
-    //         return "Cannot upgrade to a lower tier!";
-
-    //     Calendar cal = Calendar.getInstance();
-    //     cal.setTime(todayDate);
-    //     cal.add(Calendar.YEAR, 1);
-
-    //     entity.setExpirationDate(cal.getTime());
-    //     entity.setTier(targetTier);
-    //     userRepository.save(entity);
-
-    //     return String.format("Upgraded to tier %d for %d$", targetTier, targetPrice - currentPrice);
-    // }
 
     public String cancelSubscription(String username, String password){
         List<UserEntity> entities = userRepository.findByUsernameContaining(username);
@@ -296,11 +261,41 @@ public class AccountService {
         entity.setTier(0);
         userRepository.save(entity);
 
+        List<Notification> notifications = entity.getNotifications();
+        if (notifications == null) {
+            notifications = new ArrayList<>();
+        }
+        notifications.add(new Notification(
+            String.valueOf(System.currentTimeMillis()), // Simple ID generation
+            "You have successfully canceled your subscription!",
+            new Date()
+        ));
+        entity.setNotifications(notifications);
+
+        userRepository.save(entity);
+
         if(todayDate.before(cal.getTime())){
+            notifications.add(new Notification(
+                String.valueOf(System.currentTimeMillis()), // Simple ID generation
+                "You canceled your subscription and paid extra for early cancellation.",
+                new Date()
+            ));
+            entity.setNotifications(notifications);
+
+            userRepository.save(entity);
+
             return "You canceled your subscription and paid extra for early cancellation.";
         }
 
+        notifications.add(new Notification(
+            String.valueOf(System.currentTimeMillis()), // Simple ID generation
+            "You have successfully canceled your subscription!",
+            new Date()
+        ));
+        entity.setNotifications(notifications);
+
+        userRepository.save(entity);
+
         return "You canceled your subscription."; 
     }
-
 }

@@ -1,7 +1,10 @@
 package ro.unibuc.hello.data;
 
+import ro.unibuc.hello.dto.Notification;
+
 import org.springframework.data.annotation.Id;
 import java.util.Date;
+import java.util.List;
 
 public class UserEntity {
 
@@ -12,6 +15,8 @@ public class UserEntity {
     private String password;
     private int tier;
     private Date expirationDate;
+    private List<Notification> notifications;
+
 
     public UserEntity() {}
 
@@ -58,6 +63,14 @@ public class UserEntity {
 
     public void setExpirationDate(Date expirationDate){
         this.expirationDate = expirationDate;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     @Override
