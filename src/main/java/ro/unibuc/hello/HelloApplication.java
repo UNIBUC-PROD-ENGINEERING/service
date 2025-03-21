@@ -47,8 +47,10 @@ public class HelloApplication {
 		gamesRepository.save(new GameEntity("Cyberpunk 2077", 3));
 
 		subscriptionsRepository.deleteAll();
-		subscriptionsRepository.save(new SubscriptionEntity(1, 70));
-		subscriptionsRepository.save(new SubscriptionEntity(2, 90));
+		subscriptionsRepository.save(new SubscriptionEntity(1, 90));
+		subscriptionsRepository.save(new SubscriptionEntity(2, 115));
+		subscriptionsRepository.save(new SubscriptionEntity(3, 150));
+
 
 		userRepository.deleteAll();
 		userRepository.save(new UserEntity("Mihaitza","parola1"));
