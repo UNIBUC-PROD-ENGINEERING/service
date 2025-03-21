@@ -45,7 +45,7 @@ public class SubscriptionEntity {
     @Override
     public String toString() {
         return String.format(
-                "Subscription[tier='%d', price='%d']",
+                "Subscription[id='%s', tier='%d', price='%d']",
                 tier, price);
     }
 }

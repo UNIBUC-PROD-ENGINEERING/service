@@ -100,73 +100,167 @@ public class AccountService {
             .mapToInt(SubscriptionEntity::getPrice)
             .findFirst()
             .orElse(0);
-        
+
+        double discountPercentage = 0.20; // 20% discount on upgrades
+
         List<String> strings = subscriptionsEntities.stream()
-            .filter(subs -> subs.getTier() > currentTier)
-            .map(subs -> String.format("Tier %d for %d$", subs.getTier(), subs.getPrice() - currentPrice))
+            .map(subs -> {
+                int tier = subs.getTier();
+                int originalPrice = subs.getPrice();
+        
+                // If tier is lower or equal to the current tier, show the original price (no discount)
+                if (tier <= currentTier) {
+                    return String.format("Tier %d for %d$ (Original Price)", tier, originalPrice);
+                }
+        
+                // Otherwise, apply a discount to the upgrade price
+                int originalUpgradeCost = originalPrice - currentPrice;
+                int discountedPrice = (int) (originalUpgradeCost * (1 - discountPercentage)); // Apply 20% discount
+        
+                return String.format("Tier %d for %d$ (Original: %d$)", tier, discountedPrice, originalUpgradeCost);
+            })
             .collect(Collectors.toList());
+
+        // List<String> strings = subscriptionsEntities.stream()
+        //     .filter(subs -> subs.getTier() > currentTier)
+        //     .map(subs -> String.format("Tier %d for %d$", subs.getTier(), subs.getPrice() - currentPrice))
+        //     .collect(Collectors.toList());
+
+        if (strings.isEmpty()) {
+            return "You already have access to all the games!";
+        }
 
         return String.join("\n", strings);
     }
 
-    public String upgradeTier(String username, String password, int targetTier){
+    public String upgradeTier(String username, String password, int targetTier) {
         List<UserEntity> entities = userRepository.findByUsernameContaining(username);
-
-        if(entities.isEmpty()){
+    
+        if (entities.isEmpty()) {
             return "Invalid username!";
         }
-
+    
         UserEntity entity = entities.get(0);
-
-        if(!entity.getPassword().equals(password)){
+    
+        if (!entity.getPassword().equals(password)) {
             return "Invalid password!";
         }
-
+    
         boolean isExpired;
         Date expirationDate = entity.getExpirationDate();
         Date todayDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        if(expirationDate != null){
+        if (expirationDate != null) {
             isExpired = !todayDate.before(expirationDate);
-        }else{
+        } else {
             isExpired = true;
         }
-
+    
         List<SubscriptionEntity> subscriptionsEntities = subscriptionRepository.findAll();
-
-        int currentTier = !isExpired ? entity.getTier() : 0;        
-
+    
+        int currentTier = !isExpired ? entity.getTier() : 0;
+    
         int currentPrice = subscriptionsEntities.stream()
             .filter(subs -> subs.getTier() == currentTier)
             .mapToInt(SubscriptionEntity::getPrice)
             .findFirst()
             .orElse(0);
-
+    
         int targetPrice = subscriptionsEntities.stream()
             .filter(subs -> subs.getTier() == targetTier)
             .mapToInt(SubscriptionEntity::getPrice)
             .findFirst()
             .orElse(-1);
-
-        if(targetPrice == -1){
+    
+        if (targetPrice == -1) {
             return "Tier not found!";
         }
-
-        if(currentTier == targetTier)
+    
+        if (currentTier == targetTier) {
             return String.format("You already own tier %d!", targetTier);
-
-        if(currentTier > targetTier)
-            return "Cannot upgrade to a lower tier!";
-
+        }
+    
+        int finalPrice;
+    
+        if (currentTier < targetTier) {
+            // Apply discount only for upgrades
+            double discountPercentage = 0.20; // 20% discount
+            int upgradeCost = targetPrice - currentPrice;
+            finalPrice = (int) (upgradeCost * (1 - discountPercentage));
+        } else {
+            // Full price for downgrades or re-purchases
+            finalPrice = targetPrice;
+        }
+    
+        // Extend subscription by 1 year
         Calendar cal = Calendar.getInstance();
         cal.setTime(todayDate);
         cal.add(Calendar.YEAR, 1);
-
+    
         entity.setExpirationDate(cal.getTime());
         entity.setTier(targetTier);
         userRepository.save(entity);
-
-        return String.format("Upgraded to tier %d for %d$", targetTier, targetPrice - currentPrice);
+    
+        return String.format("Purchased tier %d for %d$ (Original: %d$)", targetTier, finalPrice, targetPrice);
     }
+
+    // public String upgradeTier(String username, String password, int targetTier){
+    //     List<UserEntity> entities = userRepository.findByUsernameContaining(username);
+
+    //     if(entities.isEmpty()){
+    //         return "Invalid username!";
+    //     }
+
+    //     UserEntity entity = entities.get(0);
+
+    //     if(!entity.getPassword().equals(password)){
+    //         return "Invalid password!";
+    //     }
+
+    //     boolean isExpired;
+    //     Date expirationDate = entity.getExpirationDate();
+    //     Date todayDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+    //     if(expirationDate != null){
+    //         isExpired = !todayDate.before(expirationDate);
+    //     }else{
+    //         isExpired = true;
+    //     }
+
+    //     List<SubscriptionEntity> subscriptionsEntities = subscriptionRepository.findAll();
+
+    //     int currentTier = !isExpired ? entity.getTier() : 0;        
+
+    //     int currentPrice = subscriptionsEntities.stream()
+    //         .filter(subs -> subs.getTier() == currentTier)
+    //         .mapToInt(SubscriptionEntity::getPrice)
+    //         .findFirst()
+    //         .orElse(0);
+
+    //     int targetPrice = subscriptionsEntities.stream()
+    //         .filter(subs -> subs.getTier() == targetTier)
+    //         .mapToInt(SubscriptionEntity::getPrice)
+    //         .findFirst()
+    //         .orElse(-1);
+
+    //     if(targetPrice == -1){
+    //         return "Tier not found!";
+    //     }
+
+    //     if(currentTier == targetTier)
+    //         return String.format("You already own tier %d!", targetTier);
+
+    //     if(currentTier > targetTier)
+    //         return "Cannot upgrade to a lower tier!";
+
+    //     Calendar cal = Calendar.getInstance();
+    //     cal.setTime(todayDate);
+    //     cal.add(Calendar.YEAR, 1);
+
+    //     entity.setExpirationDate(cal.getTime());
+    //     entity.setTier(targetTier);
+    //     userRepository.save(entity);
+
+    //     return String.format("Upgraded to tier %d for %d$", targetTier, targetPrice - currentPrice);
+    // }
 
     public String cancelSubscription(String username, String password){
         List<UserEntity> entities = userRepository.findByUsernameContaining(username);
