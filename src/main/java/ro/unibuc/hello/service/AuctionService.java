@@ -101,7 +101,7 @@ public class AuctionService {
 
     public Auction updateAuction(String id, Auction auction) {
         AuctionEntity entity = auctionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
+                .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
 
         entity.setTitle(auction.getTitle());
         entity.setDescription(auction.getDescription());
@@ -125,7 +125,7 @@ public class AuctionService {
 
     public void deleteAuction(String id) {
         AuctionEntity entity = auctionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
+                .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
         auctionRepository.delete(entity);
     }
 

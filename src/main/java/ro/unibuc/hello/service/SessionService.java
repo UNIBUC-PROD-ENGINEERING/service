@@ -12,8 +12,6 @@ import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.LoginRequest;
 import ro.unibuc.hello.dto.Session;
-import ro.unibuc.hello.exception.EntityNotFoundException;
-import ro.unibuc.hello.exception.ExpiredSessionException;
 import ro.unibuc.hello.exception.InvalidSessionException;
 import ro.unibuc.hello.exception.LoginFailedException;
 
@@ -29,7 +27,7 @@ public class SessionService {
 
     public Session login(LoginRequest loginReq) {
         UserEntity user = userRepository.findByUsername(loginReq.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException(loginReq.getUsername()));
+                .orElseThrow(() -> new LoginFailedException());
 
         if (user != null && user.getPassword().equals(loginReq.getPassword())) {
             String sessionId = generateSessionId();
@@ -56,10 +54,10 @@ public class SessionService {
 
     public SessionEntity getValidSession(String sessionId) {
         SessionEntity session = sessionRepository.findBySessionId(sessionId)
-                .orElseThrow(() -> new InvalidSessionException());
+                .orElseThrow(() -> new InvalidSessionException("Invalid session"));
 
         if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new ExpiredSessionException();
+            throw new InvalidSessionException("Expired session");
         }
 
         return session;

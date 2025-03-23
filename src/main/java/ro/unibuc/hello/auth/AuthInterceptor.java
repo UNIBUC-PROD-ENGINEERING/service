@@ -9,7 +9,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ro.unibuc.hello.data.SessionEntity;
-import ro.unibuc.hello.exception.ExpiredSessionException;
 import ro.unibuc.hello.exception.InvalidSessionException;
 import ro.unibuc.hello.service.SessionService;
 
@@ -38,24 +37,11 @@ public class AuthInterceptor implements HandlerInterceptor {
         String sessionId = request.getHeader("X-Session-Id");
 
         if (sessionId == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Unauthorized");
-            return false;
+            throw new InvalidSessionException("Missing session id");
         }
 
-        try {
-            SessionEntity session = sessionService.getValidSession(sessionId);
-            request.setAttribute("authenticatedUserId", session.getUser().getId());
-        } catch (InvalidSessionException ex) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Invalid session");
-            return false;
-        } catch (ExpiredSessionException ex) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Expired session");
-            return false;
-        }
-
+        SessionEntity session = sessionService.getValidSession(sessionId);
+        request.setAttribute("authenticatedUserId", session.getUser().getId());
         return true;
     }
 }

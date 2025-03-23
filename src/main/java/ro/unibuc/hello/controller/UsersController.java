@@ -20,7 +20,6 @@ import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.UserPostRequest;
-import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.permissions.UserPermissionChecker;
 import ro.unibuc.hello.service.UserService;
 
@@ -78,7 +77,7 @@ public class UsersController {
 
     @DeleteMapping("/users/{id}")
     @ResponseBody
-    public void deleteUser(HttpServletRequest request, @PathVariable String id) throws EntityNotFoundException {
+    public void deleteUser(HttpServletRequest request, @PathVariable String id) {
         String userId = AuthUtil.getAuthenticatedUserId(request);
         permissionChecker.checkOwnership(userId, id);
         userService.deleteUser(id);

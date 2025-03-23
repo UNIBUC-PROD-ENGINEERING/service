@@ -102,7 +102,7 @@ public class UserService {
 
     public UserDetails updateUser(String id, UserPostRequest user) {
         UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         
         userEntity.setName(user.getName());
         userEntity.setUsername(user.getUsername());
@@ -115,7 +115,7 @@ public class UserService {
 
     public void deleteUser(String id) {
         UserEntity entity = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         userRepository.delete(entity);
     }
 
