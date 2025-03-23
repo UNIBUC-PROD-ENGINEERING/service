@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.hello.dto.User;
+import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.UserPost;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.util.List;
@@ -33,27 +34,21 @@ public class UsersController {
 
     
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-          
-        User user = userService.getUserById(id);
-
-        if (user != null) {
-          return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @ResponseBody
+    public UserDetails getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
     }
 
 
     @PostMapping("/users")
     @ResponseBody
-    public User createUser(@RequestBody UserPost user) {
+    public UserDetails createUser(@RequestBody UserPost user) {
         return userService.saveUser(user);
     }
 
     @PutMapping("/users/{id}")
     @ResponseBody
-    public User updateUser(@PathVariable String id, @RequestBody UserPost user) throws EntityNotFoundException {
+    public UserDetails updateUser(@PathVariable String id, @RequestBody UserPost user) throws EntityNotFoundException {
         return userService.updateUser(id, user);  //itemurile precizate sunt adaugate la cele existente pt userul user 
     }
 

@@ -10,24 +10,16 @@ public class UserPost{
     private String name;
     private String username;
     private String password;
-    
+    private String sessionId;
+
     private List<Item> ownedItems = new ArrayList<>();
 
     public UserPost(){}
 
-    public UserPost(String name,String username) {
-        this.name = name;
-        this.username = username;
-    }
-
-    public UserPost(String name,String username, String password) {
+    public UserPost(String sessionId, String name,String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
-    }
-
-    public UserPost(String name) {
-        this.name = name;
     }
 
     public UserPost(String name, String username, List<ItemEntity> items) {
@@ -61,6 +53,14 @@ public class UserPost{
    
     public String getPassword() {
         return password;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
    
 

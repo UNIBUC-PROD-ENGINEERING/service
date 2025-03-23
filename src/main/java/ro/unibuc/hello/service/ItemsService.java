@@ -29,18 +29,25 @@ public class ItemsService {
     public List<Item> getAllItems() {
         List<ItemEntity> entities = itemRepository.findAll();
         return entities.stream()
-                .map(entity -> new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName()))
+                .map(entity -> new Item(entity.getName(), entity.getDescription(), entity.getOwner().getUsername()))
                 .collect(Collectors.toList());
     }
 
-    public Item getItemById(String id) throws EntityNotFoundException {
+    public Item getItemById(String id) {
         // Optional<ItemEntity> optionalEntity = itemRepository.findById(id);
         // System.out.println(optionalEntity);
         // ItemEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
         ItemEntity entity = itemRepository.findById(id)
                           .orElseThrow(() -> new EntityNotFoundException("Item not found"));
         System.out.println(entity);
-        return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName());
+        return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getUsername());
+    }
+
+    public List<Item> getItemsOwnedBy(UserEntity owner) {
+        List<ItemEntity> items = itemRepository.findByOwner(owner);
+        return items.stream()
+            .map(entity -> new Item(entity.getName(), entity.getDescription(), entity.getOwner().getUsername()))
+            .collect(Collectors.toList());
     }
 
     public Item saveItem(ItemPost item) {
@@ -48,15 +55,18 @@ public class ItemsService {
         UserEntity user = userRepository.findById(session.getUser().getId()).orElseThrow();
         ItemEntity newItem = new ItemEntity(item.getName(), item.getDescription(), user);
         itemRepository.save(newItem);
-        return new Item(newItem.getName(), newItem.getDescription(), newItem.getOwner().getName());
+        return new Item(newItem.getName(), newItem.getDescription(), newItem.getOwner().getUsername());
     }
 
-    public List<Item> saveAll(List<Item> Items) {
-        List<ItemEntity> entities = Items.stream()
-                .map(Item -> {
+    public List<Item> saveAll(List<ItemPost> items) {
+        List<ItemEntity> entities = items.stream()
+                .map(item -> {
+                    SessionEntity session = sessionService.getValidSession(item.getSessionId());
+                    UserEntity user = userRepository.findById(session.getUser().getId()).orElseThrow();
                     ItemEntity entity = new ItemEntity();
-                    entity.setName(Item.getName());
-                    entity.setDescription(Item.getDescription());
+                    entity.setName(item.getName());
+                    entity.setDescription(item.getDescription());
+                    entity.setOwner(user);
                     return entity;
                 })
                 .collect(Collectors.toList());
@@ -64,7 +74,7 @@ public class ItemsService {
         List<ItemEntity> savedEntities = itemRepository.saveAll(entities);
 
         return savedEntities.stream()
-                .map(entity -> new Item(  entity.getName(), entity.getDescription()))
+                .map(entity -> new Item( entity.getName(), entity.getDescription(), entity.getOwner().getUsername()))
                 .collect(Collectors.toList());
     }
 
@@ -74,10 +84,10 @@ public class ItemsService {
         
         entity.setDescription(item.getDescription());
         entity.setName(item.getName());
-        // entity.setOwner(item.getOwner());
+        entity.setOwner(userRepository.findByUsername(item.getOwner()));
         
         itemRepository.save(entity);
-        return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName());
+        return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getUsername());
     }
 
     public void deleteItem(String id) throws EntityNotFoundException {

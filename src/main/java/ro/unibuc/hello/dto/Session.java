@@ -2,11 +2,11 @@ package ro.unibuc.hello.dto;
 
 public class Session {
     private String sessionId;
-    private User user;
+    private UserDetails user;
 
     public Session() {}
 
-    public Session(String sessionId, User user) {
+    public Session(String sessionId, UserDetails user) {
         this.sessionId = sessionId;
         this.user = user;
     }
@@ -19,11 +19,11 @@ public class Session {
         this.sessionId = sessionId;
     }
 
-    public User getUser() {
+    public UserDetails getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDetails user) {
         this.user = user;
     }
 }

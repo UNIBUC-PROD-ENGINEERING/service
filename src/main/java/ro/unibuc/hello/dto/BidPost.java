@@ -4,20 +4,20 @@ public class BidPost {
    
     private int price;
     private String auctionId;
-    private String bidderUsername;
+    private String bidderId;
 
-    public BidPost(int price, String auctionId, String bidderUsername) {
+    public BidPost(int price, String auctionId, String bidderId) {
         this.price = price;
         this.auctionId = auctionId;
-        this.bidderUsername = bidderUsername;
+        this.bidderId = bidderId;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public String getBidderUsername() {
-        return bidderUsername;
+    public String getBidderId() {
+        return bidderId;
     }
 
     public String getAuctionId() {
