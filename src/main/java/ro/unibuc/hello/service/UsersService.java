@@ -107,7 +107,12 @@ public class UsersService {
         userEntity.setName(user.getName());
         userEntity.setUsername(user.getUsername());
         userEntity.setPassword(user.getPassword());
-        userRepository.save(userEntity);
+
+        try {
+            userRepository.save(userEntity);
+        } catch (DuplicateKeyException ex) {
+            throw new InvalidDataException("Username already exists");
+        }
 
         List<Item> items = getUserItems(userEntity);
         return new UserDetails(userEntity, items);
