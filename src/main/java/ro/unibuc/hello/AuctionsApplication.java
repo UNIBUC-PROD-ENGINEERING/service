@@ -61,7 +61,7 @@ public class AuctionsApplication {
         item2 = itemRepository.save(item2);
 
         auctionRepository.deleteAll();
-        AuctionEntity auction1 = new AuctionEntity("67e023dddffcbd0d847f6fd4", "licitatie1 1", "O super licitatie", 1000, item2, user, true);
+        AuctionEntity auction1 = new AuctionEntity("67e023dddffcbd0d847f6fd4", "licitatie1 1", "O super licitatie", 1000, true, item2, user);
         auction1 = auctionRepository.save(auction1);
 
         bidRepository.deleteAll();

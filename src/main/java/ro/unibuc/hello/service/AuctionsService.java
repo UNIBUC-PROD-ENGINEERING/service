@@ -18,6 +18,7 @@ import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
 import ro.unibuc.hello.dto.AuctionPost;
+import ro.unibuc.hello.dto.AuctionPut;
 import ro.unibuc.hello.dto.AuctionWithAuctioneerAndItem;
 import ro.unibuc.hello.dto.BidWithBidder;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -127,7 +128,7 @@ public class AuctionsService {
             .collect(Collectors.toList());
     }
 
-    public AuctionWithAuctioneerAndItem updateAuction(String id, AuctionWithAuctioneerAndItem auction) {
+    public AuctionWithAuctioneerAndItem updateAuction(String id, AuctionPut auction) {
         AuctionEntity entity = auctionRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
 
@@ -174,6 +175,11 @@ public class AuctionsService {
     public void closeAuction(String id) {
         AuctionEntity auction = auctionRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
+
+        // Auction already closed
+        if (!auction.isOpen()) {
+            throw new InvalidDataException("Can't close an already closed auction");
+        }
 
         // Get winner
         Optional<BidEntity> highestBid = getAuctionHighestBid(auction);

@@ -17,6 +17,7 @@ import ro.unibuc.hello.auth.AuthUtil;
 import ro.unibuc.hello.auth.PublicEndpoint;
 import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
 import ro.unibuc.hello.dto.AuctionPost;
+import ro.unibuc.hello.dto.AuctionPut;
 import ro.unibuc.hello.dto.AuctionWithAuctioneerAndItem;
 import ro.unibuc.hello.dto.BidWithBidder;
 import ro.unibuc.hello.permissions.AuctionPermissionChecker;
@@ -69,7 +70,7 @@ public class AuctionsController {
 
     @PutMapping("/auctions/{id}")
     @ResponseBody
-    public AuctionWithAuctioneerAndItem updateAuction(HttpServletRequest request, @PathVariable String id, @RequestBody AuctionWithAuctioneerAndItem auction) {
+    public AuctionWithAuctioneerAndItem updateAuction(HttpServletRequest request, @PathVariable String id, @RequestBody AuctionPut auction) {
         String userId = AuthUtil.getAuthenticatedUserId(request);
         permissionChecker.checkOwnership(userId, id);
         return auctionsService.updateAuction(id, auction);
@@ -84,7 +85,7 @@ public class AuctionsController {
 
     @PostMapping("/auctions/{id}/close")
     @ResponseBody
-    public void closeAuction(HttpServletRequest request, @PathVariable String id, @RequestBody AuctionPlaceBidRequest bid) {
+    public void closeAuction(HttpServletRequest request, @PathVariable String id) {
         String userId = AuthUtil.getAuthenticatedUserId(request);
         permissionChecker.checkOwnership(userId, id);
         auctionsService.closeAuction(id);

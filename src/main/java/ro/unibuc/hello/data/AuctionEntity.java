@@ -12,6 +12,7 @@ public class AuctionEntity {
     private String title;
     private String description;
     private int startPrice;
+    private boolean open;
 
     @DocumentReference
     private ItemEntity item;
@@ -19,27 +20,25 @@ public class AuctionEntity {
     @DocumentReference
     private UserEntity auctioneer;
 
-    private boolean open;
-
     public AuctionEntity() {}
 
-    public AuctionEntity(String title, String description, int startPrice, ItemEntity item, UserEntity auctioneer, boolean open) {
+    public AuctionEntity(String title, String description, int startPrice, boolean open, ItemEntity item, UserEntity auctioneer) {
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
+        this.open = open;
         this.item = item;
         this.auctioneer = auctioneer;
-        this.open = open;
     }
 
-    public AuctionEntity(String id,String title, String description, int startPrice, ItemEntity item, UserEntity auctioneer, boolean open) {
+    public AuctionEntity(String id,String title, String description, int startPrice, boolean open, ItemEntity item, UserEntity auctioneer) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
+        this.open = open;
         this.item = item;
         this.auctioneer = auctioneer;
-        this.open = open;
     }
 
     public String getId() {
@@ -74,6 +73,14 @@ public class AuctionEntity {
         this.description = description;
     }
 
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
     public ItemEntity getItem() {
         return item;
     }
@@ -88,14 +95,6 @@ public class AuctionEntity {
 
     public void setAuctioneer(UserEntity auctioneer) {
         this.auctioneer = auctioneer;
-    }
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
     }
 
     @Override

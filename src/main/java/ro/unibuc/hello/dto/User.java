@@ -9,13 +9,13 @@ public class User {
 
     public User() {}
 
-    public User(String id, String name, String username) {
+    public User(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
     public User(UserEntity entity) {
-        this(entity.getId(), entity.getName(), entity.getUsername());
+        this(entity.getId(), entity.getName());
     }
 
     public String getId() {
