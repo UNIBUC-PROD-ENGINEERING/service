@@ -165,5 +165,6 @@ public class PlaylistServiceTest {
         verify(partyRepository, never()).save(any(PartyEntity.class));
     }
 
+    
 
 }
