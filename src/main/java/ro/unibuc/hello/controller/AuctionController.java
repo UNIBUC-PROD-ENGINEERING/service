@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletRequest;
+import ro.unibuc.hello.auth.AuthUtil;
 import ro.unibuc.hello.auth.PublicEndpoint;
 import ro.unibuc.hello.dto.Auction;
 import ro.unibuc.hello.dto.AuctionDetails;
 import ro.unibuc.hello.dto.AuctionPost;
+import ro.unibuc.hello.permissions.AuctionPermissionChecker;
 import ro.unibuc.hello.service.AuctionService;
 
 
@@ -24,6 +27,9 @@ public class AuctionController {
 
     @Autowired
     private AuctionService auctionsService;
+
+    @Autowired
+    private AuctionPermissionChecker permissionChecker;
 
     @PublicEndpoint
     @GetMapping("/auctions")
@@ -34,8 +40,9 @@ public class AuctionController {
 
     @PostMapping("/auctions")
     @ResponseBody
-    public Auction create(@RequestBody AuctionPost auction) {
-        return auctionsService.saveAuction(auction);
+    public Auction create(HttpServletRequest request, @RequestBody AuctionPost auction) {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        return auctionsService.saveAuction(userId, auction);
     }
 
     @PublicEndpoint
@@ -47,13 +54,17 @@ public class AuctionController {
 
     @PutMapping("/auctions/{id}")
     @ResponseBody
-    public Auction updateAuction(@PathVariable String id, @RequestBody Auction auction) {
+    public Auction updateAuction(HttpServletRequest request, @PathVariable String id, @RequestBody Auction auction) {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        permissionChecker.checkOwnership(userId, id);
         return auctionsService.updateAuction(id, auction);
     }
 
     @DeleteMapping("/auctions/{id}")
     @ResponseBody
-    public void deleteAuction(@PathVariable String id) {
+    public void deleteAuction(HttpServletRequest request, @PathVariable String id) {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        permissionChecker.checkOwnership(userId, id);
         auctionsService.deleteAuction(id);
     }
 }

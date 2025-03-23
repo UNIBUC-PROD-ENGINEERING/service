@@ -54,13 +54,13 @@ public class AuctionService {
         return new AuctionDetails(entity, highestBid, bids);
     }
 
-    public Auction saveAuction(AuctionPost auction) {
+    public Auction saveAuction(String auctioneerId, AuctionPost auction) {
         AuctionEntity entity = new AuctionEntity();
         entity.setTitle(auction.getTitle());
         entity.setDescription(auction.getDescription());
         entity.setStartPrice(auction.getStartPrice());
 
-        UserEntity user = userRepository.findById(auction.getAuctioneerId())
+        UserEntity user = userRepository.findById(auctioneerId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         entity.setAuctioneer(user);
 
@@ -72,7 +72,7 @@ public class AuctionService {
         return new Auction(entity);
     }
 
-    public List<Auction> saveAll(List<AuctionPost> auctions) {
+    public List<Auction> saveAll(String auctioneerId, List<AuctionPost> auctions) {
         List<AuctionEntity> entities = auctions.stream()
                 .map(auction -> {
                     AuctionEntity entity = new AuctionEntity();
@@ -80,7 +80,7 @@ public class AuctionService {
                     entity.setDescription(auction.getDescription());
                     entity.setStartPrice(auction.getStartPrice());
 
-                    UserEntity user = userRepository.findById(auction.getAuctioneerId())
+                    UserEntity user = userRepository.findById(auctioneerId)
                             .orElseThrow(() -> new EntityNotFoundException("User not found"));
                     entity.setAuctioneer(user);
 

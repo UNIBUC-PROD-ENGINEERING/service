@@ -1,13 +1,13 @@
 package ro.unibuc.hello.dto;
 
-public class ItemUpdateRequest {
+public class ItemPostRequest {
 
     private String name;
     private String description;
     
-    public ItemUpdateRequest() {}
+    public ItemPostRequest() {}
 
-    public ItemUpdateRequest(String name, String description) {
+    public ItemPostRequest(String name, String description, String ownerId) {
         this.name = name;
         this.description = description;
     }

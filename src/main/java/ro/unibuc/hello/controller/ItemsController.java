@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletRequest;
+import ro.unibuc.hello.auth.AuthUtil;
 import ro.unibuc.hello.auth.PublicEndpoint;
 import ro.unibuc.hello.dto.Item;
-import ro.unibuc.hello.dto.ItemCreateRequest;
-import ro.unibuc.hello.dto.ItemUpdateRequest;
+import ro.unibuc.hello.dto.ItemPostRequest;
+import ro.unibuc.hello.permissions.ItemPermissionChecker;
 import ro.unibuc.hello.service.ItemsService;
 
 @Controller
@@ -24,17 +26,14 @@ public class ItemsController {
     @Autowired
     private ItemsService itemsService;
 
+    @Autowired
+    private ItemPermissionChecker permissionChecker;
+
     @PublicEndpoint
     @GetMapping("/items")
     @ResponseBody
     public List<Item> getAllItems() {
         return itemsService.getAllItems();
-    }
-
-    @PostMapping("/items")
-    @ResponseBody
-    public Item createItem(@RequestBody ItemCreateRequest item) {
-        return itemsService.saveItem(item);
     }
 
     @PublicEndpoint
@@ -44,16 +43,26 @@ public class ItemsController {
         return itemsService.getItemById(id);
     }
 
+    @PostMapping("/items")
+    @ResponseBody
+    public Item createItem(HttpServletRequest request, @RequestBody ItemPostRequest item) {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        return itemsService.saveItem(userId, item);
+    }
+
     @PutMapping("/items/{id}")
     @ResponseBody
-    public Item updateItem(@PathVariable String id, @RequestBody ItemUpdateRequest item) {
+    public Item updateItem(HttpServletRequest request, @PathVariable String id, @RequestBody ItemPostRequest item) {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        permissionChecker.checkOwnership(userId, id);
         return itemsService.updateItem(id, item);
     }
 
-
     @DeleteMapping("/items/{id}")
     @ResponseBody
-    public void deleteItem(@PathVariable String id) {
-          itemsService.deleteItem(id);
+    public void deleteItem(HttpServletRequest request, @PathVariable String id) {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        permissionChecker.checkOwnership(userId, id);
+        itemsService.deleteItem(id);
     }
 }

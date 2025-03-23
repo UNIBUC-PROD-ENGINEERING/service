@@ -6,14 +6,12 @@ public class AuctionPost{
     private String description;
     private int startPrice;
     private String itemId;
-    private String auctioneerId;
 
-    public AuctionPost(String title, String description, int startPrice, String itemId, String auctioneerId) {
+    public AuctionPost(String title, String description, int startPrice, String itemId) {
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
         this.itemId = itemId;
-        this.auctioneerId = auctioneerId;
     }
 
     public String getTitle() {
@@ -40,19 +38,11 @@ public class AuctionPost{
         this.startPrice = startPrice;
     }
 
-    public String getAuctioneerId() {
-        return auctioneerId;
-    }
-
     public String getItemId() {
         return itemId;
     }
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
-    }
-
-    public void setAuctioneerId(String auctioneerId) {
-        this.auctioneerId = auctioneerId;
     }
 }

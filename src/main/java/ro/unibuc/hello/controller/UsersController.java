@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletRequest;
+import ro.unibuc.hello.auth.AuthUtil;
 import ro.unibuc.hello.auth.PublicEndpoint;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.UserPostRequest;
 import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.permissions.UserPermissionChecker;
 import ro.unibuc.hello.service.UserService;
 
 
@@ -25,6 +28,9 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserPermissionChecker permissionChecker;
 
     @PublicEndpoint
     @GetMapping("/users")
@@ -48,13 +54,17 @@ public class UsersController {
 
     @PutMapping("/users/{id}")
     @ResponseBody
-    public UserDetails updateUser(@PathVariable String id, @RequestBody UserPostRequest user) {
+    public UserDetails updateUser(HttpServletRequest request, @PathVariable String id, @RequestBody UserPostRequest user) {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        permissionChecker.checkOwnership(userId, id);
         return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/users/{id}")
     @ResponseBody
-    public void deleteUser(@PathVariable String id) throws EntityNotFoundException {
-          userService.deleteUser(id);
+    public void deleteUser(HttpServletRequest request, @PathVariable String id) throws EntityNotFoundException {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        permissionChecker.checkOwnership(userId, id);
+        userService.deleteUser(id);
     }
 }

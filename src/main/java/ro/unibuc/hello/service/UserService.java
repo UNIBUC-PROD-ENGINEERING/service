@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import ro.unibuc.hello.data.ItemRepository;
@@ -13,6 +14,7 @@ import ro.unibuc.hello.dto.Item;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.UserPostRequest;
+import ro.unibuc.hello.exception.DuplicateUsernameException;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 @Component
@@ -41,7 +43,12 @@ public class UserService {
 
     public UserDetails saveUser(UserPostRequest user) {
         UserEntity newUser = new UserEntity(user.getName(), user.getPassword(), user.getUsername());
-        userRepository.save(newUser);
+
+        try {
+            userRepository.save(newUser);
+        } catch (DuplicateKeyException ex) {
+            throw new DuplicateUsernameException();
+        }
 
         List<Item> items = getUserItems(newUser);
         return new UserDetails(newUser, items);

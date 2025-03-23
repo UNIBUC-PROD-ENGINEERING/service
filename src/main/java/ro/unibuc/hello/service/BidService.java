@@ -42,15 +42,15 @@ public class BidService {
         return new Bid(entity);
     }
 
-    public Bid saveBid(BidPost bid) {
+    public Bid saveBid(String bidderId, BidPost bid) {
         BidEntity entity = new BidEntity();
         entity.setPrice(bid.getPrice());
 
         AuctionEntity auction = auctionRepository.findById(bid.getAuctionId())
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(bid.getAuctionId())));;
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(bid.getAuctionId())));
         entity.setAuction(auction);
 
-        UserEntity bidder = userRepository.findById(bid.getBidderId())
+        UserEntity bidder = userRepository.findById(bidderId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         entity.setBidder(bidder);
 
@@ -58,11 +58,20 @@ public class BidService {
         return new Bid(entity);
     }
 
-    public List<Bid> saveAll(List<Bid> bids) {
+    public List<Bid> saveAll(String bidderId, List<BidPost> bids) {
         List<BidEntity> entities = bids.stream()
                 .map(bid -> {
                     BidEntity entity = new BidEntity();
                     entity.setPrice(bid.getPrice());
+
+                    AuctionEntity auction = auctionRepository.findById(bid.getAuctionId())
+                            .orElseThrow(() -> new EntityNotFoundException(String.valueOf(bid.getAuctionId())));
+                    entity.setAuction(auction);
+            
+                    UserEntity bidder = userRepository.findById(bidderId)
+                            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                    entity.setBidder(bidder);
+
                     return entity;
                 })
                 .collect(Collectors.toList());
@@ -72,25 +81,6 @@ public class BidService {
         return savedEntities.stream()
                 .map(entity -> new Bid(entity))
                 .collect(Collectors.toList());
-    }
-
-    public Bid updateBid(String id, BidPost bid) {
-        BidEntity entity = bidRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
-        entity.setPrice(bid.getPrice());
-
-        UserEntity user = userRepository.findById(bid.getBidderId())
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
-        entity.setBidder(user);
-        
-        bidRepository.save(entity);
-        return new Bid(entity);
-    }
-
-    public void deleteBid(String id) throws EntityNotFoundException {
-        BidEntity entity = bidRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
-        bidRepository.delete(entity);
     }
 
     public void deleteAllBids() {
