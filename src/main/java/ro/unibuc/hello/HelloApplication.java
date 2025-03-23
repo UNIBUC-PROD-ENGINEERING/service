@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import jakarta.annotation.PostConstruct;
 import ro.unibuc.hello.data.AuctionEntity;
@@ -18,6 +19,7 @@ import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
 
 @SpringBootApplication
+@EnableScheduling
 @EnableMongoRepositories(basePackageClasses = {
         InformationRepository.class,
         UserRepository.class,

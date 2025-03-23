@@ -57,6 +57,7 @@ public class SessionsService {
             .orElseThrow(() -> new InvalidSessionException("Invalid session"));
 
         if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
+            sessionRepository.delete(session); // Remove expired session
             throw new InvalidSessionException("Expired session");
         }
 
