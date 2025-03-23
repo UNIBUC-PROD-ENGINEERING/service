@@ -84,6 +84,11 @@ public class AuctionsService {
             .orElseThrow(() -> new EntityNotFoundException("Item not found"));
         entity.setItem(item);
 
+        // Check that item is in only one open auction at the same time
+        if (auctionRepository.findByItem(item).stream().anyMatch(a -> a.isOpen())) {
+            throw new InvalidDataException("An item can't be in multiple open auctions at the same time");
+        }
+
         entity = auctionRepository.save(entity);
         return new AuctionWithAuctioneerAndItem(entity);
     }
@@ -132,16 +137,9 @@ public class AuctionsService {
         UserEntity user = userRepository.findById(userId)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        // Check correct bid value
-        Optional<BidEntity> highestBid = getAuctionHighestBid(auction);
-        if (highestBid.isPresent()) {
-            if (highestBid.get().getPrice() <= bid.getPrice()) {
-                throw new InvalidDataException("Bid must be higher than highest bid");
-            }
-        } else {
-            if (bid.getPrice() < auction.getStartPrice()) {
-                throw new InvalidDataException("Bid can't be lower than starting price");
-            }
+        // Check that the auction is open
+        if (!auction.isOpen()) {
+            throw new InvalidDataException("Can't place bid on a closed auction");
         }
 
         // Check that auctioneer can't bid to it's own auction
@@ -149,10 +147,41 @@ public class AuctionsService {
             throw new InvalidDataException("Auctioneer can't bid to it's own auciton");
         }
 
+        // Check correct bid value
+        Optional<BidEntity> highestBid = getAuctionHighestBid(auction);
+        if (highestBid.isPresent()) {
+            if (bid.getPrice() <= highestBid.get().getPrice()) {
+                throw new InvalidDataException("Bid must be higher than current highest bid");
+            }
+        } else {
+            if (bid.getPrice() < auction.getStartPrice()) {
+                throw new InvalidDataException("Bid can't be lower than starting price");
+            }
+        }
+
         BidEntity bidEntity = new BidEntity(bid.getPrice(), user, auction);
         bidEntity = bidRepository.save(bidEntity);
         return new BidWithBidder(bidEntity);
     }
+
+    public void closeAuction(String id) {
+        AuctionEntity auction = auctionRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
+
+        // Get winner
+        Optional<BidEntity> highestBid = getAuctionHighestBid(auction);
+        if (!highestBid.isPresent()) {
+            throw new InvalidDataException("Can't close auction with no bids");
+        }
+
+        // Update item owner
+        ItemEntity item = auction.getItem();
+        item.setOwner(highestBid.get().getBidder());
+        itemRepository.save(item);
+
+        // Mark auction as closed
+        auction.setOpen(false);
+        auctionRepository.save(auction);
     }
 
     public void deleteAuction(String id) {

@@ -82,6 +82,12 @@ public class AuctionsController {
         return auctionsService.placeBid(id, userId, bid);
     }
 
+    @PostMapping("/auctions/{id}/close")
+    @ResponseBody
+    public void closeAuction(HttpServletRequest request, @PathVariable String id, @RequestBody AuctionPlaceBidRequest bid) {
+        auctionsService.closeAuction(id);
+    }
+
     @DeleteMapping("/auctions/{id}")
     @ResponseBody
     public void deleteAuction(HttpServletRequest request, @PathVariable String id) {

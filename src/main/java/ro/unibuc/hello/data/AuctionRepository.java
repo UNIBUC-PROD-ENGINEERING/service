@@ -14,4 +14,5 @@ import org.springframework.stereotype.Repository;
 public interface AuctionRepository extends MongoRepository<AuctionEntity, String> {
 
     List<AuctionEntity> findByAuctioneer(UserEntity auctioneer);
+    List<AuctionEntity> findByItem(ItemEntity item);
 }
