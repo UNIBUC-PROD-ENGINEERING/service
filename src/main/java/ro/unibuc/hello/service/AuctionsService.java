@@ -100,33 +100,33 @@ public class AuctionsService {
         return new AuctionWithAuctioneerAndItem(entity);
     }
 
-    public List<AuctionWithAuctioneerAndItem> saveAll(String auctioneerId, List<AuctionPost> auctions) {
-        List<AuctionEntity> entities = auctions.stream()
-            .map(auction -> {
-                AuctionEntity entity = new AuctionEntity();
-                entity.setTitle(auction.getTitle());
-                entity.setDescription(auction.getDescription());
-                entity.setStartPrice(auction.getStartPrice());
-                entity.setOpen(true);
+    // public List<AuctionWithAuctioneerAndItem> saveAll(String auctioneerId, List<AuctionPost> auctions) {
+    //     List<AuctionEntity> entities = auctions.stream()
+    //         .map(auction -> {
+    //             AuctionEntity entity = new AuctionEntity();
+    //             entity.setTitle(auction.getTitle());
+    //             entity.setDescription(auction.getDescription());
+    //             entity.setStartPrice(auction.getStartPrice());
+    //             entity.setOpen(true);
 
-                UserEntity user = userRepository.findById(auctioneerId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
-                entity.setAuctioneer(user);
+    //             UserEntity user = userRepository.findById(auctioneerId)
+    //                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
+    //             entity.setAuctioneer(user);
 
-                ItemEntity item = itemRepository.findById(auction.getItemId())
-                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-                entity.setItem(item);
+    //             ItemEntity item = itemRepository.findById(auction.getItemId())
+    //                 .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+    //             entity.setItem(item);
 
-                return entity;
-            })
-            .collect(Collectors.toList());
+    //             return entity;
+    //         })
+    //         .collect(Collectors.toList());
 
-        List<AuctionEntity> savedEntities = auctionRepository.saveAll(entities);
+    //     List<AuctionEntity> savedEntities = auctionRepository.saveAll(entities);
 
-        return savedEntities.stream()
-            .map(AuctionWithAuctioneerAndItem::new)
-            .collect(Collectors.toList());
-    }
+    //     return savedEntities.stream()
+    //         .map(AuctionWithAuctioneerAndItem::new)
+    //         .collect(Collectors.toList());
+    // }
 
     public AuctionWithAuctioneerAndItem updateAuction(String id, AuctionPut auction) {
         AuctionEntity entity = auctionRepository.findById(id)
@@ -203,11 +203,11 @@ public class AuctionsService {
         auctionRepository.delete(entity);
     }
 
-    public void deleteAllAuctions() {
-        auctionRepository.deleteAll();
-    }
+    // public void deleteAllAuctions() {
+    //     auctionRepository.deleteAll();
+    // }
 
-    private Optional<BidEntity> getAuctionHighestBid(AuctionEntity auction) {
+    protected Optional<BidEntity> getAuctionHighestBid(AuctionEntity auction) {
         return bidRepository.findByAuction(auction).stream()
             .max(Comparator.comparing(BidEntity::getPrice));
     }
