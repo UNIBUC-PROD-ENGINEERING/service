@@ -5,14 +5,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.SessionRepository;
 
 import jakarta.annotation.PostConstruct;
 import ro.unibuc.hello.data.AuctionEntity;
 import ro.unibuc.hello.data.AuctionRepository;
 import ro.unibuc.hello.data.BidEntity;
 import ro.unibuc.hello.data.BidRepository;
-import ro.unibuc.hello.data.InformationEntity;
-import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.data.ItemEntity;
 import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
@@ -21,16 +20,13 @@ import ro.unibuc.hello.data.UserRepository;
 @SpringBootApplication
 @EnableScheduling
 @EnableMongoRepositories(basePackageClasses = {
-        InformationRepository.class,
-        UserRepository.class,
-        ItemRepository.class,
-        AuctionRepository.class,
-        BidRepository.class
+    UserRepository.class,
+    ItemRepository.class,
+    AuctionRepository.class,
+    BidRepository.class,
+    SessionRepository.class
 })
-public class HelloApplication {
-
-    @Autowired
-    private InformationRepository informationRepository;
+public class AuctionsApplication {
 
     @Autowired
     private UserRepository userRepository;
@@ -45,15 +41,11 @@ public class HelloApplication {
     private BidRepository bidRepository;
 
     public static void main(String[] args) {
-        SpringApplication.run(HelloApplication.class, args);
+        SpringApplication.run(AuctionsApplication.class, args);
     }
 
     @PostConstruct
     public void runAfterObjectCreated() {
-        informationRepository.deleteAll();
-        informationRepository.save(new InformationEntity("Overview",
-                "This is an example of using a data storage engine running separately from our applications server"));
-
         userRepository.deleteAll();
         UserEntity user = new UserEntity("67d06c34d4a81b711f91b537", "nume", "parola", "username");
         user = userRepository.save(user);
@@ -77,9 +69,6 @@ public class HelloApplication {
         bid1 = bidRepository.save(bid1);
 
         auction1 = auctionRepository.save(auction1);
-
-
-
 
         // userRepository.deleteAll();
         // itemRepository.deleteAll();
@@ -185,5 +174,4 @@ public class HelloApplication {
         // auction5.setHighestBid(bid5);
         // auction5 = auctionRepository.save(auction5);
     }
-
 }
