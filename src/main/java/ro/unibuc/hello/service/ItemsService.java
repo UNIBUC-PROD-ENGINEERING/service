@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 
 import ro.unibuc.hello.data.ItemEntity;
 import ro.unibuc.hello.data.ItemRepository;
-import ro.unibuc.hello.data.SessionEntity;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.Item;
-import ro.unibuc.hello.dto.ItemPost;
+import ro.unibuc.hello.dto.ItemCreateRequest;
+import ro.unibuc.hello.dto.ItemUpdateRequest;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 @Component
@@ -20,35 +20,31 @@ public class ItemsService {
 
     @Autowired
     private ItemRepository itemRepository;
+
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private SessionService sessionService;
 
 
     public List<Item> getAllItems() {
         List<ItemEntity> entities = itemRepository.findAll();
         return entities.stream()
-                .map(entity -> new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName()))
+                .map(entity -> new Item(entity))
                 .collect(Collectors.toList());
     }
 
-    public Item getItemById(String id) throws EntityNotFoundException {
-        // Optional<ItemEntity> optionalEntity = itemRepository.findById(id);
-        // System.out.println(optionalEntity);
-        // ItemEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
+    public Item getItemById(String id) {
         ItemEntity entity = itemRepository.findById(id)
-                          .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-        System.out.println(entity);
-        return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName());
+                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+        return new Item(entity);
     }
 
-    public Item saveItem(ItemPost item) {
-        SessionEntity session = sessionService.getValidSession(item.getSessionId());
-        UserEntity user = userRepository.findById(session.getUser().getId()).orElseThrow();
+    public Item saveItem(ItemCreateRequest item) {
+        UserEntity user = userRepository.findById(item.getOwnerId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
         ItemEntity newItem = new ItemEntity(item.getName(), item.getDescription(), user);
-        itemRepository.save(newItem);
-        return new Item(newItem.getName(), newItem.getDescription(), newItem.getOwner().getName());
+        newItem = itemRepository.save(newItem);
+        return new Item(newItem);
     }
 
     public List<Item> saveAll(List<Item> Items) {
@@ -64,23 +60,22 @@ public class ItemsService {
         List<ItemEntity> savedEntities = itemRepository.saveAll(entities);
 
         return savedEntities.stream()
-                .map(entity -> new Item(  entity.getName(), entity.getDescription()))
+                .map(entity -> new Item(entity))
                 .collect(Collectors.toList());
     }
 
-    public Item updateItem(String id, Item item) throws EntityNotFoundException {
+    public Item updateItem(String id, ItemUpdateRequest item) {
         ItemEntity entity = itemRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
         
         entity.setDescription(item.getDescription());
         entity.setName(item.getName());
-        // entity.setOwner(item.getOwner());
-        
+
         itemRepository.save(entity);
-        return new Item(entity.getName(), entity.getDescription(), entity.getOwner().getName());
+        return new Item(entity);
     }
 
-    public void deleteItem(String id) throws EntityNotFoundException {
+    public void deleteItem(String id) {
         ItemEntity entity = itemRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
         itemRepository.delete(entity);

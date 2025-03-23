@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Document
 public class SessionEntity {
+
     @Id
     private String id;
 

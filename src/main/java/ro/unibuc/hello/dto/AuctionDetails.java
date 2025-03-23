@@ -1,8 +1,11 @@
 package ro.unibuc.hello.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ro.unibuc.hello.data.AuctionEntity;
 
-public class Auction {
+public class AuctionDetails {
 
     private String id;
     private String title;
@@ -10,26 +13,32 @@ public class Auction {
     private int startPrice;
     private User auctioneer;
     private Item item;
+    private Bid highestBid;
+    private List<Bid> bids = new ArrayList<>();
 
-    public Auction() {}
+    public AuctionDetails() {}
 
-    public Auction(String id, String title, String description, int startPrice, User auctioneer, Item item) {
+    public AuctionDetails(String id, String title, String description, int startPrice, User auctioneer, Item item, Bid highestBid, List<Bid> bids) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
         this.auctioneer = auctioneer;
         this.item = item;
+        this.highestBid = highestBid;
+        this.bids = bids;
     }
 
-    public Auction(AuctionEntity entity) {
+    public AuctionDetails(AuctionEntity auctionEntity, Bid highestBid, List<Bid> bids) {
         this(
-            entity.getId(),
-            entity.getTitle(),
-            entity.getDescription(),
-            entity.getStartPrice(),
-            new User(entity.getAuctioneer()),
-            new Item(entity.getItem())
+            auctionEntity.getId(),
+            auctionEntity.getTitle(),
+            auctionEntity.getDescription(),
+            auctionEntity.getStartPrice(),
+            new User(auctionEntity.getAuctioneer()),
+            new Item(auctionEntity.getItem()),
+            highestBid,
+            bids
         );
     }
 
@@ -79,5 +88,25 @@ public class Auction {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public Bid getHighestBid() {
+        return highestBid;
+    }
+
+    public void setHighestBid(Bid highestBid) {
+        this.highestBid = highestBid;
+    }
+
+    public List<Bid> getPlacedBids() {
+        return bids;
+    }
+
+    public void addBid(Bid bid) {
+        this.bids.add(bid);
+    }
+
+    public void eraseItem(Bid bid) {
+        this.bids.remove(bid);
     }
 }

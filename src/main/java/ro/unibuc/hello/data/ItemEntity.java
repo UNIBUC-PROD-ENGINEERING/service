@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document
 public class ItemEntity {
+
     @Id
     private String id;
 

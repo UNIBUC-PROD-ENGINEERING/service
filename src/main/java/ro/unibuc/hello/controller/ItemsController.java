@@ -1,8 +1,8 @@
 package ro.unibuc.hello.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ro.unibuc.hello.auth.PublicEndpoint;
 import ro.unibuc.hello.dto.Item;
-import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.dto.ItemCreateRequest;
+import ro.unibuc.hello.dto.ItemUpdateRequest;
 import ro.unibuc.hello.service.ItemsService;
-
-import java.util.List;
 
 @Controller
 public class ItemsController {
@@ -24,6 +24,7 @@ public class ItemsController {
     @Autowired
     private ItemsService itemsService;
 
+    @PublicEndpoint
     @GetMapping("/items")
     @ResponseBody
     public List<Item> getAllItems() {
@@ -32,35 +33,27 @@ public class ItemsController {
 
     @PostMapping("/items")
     @ResponseBody
-    public Item createItem(@RequestBody Item item) {
+    public Item createItem(@RequestBody ItemCreateRequest item) {
         return itemsService.saveItem(item);
     }
 
+    @PublicEndpoint
     @GetMapping("/items/{id}")
-    public ResponseEntity<Item> getItemById(@PathVariable String id) {
-          
-        Item item = itemsService.getItemById(id);
-
-        if (item != null) {
-          return new ResponseEntity<>(item, HttpStatus.OK);
-        } else {
-          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+    @ResponseBody
+    public Item getItemById(@PathVariable String id) {
+        return itemsService.getItemById(id);
     }
 
     @PutMapping("/items/{id}")
     @ResponseBody
-    public Item updateItem(@PathVariable String id, @RequestBody Item item) throws EntityNotFoundException {
+    public Item updateItem(@PathVariable String id, @RequestBody ItemUpdateRequest item) {
         return itemsService.updateItem(id, item);
     }
 
 
     @DeleteMapping("/items/{id}")
     @ResponseBody
-    public void deleteItem(@PathVariable String id) throws EntityNotFoundException {
+    public void deleteItem(@PathVariable String id) {
           itemsService.deleteItem(id);
     }
-
 }
-

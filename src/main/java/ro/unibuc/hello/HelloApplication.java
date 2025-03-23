@@ -76,7 +76,6 @@ public class HelloApplication {
         BidEntity bid1 = new BidEntity("67d81d8a22dff66530467a49", 1000, user, auction1);
         bid1 = bidRepository.save(bid1);
 
-        auction1.setHighestBid(bid1);
         auction1 = auctionRepository.save(auction1);
 
 

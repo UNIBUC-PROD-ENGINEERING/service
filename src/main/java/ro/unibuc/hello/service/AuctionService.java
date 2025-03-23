@@ -1,7 +1,13 @@
 package ro.unibuc.hello.service;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import ro.unibuc.hello.data.AuctionEntity;
 import ro.unibuc.hello.data.AuctionRepository;
 import ro.unibuc.hello.data.BidEntity;
@@ -11,14 +17,16 @@ import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.Auction;
+import ro.unibuc.hello.dto.AuctionDetails;
 import ro.unibuc.hello.dto.AuctionPost;
+import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.exception.EntityNotFoundException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class AuctionService {
+
+    @Autowired
+    private BidRepository bidRepository;
 
     @Autowired
     private AuctionRepository auctionRepository;
@@ -29,20 +37,21 @@ public class AuctionService {
     @Autowired
     private ItemRepository itemRepository;
 
-    @Autowired
-    private BidRepository bidRepository;
-
     public List<Auction> getAllAuctions() {
         List<AuctionEntity> entities = auctionRepository.findAll();
         return entities.stream()
-                .map(entity -> new Auction( entity.getTitle(), entity.getDescription(), entity.getStartPrice(), entity.getItem(), entity.getHighestBid(), entity.getAuctioneer().getName()))
+                .map(entity -> new Auction(entity))
                 .collect(Collectors.toList());
     }
 
-    public Auction getAuctionById(String id) throws EntityNotFoundException {
-        Optional<AuctionEntity> optionalEntity = auctionRepository.findById(id);
-        AuctionEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
-        return new Auction(  entity.getTitle(), entity.getDescription(), entity.getStartPrice(), entity.getItem(), entity.getHighestBid(), entity.getAuctioneer().getName());
+    public AuctionDetails getAuctionById(String id) {
+        AuctionEntity entity = auctionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+
+        Bid highestBid = getAuctionHighestBid(entity).orElse(null);
+        List<Bid> bids = getAuctionBids(entity);
+
+        return new AuctionDetails(entity, highestBid, bids);
     }
 
     public Auction saveAuction(AuctionPost auction) {
@@ -51,25 +60,16 @@ public class AuctionService {
         entity.setDescription(auction.getDescription());
         entity.setStartPrice(auction.getStartPrice());
 
-        UserEntity user = userRepository.findByUsername(auction.getAuctioneerUsername());
+        UserEntity user = userRepository.findById(auction.getAuctioneerId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         entity.setAuctioneer(user);
 
-        // if(auction.getItem().equals("67d81d8a22dff66530467a49")){
-        //     System.out.println("HELLOO");
-        // }
-
-        ItemEntity item = itemRepository.findById(auction.getItem())
-                          .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+        ItemEntity item = itemRepository.findById(auction.getItemId())
+                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
         entity.setItem(item);
-        // itemRepository.findById(auction.getItem()).ifPresent(entity::setItem);
-
-
-        BidEntity bid = bidRepository.findById(auction.getHighestBid())
-                                 .orElseThrow(() -> new EntityNotFoundException("Item not found"));;
-        entity.setHighestBid(bid);
 
         auctionRepository.save(entity);
-        return new Auction(entity.getTitle(), entity.getDescription(), entity.getStartPrice(), entity.getItem(), entity.getHighestBid(), entity.getAuctioneer().getName());
+        return new Auction(entity);
     }
 
     public List<Auction> saveAll(List<AuctionPost> auctions) {
@@ -80,14 +80,13 @@ public class AuctionService {
                     entity.setDescription(auction.getDescription());
                     entity.setStartPrice(auction.getStartPrice());
 
-                    UserEntity user = userRepository.findByUsername(auction.getAuctioneerUsername());
+                    UserEntity user = userRepository.findById(auction.getAuctioneerId())
+                            .orElseThrow(() -> new EntityNotFoundException("User not found"));
                     entity.setAuctioneer(user);
 
-                    Optional<ItemEntity> item = itemRepository.findById(auction.getItem());
-                    // entity.setItem(item);
-
-                    Optional<BidEntity> bid = bidRepository.findById(auction.getHighestBid());
-                    // entity.setHighestBid(bid);
+                    ItemEntity item = itemRepository.findById(auction.getItemId())
+                            .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                    entity.setItem(item);
 
                     return entity;
                 })
@@ -96,25 +95,39 @@ public class AuctionService {
         List<AuctionEntity> savedEntities = auctionRepository.saveAll(entities);
 
         return savedEntities.stream()
-                .map(entity -> new Auction(  entity.getTitle(), entity.getDescription(), entity.getStartPrice(), entity.getItem(), entity.getHighestBid(), entity.getAuctioneer().getName()))
+                .map(entity -> new Auction(entity))
                 .collect(Collectors.toList());
     }
 
-    public Auction updateAuction(String id, Auction auction) throws EntityNotFoundException {
+    public Auction updateAuction(String id, Auction auction) {
         AuctionEntity entity = auctionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
+
+        entity.setTitle(auction.getTitle());
         entity.setDescription(auction.getDescription());
         auctionRepository.save(entity);
-        return new Auction(  entity.getTitle(), entity.getDescription(), entity.getStartPrice(), entity.getItem(), entity.getHighestBid(), entity.getAuctioneer().getName());
+        return new Auction(entity);
     }
 
-    public void deleteAuction(String id) throws EntityNotFoundException {
+    public void deleteAuction(String id) {
         AuctionEntity entity = auctionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
-                auctionRepository.delete(entity);
+        auctionRepository.delete(entity);
     }
 
     public void deleteAllAuctions() {
         auctionRepository.deleteAll();
+    }
+
+    private List<Bid> getAuctionBids(AuctionEntity auction) {
+        return bidRepository.findByAuction(auction).stream()
+                .map(bidEntity -> new Bid(bidEntity))
+                .collect(Collectors.toList());
+    }
+
+    private Optional<Bid> getAuctionHighestBid(AuctionEntity auction) {
+        return bidRepository.findByAuction(auction).stream()
+                .max(Comparator.comparing(BidEntity::getPrice))
+                .map(bidEntity -> new Bid(bidEntity));
     }
 }
