@@ -75,6 +75,7 @@ public class AuctionsService {
         entity.setTitle(auction.getTitle());
         entity.setDescription(auction.getDescription());
         entity.setStartPrice(auction.getStartPrice());
+        entity.setOpen(true);
 
         UserEntity user = userRepository.findById(auctioneerId)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -105,6 +106,7 @@ public class AuctionsService {
                 entity.setTitle(auction.getTitle());
                 entity.setDescription(auction.getDescription());
                 entity.setStartPrice(auction.getStartPrice());
+                entity.setOpen(true);
 
                 UserEntity user = userRepository.findById(auctioneerId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
