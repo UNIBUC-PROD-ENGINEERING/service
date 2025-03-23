@@ -2,28 +2,25 @@ package ro.unibuc.hello.dto;
 
 import ro.unibuc.hello.data.BidEntity;
 
-public class Bid {
+public class BidWithBidder {
 
     private String id;
     private int price;
     private User bidder;
-    private Auction auction;
 
-    public Bid() {}
+    public BidWithBidder() {}
 
-    public Bid(String id, int price, User bidder, Auction auction) {
+    public BidWithBidder(String id, int price, User bidder) {
         this.id = id;
         this.price = price;
         this.bidder = bidder;
-        this.auction = auction;
     }
 
-    public Bid(BidEntity entity) {
+    public BidWithBidder(BidEntity entity) {
         this(
             entity.getId(),
             entity.getPrice(),
-            new User(entity.getBidder()),
-            new Auction(entity.getAuction())
+            new User(entity.getBidder())
         );
     }
 
@@ -49,13 +46,5 @@ public class Bid {
 
     public void setBidder(User bidder) {
         this.bidder = bidder;
-    }
-
-    public Auction getAuction() {
-        return auction;
-    }
-
-    public void setAuction(Auction auction) {
-        this.auction = auction;
     }
 }

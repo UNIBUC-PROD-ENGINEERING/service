@@ -12,11 +12,10 @@ import ro.unibuc.hello.data.BidRepository;
 import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
-import ro.unibuc.hello.dto.Auction;
-import ro.unibuc.hello.dto.Bid;
+import ro.unibuc.hello.dto.AuctionWithItem;
+import ro.unibuc.hello.dto.BidWithAuction;
 import ro.unibuc.hello.dto.Item;
 import ro.unibuc.hello.dto.User;
-import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.UserPostRequest;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.exception.InvalidDataException;
@@ -39,37 +38,37 @@ public class UsersService {
     public List<User> getAllUsers() {
         List<UserEntity> entities = userRepository.findAll();
         return entities.stream()
-            .map(entity -> new User(entity))
+            .map(User::new)
             .collect(Collectors.toList());
     }
 
-    public UserDetails getUserById(String id)  {
+    public User getUserById(String id)  {
         UserEntity userEntity = userRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
                             
-        List<Item> items = getUserItems(userEntity);
-        return new UserDetails(userEntity, items);
+        return new User(userEntity);
+    }
     }
 
-    public List<Auction> getUserAuctions(String id) {
+    public List<AuctionWithItem> getUserAuctions(String id) {
         UserEntity userEntity = userRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
         
         return auctionRepository.findByAuctioneer(userEntity).stream()
-            .map(Auction::new)
+            .map(AuctionWithItem::new)
             .collect(Collectors.toList());
     }
 
-    public List<Bid> getUserBids(String id) {
+    public List<BidWithAuction> getUserBids(String id) {
         UserEntity userEntity = userRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
         
         return bidRepository.findByBidder(userEntity).stream()
-            .map(Bid::new)
+            .map(BidWithAuction::new)
             .collect(Collectors.toList());
     }
 
-    public UserDetails saveUser(UserPostRequest user) {
+    public User saveUser(UserPostRequest user) {
         UserEntity newUser = new UserEntity(user.getName(), user.getPassword(), user.getUsername());
 
         try {
@@ -78,8 +77,7 @@ public class UsersService {
             throw new InvalidDataException("Username already exists");
         }
 
-        List<Item> items = getUserItems(newUser);
-        return new UserDetails(newUser, items);
+        return new User(newUser);
     }
 
     public List<User> saveAll(List<UserPostRequest> users) {
@@ -96,11 +94,11 @@ public class UsersService {
         List<UserEntity> savedEntities = userRepository.saveAll(entities);
 
         return savedEntities.stream()
-            .map(entity -> new User(entity))
+            .map(User::new)
             .collect(Collectors.toList());
     }
 
-    public UserDetails updateUser(String id, UserPostRequest user) {
+    public User updateUser(String id, UserPostRequest user) {
         UserEntity userEntity = userRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
         
@@ -114,8 +112,7 @@ public class UsersService {
             throw new InvalidDataException("Username already exists");
         }
 
-        List<Item> items = getUserItems(userEntity);
-        return new UserDetails(userEntity, items);
+        return new User(userEntity);
     }
 
     public void deleteUser(String id) {

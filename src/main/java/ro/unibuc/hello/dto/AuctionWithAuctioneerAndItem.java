@@ -1,44 +1,38 @@
 package ro.unibuc.hello.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ro.unibuc.hello.data.AuctionEntity;
 
-public class AuctionDetails {
+public class AuctionWithAuctioneerAndItem {
 
     private String id;
     private String title;
     private String description;
     private int startPrice;
+    private String status;
     private User auctioneer;
     private Item item;
-    private Bid highestBid;
-    private List<Bid> bids = new ArrayList<>();
 
-    public AuctionDetails() {}
+    public AuctionWithAuctioneerAndItem() {}
 
-    public AuctionDetails(String id, String title, String description, int startPrice, User auctioneer, Item item, Bid highestBid, List<Bid> bids) {
+    public AuctionWithAuctioneerAndItem(String id, String title, String description, int startPrice, String status, User auctioneer, Item item) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
+        this.status = status;
         this.auctioneer = auctioneer;
         this.item = item;
-        this.highestBid = highestBid;
-        this.bids = bids;
     }
 
-    public AuctionDetails(AuctionEntity auctionEntity, Bid highestBid, List<Bid> bids) {
+    public AuctionWithAuctioneerAndItem(AuctionEntity entity) {
         this(
-            auctionEntity.getId(),
-            auctionEntity.getTitle(),
-            auctionEntity.getDescription(),
-            auctionEntity.getStartPrice(),
-            new User(auctionEntity.getAuctioneer()),
-            new Item(auctionEntity.getItem()),
-            highestBid,
-            bids
+            entity.getId(),
+            entity.getTitle(),
+            entity.getDescription(),
+            entity.getStartPrice(),
+            entity.isOpen() ? "open" : "closed",
+            new User(entity.getAuctioneer()),
+            new Item(entity.getItem())
         );
     }
 
@@ -90,23 +84,11 @@ public class AuctionDetails {
         this.item = item;
     }
 
-    public Bid getHighestBid() {
-        return highestBid;
+    public String getStatus() {
+        return status;
     }
 
-    public void setHighestBid(Bid highestBid) {
-        this.highestBid = highestBid;
-    }
-
-    public List<Bid> getPlacedBids() {
-        return bids;
-    }
-
-    public void addBid(Bid bid) {
-        this.bids.add(bid);
-    }
-
-    public void eraseItem(Bid bid) {
-        this.bids.remove(bid);
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

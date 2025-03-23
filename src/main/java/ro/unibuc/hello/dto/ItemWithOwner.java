@@ -2,24 +2,27 @@ package ro.unibuc.hello.dto;
 
 import ro.unibuc.hello.data.ItemEntity;
 
-public class Item {
+public class ItemWithOwner {
     private String id;
     private String name;
     private String description;
+    private User owner;
 
-    public Item() {}
+    public ItemWithOwner(){}
 
-    public Item(String id, String name, String description) {
+    public ItemWithOwner(String id, String name, String description, User owner) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.owner = owner;
     }
 
-    public Item(ItemEntity entity) {
+    public ItemWithOwner(ItemEntity entity) {
         this(
             entity.getId(),
             entity.getName(),
-            entity.getDescription()
+            entity.getDescription(),
+            new User(entity.getOwner())
         );
     }
 
@@ -45,5 +48,13 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

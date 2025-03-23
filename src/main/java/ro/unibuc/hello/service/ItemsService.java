@@ -10,8 +10,8 @@ import ro.unibuc.hello.data.ItemEntity;
 import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
-import ro.unibuc.hello.dto.Item;
 import ro.unibuc.hello.dto.ItemPostRequest;
+import ro.unibuc.hello.dto.ItemWithOwner;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 @Component
@@ -24,29 +24,29 @@ public class ItemsService {
     private UserRepository userRepository;
 
 
-    public List<Item> getAllItems() {
+    public List<ItemWithOwner> getAllItems() {
         List<ItemEntity> entities = itemRepository.findAll();
         return entities.stream()
-            .map(entity -> new Item(entity))
+            .map(entity -> new ItemWithOwner(entity))
             .collect(Collectors.toList());
     }
 
-    public Item getItemById(String id) {
+    public ItemWithOwner getItemById(String id) {
         ItemEntity entity = itemRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-        return new Item(entity);
+        return new ItemWithOwner(entity);
     }
 
-    public Item saveItem(String ownerId, ItemPostRequest item) {
+    public ItemWithOwner saveItem(String ownerId, ItemPostRequest item) {
         UserEntity user = userRepository.findById(ownerId)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         ItemEntity newItem = new ItemEntity(item.getName(), item.getDescription(), user);
         newItem = itemRepository.save(newItem);
-        return new Item(newItem);
+        return new ItemWithOwner(newItem);
     }
 
-    public List<Item> saveAll(String ownerId, List<ItemPostRequest> Items) {
+    public List<ItemWithOwner> saveAll(String ownerId, List<ItemPostRequest> Items) {
         UserEntity user = userRepository.findById(ownerId)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
@@ -57,11 +57,11 @@ public class ItemsService {
         List<ItemEntity> savedEntities = itemRepository.saveAll(entities);
 
         return savedEntities.stream()
-            .map(entity -> new Item(entity))
+            .map(entity -> new ItemWithOwner(entity))
             .collect(Collectors.toList());
     }
 
-    public Item updateItem(String id, ItemPostRequest item) {
+    public ItemWithOwner updateItem(String id, ItemPostRequest item) {
         ItemEntity entity = itemRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Item not found"));
 
@@ -69,7 +69,7 @@ public class ItemsService {
         entity.setName(item.getName());
 
         itemRepository.save(entity);
-        return new Item(entity);
+        return new ItemWithOwner(entity);
     }
 
     public void deleteItem(String id) {

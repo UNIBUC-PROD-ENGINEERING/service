@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import ro.unibuc.hello.auth.AuthUtil;
 import ro.unibuc.hello.auth.PublicEndpoint;
-import ro.unibuc.hello.dto.Auction;
-import ro.unibuc.hello.dto.AuctionDetails;
 import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
 import ro.unibuc.hello.dto.AuctionPost;
-import ro.unibuc.hello.dto.Bid;
+import ro.unibuc.hello.dto.AuctionWithAuctioneerAndItem;
+import ro.unibuc.hello.dto.BidWithBidder;
 import ro.unibuc.hello.permissions.AuctionPermissionChecker;
 import ro.unibuc.hello.service.AuctionsService;
 
@@ -36,27 +35,27 @@ public class AuctionsController {
     @PublicEndpoint
     @GetMapping("/auctions")
     @ResponseBody
-    public List<Auction> getAll() {
+    public List<AuctionWithAuctioneerAndItem> getAll() {
         return auctionsService.getAllAuctions();
     }
 
     @PublicEndpoint
     @GetMapping("/auctions/{id}")
     @ResponseBody
-    public AuctionDetails getAuctionById(@PathVariable String id) {
+    public AuctionWithAuctioneerAndItem getAuctionById(@PathVariable String id) {
         return auctionsService.getAuctionById(id);
     }
 
     @PostMapping("/auctions")
     @ResponseBody
-    public Auction create(HttpServletRequest request, @RequestBody AuctionPost auction) {
+    public AuctionWithAuctioneerAndItem create(HttpServletRequest request, @RequestBody AuctionPost auction) {
         String userId = AuthUtil.getAuthenticatedUserId(request);
         return auctionsService.saveAuction(userId, auction);
     }
 
     @PutMapping("/auctions/{id}")
     @ResponseBody
-    public Auction updateAuction(HttpServletRequest request, @PathVariable String id, @RequestBody Auction auction) {
+    public AuctionWithAuctioneerAndItem updateAuction(HttpServletRequest request, @PathVariable String id, @RequestBody AuctionWithAuctioneerAndItem auction) {
         String userId = AuthUtil.getAuthenticatedUserId(request);
         permissionChecker.checkOwnership(userId, id);
         return auctionsService.updateAuction(id, auction);
@@ -64,7 +63,7 @@ public class AuctionsController {
 
     @PostMapping("/auctions/{id}/place-bid")
     @ResponseBody
-    public Bid postMethodName(HttpServletRequest request, @PathVariable String id, @RequestBody AuctionPlaceBidRequest bid) {
+    public BidWithBidder placeBid(HttpServletRequest request, @PathVariable String id, @RequestBody AuctionPlaceBidRequest bid) {
         String userId = AuthUtil.getAuthenticatedUserId(request);
         return auctionsService.placeBid(id, userId, bid);
     }

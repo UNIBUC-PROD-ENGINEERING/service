@@ -19,23 +19,27 @@ public class AuctionEntity {
     @DocumentReference
     private UserEntity auctioneer;
 
+    private boolean open;
+
     public AuctionEntity() {}
 
-    public AuctionEntity(String title, String description, int startPrice, ItemEntity item, UserEntity auctioneer) {
+    public AuctionEntity(String title, String description, int startPrice, ItemEntity item, UserEntity auctioneer, boolean open) {
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
         this.item = item;
         this.auctioneer = auctioneer;
+        this.open = open;
     }
 
-    public AuctionEntity(String Id,String title, String description, int startPrice, ItemEntity item, UserEntity auctioneer) {
-        this.id = Id;
+    public AuctionEntity(String id,String title, String description, int startPrice, ItemEntity item, UserEntity auctioneer, boolean open) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
         this.item = item;
         this.auctioneer = auctioneer;
+        this.open = open;
     }
 
     public String getId() {
@@ -84,6 +88,14 @@ public class AuctionEntity {
 
     public void setAuctioneer(UserEntity auctioneer) {
         this.auctioneer = auctioneer;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     @Override

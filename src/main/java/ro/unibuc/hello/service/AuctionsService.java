@@ -16,11 +16,10 @@ import ro.unibuc.hello.data.ItemEntity;
 import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
-import ro.unibuc.hello.dto.Auction;
-import ro.unibuc.hello.dto.AuctionDetails;
 import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
 import ro.unibuc.hello.dto.AuctionPost;
-import ro.unibuc.hello.dto.Bid;
+import ro.unibuc.hello.dto.AuctionWithAuctioneerAndItem;
+import ro.unibuc.hello.dto.BidWithBidder;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.exception.InvalidDataException;
 
@@ -39,10 +38,10 @@ public class AuctionsService {
     @Autowired
     private ItemRepository itemRepository;
 
-    public List<Auction> getAllAuctions() {
+    public List<AuctionWithAuctioneerAndItem> getAllAuctions() {
         List<AuctionEntity> entities = auctionRepository.findAll();
         return entities.stream()
-            .map(entity -> new Auction(entity))
+            .map(AuctionWithAuctioneerAndItem::new)
             .collect(Collectors.toList());
     }
 
@@ -55,7 +54,7 @@ public class AuctionsService {
         return new AuctionDetails(entity, highestBid, bids);
     }
 
-    public Auction saveAuction(String auctioneerId, AuctionPost auction) {
+    public AuctionWithAuctioneerAndItem saveAuction(String auctioneerId, AuctionPost auction) {
         AuctionEntity entity = new AuctionEntity();
         entity.setTitle(auction.getTitle());
         entity.setDescription(auction.getDescription());
@@ -70,10 +69,10 @@ public class AuctionsService {
         entity.setItem(item);
 
         entity = auctionRepository.save(entity);
-        return new Auction(entity);
+        return new AuctionWithAuctioneerAndItem(entity);
     }
 
-    public List<Auction> saveAll(String auctioneerId, List<AuctionPost> auctions) {
+    public List<AuctionWithAuctioneerAndItem> saveAll(String auctioneerId, List<AuctionPost> auctions) {
         List<AuctionEntity> entities = auctions.stream()
             .map(auction -> {
                 AuctionEntity entity = new AuctionEntity();
@@ -96,21 +95,21 @@ public class AuctionsService {
         List<AuctionEntity> savedEntities = auctionRepository.saveAll(entities);
 
         return savedEntities.stream()
-            .map(entity -> new Auction(entity))
+            .map(AuctionWithAuctioneerAndItem::new)
             .collect(Collectors.toList());
     }
 
-    public Auction updateAuction(String id, Auction auction) {
+    public AuctionWithAuctioneerAndItem updateAuction(String id, AuctionWithAuctioneerAndItem auction) {
         AuctionEntity entity = auctionRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
 
         entity.setTitle(auction.getTitle());
         entity.setDescription(auction.getDescription());
         entity = auctionRepository.save(entity);
-        return new Auction(entity);
+        return new AuctionWithAuctioneerAndItem(entity);
     }
 
-    public Bid placeBid(String id, String userId, AuctionPlaceBidRequest bid) {
+    public BidWithBidder placeBid(String id, String userId, AuctionPlaceBidRequest bid) {
         AuctionEntity auction = auctionRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
 
@@ -118,7 +117,7 @@ public class AuctionsService {
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         // Check correct bid value
-        Optional<Bid> highestBid = getAuctionHighestBid(auction);
+        Optional<BidEntity> highestBid = getAuctionHighestBid(auction);
         if (highestBid.isPresent()) {
             if (highestBid.get().getPrice() <= bid.getPrice()) {
                 throw new InvalidDataException("Bid must be higher than highest bid");
@@ -136,7 +135,8 @@ public class AuctionsService {
 
         BidEntity bidEntity = new BidEntity(bid.getPrice(), user, auction);
         bidEntity = bidRepository.save(bidEntity);
-        return new Bid(bidEntity);
+        return new BidWithBidder(bidEntity);
+    }
     }
 
     public void deleteAuction(String id) {
@@ -149,15 +149,8 @@ public class AuctionsService {
         auctionRepository.deleteAll();
     }
 
-    private List<Bid> getAuctionBids(AuctionEntity auction) {
+    private Optional<BidEntity> getAuctionHighestBid(AuctionEntity auction) {
         return bidRepository.findByAuction(auction).stream()
-            .map(bidEntity -> new Bid(bidEntity))
-            .collect(Collectors.toList());
-    }
-
-    private Optional<Bid> getAuctionHighestBid(AuctionEntity auction) {
-        return bidRepository.findByAuction(auction).stream()
-            .max(Comparator.comparing(BidEntity::getPrice))
-            .map(bidEntity -> new Bid(bidEntity));
+            .max(Comparator.comparing(BidEntity::getPrice));
     }
 }

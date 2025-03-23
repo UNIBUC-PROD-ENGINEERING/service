@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import ro.unibuc.hello.auth.AuthUtil;
 import ro.unibuc.hello.auth.PublicEndpoint;
-import ro.unibuc.hello.dto.Item;
 import ro.unibuc.hello.dto.ItemPostRequest;
+import ro.unibuc.hello.dto.ItemWithOwner;
 import ro.unibuc.hello.permissions.ItemPermissionChecker;
 import ro.unibuc.hello.service.ItemsService;
 
@@ -32,27 +32,27 @@ public class ItemsController {
     @PublicEndpoint
     @GetMapping("/items")
     @ResponseBody
-    public List<Item> getAllItems() {
+    public List<ItemWithOwner> getAllItems() {
         return itemsService.getAllItems();
     }
 
     @PublicEndpoint
     @GetMapping("/items/{id}")
     @ResponseBody
-    public Item getItemById(@PathVariable String id) {
+    public ItemWithOwner getItemById(@PathVariable String id) {
         return itemsService.getItemById(id);
     }
 
     @PostMapping("/items")
     @ResponseBody
-    public Item createItem(HttpServletRequest request, @RequestBody ItemPostRequest item) {
+    public ItemWithOwner createItem(HttpServletRequest request, @RequestBody ItemPostRequest item) {
         String userId = AuthUtil.getAuthenticatedUserId(request);
         return itemsService.saveItem(userId, item);
     }
 
     @PutMapping("/items/{id}")
     @ResponseBody
-    public Item updateItem(HttpServletRequest request, @PathVariable String id, @RequestBody ItemPostRequest item) {
+    public ItemWithOwner updateItem(HttpServletRequest request, @PathVariable String id, @RequestBody ItemPostRequest item) {
         String userId = AuthUtil.getAuthenticatedUserId(request);
         permissionChecker.checkOwnership(userId, id);
         return itemsService.updateItem(id, item);
