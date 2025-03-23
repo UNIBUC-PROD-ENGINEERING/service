@@ -3,6 +3,7 @@ package ro.unibuc.hello.data;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +14,9 @@ public class SessionEntity {
     @Id
     private String id;
 
+    @Indexed(unique = true)
+    private String sessionId;
+
     @DocumentReference
     private UserEntity user;
 
@@ -21,7 +25,8 @@ public class SessionEntity {
 
     public SessionEntity() {}
 
-    public SessionEntity(UserEntity user, LocalDateTime expiresAt) {
+    public SessionEntity(String sessionId, UserEntity user, LocalDateTime expiresAt) {
+        this.sessionId = sessionId;
         this.user = user;
         this.expiresAt = expiresAt;
     }
@@ -32,6 +37,14 @@ public class SessionEntity {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public LocalDateTime getExpiresAt() {

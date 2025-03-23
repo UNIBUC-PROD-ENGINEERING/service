@@ -14,7 +14,7 @@ public class Session {
     }
 
     public Session(SessionEntity entity) {
-        this(entity.getId(), new User(entity.getUser()));
+        this(entity.getSessionId(), new User(entity.getUser()));
     }
 
     public String getSessionId() {

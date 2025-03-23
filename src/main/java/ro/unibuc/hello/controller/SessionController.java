@@ -2,10 +2,11 @@ package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import ro.unibuc.hello.auth.PublicEndpoint;
 import ro.unibuc.hello.dto.LoginRequest;
@@ -13,7 +14,8 @@ import ro.unibuc.hello.dto.Session;
 import ro.unibuc.hello.service.SessionService;
 
 
-@Controller
+@RestController
+@RequestMapping("/session")
 public class SessionController {
 
     @Autowired
@@ -21,14 +23,18 @@ public class SessionController {
 
     @PublicEndpoint
     @PostMapping("/login")
-    @ResponseBody
     public Session getMethodName(@RequestBody LoginRequest loginReq) {
         return sessionService.login(loginReq);
     }
 
     @PostMapping("/logout")
-    @ResponseBody
-    public ResponseEntity<String> getMethodName() {
-        return sessionService.logout();
+    public ResponseEntity<String> logout(@RequestHeader("X-Session-Id") String sessionId) {
+        boolean success = sessionService.logout(sessionId);
+
+        if (success) {
+            return ResponseEntity.ok("Logged out successfully.");
+        } else {
+            return ResponseEntity.status(401).body("Invalid session.");
+        }
     }
 }

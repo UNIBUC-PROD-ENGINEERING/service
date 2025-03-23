@@ -11,6 +11,7 @@ public class Item {
     public Item(){}
 
     public Item(String id, String name, String description, User owner) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.owner = owner;
