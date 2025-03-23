@@ -22,6 +22,7 @@ import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
 import ro.unibuc.hello.dto.AuctionPost;
 import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.exception.InvalidDataException;
 
 @Component
 public class AuctionsService {
@@ -81,11 +82,11 @@ public class AuctionsService {
                 entity.setStartPrice(auction.getStartPrice());
 
                 UserEntity user = userRepository.findById(auctioneerId)
-                        .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
                 entity.setAuctioneer(user);
 
                 ItemEntity item = itemRepository.findById(auction.getItemId())
-                        .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
                 entity.setItem(item);
 
                 return entity;
@@ -116,7 +117,22 @@ public class AuctionsService {
         UserEntity user = userRepository.findById(userId)
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        // FIXME: bid checks
+        // Check correct bid value
+        Optional<Bid> highestBid = getAuctionHighestBid(auction);
+        if (highestBid.isPresent()) {
+            if (highestBid.get().getPrice() <= bid.getPrice()) {
+                throw new InvalidDataException("Bid must be higher than highest bid");
+            }
+        } else {
+            if (bid.getPrice() < auction.getStartPrice()) {
+                throw new InvalidDataException("Bid can't be lower than starting price");
+            }
+        }
+
+        // Check that auctioneer can't bid to it's own auction
+        if (userId.equals(auction.getAuctioneer().getId())) {
+            throw new InvalidDataException("Auctioneer can't bid to it's own auciton");
+        }
 
         BidEntity bidEntity = new BidEntity(bid.getPrice(), user, auction);
         bidEntity = bidRepository.save(bidEntity);

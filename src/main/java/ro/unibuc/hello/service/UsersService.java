@@ -18,8 +18,8 @@ import ro.unibuc.hello.dto.Item;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.UserPostRequest;
-import ro.unibuc.hello.exception.DuplicateUsernameException;
 import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.exception.InvalidDataException;
 
 @Component
 public class UsersService {
@@ -75,7 +75,7 @@ public class UsersService {
         try {
             userRepository.save(newUser);
         } catch (DuplicateKeyException ex) {
-            throw new DuplicateUsernameException();
+            throw new InvalidDataException("Username already exists");
         }
 
         List<Item> items = getUserItems(newUser);

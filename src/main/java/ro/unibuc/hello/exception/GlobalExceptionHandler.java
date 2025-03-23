@@ -31,8 +31,8 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DuplicateUsernameException.class)
-    public ResponseEntity<Map<String, Object>> handleDuplicateUsernameException(DuplicateUsernameException ex) {
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidDataException(InvalidDataException ex) {
         return buildErrorResponse("Username already exists", HttpStatus.BAD_REQUEST);
     }
 
