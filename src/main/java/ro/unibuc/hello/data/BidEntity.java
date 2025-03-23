@@ -25,8 +25,8 @@ public class BidEntity {
         this.auction = auction;
     }
 
-    public BidEntity(String Id, int price, UserEntity bidder, AuctionEntity auction) {
-        this.id = Id;
+    public BidEntity(String id, int price, UserEntity bidder, AuctionEntity auction) {
+        this.id = id;
         this.price = price;
         this.bidder = bidder;
         this.auction = auction;

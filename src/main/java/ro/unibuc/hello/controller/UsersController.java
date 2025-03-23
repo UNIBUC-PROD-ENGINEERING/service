@@ -21,14 +21,14 @@ import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.UserPostRequest;
 import ro.unibuc.hello.permissions.UserPermissionChecker;
-import ro.unibuc.hello.service.UserService;
+import ro.unibuc.hello.service.UsersService;
 
 
 @Controller
 public class UsersController {
 
     @Autowired
-    private UserService userService;
+    private UsersService userService;
 
     @Autowired
     private UserPermissionChecker permissionChecker;

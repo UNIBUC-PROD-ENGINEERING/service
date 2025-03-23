@@ -24,7 +24,7 @@ import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 @Component
-public class AuctionService {
+public class AuctionsService {
 
     @Autowired
     private BidRepository bidRepository;
@@ -41,8 +41,8 @@ public class AuctionService {
     public List<Auction> getAllAuctions() {
         List<AuctionEntity> entities = auctionRepository.findAll();
         return entities.stream()
-                .map(entity -> new Auction(entity))
-                .collect(Collectors.toList());
+            .map(entity -> new Auction(entity))
+            .collect(Collectors.toList());
     }
 
     public AuctionDetails getAuctionById(String id) {
@@ -74,34 +74,34 @@ public class AuctionService {
 
     public List<Auction> saveAll(String auctioneerId, List<AuctionPost> auctions) {
         List<AuctionEntity> entities = auctions.stream()
-                .map(auction -> {
-                    AuctionEntity entity = new AuctionEntity();
-                    entity.setTitle(auction.getTitle());
-                    entity.setDescription(auction.getDescription());
-                    entity.setStartPrice(auction.getStartPrice());
+            .map(auction -> {
+                AuctionEntity entity = new AuctionEntity();
+                entity.setTitle(auction.getTitle());
+                entity.setDescription(auction.getDescription());
+                entity.setStartPrice(auction.getStartPrice());
 
-                    UserEntity user = userRepository.findById(auctioneerId)
-                            .orElseThrow(() -> new EntityNotFoundException("User not found"));
-                    entity.setAuctioneer(user);
+                UserEntity user = userRepository.findById(auctioneerId)
+                        .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                entity.setAuctioneer(user);
 
-                    ItemEntity item = itemRepository.findById(auction.getItemId())
-                            .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-                    entity.setItem(item);
+                ItemEntity item = itemRepository.findById(auction.getItemId())
+                        .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                entity.setItem(item);
 
-                    return entity;
-                })
-                .collect(Collectors.toList());
+                return entity;
+            })
+            .collect(Collectors.toList());
 
         List<AuctionEntity> savedEntities = auctionRepository.saveAll(entities);
 
         return savedEntities.stream()
-                .map(entity -> new Auction(entity))
-                .collect(Collectors.toList());
+            .map(entity -> new Auction(entity))
+            .collect(Collectors.toList());
     }
 
     public Auction updateAuction(String id, Auction auction) {
         AuctionEntity entity = auctionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
+            .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
 
         entity.setTitle(auction.getTitle());
         entity.setDescription(auction.getDescription());
@@ -125,7 +125,7 @@ public class AuctionService {
 
     public void deleteAuction(String id) {
         AuctionEntity entity = auctionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
+            .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
         auctionRepository.delete(entity);
     }
 
@@ -135,13 +135,13 @@ public class AuctionService {
 
     private List<Bid> getAuctionBids(AuctionEntity auction) {
         return bidRepository.findByAuction(auction).stream()
-                .map(bidEntity -> new Bid(bidEntity))
-                .collect(Collectors.toList());
+            .map(bidEntity -> new Bid(bidEntity))
+            .collect(Collectors.toList());
     }
 
     private Optional<Bid> getAuctionHighestBid(AuctionEntity auction) {
         return bidRepository.findByAuction(auction).stream()
-                .max(Comparator.comparing(BidEntity::getPrice))
-                .map(bidEntity -> new Bid(bidEntity));
+            .max(Comparator.comparing(BidEntity::getPrice))
+            .map(bidEntity -> new Bid(bidEntity));
     }
 }

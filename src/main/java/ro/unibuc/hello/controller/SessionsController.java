@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import ro.unibuc.hello.auth.PublicEndpoint;
 import ro.unibuc.hello.dto.LoginRequest;
 import ro.unibuc.hello.dto.Session;
-import ro.unibuc.hello.service.SessionService;
+import ro.unibuc.hello.service.SessionsService;
 
 
 @RestController
 @RequestMapping("/session")
-public class SessionController {
+public class SessionsController {
 
     @Autowired
-    private SessionService sessionService;
+    private SessionsService sessionService;
 
     @PublicEndpoint
     @PostMapping("/login")

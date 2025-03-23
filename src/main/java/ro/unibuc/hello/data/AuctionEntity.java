@@ -38,24 +38,16 @@ public class AuctionEntity {
         this.auctioneer = auctioneer;
     }
 
-    public UserEntity getAuctioneer() {
-        return auctioneer;
-    }
-
-    public void setAuctioneer(UserEntity auctioneer) {
-        this.auctioneer = auctioneer;
-    }
-
-    public int getStartPrice() {
-        return startPrice;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String Id) {
         this.id = Id;
+    }
+
+    public int getStartPrice() {
+        return startPrice;
     }
 
     public void setStartPrice(int startPrice) {
@@ -84,6 +76,14 @@ public class AuctionEntity {
 
     public void setItem(ItemEntity item) {
         this.item = item;
+    }
+
+    public UserEntity getAuctioneer() {
+        return auctioneer;
+    }
+
+    public void setAuctioneer(UserEntity auctioneer) {
+        this.auctioneer = auctioneer;
     }
 
     @Override

@@ -31,6 +31,13 @@ public class SessionEntity {
         this.expiresAt = expiresAt;
     }
 
+    public SessionEntity(String id, String sessionId, UserEntity user, LocalDateTime expiresAt) {
+        this.id = id;
+        this.sessionId = sessionId;
+        this.user = user;
+        this.expiresAt = expiresAt;
+    }
+
     public String getId() {
         return id;
     }

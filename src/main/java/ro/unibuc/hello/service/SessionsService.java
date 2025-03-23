@@ -16,7 +16,7 @@ import ro.unibuc.hello.exception.InvalidSessionException;
 import ro.unibuc.hello.exception.LoginFailedException;
 
 @Component
-public class SessionService {
+public class SessionsService {
     static private final int sessionExpireTime = 30;
 
     @Autowired
@@ -27,7 +27,7 @@ public class SessionService {
 
     public Session login(LoginRequest loginReq) {
         UserEntity user = userRepository.findByUsername(loginReq.getUsername())
-                .orElseThrow(() -> new LoginFailedException());
+            .orElseThrow(() -> new LoginFailedException());
 
         if (user != null && user.getPassword().equals(loginReq.getPassword())) {
             String sessionId = generateSessionId();
@@ -54,7 +54,7 @@ public class SessionService {
 
     public SessionEntity getValidSession(String sessionId) {
         SessionEntity session = sessionRepository.findBySessionId(sessionId)
-                .orElseThrow(() -> new InvalidSessionException("Invalid session"));
+            .orElseThrow(() -> new InvalidSessionException("Invalid session"));
 
         if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new InvalidSessionException("Expired session");

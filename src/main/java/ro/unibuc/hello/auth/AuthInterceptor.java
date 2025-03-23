@@ -10,13 +10,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ro.unibuc.hello.data.SessionEntity;
 import ro.unibuc.hello.exception.InvalidSessionException;
-import ro.unibuc.hello.service.SessionService;
+import ro.unibuc.hello.service.SessionsService;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private SessionService sessionService;
+    private SessionsService sessionService;
 
     @Override
     public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws Exception {

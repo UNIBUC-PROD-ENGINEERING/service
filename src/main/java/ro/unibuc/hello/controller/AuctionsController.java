@@ -21,14 +21,14 @@ import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
 import ro.unibuc.hello.dto.AuctionPost;
 import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.permissions.AuctionPermissionChecker;
-import ro.unibuc.hello.service.AuctionService;
+import ro.unibuc.hello.service.AuctionsService;
 
 
 @Controller
-public class AuctionController {
+public class AuctionsController {
 
     @Autowired
-    private AuctionService auctionsService;
+    private AuctionsService auctionsService;
 
     @Autowired
     private AuctionPermissionChecker permissionChecker;

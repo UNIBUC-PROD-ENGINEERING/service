@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SessionRepository extends MongoRepository<SessionEntity, String> {
+
     Optional<SessionEntity> findBySessionId(String sessionId);
 }
