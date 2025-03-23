@@ -84,6 +84,11 @@ public class AuctionsService {
             .orElseThrow(() -> new EntityNotFoundException("Item not found"));
         entity.setItem(item);
 
+        // Check that the user owns the item
+        if (!item.getOwner().getId().equals(auctioneerId)) {
+            throw new InvalidDataException("You can't auction an item you don't own");
+        }
+
         // Check that item is in only one open auction at the same time
         if (auctionRepository.findByItem(item).stream().anyMatch(a -> a.isOpen())) {
             throw new InvalidDataException("An item can't be in multiple open auctions at the same time");
