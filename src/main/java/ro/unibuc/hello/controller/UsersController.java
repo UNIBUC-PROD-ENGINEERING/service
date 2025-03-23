@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import ro.unibuc.hello.auth.AuthUtil;
 import ro.unibuc.hello.auth.PublicEndpoint;
+import ro.unibuc.hello.dto.Auction;
+import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.UserPostRequest;
@@ -44,6 +46,20 @@ public class UsersController {
     @ResponseBody
     public UserDetails getUserById(@PathVariable String id) {
         return userService.getUserById(id);
+    }
+
+    @PublicEndpoint
+    @GetMapping("/users/{id}/auctions")
+    @ResponseBody
+    public List<Auction> getUserAuctions(@PathVariable String id) {
+        return userService.getUserAuctions(id);
+    }
+
+    @PublicEndpoint
+    @GetMapping("/users/{id}/bids")
+    @ResponseBody
+    public List<Bid> getUserBids(@PathVariable String id) {
+        return userService.getUserBids(id);
     }
 
     @PostMapping("/users")

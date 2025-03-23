@@ -1,7 +1,10 @@
 package ro.unibuc.hello.data;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+
 
 /**
  * No need to implement this interface.
@@ -9,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AuctionRepository extends MongoRepository<AuctionEntity, String> {
-    
+    public List<AuctionEntity> findByAuctioneer(UserEntity auctioneer);
 }

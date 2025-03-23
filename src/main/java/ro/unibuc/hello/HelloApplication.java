@@ -67,9 +67,7 @@ public class HelloApplication {
         item2 = itemRepository.save(item2);
 
         auctionRepository.deleteAll();
-        AuctionEntity auction1 = new AuctionEntity("licitatie1 1", "O super licitatie", 1000);
-        auction1.setAuctioneer(user);
-        auction1.setItem(item2);
+        AuctionEntity auction1 = new AuctionEntity("licitatie1 1", "O super licitatie", 1000, item2, user);
         auction1 = auctionRepository.save(auction1);
 
         bidRepository.deleteAll();

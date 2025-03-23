@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
+import ro.unibuc.hello.data.AuctionRepository;
+import ro.unibuc.hello.data.BidRepository;
 import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
+import ro.unibuc.hello.dto.Auction;
+import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.dto.Item;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserDetails;
@@ -26,6 +30,12 @@ public class UserService {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private AuctionRepository auctionRepository;
+
+    @Autowired
+    private BidRepository bidRepository;
+
     public List<User> getAllUsers() {
         List<UserEntity> entities = userRepository.findAll();
         return entities.stream()
@@ -35,11 +45,29 @@ public class UserService {
 
     public UserDetails getUserById(String id)  {
         UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
                             
         List<Item> items = getUserItems(userEntity);
         return new UserDetails(userEntity, items);
-   }
+    }
+
+    public List<Auction> getUserAuctions(String id) {
+        UserEntity userEntity = userRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        
+        return auctionRepository.findByAuctioneer(userEntity).stream()
+            .map(Auction::new)
+            .collect(Collectors.toList());
+    }
+
+    public List<Bid> getUserBids(String id) {
+        UserEntity userEntity = userRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        
+        return bidRepository.findByBidder(userEntity).stream()
+            .map(Bid::new)
+            .collect(Collectors.toList());
+    }
 
     public UserDetails saveUser(UserPostRequest user) {
         UserEntity newUser = new UserEntity(user.getName(), user.getPassword(), user.getUsername());

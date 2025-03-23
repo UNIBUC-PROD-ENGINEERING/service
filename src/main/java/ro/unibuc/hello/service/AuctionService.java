@@ -18,6 +18,7 @@ import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.Auction;
 import ro.unibuc.hello.dto.AuctionDetails;
+import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
 import ro.unibuc.hello.dto.AuctionPost;
 import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -46,11 +47,10 @@ public class AuctionService {
 
     public AuctionDetails getAuctionById(String id) {
         AuctionEntity entity = auctionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id));
+            .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
 
         Bid highestBid = getAuctionHighestBid(entity).orElse(null);
         List<Bid> bids = getAuctionBids(entity);
-
         return new AuctionDetails(entity, highestBid, bids);
     }
 
@@ -61,14 +61,14 @@ public class AuctionService {
         entity.setStartPrice(auction.getStartPrice());
 
         UserEntity user = userRepository.findById(auctioneerId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
         entity.setAuctioneer(user);
 
         ItemEntity item = itemRepository.findById(auction.getItemId())
-                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+            .orElseThrow(() -> new EntityNotFoundException("Item not found"));
         entity.setItem(item);
 
-        auctionRepository.save(entity);
+        entity = auctionRepository.save(entity);
         return new Auction(entity);
     }
 
@@ -105,8 +105,22 @@ public class AuctionService {
 
         entity.setTitle(auction.getTitle());
         entity.setDescription(auction.getDescription());
-        auctionRepository.save(entity);
+        entity = auctionRepository.save(entity);
         return new Auction(entity);
+    }
+
+    public Bid placeBid(String id, String userId, AuctionPlaceBidRequest bid) {
+        AuctionEntity auction = auctionRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
+
+        UserEntity user = userRepository.findById(userId)
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        // FIXME: bid checks
+
+        BidEntity bidEntity = new BidEntity(bid.getPrice(), user, auction);
+        bidEntity = bidRepository.save(bidEntity);
+        return new Bid(bidEntity);
     }
 
     public void deleteAuction(String id) {

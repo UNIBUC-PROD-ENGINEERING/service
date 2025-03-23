@@ -19,9 +19,9 @@ public class AuctionEntity {
     @DocumentReference
     private UserEntity auctioneer;
 
-    public AuctionEntity(){}
+    public AuctionEntity() {}
 
-    public AuctionEntity(String title, String description, ItemEntity item, UserEntity auctioneer, int startPrice) {
+    public AuctionEntity(String title, String description, int startPrice, ItemEntity item, UserEntity auctioneer) {
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
@@ -29,19 +29,13 @@ public class AuctionEntity {
         this.auctioneer = auctioneer;
     }
 
-    public AuctionEntity(String title, String description, int startPrice) {
-        this.title = title;
-        this.description = description;
-        this.startPrice = startPrice;
-    }
-
-    public AuctionEntity(String Id,String title, String description, ItemEntity item, UserEntity auctioneer, int startPrice) {
+    public AuctionEntity(String Id,String title, String description, int startPrice, ItemEntity item, UserEntity auctioneer) {
         this.id = Id;
         this.title = title;
         this.description = description;
+        this.startPrice = startPrice;
         this.item = item;
         this.auctioneer = auctioneer;
-        this.startPrice = startPrice;
     }
 
     public UserEntity getAuctioneer() {
@@ -91,7 +85,6 @@ public class AuctionEntity {
     public void setItem(ItemEntity item) {
         this.item = item;
     }
-
 
     @Override
     public String toString() {
