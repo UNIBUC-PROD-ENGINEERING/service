@@ -48,6 +48,13 @@ public class UsersController {
     }
 
     @PublicEndpoint
+    @GetMapping("/users/{id}/items")
+    @ResponseBody
+    public List<Item> getUserItems(@PathVariable String id) {
+        return userService.getUserItems(id);
+    }
+
+    @PublicEndpoint
     @GetMapping("/users/{id}/auctions")
     @ResponseBody
     public List<AuctionWithItem> getUserAuctions(@PathVariable String id) {

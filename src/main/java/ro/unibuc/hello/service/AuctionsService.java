@@ -45,13 +45,29 @@ public class AuctionsService {
             .collect(Collectors.toList());
     }
 
-    public AuctionDetails getAuctionById(String id) {
+    public AuctionWithAuctioneerAndItem getAuctionById(String id) {
         AuctionEntity entity = auctionRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
 
-        Bid highestBid = getAuctionHighestBid(entity).orElse(null);
-        List<Bid> bids = getAuctionBids(entity);
-        return new AuctionDetails(entity, highestBid, bids);
+        return new AuctionWithAuctioneerAndItem(entity);
+    }
+
+    public BidWithBidder getAuctionHighestBid(String id) {
+        AuctionEntity entity = auctionRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
+
+        return getAuctionHighestBid(entity)
+            .map(BidWithBidder::new)
+            .orElse(null);
+    }
+
+    public List<BidWithBidder> getAuctionBids(String id) {
+        AuctionEntity entity = auctionRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
+
+        return bidRepository.findByAuction(entity).stream()
+            .map(BidWithBidder::new)
+            .collect(Collectors.toList());
     }
 
     public AuctionWithAuctioneerAndItem saveAuction(String auctioneerId, AuctionPost auction) {

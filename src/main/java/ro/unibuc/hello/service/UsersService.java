@@ -48,6 +48,14 @@ public class UsersService {
                             
         return new User(userEntity);
     }
+
+    public List<Item> getUserItems(String id) {
+        UserEntity owner = userRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        return itemRepository.findByOwner(owner).stream()
+            .map(Item::new)
+            .collect(Collectors.toList());
     }
 
     public List<AuctionWithItem> getUserAuctions(String id) {
@@ -123,11 +131,5 @@ public class UsersService {
 
     public void deleteAllUsers() {
         userRepository.deleteAll();
-    }
-
-    private List<Item> getUserItems(UserEntity owner) {
-        return itemRepository.findByOwner(owner).stream()
-            .map(itemEntity -> new Item(itemEntity))
-            .collect(Collectors.toList());
     }
 }

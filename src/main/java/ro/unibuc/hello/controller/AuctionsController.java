@@ -46,6 +46,20 @@ public class AuctionsController {
         return auctionsService.getAuctionById(id);
     }
 
+    @PublicEndpoint
+    @GetMapping("/auctions/{id}/highest-bid")
+    @ResponseBody
+    public BidWithBidder getAuctionHighestBid(@PathVariable String id) {
+        return auctionsService.getAuctionHighestBid(id);
+    }
+
+    @PublicEndpoint
+    @GetMapping("/auctions/{id}/bids")
+    @ResponseBody
+    public List<BidWithBidder> getAuctionBids(@PathVariable String id) {
+        return auctionsService.getAuctionBids(id);
+    }
+
     @PostMapping("/auctions")
     @ResponseBody
     public AuctionWithAuctioneerAndItem create(HttpServletRequest request, @RequestBody AuctionPost auction) {
