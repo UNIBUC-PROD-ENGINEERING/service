@@ -33,7 +33,7 @@ public class BidService {
         return entities.stream()
                 .map(entity -> {
                 String userName = userRepository.findById(entity.getBidder().getId())
-                        .map(UserEntity::getName) 
+                        .map(UserEntity::getUsername) 
                         .orElse("Unknown User");
 
                 String auctionName = auctionRepository.findById(entity.getAuction().getId())
@@ -49,7 +49,7 @@ public class BidService {
         BidEntity entity = optionalEntity.orElseThrow(() -> new EntityNotFoundException(id));
 
         String userName = userRepository.findById(entity.getBidder().getId())
-                        .map(UserEntity::getName) 
+                        .map(UserEntity::getUsername) 
                         .orElse("Unknown User");
 
         
@@ -62,18 +62,20 @@ public class BidService {
 
     public Bid saveBid(BidPost bid) {
 
-        UserEntity bidder = userRepository.findByUsername(bid.getBidderUsername());
+        UserEntity bidder = userRepository.findById(bid.getBidderId())
+                            .orElseThrow(() -> new EntityNotFoundException(String.valueOf(bid.getBidderId())));
+
         AuctionEntity auction = auctionRepository.findById(bid.getAuctionId())
-                            .orElseThrow(() -> new EntityNotFoundException(String.valueOf(bid.getAuctionId())));;
+                            .orElseThrow(() -> new EntityNotFoundException(String.valueOf(bid.getAuctionId())));
 
         BidEntity entity = new BidEntity(bid.getPrice(), bidder, auction);
 
         bidRepository.save(entity);
 
-        return new Bid(entity.getPrice(), bidder.getName(), auction.getTitle());
+        return new Bid(entity.getPrice(), bidder.getUsername(), auction.getTitle());
     }
 
-    public List<Bid> saveAll(List<Bid> bids) {
+    public List<Bid> saveAll(List<BidPost> bids) {
         List<BidEntity> entities = bids.stream()
                 .map(bid -> {
                     BidEntity entity = new BidEntity();
@@ -87,7 +89,7 @@ public class BidService {
         return savedEntities.stream()
                 .map(entity ->  {
                 String userName = userRepository.findById(entity.getBidder().getId())
-                        .map(UserEntity::getName) 
+                        .map(UserEntity::getUsername) 
                         .orElse("Unknown User");
                 
                 String auctionName = auctionRepository.findById(entity.getAuction().getId())
@@ -105,7 +107,7 @@ public class BidService {
 
         entity.setPrice(bid.getPrice());
 
-        UserEntity user = userRepository.findByUsername(bid.getBidderUsername());
+        UserEntity user = userRepository.findByUsername(bid.getBidderId());
         entity.setBidder(user);
         
         bidRepository.save(entity);
@@ -114,7 +116,7 @@ public class BidService {
                         .map(AuctionEntity::getTitle) 
                         .orElse("Unknown Auction");
 
-        return new Bid(bid.getPrice(), user.getName(), auctionName);
+        return new Bid(bid.getPrice(), user.getUsername(), auctionName);
     }
 
     public void deleteBid(String id) throws EntityNotFoundException {

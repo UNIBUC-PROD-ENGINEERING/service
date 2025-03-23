@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ro.unibuc.hello.dto.Item;
+import ro.unibuc.hello.dto.ItemPost;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.ItemsService;
 
@@ -32,7 +33,7 @@ public class ItemsController {
 
     @PostMapping("/items")
     @ResponseBody
-    public Item createItem(@RequestBody Item item) {
+    public Item createItem(@RequestBody ItemPost item) {
         return itemsService.saveItem(item);
     }
 

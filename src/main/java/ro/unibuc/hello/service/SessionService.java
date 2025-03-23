@@ -15,7 +15,7 @@ import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.LoginRequest;
 import ro.unibuc.hello.dto.LogoutRequest;
 import ro.unibuc.hello.dto.Session;
-import ro.unibuc.hello.dto.User;
+import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.exception.ExpiredSessionException;
 import ro.unibuc.hello.exception.InvalidSessionException;
 import ro.unibuc.hello.exception.LoginFailedException;
@@ -36,7 +36,7 @@ public class SessionService {
             LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(sessionExpireTime);
             SessionEntity session = new SessionEntity(user, expiresAt);
             session = sessionRepository.save(session);
-            User userData = new User(session.getUser().getId(), session.getUser().getName(), session.getUser().getUsername(), new ArrayList<>());
+            UserDetails userData = new UserDetails(session.getUser().getId(), session.getUser().getName(), session.getUser().getUsername(), new ArrayList<>());
             return new Session(session.getId(), userData);
         }
 

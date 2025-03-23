@@ -1,6 +1,7 @@
 package ro.unibuc.hello.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.data.AuctionEntity;
 import ro.unibuc.hello.data.AuctionRepository;
@@ -32,6 +33,9 @@ public class AuctionService {
     @Autowired
     private BidRepository bidRepository;
 
+    @Autowired
+    private SessionService sessionService;
+
     public List<Auction> getAllAuctions() {
         List<AuctionEntity> entities = auctionRepository.findAll();
         return entities.stream()
@@ -54,15 +58,13 @@ public class AuctionService {
         UserEntity user = userRepository.findByUsername(auction.getAuctioneerUsername());
         entity.setAuctioneer(user);
 
-        // if(auction.getItem().equals("67d81d8a22dff66530467a49")){
-        //     System.out.println("HELLOO");
-        // }
-
         ItemEntity item = itemRepository.findById(auction.getItem())
                           .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-        entity.setItem(item);
-        // itemRepository.findById(auction.getItem()).ifPresent(entity::setItem);
+        
+        //limit creating auctions only for your items 
+        // if(item.getOwner().getId() != this session user id)
 
+        entity.setItem(item);
 
         BidEntity bid = bidRepository.findById(auction.getHighestBid())
                                  .orElseThrow(() -> new EntityNotFoundException("Item not found"));;
@@ -83,11 +85,13 @@ public class AuctionService {
                     UserEntity user = userRepository.findByUsername(auction.getAuctioneerUsername());
                     entity.setAuctioneer(user);
 
-                    Optional<ItemEntity> item = itemRepository.findById(auction.getItem());
-                    // entity.setItem(item);
+                    ItemEntity item = itemRepository.findById(auction.getItem())
+                                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                    entity.setItem(item);
 
-                    Optional<BidEntity> bid = bidRepository.findById(auction.getHighestBid());
-                    // entity.setHighestBid(bid);
+                    BidEntity bid = bidRepository.findById(auction.getHighestBid())
+                                    .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+                    entity.setHighestBid(bid);
 
                     return entity;
                 })

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ro.unibuc.hello.dto.Bid;
 import ro.unibuc.hello.dto.BidPost;
-import ro.unibuc.hello.dto.User;
+import ro.unibuc.hello.dto.UserDetails;
 import ro.unibuc.hello.dto.Auction;
 import ro.unibuc.hello.dto.UserPost;
 import ro.unibuc.hello.exception.EntityNotFoundException;
