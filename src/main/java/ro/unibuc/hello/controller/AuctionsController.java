@@ -85,6 +85,8 @@ public class AuctionsController {
     @PostMapping("/auctions/{id}/close")
     @ResponseBody
     public void closeAuction(HttpServletRequest request, @PathVariable String id, @RequestBody AuctionPlaceBidRequest bid) {
+        String userId = AuthUtil.getAuthenticatedUserId(request);
+        permissionChecker.checkOwnership(userId, id);
         auctionsService.closeAuction(id);
     }
 
