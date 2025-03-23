@@ -68,6 +68,7 @@ public class UsersController {
         return userService.getUserBids(id);
     }
 
+    @PublicEndpoint
     @PostMapping("/users")
     @ResponseBody
     public User createUser(@RequestBody UserPostRequest user) {
