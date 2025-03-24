@@ -7,7 +7,7 @@ public class ItemPostRequest {
     
     public ItemPostRequest() {}
 
-    public ItemPostRequest(String name, String description, String ownerId) {
+    public ItemPostRequest(String name, String description) {
         this.name = name;
         this.description = description;
     }
