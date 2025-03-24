@@ -1,14 +1,13 @@
+package ro.unibuc.hello.dto;
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import ro.unibuc.hello.dto.PartySummaryDTO;
 
-public class PartySummaryDTOTest {
+public class PartySummaryTest {
 
     @Test
     public void testPartySummaryDTO_Creation() {
         PartySummaryDTO dto = new PartySummaryDTO("123", "Birthday Bash", "2025-04-01");
-
         assertEquals("123", dto.getId());
         assertEquals("Birthday Bash", dto.getName());
         assertEquals("2025-04-01", dto.getDate());
