@@ -41,8 +41,9 @@ public class TaskService {
     }
 
     public TaskEntity createTask(TaskEntity task) {
-        return taskRepository.save(task);
+          return taskRepository.save(task);
     }
+    
 
     public TaskEntity updateTask(String id, TaskEntity updatedTask) {
         Optional<TaskEntity> existingTask = taskRepository.findById(id);
@@ -79,7 +80,8 @@ public class TaskService {
             updatedTask.setId(id);
             return taskRepository.save(updatedTask);
         }
-        return null;
+        //return null;
+        throw new RuntimeException("Task not found");
     }
     public void deleteTask(String id) {
         taskRepository.deleteById(id);

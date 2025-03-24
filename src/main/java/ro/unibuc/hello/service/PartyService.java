@@ -146,6 +146,7 @@ public class PartyService {
     }
 
     public PartyEntity addFoodToParty(String partyId, String foodId) {
+  
         Optional<PartyEntity> party = partyRepository.findById(partyId);
         if (party.isEmpty()) {
             throw new RuntimeException("Party not found");
@@ -159,6 +160,7 @@ public class PartyService {
         // Logica de adăugare a alimentului la petrecere
         party.get().getFoodIds().add(foodId);
         return partyRepository.save(party.get());
+
     }
     
 
@@ -207,10 +209,6 @@ public class PartyService {
         return partyRepository.save(party);
     }
     
-
-//     public PartyEntity saveParty(PartyEntity party) {
-//         return partyRepository.save(party);  // Salvează petrecerea actualizată
-//     }
 
 public PartyEntity removeLocationFromParty(String partyId) {
     Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
