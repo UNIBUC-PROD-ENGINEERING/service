@@ -37,6 +37,7 @@ out/
 .vscode/**
 !.vscode/launch.json
 !.vscode/settings.json
+.vs/**
 
 ### Durable Prom store
 infrastructure/prometheus/durable
