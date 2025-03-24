@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import ro.unibuc.hello.data.FoodEntity;
 import ro.unibuc.hello.data.PartyEntity;
 import ro.unibuc.hello.data.TaskEntity;
 import ro.unibuc.hello.data.UserEntity;
@@ -15,6 +17,7 @@ import ro.unibuc.hello.repositories.FoodRepository;
 import ro.unibuc.hello.repositories.LocationRepository;
 import ro.unibuc.hello.service.PartyService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.List;
@@ -67,9 +70,10 @@ public class PartyServiceTest {
         when(userRepository.findById("user1")).thenReturn(Optional.of(user));
         when(taskRepository.findById("task1")).thenReturn(Optional.of(task));
         when(partyRepository.save(party)).thenReturn(party);
+// Mock pentru FoodRepository
+    when(foodRepository.findById("food1")).thenReturn(Optional.of(new FoodEntity("Food Name", 10.0, 4.5, 10)));
+
     }
-
-
 
     @Test
     void test_addUserToParty() {
@@ -92,18 +96,7 @@ public class PartyServiceTest {
         assertEquals(150, updatedParty.getPartyPoints());
     }
 
-    // @Test
-    // void test_addFoodToParty() {
-    //     String foodId = "food1";
-    //     party.getFoodIds().add(foodId);
-
-    //     PartyEntity updatedParty = partyService.addFoodToParty("party1", foodId);
-
-    //     // Verifică că mâncarea a fost adăugată la petrecere
-    //     assertNotNull(updatedParty);
-    //     assertTrue(updatedParty.getFoodIds().contains(foodId));
-    //}
-
+    
     @Test
     void test_getPartiesForUser() {
         when(partyRepository.findByUserIdsContaining("user1")).thenReturn(Arrays.asList(party));
@@ -115,40 +108,5 @@ public class PartyServiceTest {
         assertFalse(parties.isEmpty());
         assertEquals("Party Name", parties.get(0).getName());
     }
-
-    // @Test
-    // void test_addLocationToParty() {
-    //     String locationId = "location1";
-    //     party.setLocationId(locationId);
-
-    //     PartyEntity updatedParty = partyService.addLocationToParty("party1", locationId);
-
-    //     // Verifică că locația a fost adăugată la petrecere
-    //     assertNotNull(updatedParty);
-    //     assertEquals(locationId, updatedParty.getLocationId());
-    // }
-
-    // @Test
-    // void test_removeLocationFromParty() {
-    //     party.setLocationId("location1");
-
-    //     PartyEntity updatedParty = partyService.removeLocationFromParty("party1");
-
-    //     // Verifică că locația a fost eliminată din petrecere
-    //     assertNotNull(updatedParty);
-    //     assertNull(updatedParty.getLocationId());
-    // }
-
-    // @Test
-    // void test_removeFoodFromParty() {
-    //     String foodId = "food1";
-    //     party.getFoodIds().add(foodId);
-
-    //     PartyEntity updatedParty = partyService.removeFoodFromParty("party1", foodId);
-
-    //     // Verifică că mâncarea a fost eliminată din petrecere
-    //     assertNotNull(updatedParty);
-    //     assertFalse(updatedParty.getFoodIds().contains(foodId));
-    // }
 
 }

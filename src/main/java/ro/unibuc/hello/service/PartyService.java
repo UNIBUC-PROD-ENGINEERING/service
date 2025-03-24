@@ -148,15 +148,22 @@ public class PartyService {
     public PartyEntity addFoodToParty(String partyId, String foodId) {
         Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
         Optional<FoodEntity> foodOpt = foodRepository.findById(foodId);
-
+    
         if (partyOpt.isPresent() && foodOpt.isPresent()) {
             PartyEntity party = partyOpt.get();
-            party.getFoodIds().add(foodId);
+            
+            // Asigură-te că lista foodIds nu este null
+            if (party.getFoodIds() == null) {
+                party.setFoodIds(new ArrayList<>());  // Inițializează lista dacă e null
+            }
+            
+            party.getFoodIds().add(foodId);  // Adaugă mâncarea la petrecere
             return partyRepository.save(party);
         }
-
+    
         return null;  // Dacă partyId sau foodId nu există, returnăm null
     }
+    
 
     public List<LocationEntity> getAvailableLocationsForParty(String partyId, Double minRating, Double maxPrice, Integer maxPoints) {
         PartyEntity party = partyRepository.findById(partyId).orElse(null);
