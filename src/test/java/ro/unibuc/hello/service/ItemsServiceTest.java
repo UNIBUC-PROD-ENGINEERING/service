@@ -1,5 +1,18 @@
 package ro.unibuc.hello.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,22 +23,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ro.unibuc.hello.data.ItemEntity;
 import ro.unibuc.hello.data.ItemRepository;
-import ro.unibuc.hello.data.SessionEntity;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
-import ro.unibuc.hello.dto.Item;
-import ro.unibuc.hello.dto.ItemPost;
+import ro.unibuc.hello.dto.ItemPostRequest;
+import ro.unibuc.hello.dto.ItemWithOwner;
 import ro.unibuc.hello.exception.EntityNotFoundException;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class ItemsServiceTest {
@@ -37,7 +39,7 @@ class ItemsServiceTest {
     private UserRepository userRepository;
     
     @Mock
-    private SessionService sessionService;
+    private SessionsService sessionsService;
 
     @InjectMocks
     private ItemsService itemsService = new ItemsService();
@@ -56,7 +58,7 @@ class ItemsServiceTest {
         );
         when(itemRepository.findAll()).thenReturn(items);
         
-        List<Item> result = itemsService.getAllItems();
+        List<ItemWithOwner> result = itemsService.getAllItems();
         
         assertEquals(2, result.size());
         assertEquals("Item1", result.get(0).getName());
@@ -68,11 +70,11 @@ class ItemsServiceTest {
         UserEntity user = new UserEntity("testUser", "password", "username");
         ItemEntity item = new ItemEntity("Item1", "Description1", user);
         when(itemRepository.findById("1")).thenReturn(Optional.of(item));
-        Item result = itemsService.getItemById("1");
+        ItemWithOwner result = itemsService.getItemById("1");
         assertNotNull(result);
         assertEquals("Item1", result.getName());
         assertEquals("Description1", result.getDescription());
-        assertEquals("username", result.getOwner());
+        assertEquals("username", result.getOwner().getName());
     }
 
    // Check if getItemById() throws EntityNotFoundException when an item with a certain ID is not found in db
@@ -82,79 +84,49 @@ class ItemsServiceTest {
         
         assertThrows(EntityNotFoundException.class, () -> itemsService.getItemById("1"));
     }
-
-    @Test
-    void testGetItemsOwnedBy() {
-        // Arrange
-        UserEntity owner = new UserEntity("testUser", "password", "username");
-        List<ItemEntity> items = Arrays.asList(
-                new ItemEntity("Item1", "Description1", owner),
-                new ItemEntity("Item2", "Description2", owner)
-        );
-        when(itemRepository.findByOwner(owner)).thenReturn(items);
-        // Act
-        List<Item> result = itemsService.getItemsOwnedBy(owner);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals("Item1", result.get(0).getName());
-        assertEquals("Item2", result.get(1).getName());
-        assertEquals("username", result.get(0).getOwner());
-        assertEquals("username", result.get(1).getOwner());
-    }
     
     @Test
     void testSaveItem() {
         // Arrange
-        String sessionId = "session123"; 
+        String ownerId = "11";
         String itemName = "Item1";
         String itemDescription = "Description1";
         
-        ItemPost itemPost = new ItemPost(sessionId, itemName, itemDescription);
-        UserEntity user = new UserEntity("testUser", "password", "username");
+        ItemPostRequest itemPost = new ItemPostRequest(itemName, itemDescription);
+        UserEntity user = new UserEntity(ownerId, "testUser", "password", "username");
     
-        SessionEntity session = new SessionEntity(user, LocalDateTime.now().plusMinutes(30));
-    
-        when(sessionService.getValidSession(sessionId)).thenReturn(session); 
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user)); 
         ItemEntity newItemEntity = new ItemEntity(itemName, itemDescription, user);
         when(itemRepository.save(any(ItemEntity.class))).thenReturn(newItemEntity);
     
         // Act 
-        Item savedItem = itemsService.saveItem(itemPost);
+        ItemWithOwner savedItem = itemsService.saveItem(ownerId, itemPost);
     
         // Assert 
         assertNotNull(savedItem); 
         assertEquals(itemName, savedItem.getName()); 
         assertEquals(itemDescription, savedItem.getDescription()); 
-        assertEquals(user.getUsername(), savedItem.getOwner()); 
+        assertEquals(user.getUsername(), savedItem.getOwner().getName()); 
         verify(itemRepository, times(1)).save(any(ItemEntity.class));  
     }
     
     @Test
     void testSaveAll() {
         // Arrange
-        String sessionId = "session123";
+        String ownerId = "12";
         String itemName1 = "Item1";
         String itemDescription1 = "Description1";
         String itemName2 = "Item2";
         String itemDescription2 = "Description2";
         
         // Create two ItemPost objects to be saved
-        ItemPost itemPost1 = new ItemPost(sessionId, itemName1, itemDescription1);
-        ItemPost itemPost2 = new ItemPost(sessionId,itemName2, itemDescription2);
+        ItemPostRequest itemPost1 = new ItemPostRequest(itemName1, itemDescription1);
+        ItemPostRequest itemPost2 = new ItemPostRequest(itemName2, itemDescription2);
         
-        List<ItemPost> items = Arrays.asList(itemPost1, itemPost2);
+        List<ItemPostRequest> items = Arrays.asList(itemPost1, itemPost2);
         
         // Create a UserEntity that would be associated with both items
-        UserEntity user = new UserEntity("testUser", "password", "username");
-        
-        // Create a SessionEntity that is valid and associated with the user
-        SessionEntity session = new SessionEntity(user, LocalDateTime.now().plusMinutes(30));
-        
-        // Mock the sessionService to return a valid session
-        when(sessionService.getValidSession(sessionId)).thenReturn(session);
+        UserEntity user = new UserEntity(ownerId, "testUser", "password", "username");
         
         // Mock the userRepository to return the user when searched by ID
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
@@ -167,23 +139,23 @@ class ItemsServiceTest {
         when(itemRepository.saveAll(anyList())).thenReturn(Arrays.asList(itemEntity1, itemEntity2));
         
         // Act
-        List<Item> savedItems = itemsService.saveAll(items);
+        List<ItemWithOwner> savedItems = itemsService.saveAll(ownerId, items);
         
         // Assert
         assertNotNull(savedItems);
         assertEquals(2, savedItems.size());  // Ensure we have two items saved
         
         // Verify that the first item has correct details
-        Item savedItem1 = savedItems.get(0);
+        ItemWithOwner savedItem1 = savedItems.get(0);
         assertEquals(itemName1, savedItem1.getName());
         assertEquals(itemDescription1, savedItem1.getDescription());
-        assertEquals(user.getUsername(), savedItem1.getOwner());
+        assertEquals(user.getUsername(), savedItem1.getOwner().getName());
 
         // Verify that the second item has correct details
-        Item savedItem2 = savedItems.get(1);
+        ItemWithOwner savedItem2 = savedItems.get(1);
         assertEquals(itemName2, savedItem2.getName());
         assertEquals(itemDescription2, savedItem2.getDescription());
-        assertEquals(user.getUsername(), savedItem2.getOwner());
+        assertEquals(user.getUsername(), savedItem2.getOwner().getName());
     }
 
     @Test
@@ -192,26 +164,27 @@ class ItemsServiceTest {
         String itemId = "item123";
         String newItemName = "Updated Item";
         String newItemDescription = "Updated Description";
+        String existingOwnerId = "11";
         String existingOwnerName = "existingUser";
         String existingOwnerUserame = "existingUsername";
-        UserEntity existingUser = new UserEntity(existingOwnerName, "password", existingOwnerUserame);
+        UserEntity existingUser = new UserEntity(existingOwnerId, existingOwnerName, "password", existingOwnerUserame);
         ItemEntity existingItemEntity = new ItemEntity("Old Item", "Old Description", existingUser);
         
         // Create a new Item object that will be used for the update
-        Item itemToUpdate = new Item(newItemName, newItemDescription, existingOwnerName);
+        ItemPostRequest itemToUpdate = new ItemPostRequest(newItemName, newItemDescription);
 
         when(itemRepository.findById(itemId)).thenReturn(Optional.of(existingItemEntity));
-        when(userRepository.findByUsername(existingOwnerName)).thenReturn(existingUser);
+        when(userRepository.findById(existingOwnerId)).thenReturn(Optional.of(existingUser));
         when(itemRepository.save(any(ItemEntity.class))).thenReturn(existingItemEntity);
         
         // Act
-        Item updatedItem = itemsService.updateItem(itemId, itemToUpdate);
+        ItemWithOwner updatedItem = itemsService.updateItem(itemId, itemToUpdate);
         
         // Assert
         assertNotNull(updatedItem);
         assertEquals(newItemName, updatedItem.getName());  // Ensure name is updated
         assertEquals(newItemDescription, updatedItem.getDescription());  // Ensure description is updated
-        assertEquals(existingOwnerUserame, updatedItem.getOwner());  // Ensure owner remains the same
+        assertEquals(existingOwnerUserame, updatedItem.getOwner().getName());  // Ensure owner remains the same
     }
 
     @Test
@@ -220,10 +193,9 @@ class ItemsServiceTest {
         String itemId = "item123";
         String newItemName = "Updated Item";
         String newItemDescription = "Updated Description";
-        String existingOwnerUsername = "existingUser";
         
         // Create a new Item object that will be used for the update
-        Item itemToUpdate = new Item(newItemName, newItemDescription, existingOwnerUsername);
+        ItemPostRequest itemToUpdate = new ItemPostRequest(newItemName, newItemDescription);
         
         // Mock the repository to return empty when searching by id (item not found)
         when(itemRepository.findById(itemId)).thenReturn(Optional.empty());
