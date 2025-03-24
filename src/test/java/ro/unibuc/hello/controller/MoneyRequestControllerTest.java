@@ -113,4 +113,15 @@ public class MoneyRequestControllerTest {
             moneyRequestController.updateRequestStatus("1", "INVALID");
         });
     }
+
+    @Test
+    void testUpdateRequestStatusDeclined() throws Exception {
+        MoneyRequest updated = new MoneyRequest("1", "A", "B", 100.0, "DECLINED");
+        when(moneyRequestService.updateRequestStatus("1", "DECLINED")).thenReturn(updated);
+
+        mockMvc.perform(put("/api/money-requests/1/status?status=DECLINED"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status", is("DECLINED")));
+    }
+
 }
