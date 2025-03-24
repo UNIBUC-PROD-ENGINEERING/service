@@ -74,7 +74,7 @@ class ItemsServiceTest {
         assertNotNull(result);
         assertEquals("Item1", result.getName());
         assertEquals("Description1", result.getDescription());
-        assertEquals("username", result.getOwner().getName());
+        assertEquals("testUser", result.getOwner().getName());
     }
 
    // Check if getItemById() throws EntityNotFoundException when an item with a certain ID is not found in db
@@ -106,7 +106,7 @@ class ItemsServiceTest {
         assertNotNull(savedItem); 
         assertEquals(itemName, savedItem.getName()); 
         assertEquals(itemDescription, savedItem.getDescription()); 
-        assertEquals(user.getUsername(), savedItem.getOwner().getName()); 
+        assertEquals(user.getName(), savedItem.getOwner().getName()); 
         verify(itemRepository, times(1)).save(any(ItemEntity.class));  
     }
     
@@ -149,13 +149,13 @@ class ItemsServiceTest {
         ItemWithOwner savedItem1 = savedItems.get(0);
         assertEquals(itemName1, savedItem1.getName());
         assertEquals(itemDescription1, savedItem1.getDescription());
-        assertEquals(user.getUsername(), savedItem1.getOwner().getName());
+        assertEquals(user.getName(), savedItem1.getOwner().getName());
 
         // Verify that the second item has correct details
         ItemWithOwner savedItem2 = savedItems.get(1);
         assertEquals(itemName2, savedItem2.getName());
         assertEquals(itemDescription2, savedItem2.getDescription());
-        assertEquals(user.getUsername(), savedItem2.getOwner().getName());
+        assertEquals(user.getName(), savedItem2.getOwner().getName());
     }
 
     @Test
@@ -184,7 +184,7 @@ class ItemsServiceTest {
         assertNotNull(updatedItem);
         assertEquals(newItemName, updatedItem.getName());  // Ensure name is updated
         assertEquals(newItemDescription, updatedItem.getDescription());  // Ensure description is updated
-        assertEquals(existingOwnerUserame, updatedItem.getOwner().getName());  // Ensure owner remains the same
+        assertEquals(existingOwnerName, updatedItem.getOwner().getName());  // Ensure owner remains the same
     }
 
     @Test
