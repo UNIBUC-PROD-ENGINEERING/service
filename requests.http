@@ -1,53 +1,254 @@
+### Variables
+@baseUrl = http://localhost:8080
+@itemId = 
+@bidId = 
+@userEmail = user@example.com
+@creatorEmail = creator@example.com
 
-# You can use this file to easily send requests to your API.
-# Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
-# High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
+### ========================
+### ITEM MANAGEMENT
+### ========================
 
+### Get all items
+GET {{baseUrl}}/items
+Accept: application/json
 
-# Requests for API endpoints of the sample project:
+### Get active items only
+GET {{baseUrl}}/items?activeOnly=true
+Accept: application/json
 
-### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8080/hello-world
+### Get item by ID
+GET {{baseUrl}}/items/{{itemId}}
+Accept: application/json
 
-### Hello world with a request param passed.
-# When sending the request it will ask you for the name
-# hitting enter will avoid passing the param, and do the default behaviour above
-# @prompt name The name to display in response
-GET http://localhost:8080/hello-world
-    ?name={{name}}
+### Search item by name
+GET {{baseUrl}}/items/search?name=smartphone
+Accept: application/json
 
-### Save a greeting to database
-@postGreetingId = 1001
-@postGreetingContent = Hello!
-POST http://localhost:8080/greetings
+### Create a new item - ELECTRONICS
+POST {{baseUrl}}/items
 Content-Type: application/json
 
 {
-    "id": "{{postGreetingId}}",
-    "content": "{{postGreetingContent}}"
+  "name": "iPhone 15 Pro",
+  "description": "Brand new iPhone 15 Pro with 256GB storage",
+  "initialPrice": 799.99,
+  "endTime": "2025-04-24T23:59:59",
+  "creator": "seller@example.com",
+  "category": "ELECTRONICS"
 }
 
-### Get all greetings
-GET http://localhost:8080/greetings
-
-### Get info for greeting with given content
-# @prompt content Greeting content to look for, defaults to "Overview"
-GET http://localhost:8080/info
-    ?title={{content}}
-
-### Update an existing greeting
-@putGreetingId = 1001
-@putGreetingContent = Hello again!
-PUT http://localhost:8080/greetings/{{putGreetingId}}
+### Create a new item - FASHION
+POST {{baseUrl}}/items
 Content-Type: application/json
 
 {
-    "content": "{{putGreetingContent}}"
+  "name": "Vintage Leather Jacket",
+  "description": "Genuine leather jacket from the 90s",
+  "initialPrice": 150.00,
+  "endTime": "2025-04-20T23:59:59",
+  "creator": "{{creatorEmail}}",
+  "category": "FASHION"
 }
 
-### Delete greeting
-@deleteGreetingId = 1001
-DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
+### Create a new item - BOOKS
+POST {{baseUrl}}/items
+Content-Type: application/json
 
+{
+  "name": "Complete Harry Potter Collection",
+  "description": "All 7 Harry Potter books in hardcover",
+  "initialPrice": 120.00,
+  "endTime": "2025-04-22T23:59:59",
+  "creator": "{{creatorEmail}}",
+  "category": "BOOKS"
+}
 
-# TODO add requests for your own endpoints!
+### Update an item
+PUT {{baseUrl}}/items/{{itemId}}
+Content-Type: application/json
+
+{
+  "name": "iPhone 15 Pro Max",
+  "description": "Updated: Brand new iPhone 15 Pro Max with 512GB storage",
+  "initialPrice": 899.99,
+  "endTime": "2025-04-24T23:59:59",
+  "active": true,
+  "creator": "seller@example.com",
+  "category": "ELECTRONICS"
+}
+
+### Delete an item
+DELETE {{baseUrl}}/items/{{itemId}}
+
+### ========================
+### BIDDING
+### ========================
+
+### Get all bids
+GET {{baseUrl}}/bids
+Accept: application/json
+
+### Get bid by ID
+GET {{baseUrl}}/bids/{{bidId}}
+Accept: application/json
+
+### Get bids by item
+GET {{baseUrl}}/bids/item/{{itemId}}
+Accept: application/json
+
+### Get bids by bidder name
+GET {{baseUrl}}/bids/bidder/John%20Doe
+Accept: application/json
+
+### Get bids by bidder email
+GET {{baseUrl}}/bids/bidder-email/{{userEmail}}
+Accept: application/json
+
+### Place a bid
+POST {{baseUrl}}/bids
+Content-Type: application/json
+
+{
+  "itemId": "{{itemId}}",
+  "bidderName": "John Doe",
+  "amount": 850.00,
+  "email": "{{userEmail}}"
+}
+
+### Place another bid (higher)
+POST {{baseUrl}}/bids
+Content-Type: application/json
+
+{
+  "itemId": "{{itemId}}",
+  "bidderName": "Jane Smith",
+  "amount": 875.50,
+  "email": "jane@example.com"
+}
+
+### Place a third bid (even higher)
+POST {{baseUrl}}/bids
+Content-Type: application/json
+
+{
+  "itemId": "{{itemId}}",
+  "bidderName": "Alex Johnson",
+  "amount": 910.25,
+  "email": "alex@example.com"
+}
+
+### Delete a bid
+DELETE {{baseUrl}}/bids/{{bidId}}
+
+### ========================
+### STATISTICS
+### ========================
+
+### Get overall auction statistics
+GET {{baseUrl}}/stats/overview
+Accept: application/json
+
+### Get user statistics
+GET {{baseUrl}}/stats/user/{{userEmail}}
+Accept: application/json
+
+### Get creator statistics
+GET {{baseUrl}}/stats/user/{{creatorEmail}}
+Accept: application/json
+
+### Get item popularity
+GET {{baseUrl}}/stats/item/{{itemId}}
+Accept: application/json
+
+### Get category statistics
+GET {{baseUrl}}/stats/category/ELECTRONICS
+Accept: application/json
+
+### Get popular items (default limit = 10)
+GET {{baseUrl}}/stats/popular-items
+Accept: application/json
+
+### Get popular items with custom limit
+GET {{baseUrl}}/stats/popular-items?limit=5
+Accept: application/json
+
+### Get popular categories
+GET {{baseUrl}}/stats/popular-categories
+Accept: application/json
+
+### Get most active users (default limit = 10)
+GET {{baseUrl}}/stats/active-users
+Accept: application/json
+
+### Get most active users with custom limit
+GET {{baseUrl}}/stats/active-users?limit=5
+Accept: application/json
+
+### Get bidding hour distribution
+GET {{baseUrl}}/stats/bidding-hours
+Accept: application/json
+
+### Get hot items
+GET {{baseUrl}}/stats/hot-items
+Accept: application/json
+
+### ========================
+### TESTING EDGE CASES
+### ========================
+
+### Try to create an item with invalid email format
+POST {{baseUrl}}/items
+Content-Type: application/json
+
+{
+  "name": "Test Item",
+  "description": "Testing invalid email",
+  "initialPrice": 50.00,
+  "endTime": "2025-04-20T23:59:59",
+  "creator": "invalid-email",
+  "category": "OTHER"
+}
+
+### Try to create an item with end time in the past
+POST {{baseUrl}}/items
+Content-Type: application/json
+
+{
+  "name": "Past Item",
+  "description": "Testing past end time",
+  "initialPrice": 50.00,
+  "endTime": "2020-01-01T00:00:00",
+  "creator": "valid@example.com",
+  "category": "OTHER"
+}
+
+### Try to place a bid with an amount less than the current highest bid
+POST {{baseUrl}}/bids
+Content-Type: application/json
+
+{
+  "itemId": "{{itemId}}",
+  "bidderName": "Low Bidder",
+  "amount": 100.00,
+  "email": "lowbidder@example.com"
+}
+
+### Try to place a bid on a non-existent item
+POST {{baseUrl}}/bids
+Content-Type: application/json
+
+{
+  "itemId": "non-existent-id",
+  "bidderName": "Test Bidder",
+  "amount": 1000.00,
+  "email": "test@example.com"
+}
+
+### Try to get statistics for an invalid category
+GET {{baseUrl}}/stats/category/INVALID_CATEGORY
+Accept: application/json
+
+### Try to get user statistics with invalid email
+GET {{baseUrl}}/stats/user/invalid-email
+Accept: application/json
