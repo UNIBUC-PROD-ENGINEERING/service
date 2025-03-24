@@ -5,34 +5,21 @@ public class AuctionPost{
     private String title;
     private String description;
     private int startPrice;
-    
     private String itemId;
-    private String auctioneerUsername;
-    private String highestBidId;
 
-    public AuctionPost(String title, String description, int startPrice, String itemId, String highestBidId, String auctioneer) {
+    public AuctionPost(String title, String description, int startPrice, String itemId) {
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
-        this.auctioneerUsername = auctioneer;
-        this.highestBidId = highestBidId;
         this.itemId = itemId;
-    }
-
-    public String getAuctioneerUsername() {
-        return auctioneerUsername;
-    }
-   
-    public int getStartPrice() {
-        return startPrice;
-    }
-
-    public String getHighestBid() {
-        return highestBidId;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -43,8 +30,19 @@ public class AuctionPost{
         this.description = description;
     }
 
-    public String getItem() {
+    public int getStartPrice() {
+        return startPrice;
+    }
+
+    public void setStartPrice(int startPrice) {
+        this.startPrice = startPrice;
+    }
+
+    public String getItemId() {
         return itemId;
     }
 
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
 }

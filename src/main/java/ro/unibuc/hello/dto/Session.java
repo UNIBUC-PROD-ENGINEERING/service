@@ -1,14 +1,20 @@
 package ro.unibuc.hello.dto;
 
+import ro.unibuc.hello.data.SessionEntity;
+
 public class Session {
     private String sessionId;
-    private UserDetails user;
+    private User user;
 
     public Session() {}
 
-    public Session(String sessionId, UserDetails user) {
+    public Session(String sessionId, User user) {
         this.sessionId = sessionId;
         this.user = user;
+    }
+
+    public Session(SessionEntity entity) {
+        this(entity.getSessionId(), new User(entity.getUser()));
     }
 
     public String getSessionId() {
@@ -19,11 +25,11 @@ public class Session {
         this.sessionId = sessionId;
     }
 
-    public UserDetails getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserDetails user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }
