@@ -29,7 +29,7 @@ public class SessionsService {
         UserEntity user = userRepository.findByUsername(loginReq.getUsername())
             .orElseThrow(() -> new LoginFailedException());
 
-        if (user != null && user.getPassword().equals(loginReq.getPassword())) {
+        if (user.getPassword().equals(loginReq.getPassword())) {
             String sessionId = generateSessionId();
             LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(sessionExpireTime);
 
