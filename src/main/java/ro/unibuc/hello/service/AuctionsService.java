@@ -152,7 +152,7 @@ public class AuctionsService {
 
         // Check that auctioneer can't bid to it's own auction
         if (userId.equals(auction.getAuctioneer().getId())) {
-            throw new InvalidDataException("Auctioneer can't bid to it's own auciton");
+            throw new InvalidDataException("Auctioneer can't bid to their own auction");
         }
 
         // Check correct bid value

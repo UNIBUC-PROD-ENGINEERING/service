@@ -513,8 +513,11 @@ public class AuctionsServiceTest {
         doReturn(Optional.of(highestBid)).when(auctionsService).getAuctionHighestBid(auctionEntity);
         when(bidRepository.save(any(BidEntity.class))).thenReturn(createdBidEntity);
 
-        // Act & Assert
-        assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+        // Act
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+
+        // Assert
+        assertEquals("Can't place bid on a closed auction", ex.getMessage());
     }
 
     @Test
@@ -535,8 +538,11 @@ public class AuctionsServiceTest {
         doReturn(Optional.of(highestBid)).when(auctionsService).getAuctionHighestBid(auctionEntity);
         when(bidRepository.save(any(BidEntity.class))).thenReturn(createdBidEntity);
 
-        // Act & Assert
-        assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+        // Act
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+
+        // Assert
+        assertEquals("Auctioneer can't bid to their own auction", ex.getMessage());
     }
 
     @Test
@@ -557,8 +563,11 @@ public class AuctionsServiceTest {
         doReturn(Optional.of(highestBid)).when(auctionsService).getAuctionHighestBid(auctionEntity);
         when(bidRepository.save(any(BidEntity.class))).thenReturn(createdBidEntity);
 
-        // Act & Assert
-        assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+        // Act 
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+
+        // Assert
+        assertEquals("Bid must be higher than current highest bid", ex.getMessage());
     }
 
     @Test
@@ -579,8 +588,11 @@ public class AuctionsServiceTest {
         doReturn(Optional.of(highestBid)).when(auctionsService).getAuctionHighestBid(auctionEntity);
         when(bidRepository.save(any(BidEntity.class))).thenReturn(createdBidEntity);
 
-        // Act & Assert
-        assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+        // Act
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+
+        // Assert
+        assertEquals("Bid must be higher than current highest bid", ex.getMessage());
     }
     
     @Test
@@ -600,8 +612,11 @@ public class AuctionsServiceTest {
         doReturn(Optional.empty()).when(auctionsService).getAuctionHighestBid(auctionEntity);
         when(bidRepository.save(any(BidEntity.class))).thenReturn(createdBidEntity);
 
-        // Act & Assert
-        assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+        // Act
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> auctionsService.placeBid(auctionId, userId, placeBid));
+
+        // Assert
+        assertEquals("Bid can't be lower than starting price", ex.getMessage());
     }
 
     @Test
@@ -667,8 +682,11 @@ public class AuctionsServiceTest {
         when(itemRepository.save(any(ItemEntity.class))).thenReturn(updatedItem);
         when(auctionRepository.save(any(AuctionEntity.class))).thenReturn(updatedAuction);
 
-        // Act & Assert
-        assertThrows(InvalidDataException.class, () -> auctionsService.closeAuction(auctionId));
+        // Act
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> auctionsService.closeAuction(auctionId));
+
+        // Assert
+        assertEquals("Can't close an already closed auction", ex.getMessage());
     }
 
     @Test
@@ -687,8 +705,11 @@ public class AuctionsServiceTest {
         when(itemRepository.save(any(ItemEntity.class))).thenReturn(updatedItem);
         when(auctionRepository.save(any(AuctionEntity.class))).thenReturn(updatedAuction);
 
-        // Act & Assert
-        assertThrows(InvalidDataException.class, () -> auctionsService.closeAuction(auctionId));
+        /// Act
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> auctionsService.closeAuction(auctionId));
+
+        // Assert
+        assertEquals("Can't close auction with no bids", ex.getMessage());
     }
 
     @Test
