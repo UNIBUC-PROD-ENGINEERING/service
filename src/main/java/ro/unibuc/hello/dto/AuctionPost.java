@@ -1,6 +1,6 @@
 package ro.unibuc.hello.dto;
 
-public class AuctionPost{
+public class AuctionPost {
 
     private String title;
     private String description;
