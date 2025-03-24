@@ -43,4 +43,5 @@ public interface ApartmentRepository extends MongoRepository<ApartmentEntity, St
 
     @Query("{ 'amenities': { $regex: ?0, $options: 'i' } }")
     List<ApartmentEntity> findByAmenitiesContainingIgnoreCase(String amenity);
+    
 }
