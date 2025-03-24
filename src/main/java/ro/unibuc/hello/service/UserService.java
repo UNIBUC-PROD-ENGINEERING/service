@@ -10,7 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import jakarta.persistence.EntityNotFoundException;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.data.UserSearchRepository;
@@ -19,7 +19,6 @@ import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.dto.request.RegisterDto;
 import ro.unibuc.hello.dto.response.UserDto;
 import ro.unibuc.hello.dto.response.UserListDto;
-import ro.unibuc.hello.exception.EntityAlreadyExistsException;
 
 import java.util.List;
 
@@ -74,16 +73,15 @@ public class UserService implements UserDetailsService{
 
 
     public UserDto updateUser(String username, RegisterDto registerDto){
-        var user = userRepository.findByUsername(username)
-                                .orElseThrow(EntityAlreadyExistsException::new); // Do not let user update username to existing one
+        if (registerDto.getUsername()!=username){
+            throw new EntityNotFoundException("user");
+        }
+        var user = loadUser(username);
         
         user.setEmail(registerDto.getEmail());
         user.setPassword(registerDto.getPassword());
 
         // Save the updated user
-        userRepository.save(user);
-
-         // Save the updated user
         userRepository.save(user);
 
         return modelMapper.map(user, UserDto.class);

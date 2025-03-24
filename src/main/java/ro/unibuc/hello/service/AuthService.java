@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityNotFoundException;
+import ro.unibuc.hello.exception.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import ro.unibuc.hello.data.Role;
 import ro.unibuc.hello.data.UserEntity;

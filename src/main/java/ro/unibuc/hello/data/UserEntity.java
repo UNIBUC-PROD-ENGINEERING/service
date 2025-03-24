@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @AllArgsConstructor
 @Document(collection = "users")
 @Data
+@Builder
 public class UserEntity implements UserDetails{
     @Id
     private String id;
