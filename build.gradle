@@ -46,7 +46,6 @@ dependencies {
 	// Integration tests - test containers dependencies
     testImplementation "org.testcontainers:testcontainers:$testcontainersVersion"
     testImplementation "org.testcontainers:mongodb:$testcontainersVersion"
-	testImplementation 'org.mongodb:mongodb-driver-sync:5.0.1'
 
 	//	E2E tests
 	runtimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
