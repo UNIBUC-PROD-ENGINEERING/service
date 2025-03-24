@@ -329,45 +329,46 @@ public class PartyController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Song not found in the party playlist");
         }
 
-        party.removeSong(songId);
-        partyRepository.save(party); 
-
         Optional<SongEntity> songOptional = songRepository.findById(songId);
-        if (songOptional.isPresent()) {
-            SongEntity song = songOptional.get();
-            songRepository.delete(song);  
+        if (songOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Song not found");
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();  // Respond with 204 No Content
 
+        party.removeSong(songId);
+        partyRepository.save(party);
+        songRepository.delete(songOptional.get());
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 
     @PostMapping("/{partyId}/tasks")
-public ResponseEntity<PartyEntity> addTaskToParty(@PathVariable String partyId, @RequestBody TaskEntity newTask) {
-    // Find the party by ID
-    Optional<PartyEntity> partyOptional = partyRepository.findById(partyId);
-    
-    // Check if the party exists
-    if (partyOptional.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    public ResponseEntity<PartyEntity> addTaskToParty(@PathVariable String partyId, @RequestBody TaskEntity newTask) {
+        // Find the party by ID
+        Optional<PartyEntity> partyOptional = partyRepository.findById(partyId);
+        
+        // Check if the party exists
+        if (partyOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        
+        // Create the new task and save it to the task repository
+        TaskEntity savedTask = taskRepository.save(newTask);
+
+        // Retrieve the party entity
+        PartyEntity party = partyOptional.get();
+        
+        // Add the task ID to the party's task list
+        party.addTask(savedTask.getId());
+
+        // Add the task points to the party's total points
+        party.setPartyPoints(party.getPartyPoints() + savedTask.getPoints());  // Assuming 'getPoints()' exists in TaskEntity
+        partyRepository.save(party);
+
+        return ResponseEntity.ok(party);
     }
-    
-    // Create the new task and save it to the task repository
-    TaskEntity savedTask = taskRepository.save(newTask);
 
-    // Retrieve the party entity
-    PartyEntity party = partyOptional.get();
-    
-    // Add the task ID to the party's task list
-    party.addTask(savedTask.getId());
-
-    // Add the task points to the party's total points
-    party.setPartyPoints(party.getPartyPoints() + savedTask.getPoints());  // Assuming 'getPoints()' exists in TaskEntity
-    partyRepository.save(party);
-
-    return ResponseEntity.ok(party);
-}
-
-@DeleteMapping("/{partyId}/location")
+    @DeleteMapping("/{partyId}/location")
         public ResponseEntity<PartyEntity> removeLocationFromParty(@PathVariable String partyId) {
         PartyEntity updatedParty = partyService.removeLocationFromParty(partyId);
         return updatedParty != null ? ResponseEntity.ok(updatedParty) : ResponseEntity.notFound().build();
