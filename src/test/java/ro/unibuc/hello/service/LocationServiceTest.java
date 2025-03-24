@@ -1,6 +1,7 @@
 package ro.unibuc.hello.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +60,17 @@ class LocationServiceTest {
     }
 
     @Test
+    void testGetAvailableLocationsForParty_NoMatchingLocations() {
+        when(partyRepository.findById("party123")).thenReturn(Optional.of(testParty));
+        when(locationRepository.findAll()).thenReturn(Arrays.asList(location1, location2));
+
+        List<LocationEntity> result = partyService.getAvailableLocationsForParty("party123", 5.0, 100.0, 50);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
     void testAddLocationToParty() {
         when(partyRepository.findById("party123")).thenReturn(Optional.of(testParty));
         when(locationRepository.findById("loc1")).thenReturn(Optional.of(location1));
@@ -68,6 +80,33 @@ class LocationServiceTest {
 
         assertNotNull(updatedParty);
         assertEquals("loc1", updatedParty.getLocationId());
+    }
+
+    @Test
+    void testAddLocationToParty_LocationNotFound() {
+        when(partyRepository.findById("party123")).thenReturn(Optional.of(testParty));
+        when(locationRepository.findById("loc1")).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> partyService.addLocationToParty("party123", "loc1"));
+    }
+
+    @Test
+    void testAddLocationToParty_LocationAlreadyAdded() {
+        // Setează locația deja adăugată
+        testParty.setLocationId("loc1");
+
+        // Setup mock-uri pentru repo-uri
+        when(partyRepository.findById("party123")).thenReturn(Optional.of(testParty));
+        when(locationRepository.findById("loc1")).thenReturn(Optional.of(location1));
+
+        // Apelăm metoda și verificăm că nu a fost modificată locația
+        PartyEntity updatedParty = partyService.addLocationToParty("party123", "loc1");
+
+        assertNotNull(updatedParty);  // Verificăm că party este valid
+        assertEquals("loc1", updatedParty.getLocationId());  // Verificăm că locația este corectă
+
+        // Verificăm că metoda save nu a fost invocată
+        verify(partyRepository, times(0)).save(any(PartyEntity.class)); 
     }
 
     @Test

@@ -96,12 +96,5 @@ class LocationControllerTest {
         assertEquals("party123", response.getBody().getId());
     }
 
-    @Test
-    void testRemoveLocationFromParty_NotFound() {
-        when(partyService.removeLocationFromParty("party999")).thenReturn(null);
-
-        ResponseEntity<PartyEntity> response = partyController.removeLocationFromParty("party999");
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
+    
 }

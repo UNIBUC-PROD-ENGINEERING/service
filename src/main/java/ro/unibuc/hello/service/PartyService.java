@@ -146,17 +146,21 @@ public class PartyService {
     }
 
     public PartyEntity addFoodToParty(String partyId, String foodId) {
-        Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
-        Optional<FoodEntity> foodOpt = foodRepository.findById(foodId);
-
-        if (partyOpt.isPresent() && foodOpt.isPresent()) {
-            PartyEntity party = partyOpt.get();
-            party.getFoodIds().add(foodId);
-            return partyRepository.save(party);
+        Optional<PartyEntity> party = partyRepository.findById(partyId);
+        if (party.isEmpty()) {
+            throw new RuntimeException("Party not found");
         }
-
-        return null;  // Dacă partyId sau foodId nu există, returnăm null
+    
+        Optional<FoodEntity> food = foodRepository.findById(foodId);
+        if (food.isEmpty()) {
+            throw new RuntimeException("Food not found");
+        }
+    
+        // Logica de adăugare a alimentului la petrecere
+        party.get().getFoodIds().add(foodId);
+        return partyRepository.save(party.get());
     }
+    
 
     public List<LocationEntity> getAvailableLocationsForParty(String partyId, Double minRating, Double maxPrice, Integer maxPoints) {
         PartyEntity party = partyRepository.findById(partyId).orElse(null);
@@ -191,17 +195,18 @@ public class PartyService {
     }    
 
     public PartyEntity addLocationToParty(String partyId, String locationId) {
-        Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
-        Optional<LocationEntity> locationOpt = locationRepository.findById(locationId);
-
-        if (partyOpt.isPresent() && locationOpt.isPresent()) {
-            PartyEntity party = partyOpt.get();
-            party.setLocationId(locationId);  // Setează locația pentru petrecere
-            return partyRepository.save(party);
+        PartyEntity party = partyRepository.findById(partyId)
+                .orElseThrow(() -> new RuntimeException("Party not found"));
+        if (party.getLocationId() != null && party.getLocationId().equals(locationId)) {
+            System.out.println("Location is already set for this party.");
+            return party; // Returnează petrecerea fără modificări
         }
-
-        return null;  // Dacă partyId sau locationId nu există
+        LocationEntity location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new RuntimeException("Location not found"));
+        party.setLocationId(locationId);
+        return partyRepository.save(party);
     }
+    
 
 //     public PartyEntity saveParty(PartyEntity party) {
 //         return partyRepository.save(party);  // Salvează petrecerea actualizată
@@ -217,14 +222,16 @@ public PartyEntity removeLocationFromParty(String partyId) {
     return null;
 }
 
-public PartyEntity removeFoodFromParty(String partyId, String foodId) {
-    Optional<PartyEntity> partyOpt = partyRepository.findById(partyId);
-    if (partyOpt.isPresent()) {
-        PartyEntity party = partyOpt.get();
-        party.getFoodIds().remove(foodId); // Elimină mâncarea din listă
-        return partyRepository.save(party);
+    public PartyEntity removeFoodFromParty(String partyId, String foodId) {
+        Optional<PartyEntity> party = partyRepository.findById(partyId);
+        if (party.isEmpty()) {
+            throw new RuntimeException("Party not found");
+        }
+
+        // Logica de eliminare a alimentului
+        party.get().getFoodIds().remove(foodId);
+        return partyRepository.save(party.get());
     }
-    return null;
-}
+
 
 }

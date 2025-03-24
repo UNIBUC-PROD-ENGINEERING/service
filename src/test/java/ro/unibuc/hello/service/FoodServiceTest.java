@@ -13,10 +13,12 @@ import ro.unibuc.hello.repositories.PartyRepository;
 import ro.unibuc.hello.service.PartyService;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -54,16 +56,20 @@ class FoodServiceTest {
 
         List<FoodEntity> result = partyService.getAvailableFoodsForParty("party123", 4.0, 40.0, 100);
 
-        // Debugging output
-        System.out.println("Alimente returnate: " + result.size());
-        for (FoodEntity food : result) {
-            System.out.println("Food: " + food.getName() + ", Discounted Price: " + food.getDiscountedPrice());
-        }
-
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("Pizza", result.get(0).getName());
-        
+    }
+
+    @Test
+    void testGetAvailableFoodsForParty_NoMatchingFoods() {
+        when(partyRepository.findById("party123")).thenReturn(Optional.of(party));
+        when(foodRepository.findAll()).thenReturn(Collections.emptyList());
+
+        List<FoodEntity> result = partyService.getAvailableFoodsForParty("party123", 4.0, 40.0, 100);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -79,6 +85,19 @@ class FoodServiceTest {
     }
 
     @Test
+    void testAddFoodToParty_FoodNotFound() {
+        when(partyRepository.findById("party123")).thenReturn(Optional.of(party));
+        when(foodRepository.findById("food1")).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> 
+            partyService.addFoodToParty("party123", "food1")
+        );
+
+        assertEquals("Food not found", exception.getMessage());
+    }
+
+
+    @Test
     void testRemoveFoodFromParty() {
         party.getFoodIds().add("food1");
         when(partyRepository.findById("party123")).thenReturn(Optional.of(party));
@@ -89,4 +108,6 @@ class FoodServiceTest {
         assertNotNull(updatedParty);
         assertFalse(updatedParty.getFoodIds().contains("food1"));
     }
+
+    
 }
