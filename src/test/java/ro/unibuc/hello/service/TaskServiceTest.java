@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import ro.unibuc.hello.data.PartyEntity;
 import ro.unibuc.hello.data.TaskEntity;
 import ro.unibuc.hello.data.UserEntity;
@@ -47,7 +48,7 @@ class TaskServiceTest {
 
     @Test
     void test_getAllTasks() {
-        when(taskRepository.findAll()).thenReturn(Arrays.asList(task));
+        when(taskRepository.findAll()).thenReturn(List.of(task));
         List<TaskEntity> tasks = taskService.getAllTasks();
         assertEquals(1, tasks.size());
         assertEquals("Sample Task", tasks.get(0).getName());
@@ -63,7 +64,7 @@ class TaskServiceTest {
 
     @Test
     void test_getTasksForParty() {
-        when(taskRepository.findByPartyId("party1")).thenReturn(Arrays.asList(task));
+        when(taskRepository.findByPartyId("party1")).thenReturn(List.of(task));
         List<TaskEntity> tasks = taskService.getTasksForParty("party1");
         assertEquals(1, tasks.size());
         assertEquals("Sample Task", tasks.get(0).getName());
@@ -71,7 +72,7 @@ class TaskServiceTest {
 
     @Test
     void test_getTasksForUser() {
-        when(taskRepository.findByAssignedUserId("user1")).thenReturn(Arrays.asList(task));
+        when(taskRepository.findByAssignedUserId("user1")).thenReturn(List.of(task));
         List<TaskEntity> tasks = taskService.getTasksForUser("user1");
         assertEquals(1, tasks.size());
         assertEquals("Sample Task", tasks.get(0).getName());
@@ -85,6 +86,7 @@ class TaskServiceTest {
         assertEquals("Sample Task", createdTask.getName());
     }
 
+    
     @Test
     void test_updateTask_UserPointsUpdated() {
         TaskEntity updatedTask = new TaskEntity("Updated Task", "Updated Description", 10, "party1", "user1");
@@ -113,10 +115,25 @@ class TaskServiceTest {
     }
 
     @Test
+    void test_updateTaskWithNonexistentTask() {
+        TaskEntity updatedTask = new TaskEntity("Updated Task", "Updated Description", 10, "party1", "user1");
+        when(taskRepository.findById("1")).thenReturn(Optional.empty());
+        
+        // Verifică dacă se aruncă RuntimeException când task-ul nu este găsit
+        assertThrows(RuntimeException.class, () -> taskService.updateTask("1", updatedTask));
+    }
+
+    @Test
     void test_deleteTask() {
         doNothing().when(taskRepository).deleteById("1");
         taskService.deleteTask("1");
         verify(taskRepository, times(1)).deleteById("1");
+    }
+
+    @Test
+    void test_deleteNonexistentTask() {
+        doThrow(new RuntimeException("Task not found")).when(taskRepository).deleteById("99");
+        assertThrows(RuntimeException.class, () -> taskService.deleteTask("99"));
     }
 }
 
