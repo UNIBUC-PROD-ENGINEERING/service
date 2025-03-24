@@ -14,17 +14,17 @@ import ro.unibuc.hello.dto.response.RequestResponseDto;
 @RequestMapping("/request")
 public class RequestController {
     @Autowired
-    private final ToDoService toDoService;
+    private final SharingService sharingService;
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/create")
-    public RequestResponseDto Create(@RequestBody @Valid RequestDto requestDto) { return toDoService.createRequest(requestDto); }
+    public RequestResponseDto Create(@RequestBody @Valid RequestDto requestDto) { return sharingService.createRequest(requestDto); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/accept")
-    public RequestResponseDto Accept(@RequestBody @Valid RequestDto requestDto) { return toDoService.acceptRequest(requestDto); }
+    public RequestResponseDto Accept(@RequestBody @Valid RequestDto requestDto) { return sharingService.acceptRequest(requestDto); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/deny")
-    public boolean Deny(@RequestBody @Valid RequestDto requestDto) { return toDoService.denyRequest(requestDto); }
+    public boolean Deny(@RequestBody @Valid RequestDto requestDto) { return sharingService.denyRequest(requestDto); }
 }

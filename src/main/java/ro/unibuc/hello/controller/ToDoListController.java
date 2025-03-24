@@ -21,30 +21,30 @@ public class ToDoListController {
     public ToDoListResponseDto Create(@RequestBody @Valid ToDoListDto toDoListDto) { return toDoService.createToDoList(toDoListDto); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/update/{toDoListName}")
+    @PutMapping("/update/{toDoListName}")
     public ToDoListResponseDto Update(@RequestBody @Valid ToDoListDto toDoListDto, @PathVariable String toDoListName) { return toDoService.updateToDoList(toDoListDto, toDoListName); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/delete/{name}")
+    @DeleteMapping("/delete/{name}")
     public boolean Delete(@PathVariable String name) { return toDoService.deleteToDoList(name); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/all")
+    @GetMapping("/all")
     public ToDoListCollectionDto GetMyLists() { return toDoService.getMyToDoLists(); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/members")
+    @GetMapping("/members")
     public UserListDto GetMembers(String name) { return toDoService.getMembersToDoList(name); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/pending")
+    @GetMapping("/pending")
     public RequestListDto GetRequests(String name) { return toDoService.getRequestsToDoList(name); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/items")
+    @GetMapping("/items")
     public ItemListDto GetItems(String name) { return toDoService.getItemsToDoList(name); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/leave")
+    @DeleteMapping("/leave")
     public boolean Leave(String name) { return toDoService.leaveToDoList(name); }
 }

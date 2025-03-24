@@ -22,10 +22,10 @@ public class ItemController {
     public ItemResponseDto Create(@RequestBody @Valid ItemDto itemDto) { return toDoService.createItem(itemDto); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/update/{itemName}")
+    @PutMapping("/update/{itemName}")
     public ItemResponseDto Update(@RequestBody @Valid ItemDto itemDto, @PathVariable String itemName) { return toDoService.updateItem(itemDto,itemName); }
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean Delete(@RequestBody ItemDto itemDto) { return toDoService.deleteItem(itemDto); }
 }
