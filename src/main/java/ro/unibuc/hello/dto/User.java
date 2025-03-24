@@ -1,38 +1,33 @@
 package ro.unibuc.hello.dto;
 
+import ro.unibuc.hello.data.UserEntity;
+
 public class User {
 
+    private String id;
     private String name;
-    private String username;
-    private String Id;
 
     public User() {}
 
-    public User(String name, String username) {
+    public User(String id, String name) {
+        this.id = id;
         this.name = name;
-        this.username = username;
     }
 
-    public User(String Id, String name, String username) {
-        this.Id = Id;
-        this.name = name;
-        this.username = username;
+    public User(UserEntity entity) {
+        this(entity.getId(), entity.getName());
     }
 
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getId() {
-        return Id;
     }
 
     public void setName(String name) {
@@ -41,7 +36,8 @@ public class User {
 
     @Override
     public String toString() {
-        StringBuilder print = new StringBuilder("Users: " + "Name: " + name + " Username: " + username);
+        StringBuilder print = new StringBuilder(
+                "Users: " + "Name: " + name);
         return print.toString();
     }
 }

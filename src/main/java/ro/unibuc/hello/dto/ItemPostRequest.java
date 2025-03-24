@@ -1,24 +1,15 @@
 package ro.unibuc.hello.dto;
 
-public class ItemPost {
-    private String sessionId;
+public class ItemPostRequest {
+
     private String name;
     private String description;
     
-    public ItemPost() {}
+    public ItemPostRequest() {}
 
-    public ItemPost(String sessionId, String name, String description) {
-        this.sessionId = sessionId;
+    public ItemPostRequest(String name, String description, String ownerId) {
         this.name = name;
         this.description = description;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
     }
 
     public String getName() {

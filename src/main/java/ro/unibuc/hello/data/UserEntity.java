@@ -1,17 +1,18 @@
 package ro.unibuc.hello.data;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Id;
 
 @Document
 public class UserEntity {
+
     @Id
     private String id;
     private String name;
     private String password;
 
-    @Indexed(unique = true)
+    @Indexed(unique = true)    
     private String username;
 
     public UserEntity() {}
@@ -22,11 +23,18 @@ public class UserEntity {
         this.username = username;
     }
 
-    public UserEntity(String Id, String name, String password, String username) {
-        this.id = Id;
+    public UserEntity(String id, String name, String password, String username) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.username = username;
+    }
+
+    public UserEntity(UserEntity other) {
+        this.id = other.id;
+        this.name = other.name;
+        this.password = other.password;
+        this.username = other.username;
     }
 
     public String getPassword() {

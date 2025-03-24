@@ -2,31 +2,37 @@ package ro.unibuc.hello.dto;
 
 import ro.unibuc.hello.data.AuctionEntity;
 
-public class Auction {
+public class AuctionWithAuctioneerAndItem {
 
     private String id;
     private String title;
     private String description;
     private int startPrice;
     private String status;
+    private User auctioneer;
+    private Item item;
 
-    public Auction() {}
+    public AuctionWithAuctioneerAndItem() {}
 
-    public Auction(String id, String title, String description, int startPrice, String status) {
+    public AuctionWithAuctioneerAndItem(String id, String title, String description, int startPrice, String status, User auctioneer, Item item) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
         this.status = status;
+        this.auctioneer = auctioneer;
+        this.item = item;
     }
 
-    public Auction(AuctionEntity entity) {
+    public AuctionWithAuctioneerAndItem(AuctionEntity entity) {
         this(
             entity.getId(),
             entity.getTitle(),
             entity.getDescription(),
             entity.getStartPrice(),
-            entity.isOpen() ? "open" : "closed"
+            entity.isOpen() ? "open" : "closed",
+            new User(entity.getAuctioneer()),
+            new Item(entity.getItem())
         );
     }
 
@@ -60,6 +66,22 @@ public class Auction {
 
     public void setStartPrice(int startPrice) {
         this.startPrice = startPrice;
+    }
+
+    public User getAuctioneer() {
+        return auctioneer;
+    }
+
+    public void setAuctioneer(User auctioneer) {
+        this.auctioneer = auctioneer;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public String getStatus() {

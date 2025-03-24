@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document
 public class ItemEntity {
+
     @Id
     private String id;
 
@@ -23,8 +24,8 @@ public class ItemEntity {
         this.owner = owner;
     }
 
-    public ItemEntity(String Id, String name, String description, UserEntity owner) {
-        this.id = Id;
+    public ItemEntity(String id, String name, String description, UserEntity owner) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.owner = owner;

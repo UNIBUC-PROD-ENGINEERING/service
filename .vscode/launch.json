@@ -8,7 +8,7 @@
             "type": "java",
             "name": "Service",
             "request": "launch",
-            "mainClass": "ro.unibuc.hello.HelloApplication",
+            "mainClass": "ro.unibuc.hello.AuctionsApplication",
             "projectName": "hello"
         },
         {
