@@ -42,8 +42,9 @@ public class MoneyRequestController {
     @PutMapping("/{id}/status")
     public MoneyRequest updateRequestStatus(@PathVariable String id, @RequestParam String status) {
         if (!status.equals("APPROVED") && !status.equals("DECLINED")) {
-            throw new IllegalArgumentException("Invalid status");
+            throw new IllegalArgumentException("Bank account not found.");
         }
         return moneyRequestService.updateRequestStatus(id, status);
     }
+
 }
