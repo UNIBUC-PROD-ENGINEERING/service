@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CNPValidator",
+            "request": "launch",
+            "mainClass": "ro.unibuc.hello.util.CNPValidator",
+            "projectName": "Proiect-Production-Engineering_57241af4"
+        },
+        {
+            "type": "java",
+            "name": "CNPValidator",
+            "request": "launch",
+            "mainClass": "CNPValidator",
+            "projectName": "Proiect-Production-Engineering_57241af4"
+        },
+        {
+            "type": "java",
             "name": "Service",
             "request": "launch",
             "mainClass": "ro.unibuc.hello.HelloApplication",

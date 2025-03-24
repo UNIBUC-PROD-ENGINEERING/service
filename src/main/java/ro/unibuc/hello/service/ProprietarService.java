@@ -5,11 +5,19 @@ import org.springframework.stereotype.Component;
 
 import main.java.ro.unibuc.hello.dto.Proprietar;
 import ro.unibuc.hello.data.InformationEntity;
+<<<<<<< Updated upstream
 import main.java.ro.unibuc.hello.data.ProprietarEntity;
 import main.java.ro.unibuc.hello.data.ProprietarRepository;
+=======
+import ro.unibuc.hello.data.ProprietarEntity;
+import ro.unibuc.hello.data.ProprietarRepository;
+import ro.unibuc.hello.util.CNPValidator;
+import ro.unibuc.hello.exception.EntityNotFoundException;
+>>>>>>> Stashed changes
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import ro.unibuc.hello.util.CNPValidator;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,29 +38,42 @@ public class ProprietarService {
     }
 
     public Proprietar createProprietar(Proprietar proprietarDTO) {
+
+        if (!CNPValidator.isValidCNP(proprietarDTO.getCnp())) {
+            throw new IllegalArgumentException("CNP-ul introdus nu este valid!");
+        }
+
         ProprietarEntity proprietarEntity = new ProprietarEntity(
             proprietarDTO.getId(), 
             proprietarDTO.getNume(), 
             proprietarDTO.getPrenume(), 
-            proprietarDTO.getEmail()
+            proprietarDTO.getEmail(),
+            proprietarDTO.getCnp()
         );
         proprietarEntity = proprietarRepository.save(proprietarEntity);
         return new Proprietar(
             proprietarEntity.getId(),
             proprietarEntity.getNume(),
             proprietarEntity.getPrenume(),
-            proprietarEntity.getEmail()
+            proprietarEntity.getEmail(),
+            proprietarEntity.getCnp()
         );
     }
 
     public Optional<ProprietarEntity> updateProprietar(String id, ProprietarEntity proprietarDetails){
-        return proprietarRepository.findById(id).map(existingProprietar ->{
-            existingProprietar.setNume(proprietarDetails.getNume());
-            existingProprietar.setPrenume(proprietarDetails.getPrenume());
-            existingProprietar.setEmail(proprietarDetails.getEmail());
+        return proprietarRepository.findById(id).map(existingProprietar -> {
+        
+        if (!CNPValidator.isValidCNP(proprietarDetails.getCnp())) {
+            throw new IllegalArgumentException("CNP-ul introdus nu este valid!");
+        }
 
-            return proprietarRepository.save(existingProprietar);
-        });
+        existingProprietar.setNume(proprietarDetails.getNume());
+        existingProprietar.setPrenume(proprietarDetails.getPrenume());
+        existingProprietar.setEmail(proprietarDetails.getEmail());
+        existingProprietar.setCnp(proprietarDetails.getCnp());
+
+        return proprietarRepository.save(existingProprietar);
+    });
     }
     
     

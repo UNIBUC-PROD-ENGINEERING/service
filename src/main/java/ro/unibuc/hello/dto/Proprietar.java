@@ -5,14 +5,16 @@ public class Proprietar {
     private String nume;
     private String prenume;
     private String email;
+    private String cnp; 
 
     public Proprietar() {}
 
-    public Proprietar(String id, String nume, String prenume, String email) {
+    public Proprietar(String id, String nume, String prenume, String email, String cnp) {
         this.id = id;
         this.nume = nume;
         this.prenume = prenume;
         this.email = email;
+        this.cnp = cnp;
     }
 
     public String getId() {
@@ -45,5 +47,13 @@ public class Proprietar {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCnp() {
+        return cnp;
+    }
+
+    public void setCnp(String cnp) {
+        this.cnp = cnp;
     }
 }
