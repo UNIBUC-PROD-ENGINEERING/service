@@ -1,0 +1,29 @@
+### FRIEND REQUESTS ###
+
+### Send friend request
+@fromUserId = 67e1cd1b188675401260c4a6
+@toUserId = 67e1cd1b188675401260c4a7
+POST http://localhost:8080/friends/send?fromUserId={{fromUserId}}&toUserId={{toUserId}}
+
+### Get received friend requests (pending)
+@receiverUserId = 67e1cd1b188675401260c4a7
+GET http://localhost:8080/friends/requests?toUserId={{receiverUserId}}
+
+### Accept a friend request
+@requestIdToAccept = 67e1ca5b6fc3ee6a33a6bf23
+POST http://localhost:8080/friends/respond?requestId={{requestIdToAccept}}&accept=true
+
+### Reject a friend request
+@requestIdToReject = 67e1c9b96fc3ee6a33a6bf22
+POST http://localhost:8080/friends/respond?requestId={{requestIdToReject}}&accept=false
+
+### Get list of friends for a user
+@userId = 67e1ce68a528b3245f786b86
+GET http://localhost:8080/friends/friends?userId={{userId}}
+
+### Remove a friend connection between two users
+@userId1 = 67e1cd1b188675401260c4a6
+@userId2 = 67e1cd1b188675401260c4a7
+DELETE http://localhost:8080/friends/remove?userId1={{userId1}}&userId2={{userId2}}
+
+
