@@ -2,6 +2,7 @@ package ro.unibuc.hello.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,6 +38,7 @@ import ro.unibuc.hello.dto.Item;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.exception.GlobalExceptionHandler;
+import ro.unibuc.hello.exception.UnauthorizedException;
 import ro.unibuc.hello.permissions.AuctionPermissionChecker;
 import ro.unibuc.hello.service.AuctionsService;
 import ro.unibuc.hello.service.SessionsService;
@@ -213,6 +215,19 @@ public class AuctionsControllerTest {
     }
 
     @Test
+    void testCreate_Unauthenticated() throws Exception {
+        // Act & Assert
+        mockMvc.perform(post("/auctions")
+            .content("{\"title\":\"Title 1\",\"description\":\"Description 1\",\"startPrice\":10, \"itemId\":\"21\"}")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.message").value("Missing session id"));
+
+        // Should throw before reaching controller
+        verify(auctionsService, times(0)).saveAuction(anyString(), any(AuctionPost.class));
+    }
+
+    @Test
     void testUpdateAuction() throws Exception {
         // Arrange
         User user1 = new User("11", "user 1");
@@ -239,6 +254,36 @@ public class AuctionsControllerTest {
     }
 
     @Test
+    void testUpdate_Unauthenticated() throws Exception {
+        // Act & Assert
+        mockMvc.perform(put("/auctions/1")
+            .content("{\"title\":\"Title 1\",\"description\":\"Description 1\",\"startPrice\":10, \"itemId\":\"21\"}")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.message").value("Missing session id"));
+
+        // Should throw before reaching controller
+        verify(auctionsService, times(0)).updateAuction(anyString(), any(AuctionPut.class));
+    }
+
+    @Test
+    void testUpdate_Forbidden() throws Exception {
+        // Arrange
+        doThrow(new UnauthorizedException("You do not own this auction")).when(permissionChecker).checkOwnership(anyString(), anyString());
+
+        // Act & Assert
+        mockMvc.perform(put("/auctions/1")
+            .content("{\"title\":\"Title 1\",\"description\":\"Description 1\",\"startPrice\":10, \"itemId\":\"21\"}")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("X-Session-Id", "1"))
+            .andExpect(status().isForbidden())
+            .andExpect(jsonPath("$.message").value("You do not own this auction"));
+
+        // Should throw before reaching controller
+        verify(auctionsService, times(0)).updateAuction(anyString(), any(AuctionPut.class));
+    }
+
+    @Test
     void testPlaceBid() throws Exception {
         // Arrange
         User user1 = new User("11", "user 1");
@@ -258,6 +303,19 @@ public class AuctionsControllerTest {
     }
 
     @Test
+    void testPlaceBid_Unauthenticated() throws Exception {
+        // Act & Assert
+        mockMvc.perform(post("/auctions/1/place-bid")
+            .content("{\"title\":\"Title 1\",\"description\":\"Description 1\",\"startPrice\":10, \"itemId\":\"21\"}")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.message").value("Missing session id"));
+
+        // Should throw before reaching controller
+        verify(auctionsService, times(0)).placeBid(anyString(), anyString(), any(AuctionPlaceBidRequest.class));
+    }
+
+    @Test
     void testCloseAuction() throws Exception {
         // Act
         mockMvc.perform(post("/auctions/1/close")
@@ -269,6 +327,36 @@ public class AuctionsControllerTest {
     }
 
     @Test
+    void testCloseAuction_Unauthenticated() throws Exception {
+        // Act & Assert
+        mockMvc.perform(post("/auctions/1/close")
+            .content("{\"title\":\"Title 1\",\"description\":\"Description 1\",\"startPrice\":10, \"itemId\":\"21\"}")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.message").value("Missing session id"));
+
+        // Should throw before reaching controller
+        verify(auctionsService, times(0)).closeAuction(anyString());
+    }
+
+    @Test
+    void testCloseAuction_Forbidden() throws Exception {
+        // Arrange
+        doThrow(new UnauthorizedException("You do not own this auction")).when(permissionChecker).checkOwnership(anyString(), anyString());
+
+        // Act & Assert
+        mockMvc.perform(post("/auctions/1/close")
+            .content("{\"title\":\"Title 1\",\"description\":\"Description 1\",\"startPrice\":10, \"itemId\":\"21\"}")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("X-Session-Id", "1"))
+            .andExpect(status().isForbidden())
+            .andExpect(jsonPath("$.message").value("You do not own this auction"));
+
+        // Should throw before reaching controller
+        verify(auctionsService, times(0)).closeAuction(anyString());
+    }
+
+    @Test
     void testDeleteAuction() throws Exception {
         // Act
         mockMvc.perform(delete("/auctions/1")
@@ -277,5 +365,35 @@ public class AuctionsControllerTest {
 
         // Assert
         verify(auctionsService, times(1)).deleteAuction("1");
+    }
+
+    @Test
+    void testDeleteAuction_Unauthenticated() throws Exception {
+        // Act & Assert
+        mockMvc.perform(delete("/auctions/1")
+            .content("{\"title\":\"Title 1\",\"description\":\"Description 1\",\"startPrice\":10, \"itemId\":\"21\"}")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.message").value("Missing session id"));
+
+        // Should throw before reaching controller
+        verify(auctionsService, times(0)).deleteAuction(anyString());;
+    }
+
+    @Test
+    void testDeleteAuction_Forbidden() throws Exception {
+        // Arrange
+        doThrow(new UnauthorizedException("You do not own this auction")).when(permissionChecker).checkOwnership(anyString(), anyString());
+
+        // Act & Assert
+        mockMvc.perform(delete("/auctions/1")
+            .content("{\"title\":\"Title 1\",\"description\":\"Description 1\",\"startPrice\":10, \"itemId\":\"21\"}")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("X-Session-Id", "1"))
+            .andExpect(status().isForbidden())
+            .andExpect(jsonPath("$.message").value("You do not own this auction"));
+
+        // Should throw before reaching controller
+        verify(auctionsService, times(0)).deleteAuction(anyString());
     }
 }
