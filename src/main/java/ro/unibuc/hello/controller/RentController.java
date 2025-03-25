@@ -48,7 +48,7 @@ public class RentController {
 
     @PostMapping
     public ResponseEntity<Rent> rentGame(@Valid @RequestBody RentRequest request) {
-        Rent rent = rentService.rentGame(request.getUserId(), request.getGameId());
+        Rent rent = rentService.rentGame(request.getUserId(), request.getGameId(), request.getRentDays());
         return new ResponseEntity<>(rent, HttpStatus.CREATED);
     }
 

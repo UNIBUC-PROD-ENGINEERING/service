@@ -1,5 +1,6 @@
 package ro.unibuc.hello.data;
 
+import jakarta.validation.constraints.Positive;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.NotBlank;
@@ -25,16 +26,20 @@ public class Rent {
 
     private boolean isReturned;
 
+    @Positive(message = "Rent days is required")
+    private int rentDays;
+
     // Default constructor
     public Rent() {
     }
 
     // Constructor with required fields
-    public Rent(String userId, String gameId) {
+    public Rent(String userId, String gameId, int rentDays) {
         this.userId = userId;
         this.gameId = gameId;
         this.rentDate = LocalDateTime.now();
         this.isReturned = false;
+        this.rentDays = rentDays;
     }
 
     // Getters and Setters
@@ -85,6 +90,8 @@ public class Rent {
     public void setReturned(boolean returned) {
         isReturned = returned;
     }
+    public int getRentDays(){return rentDays;}
+    public void setRentDays(int rentDays){this.rentDays = rentDays;}
 
     @Override
     public String toString() {
@@ -95,6 +102,7 @@ public class Rent {
                 ", rentDate=" + rentDate +
                 ", returnDate=" + returnDate +
                 ", isReturned=" + isReturned +
+                ", rentDays=" + rentDays +
                 '}';
     }
 }

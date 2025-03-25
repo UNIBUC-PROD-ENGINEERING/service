@@ -39,7 +39,7 @@ public class RentService {
         return rentRepository.findByGameId(gameId);
     }
 
-    public Rent rentGame(String userId, String gameId) {
+    public Rent rentGame(String userId, String gameId, int rentDays) {
         // Verify that the game exists
         Game game = gameService.getGameById(gameId);
 
@@ -50,7 +50,7 @@ public class RentService {
         }
 
         // Create new rent
-        Rent rent = new Rent(userId, gameId);
+        Rent rent = new Rent(userId, gameId, rentDays);
         rent.setRentDate(LocalDateTime.now());
         rent.setReturned(false);
 

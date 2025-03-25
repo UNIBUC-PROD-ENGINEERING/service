@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Service
 public class ManageRentService {
     private final RentRepository rentRepository;
-    private final int LATE_DAYS = 7;
 
     @Autowired
     public ManageRentService(RentRepository rentRepository) {
@@ -27,11 +26,10 @@ public class ManageRentService {
     }
 
     public List<LateRent> getLateRents() {
-        LocalDateTime lateThreshold = LocalDateTime.now().minusDays(LATE_DAYS);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         return rentRepository.findAll().stream()
-                .filter(r -> !r.isReturned() && r.getRentDate().isBefore(lateThreshold))
+                .filter(r -> !r.isReturned() && r.getRentDate().isBefore(LocalDateTime.now().minusDays(r.getRentDays())))
                 .map(r -> new LateRent(r.getUserId(), r.getGameId(), r.getRentDate().format(formatter)))
                 .collect(Collectors.toList());
     }
