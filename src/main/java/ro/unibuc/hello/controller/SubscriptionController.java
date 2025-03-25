@@ -57,17 +57,6 @@ public class SubscriptionController {
         return subscriptionService.getSubscriptionsUpToTier(tier);
     }
 
-    // @PostMapping("/add-subscription")
-    // @ResponseBody
-    // public Subscription saveSubscription(
-    //     @RequestParam(name="tier", required=true) int tier,
-    //     @RequestParam(name="price", required=true) int price
-    // ) {
-    //     Subscription subscription = new Subscription(tier, price);
-    //     return subscriptionService.saveSubscription(subscription);
-    // }
-
-    // SubscriptionController.java
     @PostMapping("/add-subscription")
     @ResponseBody
     public ResponseEntity<?> saveSubscription(
@@ -94,57 +83,3 @@ public class SubscriptionController {
         return "No subscription with this id.";
     }
 }
-
-
-
-
-// @Controller
-// @RequestMapping("/subscriptions")
-// public class SubscriptionController {
-    
-//     @Autowired
-//     private SubscriptionsService subscriptionsService;
-
-//     // @GetMapping
-//     // @ResponseBody
-//     // public List<Subscription> getAllSubscriptions() {
-//     //     return subscriptionsService.getAllSubscriptions();
-//     // }
-
-//     @GetMapping
-//     @ResponseBody
-//     public List<Subscription> getSubscriptions(
-//         @RequestParam("id") Optional<String> id,
-//         @RequestParam("tier") Optional<Integer> tier
-//     ) {
-//         if (id.isPresent()) {
-//             return List.of(subscriptionsService.getSubscriptionById(id.get()));
-//         }
-
-//         if (tier.isPresent()) {
-//             return subscriptionsService.getSubscriptionsByTier(tier.get());
-//         }
-
-//         return subscriptionsService.getAllSubscriptions();
-//     }
-
-//     // Create a new subscription
-//     @PostMapping
-//     @ResponseBody
-//     public Subscription createSubscription(@RequestBody Subscription subscription) {
-//         SubscriptionEntity entity = new SubscriptionEntity(subscription.getTier(), subscription.getPrice());
-//         return subscriptionsService.createSubscription(entity);
-//     }
-
-//     /// todo: list by tier
-
-//     /// todo: update
-
-//     /// todo: delete
-
-//     @DeleteMapping("/{id}")
-//     @ResponseBody
-//     public void deleteSubscription(@PathVariable String id) throws EntityNotFoundException {
-//         subscriptionsService.deleteSubscription(id);
-//     }
-// }
