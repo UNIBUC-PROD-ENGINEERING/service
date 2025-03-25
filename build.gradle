@@ -22,38 +22,41 @@ ext {
 }
 
 dependencies {
-	def cucumberVersion = "7.20.1"
-	def junitVersion = "5.11.4"
-	def testcontainersVersion = "1.20.4"
+    def cucumberVersion = "7.20.1"
+    def junitVersion = "5.11.4"
+    def testcontainersVersion = "1.20.4"
 
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.session:spring-session-core'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.data:spring-data-mongodb'
-	implementation 'commons-io:commons-io:2.18.0'
-	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.session:spring-session-core'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.data:spring-data-mongodb'
+    implementation 'commons-io:commons-io:2.18.0'
+    implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
 
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.testcontainers:junit-jupiter'
-	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
-	// Integration tests - test containers dependencies
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+
+    // Integration tests - test containers dependencies
     testImplementation "org.testcontainers:testcontainers:$testcontainersVersion"
     testImplementation "org.testcontainers:mongodb:$testcontainersVersion"
-	testImplementation 'org.mongodb:mongodb-driver-sync:5.0.1'
+    testImplementation 'org.mongodb:mongodb-driver-sync:5.0.1'
 
-	//	E2E tests
-	runtimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
-	testImplementation "io.cucumber:cucumber-core:$cucumberVersion"
-	testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
-	testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
-	testImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
+    // E2E tests
+    runtimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
+    testImplementation "io.cucumber:cucumber-core:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
+
+    testImplementation 'org.springframework:spring-test'
 }
 
 dependencyManagement {
