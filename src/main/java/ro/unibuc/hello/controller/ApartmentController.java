@@ -117,7 +117,29 @@ public class ApartmentController {
             @RequestParam Double maxSquareMeters) {
         return apartmentService.getApartmentsByPriceAndSquareMeters(minPrice, maxPrice, minSquareMeters, maxSquareMeters);
     }
-
+   @GetMapping("/search")
+    public List<ApartmentEntity> searchApartments(
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Double minSquareMeters,
+            @RequestParam(required = false) Double maxSquareMeters,
+            @RequestParam(required = false) Integer numberOfRooms,
+            @RequestParam(required = false) Integer numberOfBathrooms,
+            @RequestParam(required = false) Boolean isPetFriendly,
+            @RequestParam(required = false) Boolean smokingAllowed,
+            @RequestParam(required = false) String amenity,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) Double minAverageRating) { // Adăugat aici
+        return apartmentService.searchApartments(
+                minPrice, maxPrice, minSquareMeters, maxSquareMeters,
+                numberOfRooms, numberOfBathrooms, isPetFriendly, smokingAllowed,
+                amenity, location, minAverageRating);
+    }
+    @GetMapping("/by-rating")
+    public List<ApartmentEntity> getApartmentsByMinAverageRating(
+            @RequestParam Double minAverageRating) {
+        return apartmentService.getApartmentsByMinAverageRating(minAverageRating);
+    }
     // Gestionarea excepțiilor
     @ExceptionHandler(InvalidInputException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
