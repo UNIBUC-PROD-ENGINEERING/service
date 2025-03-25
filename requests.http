@@ -50,7 +50,7 @@ GET http://localhost:8080/seeUpgrades
 POST http://localhost:8080/upgradeTier
     ?username=Ionel
     &password=parola3
-    &tier=1
+    &tier=2
 
 ### cancel your subscrption
 
