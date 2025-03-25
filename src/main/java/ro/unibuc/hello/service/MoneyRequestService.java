@@ -77,7 +77,8 @@ public class MoneyRequestService {
             transaction.setToAccountId(request.getFromAccountId()); 
             transaction.setAmount(request.getAmount());
 
-            Transaction savedTransaction = transactionService.saveTransaction(transaction);
+            Transaction savedTransaction = transactionService.saveTransaction(transaction, false);
+
 
             notificationService.createNotification(senderAccount.getClientId(),
                 "Ai trimis " + transaction.getAmount() + " RON către contul " + receiverAccount.getIBAN());

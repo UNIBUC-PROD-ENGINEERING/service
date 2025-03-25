@@ -30,7 +30,6 @@ public class NotificationService {
         return notificationRepository.findById(id);
     }
 
-    // 🔹 ✅ Noua metodă pentru a crea notificări mai ușor, fără a primi un obiect Notification
     public Notification createNotification(String clientId, String message) {
         Notification notification = new Notification();
         notification.setClientId(clientId);
