@@ -9,5 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ToDoListCollectionDto {
-    private List<ToDoListDto> toDoListCollection;
+    private List<ToDoListResponseDto> toDoListCollection;
 }

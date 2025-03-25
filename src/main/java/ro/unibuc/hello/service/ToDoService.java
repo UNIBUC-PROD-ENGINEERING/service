@@ -1,6 +1,7 @@
 package ro.unibuc.hello.service;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import lombok.AllArgsConstructor;
 import ro.unibuc.hello.service.SharingService;
 import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.request.*;
-import ro.unibuc.hello.dto.request.ToDoListDto;
 import ro.unibuc.hello.dto.response.*;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
@@ -103,10 +103,10 @@ public class ToDoService {
     }
 
 
-    public ToDoListResponseDto createToDoList(ToDoListDto toDoListDto) {
+    public ToDoListResponseDto createToDoList(ToDoListResponseDto ToDoListResponseDto) {
         try
         {
-            var toDoList = modelMapper.map(toDoListDto, ToDoListEntity.class);
+            var toDoList = modelMapper.map(ToDoListResponseDto, ToDoListEntity.class);
             toDoListRepository.save(toDoList);
             UserEntity user = userService.getAuthenticatedUser();
             sharingService.createBind(user.getUsername(), toDoList.getName(), true);
@@ -117,12 +117,12 @@ public class ToDoService {
             throw new EntityNotFoundException("todolist");
         }
     }
-    public ToDoListResponseDto updateToDoList(ToDoListDto toDoListDto, String toDoListName) {
+    public ToDoListResponseDto updateToDoList(ToDoListResponseDto ToDoListResponseDto, String toDoListName) {
         ToDoListEntity toDoListEntity = toDoListRepository.findByName(toDoListName);
         try
         {
-            toDoListEntity.setName(toDoListDto.getName());
-            toDoListEntity.setDescription(toDoListDto.getDescription());
+            toDoListEntity.setName(ToDoListResponseDto.getName());
+            toDoListEntity.setDescription(ToDoListResponseDto.getDescription());
             toDoListRepository.save(toDoListEntity);
             return modelMapper.map(toDoListEntity,ToDoListResponseDto.class);
         }
@@ -145,20 +145,44 @@ public class ToDoService {
 
         return true;
     }
-
     public ToDoListCollectionDto getMyToDoLists() {
-        return new ToDoListCollectionDto();
+        return new ToDoListCollectionDto(
+            userListRepository.findAll().stream().
+            filter(userList ->  userList.getIsOwner() && userList.getUsername() == userService.getSelf().getUsername()).
+            map(userList -> new ToDoListResponseDto(userList.getToDoList(), toDoListRepository.findByName(userList.getToDoList()).getDescription())).
+            toList()
+        );
     }
     public UserListDto getMembersToDoList(String name) {
-        return new UserListDto();
+        return new UserListDto(
+            userListRepository.findAll().
+            stream().
+            filter(userList -> userList.getToDoList() == name).
+            map(userList -> new UserDto(userList.getUsername(), null, null)).
+            toList()
+        );
     }
     public RequestListDto getRequestsToDoList(String name) {
-        return new RequestListDto();
+        return new RequestListDto(
+            requestRepository.findAll().
+            stream().
+            filter(request -> request.getToDoList() == name).
+            map(request -> new RequestResponseDto(request.getUsername(), request.getToDoList(), request.getText())).
+            toList()
+        );
     }
     public ItemListDto getItemsToDoList(String name) {
-        return new ItemListDto();
+        return new ItemListDto(
+            itemRepository.findAll().
+            stream().
+            filter(item -> item.getTodoList() == name).
+            map(item -> new ItemResponseDto(item.getName(), item.getDescription(), name)).
+            toList()
+        );
     }
     public boolean leaveToDoList(String name) {
-        return false;
+        List<UserListEntity> userLists = userListRepository.findAll().stream().filter(userList -> userList.getToDoList() == name && userList.getUsername() == userService.getSelf().getUsername()).toList();
+        userListRepository.delete(userLists.get(0));
+        return true;
     }
 }
