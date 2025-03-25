@@ -18,46 +18,26 @@ import ro.unibuc.hello.dto.LoginRequest;
 import ro.unibuc.hello.dto.LoginResponse;
 import ro.unibuc.hello.dto.RegisterRequest;
 import ro.unibuc.hello.security.JwtUtil;
+import ro.unibuc.hello.service.AuthenticationService;
 
 @Controller
 public class AuthenticationController {
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtUtil jwtUtil;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AuthenticationService authenticationService;
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
-        User user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        LoginResponse response = authenticationService.login(loginRequest);
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
-
-        String token = jwtUtil.generateToken(loginRequest.getUsername());
-
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(response);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/register")
     public ResponseEntity<LoginResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {
-        if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
-            throw new RuntimeException("User already exists");
-        }
+        LoginResponse response = authenticationService.register(registerRequest);
 
-        String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
-        User user = new User(registerRequest.getUsername(), encodedPassword);
-        userRepository.save(user);
-
-        String token = jwtUtil.generateToken(registerRequest.getUsername());
-
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(response);
     }
 }
