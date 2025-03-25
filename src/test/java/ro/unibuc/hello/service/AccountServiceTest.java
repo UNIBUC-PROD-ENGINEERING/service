@@ -13,8 +13,14 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.data.SubscriptionRepository;
 import ro.unibuc.hello.data.UserRepository;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -40,6 +46,8 @@ public class AccountServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
+    // *** MIHAI ***
 
     private UserEntity createTestUser(String username, String password, int tier, Date expirationDate) {
         UserEntity user = new UserEntity(username, password);
@@ -74,6 +82,159 @@ public class AccountServiceTest {
         assertEquals("Invalid password!", result);
     }
 
+    @Test
+    void testGetUpgrades_WithActiveSubscription() {
+        // Arrange - User has tier 2 (115$)
+        Date futureDate = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        UserEntity user = createTestUser("testuser", "password", 2, futureDate);
+        
+        List<SubscriptionEntity> subscriptions = Arrays.asList(
+            new SubscriptionEntity(1, 90),   // Tier 1
+            new SubscriptionEntity(2, 115),  // Current tier (tier 2)
+            new SubscriptionEntity(3, 150)   // Tier 3
+        );
+        
+        when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
+        when(subscriptionRepository.findAll()).thenReturn(subscriptions);
+
+        // Act
+        String result = accountService.getUpgrades("testuser", "password");
+        System.out.println("DEBUG - Actual output:\n" + result);
+
+        // Assert
+        // Current tier shows original price
+        assertTrue(result.contains("Tier 2 for 115$ (Original Price)"));
+        
+        // Lower tier (tier 1) shows original price (no discount for downgrades)
+        assertTrue(result.contains("Tier 1 for 90$ (Original Price)"));
+        
+        // Tier 3 upgrade calculation:
+        // 150 (tier3) - 115 (current) = 35 difference
+        // 35 * 0.8 = 28 discount price
+        assertTrue(result.contains("Tier 3 for 28$ (Original: 35$)"));
+    }
+
+    @Test
+    void testGetUpgrades_WithLatestTier() {
+        // Arrange
+        Date futureDate = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        UserEntity user = createTestUser("testuser", "password", 3, futureDate);
+        
+        List<SubscriptionEntity> subscriptions = Arrays.asList(
+            new SubscriptionEntity(1, 90),
+            new SubscriptionEntity(2, 115),
+            new SubscriptionEntity(3, 150)
+        );
+        
+        when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
+        when(subscriptionRepository.findAll()).thenReturn(subscriptions);
     
+        // Act
+        String result = accountService.getUpgrades("testuser", "password");
+    
+        // Assert
+        assertEquals("You already have access to all the games!", result);
+    }
+
+    @Test
+    void testCancelSubscription_InvalidUsername() {
+        // Arrange
+        when(userRepository.findByUsernameContaining("unknown")).thenReturn(Collections.emptyList());
+
+        // Act
+        String result = accountService.cancelSubscription("unknown", "password");
+
+        // Assert
+        assertEquals("Invalid username!", result);
+    }
+
+    @Test
+    void testCancelSubscription_InvalidPassword() {
+        // Arrange
+        UserEntity user = createTestUser("testuser", "correctpass", 1, new Date());
+        when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
+
+        // Act
+        String result = accountService.cancelSubscription("testuser", "wrongpass");
+
+        // Assert
+        assertEquals("Invalid password!", result);
+    }
+
+    @Test
+    void testCancelSubscription_NoActiveSubscription() {
+        // Arrange
+        UserEntity user = createTestUser("testuser", "password", 0, null);
+        when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
+
+        // Act
+        String result = accountService.cancelSubscription("testuser", "password");
+
+        // Assert
+        assertEquals("You do not have a subscription!", result);
+    }
+
+    @Test
+    void testCancelSubscription_ExpiredSubscription() {
+        // Arrange
+        Date pastDate = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        UserEntity user = createTestUser("testuser", "password", 1, pastDate);
+        when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
+
+        // Act
+        String result = accountService.cancelSubscription("testuser", "password");
+
+        // Assert
+        assertEquals("You do not have a subscription!", result);
+    }
+
+    @Test
+    void testCancelSubscription_Success() {
+        // Arrange - Less than 1 month remaining (29 days)
+        Date futureDate = Date.from(LocalDate.now().plusDays(29).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        UserEntity user = createTestUser("testuser", "password", 1, futureDate);
+        when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
+
+        // Act
+        String result = accountService.cancelSubscription("testuser", "password");
+
+        // Assert
+        assertEquals("You canceled your subscription.", result);
+        assertNull(user.getExpirationDate());
+        assertEquals(0, user.getTier());
+        
+        // Verify notifications were added and saved
+        assertNotNull(user.getNotifications());
+        assertFalse(user.getNotifications().isEmpty());
+        verify(userRepository, atLeastOnce()).save(user);
+    }
+
+    @Test
+    void testCancelSubscription_EarlyCancellation() {
+        // Arrange - Set expiration date to exactly 1 month + 1 day from now
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, 1);
+        cal.add(Calendar.DAY_OF_MONTH, 1);  // 1 month and 1 day in future
+        UserEntity user = createTestUser("testuser", "password", 1, cal.getTime());
+        
+        when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
+
+        // Act
+        String result = accountService.cancelSubscription("testuser", "password");
+        
+        // Debug output
+        System.out.println("Current date: " + new Date());
+        System.out.println("Expiration date: " + user.getExpirationDate());
+        System.out.println("Result message: " + result);
+
+        // Assert
+        assertEquals("You canceled your subscription and paid extra for early cancellation.", result);
+        assertNull(user.getExpirationDate());
+        assertEquals(0, user.getTier());
+        
+        // Verify penalty notification was added
+        assertTrue(user.getNotifications().stream()
+            .anyMatch(n -> n.getMessage().contains("paid extra")));
+    }
 }
 
