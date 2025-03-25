@@ -23,7 +23,7 @@ public class SessionsController {
 
     @PublicEndpoint
     @PostMapping("/login")
-    public Session getMethodName(@RequestBody LoginRequest loginReq) {
+    public Session login(@RequestBody LoginRequest loginReq) {
         return sessionService.login(loginReq);
     }
 
