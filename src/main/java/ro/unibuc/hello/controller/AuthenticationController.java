@@ -3,9 +3,11 @@ package ro.unibuc.hello.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,41 +27,37 @@ public class AuthenticationController {
     private JwtUtil jwtUtil;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody @Valid LoginRequest loginRequest) {
-        UsernamePasswordAuthenticationToken authToken = UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getUsername(), loginRequest.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authToken);
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
+        User user = userRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!authentication.isAuthenticated()) {
-            throw new RuntimeException("Authentication failed");
-        }
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+        );
 
         String token = jwtUtil.generateToken(loginRequest.getUsername());
 
-        return new LoginResponse(token);
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/register")
-    public LoginResponse register(@RequestBody @Valid RegisterRequest registerRequest) {
+    public ResponseEntity<LoginResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {
         if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
             throw new RuntimeException("User already exists");
         }
 
-        User user = new User(registerRequest.getUsername(), registerRequest.getPassword());
+        String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
+        User user = new User(registerRequest.getUsername(), encodedPassword);
         userRepository.save(user);
-
-        UsernamePasswordAuthenticationToken authToken = UsernamePasswordAuthenticationToken.unauthenticated(registerRequest.getUsername(), registerRequest.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authToken);
-
-        if (!authentication.isAuthenticated()) {
-            throw new RuntimeException("Authentication failed");
-        }
 
         String token = jwtUtil.generateToken(registerRequest.getUsername());
 
-        return new LoginResponse(token);
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 }

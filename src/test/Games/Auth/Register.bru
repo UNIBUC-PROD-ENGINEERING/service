@@ -12,7 +12,14 @@ post {
 
 body:json {
   {
-    "username": "test2",
+    "username": "test12",
     "password": "password"
+  }
+}
+
+script:post-response {
+  if (res.status == 200) {
+    token = res.getBody().token;
+    bru.setEnvVar("jwtToken",token);
   }
 }
