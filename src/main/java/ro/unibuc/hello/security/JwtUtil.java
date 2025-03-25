@@ -8,14 +8,13 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private static final String SECRET_KEY = "debugging-dragons";
+    private static final String SECRET_KEY = "afedf40a616458067532f4255ce8940868b64b41ffa22e73f060aefa24a27546";
 
     public String generateToken(String username) {
         return Jwts.builder()
