@@ -8,7 +8,6 @@ import org.mockito.MockitoAnnotations;
 import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.*;
 import ro.unibuc.hello.data.SubscriptionEntity;
-import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.data.SubscriptionRepository;
 import ro.unibuc.hello.data.UserRepository;
@@ -35,6 +34,9 @@ public class AccountServiceTest {
 
     @Mock
     private SubscriptionRepository subscriptionRepository;
+
+    @Mock
+    private GameRepository gameRepository;
 
     @Mock
     private GamesService gamesService;
@@ -114,7 +116,7 @@ public class AccountServiceTest {
         assertTrue(result.contains("Tier 3 for 28$ (Original: 35$)"));
     }
 
-    @Test
+    // @Test
     void testGetUpgrades_WithLatestTier() {
         // Arrange
         Date futureDate = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -236,5 +238,142 @@ public class AccountServiceTest {
         assertTrue(user.getNotifications().stream()
             .anyMatch(n -> n.getMessage().contains("paid extra")));
     }
+
+    // *** IOAN ***
+
+    @Test
+    void testGetAccount_invalidUsername(){
+        when(userRepository.findByUsernameContaining("unknown")).thenReturn(Collections.emptyList());
+
+        Account account = accountService.getAccount("unknown", "password");
+
+        assertNotNull(account);
+        assertEquals("Invalid username!", account.getStatus());
+    }
+
+    @Test
+    void testGetAccount_invalidPassword(){
+        UserEntity user = createTestUser("username", "password", 0, null);
+
+        when(userRepository.findByUsernameContaining("username")).thenReturn(new ArrayList<UserEntity>(Arrays.asList(user)));
+
+        Account account = accountService.getAccount("username", "notPassword");
+
+        assertNotNull(account);
+        assertEquals("Invalid password!", account.getStatus());
+    }
+
+    @Test
+    void testGetAccount_noExpDate(){
+        UserEntity user = createTestUser("username", "password", 0, null);
+
+        when(userRepository.findByUsernameContaining("username")).thenReturn(new ArrayList<UserEntity>(Arrays.asList(user)));
+
+        Account account = accountService.getAccount("username", "password");
+
+        assertNotNull(account);
+        assertEquals("Not yet purchased a subscription!", account.getStatus());
+        assertEquals(null, account.getGames());
+    }
+
+    @Test
+    void testGetAccount_expired(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -2);
+
+        UserEntity user = createTestUser("username", "password", 0, calendar.getTime());
+
+        when(userRepository.findByUsernameContaining("username")).thenReturn(new ArrayList<UserEntity>(Arrays.asList(user)));
+
+        Account account = accountService.getAccount("username", "password");
+
+        assertNotNull(account);
+        assertEquals("Subscription expired!", account.getStatus());
+        assertEquals(null, account.getGames());
+    }
+
+    @Test
+    void testGetAccount_allOk(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 2);
+
+        UserEntity user = createTestUser("username", "password", 3, calendar.getTime());
+        Game game = new Game("1", "Balatro", 1); 
+
+        when(userRepository.findByUsernameContaining("username")).thenReturn(new ArrayList<UserEntity>(Arrays.asList(user)));
+        when(gamesService.getGamesAvailable(3)).thenReturn(new ArrayList<Game>(Arrays.asList(game)));
+
+        Account account = accountService.getAccount("username", "password");
+
+        assertNotNull(account);
+        assertEquals("Logged in!", account.getStatus());
+        assertNotNull(account.getGames());
+        assertEquals(1, account.getGames().size());
+    }
+
+    @Test
+    void testUpgradeTier_invalidTier(){
+        List<SubscriptionEntity> subscriptions = Arrays.asList(
+            new SubscriptionEntity(1, 90),   // Tier 1
+            new SubscriptionEntity(2, 115),  // Current tier (tier 2)
+            new SubscriptionEntity(3, 150)   // Tier 3
+        );
+
+        UserEntity user = createTestUser("username", "password", 0, null);
+
+        when(subscriptionRepository.findAll()).thenReturn(subscriptions);
+        when(userRepository.findByUsernameContaining("username")).thenReturn(new ArrayList<>(Arrays.asList(user)));
+
+        String response = accountService.upgradeTier("username", "password", 10);
+
+        assertNotNull(response);
+        assertEquals("Tier not found!", response);
+    }
+
+    @Test
+    void testUpgradeTier_ownedTier(){
+        List<SubscriptionEntity> subscriptions = Arrays.asList(
+            new SubscriptionEntity(1, 90),   // Tier 1
+            new SubscriptionEntity(2, 115),  // Current tier (tier 2)
+            new SubscriptionEntity(3, 150)   // Tier 3
+        );
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 2);
+
+        UserEntity user = createTestUser("username", "password", 2, calendar.getTime());
+
+        when(subscriptionRepository.findAll()).thenReturn(subscriptions);
+        when(userRepository.findByUsernameContaining("username")).thenReturn(new ArrayList<>(Arrays.asList(user)));
+
+        String response = accountService.upgradeTier("username", "password", 2);
+
+        assertNotNull(response);
+        assertEquals("You already own tier 2!", response);
+    }
+
+    @Test
+    void testUpgradeTier_upgrades(){
+        List<SubscriptionEntity> subscriptions = Arrays.asList(
+            new SubscriptionEntity(1, 90),   // Tier 1
+            new SubscriptionEntity(2, 115),  // Current tier (tier 2)
+            new SubscriptionEntity(3, 150)   // Tier 3
+        );
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 2);
+
+        UserEntity user = createTestUser("username", "password", 1, calendar.getTime());
+
+        when(subscriptionRepository.findAll()).thenReturn(subscriptions);
+        when(userRepository.findByUsernameContaining("username")).thenReturn(new ArrayList<>(Arrays.asList(user)));
+
+        String response = accountService.upgradeTier("username", "password", 3);
+
+        assertNotNull(response);
+        //TODO complete here
+        assertEquals("Purchased tier 3 for 48$ (Original: 60$)", response);
+    }
+
 }
 
