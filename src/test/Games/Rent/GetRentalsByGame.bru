@@ -1,0 +1,15 @@
+meta {
+  name: GetRentalsByGame
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8080/rent/game/:gameId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  gameId: 0
+}

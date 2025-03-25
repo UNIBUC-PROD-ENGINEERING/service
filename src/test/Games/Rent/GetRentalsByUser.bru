@@ -1,0 +1,15 @@
+meta {
+  name: GetRentalsByUser
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/rent/user/:userId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  userId: 0
+}

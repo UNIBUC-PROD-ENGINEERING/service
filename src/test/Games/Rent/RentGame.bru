@@ -1,0 +1,18 @@
+meta {
+  name: RentGame
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/rent
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId": "user123",
+    "gameId": "game456"
+  }
+}
