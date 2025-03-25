@@ -17,6 +17,12 @@ public class GameEntity {
         this.tier = tier;
     }
 
+    public GameEntity(String id, String title, int tier) {
+        this.id = id;
+        this.title = title;
+        this.tier = tier;
+    }
+
     public String getId() {
         return id;
     }
