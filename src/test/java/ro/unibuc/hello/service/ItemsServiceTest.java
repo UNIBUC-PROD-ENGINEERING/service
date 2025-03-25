@@ -109,6 +109,25 @@ class ItemsServiceTest {
         assertEquals(user.getName(), savedItem.getOwner().getName()); 
         verify(itemRepository, times(1)).save(any(ItemEntity.class));  
     }
+
+    @Test
+    void testSaveItem_OwnerNotFound() {
+        // Arrange
+        String ownerId = "11";
+        String itemName = "Item1";
+        String itemDescription = "Description1";
+        
+        ItemPostRequest itemPost = new ItemPostRequest(itemName, itemDescription);
+        UserEntity user = new UserEntity(ownerId, "testUser", "password", "username");
+    
+        when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
+
+        ItemEntity newItemEntity = new ItemEntity(itemName, itemDescription, user);
+        when(itemRepository.save(any(ItemEntity.class))).thenReturn(newItemEntity);
+    
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> itemsService.saveItem(ownerId, itemPost));
+    }
     
     @Test
     void testSaveAll() {
@@ -156,6 +175,38 @@ class ItemsServiceTest {
         assertEquals(itemName2, savedItem2.getName());
         assertEquals(itemDescription2, savedItem2.getDescription());
         assertEquals(user.getName(), savedItem2.getOwner().getName());
+    }
+
+    @Test
+    void testSaveAll_OwnerNotFound() {
+        // Arrange
+        String ownerId = "12";
+        String itemName1 = "Item1";
+        String itemDescription1 = "Description1";
+        String itemName2 = "Item2";
+        String itemDescription2 = "Description2";
+        
+        // Create two ItemPost objects to be saved
+        ItemPostRequest itemPost1 = new ItemPostRequest(itemName1, itemDescription1);
+        ItemPostRequest itemPost2 = new ItemPostRequest(itemName2, itemDescription2);
+        
+        List<ItemPostRequest> items = Arrays.asList(itemPost1, itemPost2);
+        
+        // Create a UserEntity that would be associated with both items
+        UserEntity user = new UserEntity(ownerId, "testUser", "password", "username");
+        
+        // Mock the userRepository to return the user when searched by ID
+        when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
+        
+        // Create ItemEntity objects that would be saved in the repository
+        ItemEntity itemEntity1 = new ItemEntity(itemName1, itemDescription1, user);
+        ItemEntity itemEntity2 = new ItemEntity(itemName2, itemDescription2, user);
+        
+        // Mock the saveAll method of itemRepository to return the saved entities
+        when(itemRepository.saveAll(anyList())).thenReturn(Arrays.asList(itemEntity1, itemEntity2));
+        
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> itemsService.saveAll(ownerId, items));
     }
 
     @Test
