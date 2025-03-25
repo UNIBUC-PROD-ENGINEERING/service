@@ -4,7 +4,7 @@ GET http://localhost:8080/games
 ### see games available for a tier
 
 GET http://localhost:8080/games
-    ?tier=3
+    ?tier=2
 
 ### search game by id
 
@@ -20,13 +20,13 @@ GET http://localhost:8080/games
 
 GET http://localhost:8080/games
     ?title=Half-Life
-    &tier=2
+    &tier=1
 
 ### add a game
 @game_name = Half-Life:Alyx
 @game_tier = 3
 POST http://localhost:8080/add-game
-    ?title={{game_name}}
+    ?title=Cyber Bonk
     &tier={{game_tier}}
 
 ### delete a game
