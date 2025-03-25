@@ -21,9 +21,4 @@ public interface SubscriptionRepository extends MongoRepository<SubscriptionEnti
     List<SubscriptionEntity> findByTierAndPriceLessThanEqual(int tier, int price);
 
     boolean existsByTier(int tier);
-
-
-    // Optional<SubscriptionEntity> findByTier(int tier);
-    // boolean existsByTier(int tier);
-    // void deleteByTier(int tier);
 }

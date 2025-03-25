@@ -60,14 +60,6 @@ public class SubscriptionService {
         return convert(entities);
     }
 
-    // public Subscription saveSubscription(Subscription subscription) {
-    //     SubscriptionEntity entity = new SubscriptionEntity();
-    //     entity.setTier(subscription.getTier());
-    //     entity.setPrice(subscription.getPrice());
-    //     subscriptionRepository.save(entity);
-    //     return new Subscription(entity.getTier(), entity.getPrice());
-    // }
-
     public Subscription saveSubscription(Subscription subscription) throws TierAlreadyExistsException {
         // Check if tier already exists
         if (subscriptionRepository.existsByTier(subscription.getTier())) {
@@ -98,52 +90,3 @@ public class SubscriptionService {
             .collect(Collectors.toList());
     }
 }
-
-
-
-
-// @Component
-// public class SubscriptionsService {
-//     @Autowired
-//     private SubscriptionRepository subscriptionRepository;
-
-//     public List<Subscription> getAllSubscriptions() {
-//         List<SubscriptionEntity> entities = subscriptionRepository.findAll();
-//         return entities.stream()
-//             .map(entity -> new Subscription(entity.getTier(), entity.getPrice()))
-//             .collect(Collectors.toList());
-//     }
-
-//     public List<Subscription> getSubscriptionsByTier(int tier) {
-//         return subscriptionRepository.findByTier(tier).stream()
-//             .map(this::convertToDto)
-//             .collect(Collectors.toList());
-//     }
-
-//     public Subscription createSubscription(SubscriptionEntity subscriptionEntity) {
-//         subscriptionRepository.save(subscriptionEntity);
-//         return new Subscription(subscriptionEntity.getTier(), subscriptionEntity.getPrice());
-//     }
-
-//     public Subscription updateSubscription(String id, Subscription subscription) throws EntityNotFoundException {
-//         SubscriptionEntity entity = subscriptionRepository.findById(id)
-//                 .orElseThrow(() -> new EntityNotFoundException("Subscription not found with id: " + id));
-
-//         entity.setTier(subscription.getTier());
-//         entity.setPrice(subscription.getPrice());
-
-//         SubscriptionEntity updatedEntity = subscriptionRepository.save(entity);
-//         return convertToDto(updatedEntity);
-//     }
-
-//     public void deleteSubscription(String id) throws EntityNotFoundException {
-//         if (!subscriptionRepository.existsById(id)) {
-//             throw new EntityNotFoundException("Subscription not found with id: " + id);
-//         }
-//         subscriptionRepository.deleteById(id);
-//     }
-
-//     private Subscription convertToDto(SubscriptionEntity entity) {
-//         return new Subscription(entity.getTier(), entity.getPrice());
-//     }
-// }
