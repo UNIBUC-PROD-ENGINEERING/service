@@ -1,11 +1,10 @@
 package ro.unibuc.hello.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.springframework.dao.DuplicateKeyException;
 
 import ro.unibuc.hello.data.AuctionEntity;
 import ro.unibuc.hello.data.AuctionRepository;
@@ -29,18 +28,14 @@ import ro.unibuc.hello.data.ItemEntity;
 import ro.unibuc.hello.data.ItemRepository;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
-import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
-import ro.unibuc.hello.dto.AuctionPost;
-import ro.unibuc.hello.dto.AuctionPut;
-import ro.unibuc.hello.dto.AuctionWithAuctioneerAndItem;
 import ro.unibuc.hello.dto.AuctionWithItem;
 import ro.unibuc.hello.dto.BidWithAuction;
-import ro.unibuc.hello.dto.BidWithBidder;
 import ro.unibuc.hello.dto.Item;
-import ro.unibuc.hello.exception.EntityNotFoundException;
-import ro.unibuc.hello.exception.InvalidDataException;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserPostRequest;
+import ro.unibuc.hello.exception.EntityNotFoundException;
+import ro.unibuc.hello.exception.InvalidDataException;
+
 public class UsersServiceTest {
 
     @Mock
@@ -205,10 +200,10 @@ public class UsersServiceTest {
         String password = "password";
         UserPostRequest userPostRequest = new UserPostRequest(name, username, password);
 
-        when(userRepository.save(any(UserEntity.class)))
-            .thenThrow(new InvalidDataException("Username already exists"));
+        when(userRepository.save(any(UserEntity.class))).thenThrow(new DuplicateKeyException(""));
 
-        assertThrows(InvalidDataException.class, () -> usersService.saveUser(userPostRequest));
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> usersService.saveUser(userPostRequest));
+        assertEquals("Username already exists", ex.getMessage());
     }
 
     @Test
@@ -221,7 +216,7 @@ public class UsersServiceTest {
         UserEntity userEntity1 = new UserEntity("Nume1", "password1", "nume1");
         UserEntity userEntity2 = new UserEntity("Nume2", "password2", "nume2");
 
-        when(userRepository.saveAll(any(List.class))).thenReturn(Arrays.asList(userEntity1, userEntity2));
+        when(userRepository.saveAll(anyList())).thenReturn(Arrays.asList(userEntity1, userEntity2));
 
         List<User> savedUsers = usersService.saveAll(userPostRequests);
 
@@ -263,9 +258,10 @@ public class UsersServiceTest {
         UserEntity existingUserEntity = new UserEntity("1", "OldName", "oldPassword", "oldUsername");
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUserEntity));
-        when(userRepository.save(any(UserEntity.class))).thenThrow(new InvalidDataException("Username already exists"));
+        when(userRepository.save(any(UserEntity.class))).thenThrow(new DuplicateKeyException(""));
 
-        assertThrows(InvalidDataException.class, () -> usersService.updateUser(userId, userPostRequest));
+        InvalidDataException ex = assertThrows(InvalidDataException.class, () -> usersService.updateUser(userId, userPostRequest));
+        assertEquals("Username already exists", ex.getMessage());
     }
 
     @Test
@@ -287,7 +283,7 @@ public class UsersServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         // The deletion should throw an EntityNotFoundException if the user doesn't exist
-        org.junit.jupiter.api.Assertions.assertThrows(EntityNotFoundException.class, () -> usersService.deleteUser(userId));
+        assertThrows(EntityNotFoundException.class, () -> usersService.deleteUser(userId));
     }
 
     @Test

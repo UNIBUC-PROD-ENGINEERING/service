@@ -3,7 +3,6 @@ package ro.unibuc.hello.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,26 +27,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import jakarta.servlet.http.HttpServletRequest;
 import ro.unibuc.hello.auth.AuthInterceptor;
-import ro.unibuc.hello.auth.AuthUtil;
-import ro.unibuc.hello.data.BidEntity;
 import ro.unibuc.hello.data.SessionEntity;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.dto.Auction;
-import ro.unibuc.hello.dto.AuctionPlaceBidRequest;
-import ro.unibuc.hello.dto.AuctionPost;
-import ro.unibuc.hello.dto.AuctionPut;
-import ro.unibuc.hello.dto.AuctionWithAuctioneerAndItem;
 import ro.unibuc.hello.dto.AuctionWithItem;
 import ro.unibuc.hello.dto.BidWithAuction;
-import ro.unibuc.hello.dto.BidWithBidder;
 import ro.unibuc.hello.dto.Item;
-import ro.unibuc.hello.dto.ItemPostRequest;
 import ro.unibuc.hello.dto.User;
 import ro.unibuc.hello.dto.UserPostRequest;
-import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.exception.GlobalExceptionHandler;
-import ro.unibuc.hello.permissions.AuctionPermissionChecker;
-import ro.unibuc.hello.service.AuctionsService;
+import ro.unibuc.hello.permissions.UserPermissionChecker;
+import ro.unibuc.hello.service.SessionsService;
 import ro.unibuc.hello.service.UsersService;
 
 public class UsersControllerTest {
@@ -56,13 +46,13 @@ public class UsersControllerTest {
     private UsersService usersService;
 
     @Mock
-    private AuctionPermissionChecker permissionChecker;
+    private UserPermissionChecker permissionChecker;
 
     @Mock
     private HttpServletRequest request;
 
-    // @Mock
-    // private SessionsService sessionsService;
+    @Mock
+    private SessionsService sessionsService;
 
     @InjectMocks
     private UsersController usersController;
@@ -75,7 +65,12 @@ public class UsersControllerTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(usersController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(usersController)
+            .setControllerAdvice(new GlobalExceptionHandler())
+            .addInterceptors(authInterceptor)
+            .build();
+
+        when(sessionsService.getValidSession(anyString())).thenReturn(new SessionEntity("1", new UserEntity("11", "user 1", "username1", "password1"), null));
     }
 
     @Test
@@ -148,7 +143,6 @@ public class UsersControllerTest {
     @Test
     void testGetUserBids() throws Exception {
         // Arrange
-        User user = new User("1", "User One");
         Auction auction = new Auction("1", "Auction 1", "Description Auction 1", 100, "open");
     
         // Create BidWithAuction objects
@@ -174,53 +168,47 @@ public class UsersControllerTest {
             .andExpect(jsonPath("$[1].auction.title").value("Auction 1")); // Auction title for the second bid
     }
     
- @Test
+    @Test
     void testCreateUser() throws Exception {
         // Arrange
-        // UserPostRequest userRequest = new UserPostRequest("User One", "userone@example.com", "password123");
         User createdUser = new User("1", "name");
-
         when(usersService.saveUser(any(UserPostRequest.class))).thenReturn(createdUser);
 
         // Act & Assert
         mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\": \"name\"}"))
+                .content("{\"name\": \"name\",\"username\":\"username\",\"password\":\"password\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("name"));
     }
 
-    //  @Test
-    // void testUpdateUser() throws Exception {
-    //     // Arrange
-    //    // UserPostRequest userRequest = new UserPostRequest("User One Updated", "useroneupdated@example.com", "newpassword123");
-    //     User updatedUser = new User("1", "name");
+    @Test
+    void testUpdateUser() throws Exception {
+        // Arrange
+        User updatedUser = new User("1", "name");
+        when(usersService.updateUser(eq("1"), any(UserPostRequest.class))).thenReturn(updatedUser);
 
-    //     //when(request.getAttribute(AuthUtil.AUTHENTICATED_USER_ID)).thenReturn("1");
-    //     when(usersService.updateUser(eq("1"), any(UserPostRequest.class))).thenReturn(updatedUser);
-
-    //     // Act & Assert
-    //     mockMvc.perform(put("/users/1")
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .content("{\"name\": \"name\"}"))
-    //             .andExpect(status().isOk())
-    //             .andExpect(jsonPath("$.id").value("1"))
-    //             .andExpect(jsonPath("$.name").value("name"));
-    // }
+        // Act & Assert
+        mockMvc.perform(put("/users/1")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\": \"name\",\"username\":\"username\",\"password\":\"password\"}")
+            .header("X-Session-Id", "1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value("1"))
+            .andExpect(jsonPath("$.name").value("name"));
+    }
     
-    // @Test
-    // void testDeleteUser() throws Exception {
-    //     // Arrange
-    //     String userId = "1";
+    @Test
+    void testDeleteUser() throws Exception {
+        // Arrange
+        String userId = "1";
 
-    //     doNothing().when(usersService).deleteUser(eq(userId));
+        // Act & Assert
+        mockMvc.perform(delete("/users/1")
+            .header("X-Session-Id", "1"))
+            .andExpect(status().isOk());
 
-    //     // Act & Assert
-    //     mockMvc.perform(delete("/users/1"))
-    //             .andExpect(status().isOk());
-
-    //     verify(usersService, times(1)).deleteUser(eq(userId));
-    // }
-    
+        verify(usersService, times(1)).deleteUser(eq(userId));
+    }
 }
