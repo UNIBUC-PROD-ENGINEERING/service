@@ -34,7 +34,6 @@ import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.data.UserSearchRepository;
 import ro.unibuc.hello.dto.request.RegisterDto;
 import ro.unibuc.hello.dto.response.UserDto;
-import ro.unibuc.hello.exception.EntityAlreadyExistsException;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -81,56 +80,64 @@ public class UserServiceTest {
     }
 
     @Test
-    void shouldReturnSecurityUser(){
+    void loadByUsername_ShouldReturnUser(){
         
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
         when(userRepository.findByUsername("user")).thenReturn(Optional.ofNullable(user));
+
         var userDetails = userService.loadUserByUsername("user");
+
         assertEquals("user",userDetails.getUsername());
         assertEquals("password",userDetails.getPassword());
         assertEquals(Set.of(authority),userDetails.getAuthorities());
     }
 
     @Test
-    void shouldNotReturnUserWhenExists(){
+    void getUser_ShouldThrowException_WhenUserDoesNotExist(){
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
+
         assertThrows(EntityNotFoundException.class,()->userService.getUser(user.getUsername()));
     }
     
     @Test
-    void shouldReturnUser(){
+    void getUser_ShouldReturnUser_WhenUserExists(){
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(modelMapper.map(user,UserDto.class)).thenReturn(userDto);
+
         var dto = userService.getUser(user.getUsername());
+
         assertEquals("user",dto.getUsername());
         assertEquals("email",dto.getEmail());
         assertEquals("USER", dto.getRole());
     }
 
     @Test
-    void shouldNotReturnUserWhenNoAuthentication(){
+    void getSelf_ShouldThrowException_WhenUserDoesNotExist(){
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
         when(userDetails.getUsername()).thenReturn("user");
         when(userRepository.findByUsername("user")).thenReturn(Optional.empty());
+
         assertThrows(EntityNotFoundException.class, () -> userService.getAuthenticatedUser());
     }
 
     @Test
-    void shouldReturnAuthenticatedUser(){
+    void getSelf_shouldReturnAuthenticatedUser_WhenUserExists(){
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
         when(userDetails.getUsername()).thenReturn("user");
         when(userRepository.findByUsername("user")).thenReturn(Optional.of(user));
         when(modelMapper.map(user,UserDto.class)).thenReturn(userDto);
+
         var user = userService.getSelf();
+
         assertEquals("user",user.getUsername());
         assertEquals("email",user.getEmail());
         assertEquals("USER", user.getRole());
     }
 
     @Test
-    void shouldReturnAllUsers(){
+    void getAll_shouldReturnAllUsers(){
         UserEntity otherUser = UserEntity.builder()
                             .username("other")
                             .email("otheremail")
@@ -143,26 +150,32 @@ public class UserServiceTest {
         when(userRepository.findAll()).thenReturn(List.of(user,otherUser));
         when(modelMapper.map(user,UserDto.class)).thenReturn(userDto);
         when(modelMapper.map(otherUser,UserDto.class)).thenReturn(otherUserDto);
+
         var userList = userService.getAll();
+
         assertNotNull(userList);
         assertEquals(2, userList.getUserList().size());
+
         verify(userRepository, times(1)).findAll();
+        
         assertEquals("user",userList.getUserList().get(0).getUsername());
         assertEquals("other",userList.getUserList().get(1).getUsername());
     }
 
     @Test
-    void shouldReturnAllRelevantUsers(){
+    void getRelevantUsers_ShouldReturnAllUsers_WithTheKeywordInTheirUsername(){
         when(userSearchRepository.searchUsers("user")).thenReturn(List.of(user));
         when(modelMapper.map(user,UserDto.class)).thenReturn(userDto);
+
         var userList = userService.getRelevantUsers("user");
+
         assertNotNull(userList);
         assertEquals(1, userList.getUserList().size());;
         assertEquals("user",userList.getUserList().get(0).getUsername());
     }
 
     @Test
-    void shouldNotUpdateUsernameToExistingUsername(){
+    void updateUser_ShouldNotUpdateUsername_WhenUserDoesNotExist(){
         RegisterDto registerDto = RegisterDto.builder()
                                 .username("user")
                                 .build();
@@ -170,7 +183,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void shouldUpdateUser(){
+    void updateUser_ShouldUpdateUser_WhenUserExists(){
         RegisterDto registerDto = RegisterDto.builder()
                                 .username("user")
                                 .password("updatedpassword")
@@ -178,33 +191,37 @@ public class UserServiceTest {
                                 .build();
         when(userRepository.findByUsername("user")).thenReturn(Optional.of(user));
         when(userRepository.save(user)).thenReturn(user);
+
         userService.updateUser("user", registerDto);
+
         verify(userRepository,times(1)).save(any());
     }
 
     @Test
-    void shouldNotDeleteLoggedInUser(){
+    void delete_UserShouldNotDeleteThemselves(){
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
         when(userDetails.getUsername()).thenReturn("user");
         when(userRepository.findByUsername("user")).thenReturn(Optional.of(user));
+
         assertThrows(EntityNotFoundException.class,()->userService.delete("user"));
     }
 
     @Test
-    void shouldNotDeleteAdmin(){
+    void delete_ShouldNotDeleteAdmin(){
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
         when(userDetails.getUsername()).thenReturn("user");
         user.setUsername("otherUsername");
         user.setRole(Role.ADMIN);
         when(userRepository.findByUsername("otherUsername")).thenReturn(Optional.of(user));
+
         assertThrows(EntityNotFoundException.class,()->userService.delete("otherUsername"));
     }
 
 
     @Test
-    void shouldDeleteUser(){
+    void delete_ShouldDeleteAnotherUser(){
         UserEntity loggedInUser = UserEntity.builder()
                                 .username("otherUser")
                                 .build();
@@ -214,7 +231,9 @@ public class UserServiceTest {
         when(userRepository.findByUsername(anyString()))
         .thenReturn(Optional.of(user))
         .thenReturn(Optional.of(loggedInUser));
+
         userService.delete("user");
+
         verify(userRepository,times(1)).delete(user);
     }
 }

@@ -64,21 +64,22 @@ public class AuthServiceTest {
     }
 
     @Test
-    void userShouldAlreadyExistAtRegister(){
+    void register_ShouldThrowException_WhenUserAlreadyExists(){
         when(userRepository.findByUsername(registerDto.getUsername())).thenReturn(Optional.ofNullable(user));
 
         assertThrows(EntityAlreadyExistsException.class,()->authService.register(registerDto));
-
     }
 
     @Test
-    void shouldRegisterSuccessfully(){
+    void register_ShouldSucceed_WhenUserDoesNotExisty(){
         when(userRepository.findByUsername(registerDto.getUsername())).thenReturn(Optional.empty());
         when(modelMapper.map(registerDto,UserEntity.class)).thenReturn(user);
         when(passwordEncoder.encode(user.getPassword())).thenReturn("encoded");
         when(userRepository.save(user)).thenReturn(user);
         when(jwtService.generateJwt(user)).thenReturn("token");
+
         AuthDto authDto = authService.register(registerDto);
+
         assertNotNull(authDto);
         assertEquals("user",authDto.getUsername());
         assertEquals(Role.USER,authDto.getRole());
@@ -87,32 +88,33 @@ public class AuthServiceTest {
     }
 
     @Test
-    void userShouldNotExistAtLogin(){
+    void login_ShouldThrowException_WhenUserDoesNotExist(){
         when(userRepository.findByUsername(loginDto.getUsername())).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class,()->authService.login(loginDto));
-
     }
 
     @Test
-    void shouldHaveWrongPassword(){
+    void login_ShouldThrowException_WhenPasswordIsIncorrect(){
         loginDto.setPassword("wrongPassword");
+
         when(userRepository.findByUsername(loginDto.getUsername())).thenReturn(Optional.ofNullable(user));
         when(passwordEncoder.matches(loginDto.getPassword(),user.getPassword())).thenReturn(false);
+        
         assertThrows(EntityNotFoundException.class,()->authService.login(loginDto));
     }
 
     @Test
-    void shouldFailToAuthenticate(){
+    void login_ShouldThrowException_WhenAuthenticationFails(){
         when(userRepository.findByUsername(loginDto.getUsername())).thenReturn(Optional.ofNullable(user));
         when(passwordEncoder.matches(loginDto.getPassword(), user.getPassword())).thenReturn(true);
-
         when(authenticationManager.authenticate(any())).thenThrow(new EntityNotFoundException());
+
         assertThrows(EntityNotFoundException.class,()->authService.login(loginDto));
     }
 
     @Test
-    void shouldLoginUser(){
+    void login_ShouldReturnAuthDto_WhenCredentialsAreValid(){
         when(userRepository.findByUsername(loginDto.getUsername())).thenReturn(Optional.ofNullable(user));
         when(passwordEncoder.matches(loginDto.getPassword(), user.getPassword())).thenReturn(true);
         when(authenticationManager.authenticate(any())).thenReturn(null);
@@ -127,10 +129,12 @@ public class AuthServiceTest {
     }
 
     @Test
-    void shouldLogoutUser(){
+    void logout_ShouldClearAuthenticationContext(){
         Authentication authentication = mock(Authentication.class);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         authService.logout();
+        
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
