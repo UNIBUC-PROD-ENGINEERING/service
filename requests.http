@@ -23,10 +23,10 @@ GET http://localhost:8080/games
     &tier=1
 
 ### add a game
-@game_name = Half-Life:Alyx
-@game_tier = 3
+@game_name = GTA
+@game_tier = 4
 POST http://localhost:8080/add-game
-    ?title=Cyber Bonk
+    ?title={{game_name}}
     &tier={{game_tier}}
 
 ### delete a game

@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import org.springframework.test.web.servlet.MvcResult;
 
 
 class GamesControllerTest {
@@ -138,19 +139,17 @@ class GamesControllerTest {
             .andExpect(jsonPath("$[0].tier").value(1));
     }
 
-    // @Test
+    @Test
     void testSaveGame() throws Exception{
-        Game game4 = new Game("4", "Cyberpunk 2077", 3);
+        Game game4 = new Game("Cyberpunk 2077", 3);
 
-        when(gamesService.saveGame(game4)).thenReturn(game4);
+        when(gamesService.saveGame(any())).thenReturn(game4);
 
         mockMvc
             .perform(post("/add-game?title=Cyberpunk 2077&tier=3"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id").value("4"))
             .andExpect(jsonPath("$.title").value("Cyberpunk 2077"))
             .andExpect(jsonPath("$.tier").value(3));
-    
     }
 
     @Test
