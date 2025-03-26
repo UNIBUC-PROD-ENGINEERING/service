@@ -35,35 +35,35 @@ class AuthenticationControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(authenticationController).build();
     }
 
-//    @Test
+    @Test
     void testLogin() throws Exception {
         LoginRequest loginRequest = new LoginRequest("testUser", "password123");
         LoginResponse loginResponse = new LoginResponse("mockToken");
 
-        when(authenticationService.login(loginRequest)).thenReturn(loginResponse);
+        when(authenticationService.login(any())).thenReturn(loginResponse);
 
         mockMvc.perform(post("/login")
                         .content("{\"username\":\"testUser\",\"password\":\"password123\"}")
                         .contentType("application/json"))
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.token").value("mockToken"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value("mockToken"));
 
-        verify(authenticationService, times(1)).login(loginRequest);
+        verify(authenticationService, times(1)).login(any());
     }
 
-//    @Test
+    @Test
     void testRegister() throws Exception {
         RegisterRequest registerRequest = new RegisterRequest("newUser", "password123");
         LoginResponse loginResponse = new LoginResponse("mockToken");
 
-        when(authenticationService.register(registerRequest)).thenReturn(loginResponse);
+        when(authenticationService.register(any())).thenReturn(loginResponse);
 
         mockMvc.perform(post("/register")
                         .content("{\"username\":\"newUser\",\"password\":\"password123\"}")
                         .contentType("application/json"))
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.token").value("mockToken"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value("mockToken"));
 
-        verify(authenticationService, times(1)).register(registerRequest);
+        verify(authenticationService, times(1)).register(any());
     }
 }
