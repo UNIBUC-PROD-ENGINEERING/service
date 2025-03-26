@@ -136,10 +136,6 @@ public class AccountService {
             })
             .collect(Collectors.toList());
 
-        if (strings.isEmpty()) {
-            return "You already have access to all the games!";
-        }
-
         return String.join("\n", strings);
     }
 
