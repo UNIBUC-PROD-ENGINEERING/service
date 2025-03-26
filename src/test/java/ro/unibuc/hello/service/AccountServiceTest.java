@@ -117,26 +117,26 @@ public class AccountServiceTest {
     }
 
     // @Test
-    void testGetUpgrades_WithLatestTier() {
-        // Arrange
-        Date futureDate = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
-        UserEntity user = createTestUser("testuser", "password", 3, futureDate);
+    // void testGetUpgrades_WithLatestTier() {
+    //     // Arrange
+    //     Date futureDate = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    //     UserEntity user = createTestUser("testuser", "password", 3, futureDate);
         
-        List<SubscriptionEntity> subscriptions = Arrays.asList(
-            new SubscriptionEntity(1, 90),
-            new SubscriptionEntity(2, 115),
-            new SubscriptionEntity(3, 150)
-        );
+    //     List<SubscriptionEntity> subscriptions = Arrays.asList(
+    //         new SubscriptionEntity(1, 90),
+    //         new SubscriptionEntity(2, 115),
+    //         new SubscriptionEntity(3, 150)
+    //     );
         
-        when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
-        when(subscriptionRepository.findAll()).thenReturn(subscriptions);
+    //     when(userRepository.findByUsernameContaining("testuser")).thenReturn(Collections.singletonList(user));
+    //     when(subscriptionRepository.findAll()).thenReturn(subscriptions);
     
-        // Act
-        String result = accountService.getUpgrades("testuser", "password");
+    //     // Act
+    //     String result = accountService.getUpgrades("testuser", "password");
     
-        // Assert
-        assertEquals("You already have access to all the games!", result);
-    }
+    //     // Assert
+    //     assertEquals("You already have access to all the games!", result);
+    // }
 
     @Test
     void testCancelSubscription_InvalidUsername() {
@@ -355,24 +355,24 @@ public class AccountServiceTest {
     @Test
     void testUpgradeTier_upgrades(){
         List<SubscriptionEntity> subscriptions = Arrays.asList(
-            new SubscriptionEntity(1, 90),   // Tier 1
-            new SubscriptionEntity(2, 115),  // Current tier (tier 2)
-            new SubscriptionEntity(3, 150)   // Tier 3
+            new SubscriptionEntity(1, 90),
+            new SubscriptionEntity(2, 115),
+            new SubscriptionEntity(3, 150)
         );
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 2);
 
-        UserEntity user = createTestUser("username", "password", 1, calendar.getTime());
+        UserEntity user = createTestUser("username", "password", 0, calendar.getTime());
 
         when(subscriptionRepository.findAll()).thenReturn(subscriptions);
         when(userRepository.findByUsernameContaining("username")).thenReturn(new ArrayList<>(Arrays.asList(user)));
 
-        String response = accountService.upgradeTier("username", "password", 3);
+        String response = accountService.upgradeTier("username", "password", 2);
 
         assertNotNull(response);
         //TODO complete here
-        assertEquals("Purchased tier 3 for 48$ (Original: 60$)", response);
+        assertEquals("Purchased tier 2 for 92$ (Original: 115$)", response);
     }
 
 }
