@@ -11,12 +11,11 @@ import ro.unibuc.hello.dto.response.UserDto;
 import ro.unibuc.hello.dto.response.UserListDto;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
-    private final UserService userService;
+    private UserService userService;
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/all")

@@ -10,11 +10,10 @@ import ro.unibuc.hello.dto.request.RequestDto;
 import ro.unibuc.hello.dto.response.RequestResponseDto;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/request")
 public class RequestController {
     @Autowired
-    private final SharingService sharingService;
+    private SharingService sharingService;
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/create")

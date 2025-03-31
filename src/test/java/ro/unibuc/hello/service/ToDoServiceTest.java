@@ -11,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.request.ItemDto;
 import ro.unibuc.hello.dto.response.ItemResponseDto;
-import ro.unibuc.hello.exception.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 
 class ToDoServiceTest {

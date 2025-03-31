@@ -1,6 +1,7 @@
 package ro.unibuc.hello.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ro.unibuc.hello.exception.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import ro.unibuc.hello.data.Role;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.data.UserRepository;
@@ -17,15 +17,19 @@ import ro.unibuc.hello.dto.request.RegisterDto;
 import ro.unibuc.hello.dto.response.AuthDto;
 import ro.unibuc.hello.exception.EntityAlreadyExistsException;
 
-@AllArgsConstructor
 @Service
 public class AuthService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
-    private final ModelMapper modelMapper;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public UserEntity loadUser(String username) {
         return userRepository.findByUsername(username)

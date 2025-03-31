@@ -11,7 +11,6 @@ import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication(scanBasePackages = "ro.unibuc.hello")
 @EnableMongoRepositories(basePackages = "ro.unibuc.hello.data")
-
 public class HelloApplication {
 
 	@Autowired

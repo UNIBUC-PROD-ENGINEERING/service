@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 public class EntityAlreadyExistsException extends StoreException {
 
     public EntityAlreadyExistsException() {
-        this.setHttpStatus(HttpStatus.BAD_REQUEST);
+        this.setHttpStatus(HttpStatus.CONFLICT);
         this.setMessage("Entity already exists");
     }
 }

@@ -11,11 +11,10 @@ import ro.unibuc.hello.service.*;
 import lombok.AllArgsConstructor;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/item")
 public class ItemController {
     @Autowired
-    private final ToDoService toDoService;
+    private ToDoService toDoService;
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/create")

@@ -9,11 +9,10 @@ import lombok.AllArgsConstructor;
 import ro.unibuc.hello.dto.response.*;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/todo_list")
 public class ToDoListController {
     @Autowired
-    private final ToDoService toDoService;
+    private ToDoService toDoService;
 
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/create")
