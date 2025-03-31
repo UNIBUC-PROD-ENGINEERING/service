@@ -84,6 +84,10 @@ public class SubscriptionService {
         return false;
     }
 
+    public void deleteAllSubscriptions() {
+        subscriptionRepository.deleteAll();
+    }
+
     private List<Subscription> convert(List<SubscriptionEntity> entities) {
         return entities.stream()
             .map(entity -> new Subscription(entity.getTier(), entity.getPrice()))
