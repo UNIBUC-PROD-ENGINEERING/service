@@ -4,12 +4,12 @@ GET http://localhost:8080/games
 ### see games available for a tier
 
 GET http://localhost:8080/games
-    ?tier=2
+    ?tier=1
 
 ### search game by id
 
 GET http://localhost:8080/games
-    ?id=67d889d2d070de1600cf2b48
+    ?id=67ec2d8ebda3e0505ab4c5e2
 
 ### search game by title
 
@@ -23,8 +23,8 @@ GET http://localhost:8080/games
     &tier=1
 
 ### add a game
-@game_name = GTA
-@game_tier = 4
+@game_name = Counter-Strike
+@game_tier = 1
 POST http://localhost:8080/add-game
     ?title={{game_name}}
     &tier={{game_tier}}
@@ -32,7 +32,7 @@ POST http://localhost:8080/add-game
 ### delete a game
 
 POST http://localhost:8080/delete-game
-    ?id=67d892cdb65bb038c7c6302a
+    ?id=67ec2d8ebda3e0505ab4c5e2
 
 ### get account info
 

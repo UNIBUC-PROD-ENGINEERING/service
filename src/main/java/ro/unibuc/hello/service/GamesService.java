@@ -77,6 +77,10 @@ public class GamesService {
         return false;
     }
 
+    public void deleteAllGames(){
+        gameRepository.deleteAll();
+    }
+
     private List<Game> convert(List<GameEntity> entities){
         return entities.stream()
             .map(entity -> new Game(entity.getId(), entity.getTitle(), entity.getTier()))
