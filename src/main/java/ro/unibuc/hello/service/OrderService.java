@@ -6,16 +6,15 @@ import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.OrderDTO;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
-    
+
     @Autowired
     private OrderRepository orderRepository;
-    
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -46,11 +45,11 @@ public class OrderService {
             product.setStock(product.getStock() - productOrder.getQuantity());
             productRepository.save(product);
         }
-        
+
         List<OrderEntity> history = orderRepository.findAll().stream()
                 .filter(o -> o.getUser().getId().equals(user.getId()))
                 .collect(Collectors.toList());
-        
+
         OrderEntity order = new OrderEntity(null, user, productOrders, status, LocalDateTime.now(), history);
         orderRepository.save(order);
         return new OrderDTO(order.getId(), user.getId(), null, status, order.getCreatedAt(), history.stream()
@@ -74,7 +73,24 @@ public class OrderService {
         }
         return null;
     }
+
+    public List<String> getTop5MostSoldProducts() {
+        Map<String, Long> productSales = new HashMap<>();
+
+        orderRepository.findAll().forEach(order -> {
+            if (order.getProductOrders() != null) {
+                for (ProductOrderEntity productOrder : order.getProductOrders()) {
+                    String productId = productOrder.getProduct().getId();
+                    long quantity = productOrder.getQuantity();
+                    productSales.put(productId, productSales.getOrDefault(productId, 0L) + quantity);
+                }
+            }
+        });
+
+        return productSales.entrySet().stream()
+                .sorted((a, b) -> Long.compare(b.getValue(), a.getValue()))
+                .limit(5)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
 }
-
-
-
