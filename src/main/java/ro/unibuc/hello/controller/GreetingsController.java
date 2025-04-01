@@ -2,9 +2,6 @@ package ro.unibuc.hello.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -54,6 +51,12 @@ public class GreetingsController {
     @ResponseBody
     public void deleteGreeting(@PathVariable String id) throws EntityNotFoundException {
         greetingsService.deleteGreeting(id);
+    }
+
+    @GetMapping("/")
+    @ResponseBody
+    public String home() {
+        return "Port 8080. Success!";
     }
 }
 
