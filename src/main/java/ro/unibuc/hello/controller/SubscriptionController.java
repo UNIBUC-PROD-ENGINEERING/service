@@ -82,4 +82,12 @@ public class SubscriptionController {
         
         return "No subscription with this id.";
     }
+
+    // @DeleteMapping("/subscriptions/{id}")
+    // public ResponseEntity<String> deleteSubscription(@PathVariable String id) {
+    //     if (subscriptionService.deleteSubscription(id)) {
+    //         return ResponseEntity.ok("Success.");
+    //     }
+    //     return ResponseEntity.badRequest().body("No subscription with this id.");
+    // }
 }
