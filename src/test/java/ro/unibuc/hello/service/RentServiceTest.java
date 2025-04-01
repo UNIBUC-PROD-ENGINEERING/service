@@ -44,7 +44,7 @@ class RentServiceTest {
     @BeforeEach
     void setUp() {
         // Create test data
-        testRent = new Rent(USER_ID, GAME_ID);
+        testRent = new Rent(USER_ID, GAME_ID, 3);
         testRent.setId(RENT_ID);
         testRent.setRentDate(LocalDateTime.now().minusDays(1));
         testRent.setReturned(false);
@@ -58,7 +58,7 @@ class RentServiceTest {
         // Arrange
         List<Rent> rents = Arrays.asList(
                 testRent,
-                new Rent("user456", "game789")
+                new Rent("user456", "game789", 3)
         );
         rents.get(1).setId("rent321");
 
@@ -117,7 +117,7 @@ class RentServiceTest {
     void testGetRentsByUserId() {
         // Arrange
         Rent rent1 = testRent;
-        Rent rent2 = new Rent(USER_ID, "game789");
+        Rent rent2 = new Rent(USER_ID, "game789", 3);
         rent2.setId("rent321");
 
         List<Rent> userRents = Arrays.asList(rent1, rent2);
@@ -141,7 +141,7 @@ class RentServiceTest {
     void testGetRentsByGameId() {
         // Arrange
         Rent rent1 = testRent;
-        Rent rent2 = new Rent("user456", GAME_ID);
+        Rent rent2 = new Rent("user456", GAME_ID, 3);
         rent2.setId("rent321");
 
         List<Rent> gameRents = Arrays.asList(rent1, rent2);
@@ -172,7 +172,7 @@ class RentServiceTest {
                 .thenReturn(Collections.emptyList());
 
         // Mock the saving behavior
-        Rent savedRent = new Rent(USER_ID, GAME_ID);
+        Rent savedRent = new Rent(USER_ID, GAME_ID, 3);
         savedRent.setId(RENT_ID);
         savedRent.setRentDate(LocalDateTime.now());
         savedRent.setReturned(false);
@@ -180,7 +180,7 @@ class RentServiceTest {
         when(rentRepository.save(any(Rent.class))).thenReturn(savedRent);
 
         // Act
-        Rent result = rentService.rentGame(USER_ID, GAME_ID);
+        Rent result = rentService.rentGame(USER_ID, GAME_ID, 3);
 
         // Assert
         assertNotNull(result);
@@ -207,7 +207,7 @@ class RentServiceTest {
 
         // Act & Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            rentService.rentGame(USER_ID, GAME_ID);
+            rentService.rentGame(USER_ID, GAME_ID, 3);
         });
 
         // Verify exception message
@@ -227,7 +227,7 @@ class RentServiceTest {
                 .thenReturn(Collections.singletonList(testRent));
 
         // Mock saving the returned rent
-        Rent returnedRent = new Rent(USER_ID, GAME_ID);
+        Rent returnedRent = new Rent(USER_ID, GAME_ID, 3);
         returnedRent.setId(RENT_ID);
         returnedRent.setRentDate(testRent.getRentDate());
         returnedRent.setReturnDate(LocalDateTime.now());

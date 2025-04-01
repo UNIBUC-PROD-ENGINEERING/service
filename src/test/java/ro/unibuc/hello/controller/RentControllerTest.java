@@ -152,9 +152,9 @@ class RentControllerTest {
     void testRentGame() throws Exception {
         // Arrange
         Rent rent = createRent(RENT_ID, USER_ID, GAME_ID);
-        RentRequest request = new RentRequest(USER_ID, GAME_ID);
+        RentRequest request = new RentRequest(USER_ID, GAME_ID, 3);
 
-        when(rentService.rentGame(anyString(), anyString())).thenReturn(rent);
+        when(rentService.rentGame(anyString(), anyString(), anyInt())).thenReturn(rent);
 
         // Act & Assert
         mockMvc.perform(post("/rent")
@@ -166,7 +166,7 @@ class RentControllerTest {
                 .andExpect(jsonPath("$.gameId").value(GAME_ID))
                 .andExpect(jsonPath("$.returned").value(false));
 
-        verify(rentService, times(1)).rentGame(eq(USER_ID), eq(GAME_ID));
+        verify(rentService, times(1)).rentGame(eq(USER_ID), eq(GAME_ID), 3);
     }
 
     @Test
@@ -176,7 +176,7 @@ class RentControllerTest {
         rent.setReturned(true);
         rent.setReturnDate(LocalDateTime.now());
 
-        RentRequest request = new RentRequest(USER_ID, GAME_ID);
+        RentRequest request = new RentRequest(USER_ID, GAME_ID, 3);
 
         when(rentService.returnGame(anyString(), anyString())).thenReturn(rent);
 
@@ -196,7 +196,7 @@ class RentControllerTest {
     @Test
     void testRentGame_ValidationError() throws Exception {
         // Arrange
-        RentRequest request = new RentRequest("", ""); // Invalid request
+        RentRequest request = new RentRequest("", "", 0); // Invalid request
 
         // Act & Assert
         mockMvc.perform(post("/rent")
@@ -204,15 +204,15 @@ class RentControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
 
-        verify(rentService, never()).rentGame(anyString(), anyString());
+        verify(rentService, never()).rentGame(anyString(), anyString(), 3);
     }
 
     @Test
     void testRentGame_AlreadyRented() throws Exception {
         // Arrange
-        RentRequest request = new RentRequest(USER_ID, GAME_ID);
+        RentRequest request = new RentRequest(USER_ID, GAME_ID, 3);
 
-        when(rentService.rentGame(anyString(), anyString()))
+        when(rentService.rentGame(anyString(), anyString(), anyInt()))
                 .thenThrow(new IllegalStateException("This game is already rented by this user"));
 
         // Act & Assert
@@ -221,13 +221,13 @@ class RentControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
 
-        verify(rentService, times(1)).rentGame(eq(USER_ID), eq(GAME_ID));
+        verify(rentService, times(1)).rentGame(eq(USER_ID), eq(GAME_ID), 3);
     }
 
     @Test
     void testReturnGame_EntityNotFound() throws Exception {
         // Arrange
-        RentRequest request = new RentRequest(USER_ID, GAME_ID);
+        RentRequest request = new RentRequest(USER_ID, GAME_ID, 3);
 
         when(rentService.returnGame(anyString(), anyString()))
                 .thenThrow(new EntityNotFoundException("No active rental found"));
@@ -243,7 +243,7 @@ class RentControllerTest {
 
     // Helper method to create a rent object
     private Rent createRent(String id, String userId, String gameId) {
-        Rent rent = new Rent(userId, gameId);
+        Rent rent = new Rent(userId, gameId, 3);
         rent.setId(id);
         rent.setRentDate(LocalDateTime.now());
         rent.setReturned(false);
