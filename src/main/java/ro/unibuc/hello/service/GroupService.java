@@ -48,7 +48,11 @@ public class GroupService {
     this.bankAccountRepository = bankAccountRepository;
 }
    
-    
+    public List<Group> getAllGroups() {
+        return groupRepository.findAll();
+    }
+
+
     private Client getAuthenticatedClient(String token) {
         String jwt = token.startsWith("Bearer ") ? token.substring(7) : token;
         String email = jwtUtil.extractEmail(jwt);

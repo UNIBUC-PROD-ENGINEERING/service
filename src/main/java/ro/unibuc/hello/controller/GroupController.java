@@ -3,13 +3,10 @@ package ro.unibuc.hello.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.entity.Group;
-import ro.unibuc.hello.entity.Transaction;
 import ro.unibuc.hello.service.GroupService;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/groups")
@@ -22,8 +19,14 @@ public class GroupController {
         this.groupService = groupService;
     }
 
-    @GetMapping("/{id}") 
-    public ResponseEntity<Group> getGroup(@PathVariable String id, 
+    @GetMapping
+    public ResponseEntity<?> getAllGroups() {
+        return ResponseEntity.ok(groupService.getAllGroups());
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Group> getGroup(@PathVariable("id") String id,
                                           @RequestHeader("Authorization") String authHeader) {
         return ResponseEntity.ok(groupService.getGroup(id));
     }
@@ -35,39 +38,39 @@ public class GroupController {
     }
 
     @PutMapping("/{id}/invite/{userId}")
-    public ResponseEntity<String> inviteUser(@PathVariable String id,
-                                             @PathVariable String userId,
+    public ResponseEntity<String> inviteUser(@PathVariable("id") String id,
+                                             @PathVariable("userId") String userId,
                                              @RequestHeader("Authorization") String authHeader) {
         groupService.inviteUser(authHeader, id, userId);
         return ResponseEntity.ok("Invitation sent to user " + userId);
     }
 
     @PutMapping("/{id}/accept")
-    public ResponseEntity<String> acceptInvite(@PathVariable String id,
+    public ResponseEntity<String> acceptInvite(@PathVariable("id") String id,
                                                @RequestHeader("Authorization") String authHeader) {
         groupService.acceptInvite(authHeader, id);
         return ResponseEntity.ok("User joined the group");
     }
 
-   @PostMapping("/{id}/transactions")
-    public ResponseEntity<String> addTransactionToGroup(@PathVariable String id,
-                                                    @RequestHeader("Authorization") String authHeader,
-                                                    @RequestBody Map<String, String> requestBody) {
-    String transactionId = requestBody.get("transactionId");
-    groupService.addTransactionToGroup(authHeader, id, transactionId);
-    return ResponseEntity.ok("Transaction " + transactionId + " added to group " + id);
-}
+    @PostMapping("/{id}/transactions")
+    public ResponseEntity<String> addTransactionToGroup(@PathVariable("id") String id,
+                                                        @RequestHeader("Authorization") String authHeader,
+                                                        @RequestBody Map<String, String> requestBody) {
+        String transactionId = requestBody.get("transactionId");
+        groupService.addTransactionToGroup(authHeader, id, transactionId);
+        return ResponseEntity.ok("Transaction " + transactionId + " added to group " + id);
+    }
 
     @PutMapping("/{id}/remove/{userId}")
-    public ResponseEntity<String> removeUser(@PathVariable String id,
-                                             @PathVariable String userId,
+    public ResponseEntity<String> removeUser(@PathVariable("id") String id,
+                                             @PathVariable("userId") String userId,
                                              @RequestHeader("Authorization") String authHeader) {
         groupService.removeUser(authHeader, id, userId);
         return ResponseEntity.ok("User removed from group");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteGroup(@PathVariable String id,
+    public ResponseEntity<String> deleteGroup(@PathVariable("id") String id,
                                               @RequestHeader("Authorization") String authHeader) {
         groupService.deleteGroup(authHeader, id);
         return ResponseEntity.ok("Group deleted successfully");
