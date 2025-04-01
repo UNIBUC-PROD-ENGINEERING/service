@@ -37,10 +37,7 @@ public class GameControllerIntegrationTest {
     @Container
     public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:6.0.20")
             .withExposedPorts(27017)
-            .withEnv("MONGO_INITDB_ROOT_USERNAME", "root")
-            .withEnv("MONGO_INITDB_ROOT_PASSWORD", "example")
-            .withEnv("MONGO_INITDB_DATABASE", "testdb")
-            .withCommand("--auth");
+            .withSharding();
 
     @BeforeAll
     public static void setUp() {
@@ -54,7 +51,7 @@ public class GameControllerIntegrationTest {
 
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
-        final String MONGO_URL = "mongodb://root:example@localhost:";
+        final String MONGO_URL = "mongodb://localhost:";
         final String PORT = String.valueOf(mongoDBContainer.getMappedPort(27017));
 
         registry.add("mongodb.connection.url", () -> MONGO_URL + PORT);

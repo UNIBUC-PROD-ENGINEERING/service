@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import ro.unibuc.hello.dto.LoginRequest;
 import ro.unibuc.hello.dto.LoginResponse;
 import ro.unibuc.hello.dto.RegisterRequest;
