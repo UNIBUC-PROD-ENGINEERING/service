@@ -17,6 +17,7 @@ import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.LoginRequest;
 import ro.unibuc.hello.dto.LoginResponse;
 import ro.unibuc.hello.dto.RegisterRequest;
+import ro.unibuc.hello.exception.UserNotFoundException;
 import ro.unibuc.hello.security.JwtUtil;
 import ro.unibuc.hello.service.AuthenticationService;
 
@@ -28,9 +29,14 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
-        LoginResponse response = authenticationService.login(loginRequest);
+        try{
+            LoginResponse response = authenticationService.login(loginRequest);
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
     }
 
     @ResponseStatus(HttpStatus.OK)

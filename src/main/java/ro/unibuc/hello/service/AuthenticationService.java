@@ -11,6 +11,7 @@ import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.LoginRequest;
 import ro.unibuc.hello.dto.LoginResponse;
 import ro.unibuc.hello.dto.RegisterRequest;
+import ro.unibuc.hello.exception.UserNotFoundException;
 import ro.unibuc.hello.security.JwtUtil;
 
 @Service
@@ -30,7 +31,7 @@ public class AuthenticationService {
 
     public LoginResponse login(LoginRequest loginRequest) {
         User user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
@@ -51,5 +52,9 @@ public class AuthenticationService {
 
         String token = jwtUtil.generateToken(registerRequest.getUsername());
         return new LoginResponse(token);
+    }
+
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
     }
 }
