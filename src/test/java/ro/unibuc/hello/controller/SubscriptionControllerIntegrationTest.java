@@ -103,12 +103,14 @@ public class SubscriptionControllerIntegrationTest {
     // @Test
     // public void testDeleteSubscription() throws Exception {
 
-    //     String idToDelete = subscriptionService.getAllSubscriptions().get(0).getTier();
+    //     String idToDelete = subscriptionService.getAllSubscriptions().get(0).getId();
 
-    //     mockMvc.perform(post("/delete-subscription")
-    //             .param("id", idToDelete))
-    //             .andExpect(status().isOk())
-    //             .andExpect(content().string("Success."));
+    //     mockMvc.perform(delete("/subscriptions/{id}", idToDelete))
+    //             .andExpect(status().isOk());
+
+    //     // mockMvc.perform(post("/delete-subscription")
+    //     //         .param("id", idToDelete))
+    //     //         .andExpect(status().isOk());
 
     //     mockMvc.perform(get("/subscriptions"))
     //             .andExpect(status().isOk())

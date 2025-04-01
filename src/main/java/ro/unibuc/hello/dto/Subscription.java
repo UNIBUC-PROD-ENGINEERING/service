@@ -1,8 +1,9 @@
 package ro.unibuc.hello.dto;
 
 public class Subscription {
-    private int tier;
 
+    private String id;
+    private int tier;
     private int price;
 
     public Subscription() {}
@@ -12,13 +13,13 @@ public class Subscription {
         this.price = price;
     }
 
-    // public String getId() {
-    //     return id;
-    // }
+    public String getId() {
+        return id;
+    }
 
-    // public void setId(String id) {
-    //     this.id = id;
-    // }
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getTier(){
         return tier;
