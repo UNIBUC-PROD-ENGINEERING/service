@@ -28,7 +28,7 @@ pipeline {
                 script {
                     sh "docker build -t pascuioan/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
                     sh "docker login docker.io -u pascuioan -p pascu2003"
-                    sh "docker push pascuioan/hello-img:$IMAGE_VERSION"
+                    sh "docker push pascuioan/hello-img:${IMAGE_VERSION}"
                 }
             }
             }
