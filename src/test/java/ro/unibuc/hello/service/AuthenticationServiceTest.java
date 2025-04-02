@@ -12,6 +12,7 @@ import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.LoginRequest;
 import ro.unibuc.hello.dto.LoginResponse;
 import ro.unibuc.hello.dto.RegisterRequest;
+import ro.unibuc.hello.exception.UserNotFoundException;
 import ro.unibuc.hello.security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -78,7 +79,7 @@ class AuthenticationServiceTest {
         when(userRepository.findByUsername(loginRequest.getUsername())).thenReturn(java.util.Optional.empty());
 
         // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> authenticationService.login(loginRequest));
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> authenticationService.login(loginRequest));
         assertEquals("User not found", exception.getMessage());
 
         // Verify interactions

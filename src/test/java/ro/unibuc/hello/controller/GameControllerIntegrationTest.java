@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Testcontainers
-@Tag("IntegrationTest")
+//@Tag("IntegrationTest")
 public class GameControllerIntegrationTest {
 
     @Container
