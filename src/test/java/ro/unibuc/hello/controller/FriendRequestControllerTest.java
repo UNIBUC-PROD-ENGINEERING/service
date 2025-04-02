@@ -140,4 +140,6 @@ public class FriendRequestControllerTest {
         assertEquals(400, response.getStatusCodeValue());
         assertEquals("No friendship found between users.", response.getBody());
     }
+
+    
 }

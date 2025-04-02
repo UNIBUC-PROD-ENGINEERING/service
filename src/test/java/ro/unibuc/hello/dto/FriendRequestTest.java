@@ -29,5 +29,7 @@ public class FriendRequestTest {
         assertEquals("u2", req.getToUserId());
         assertEquals("ACCEPTED", req.getStatus());
     }
+
+
     
 }
