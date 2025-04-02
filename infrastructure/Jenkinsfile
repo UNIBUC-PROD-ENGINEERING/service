@@ -28,8 +28,8 @@ pipeline {
       steps {
         script {
             sh "docker build -t pascuioan/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
-            docker login docker.io -u pascuioan -p ${DOCKER_PASSWORD}
-            docker push pascuioan/hello-img:$IMAGE_VERSION
+            sh "docker login docker.io -u pascuioan -p ${DOCKER_PASSWORD}"
+            sh "docker push pascuioan/hello-img:$IMAGE_VERSION"
         }
       }
     }
