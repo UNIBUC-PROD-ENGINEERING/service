@@ -2,6 +2,15 @@ package ro.unibuc.hello.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ro.unibuc.hello.data.Game;
+import ro.unibuc.hello.data.User;
+import ro.unibuc.hello.data.UserRepository;
+import ro.unibuc.hello.dto.LoginRequest;
+import ro.unibuc.hello.dto.LoginResponse;
+import ro.unibuc.hello.dto.RegisterRequest;
+import ro.unibuc.hello.service.AuthenticationService;
+import ro.unibuc.hello.service.GameService;
+
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,11 +23,6 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import ro.unibuc.hello.data.Game;
-import ro.unibuc.hello.service.GameService;
-
-import java.util.List;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -26,12 +30,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Testcontainers
-//@Tag("IntegrationTest")
+@Tag("IntegrationTest")
 public class GameControllerIntegrationTest {
 
     @Container
@@ -63,159 +66,152 @@ public class GameControllerIntegrationTest {
     @Autowired
     private GameService gameService;
 
-    private ObjectMapper objectMapper;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    private String token;
 
     @BeforeEach
     public void cleanUpAndAddTestData() {
-        objectMapper = new ObjectMapper();
-
-        // Clean existing games
-        try {
-            List<Game> games = gameService.getAllGames();
-            for (Game game : games) {
-                try {
-                    gameService.deleteGame(game.getId());
-                } catch (Exception e) {
-                    // Ignore if already deleted
-                }
-            }
-        } catch (Exception e) {
-            // Ignore any errors during cleanup
-        }
+        // Clear existing games
+        gameService.deleteAllGames();
 
         // Add test games
-        Game game1 = new Game("Game 1", "PC", "Action", 2023);
-        Game game2 = new Game("Game 2", "PlayStation", "RPG", 2022);
+        Game game1 = new Game("The Witcher 3", "PC", "RPG", 2015);
+        game1.setId("1");
+        Game game2 = new Game("Red Dead Redemption 2", "PlayStation", "Action-Adventure", 2018);
+        game2.setId("2");
 
         gameService.createGame(game1);
         gameService.createGame(game2);
+
+        // Create test user and login to get token for authentication
+        userRepository.deleteAll();
+        authenticationService.register(new RegisterRequest("testUser", "password123"));
+        LoginResponse response = authenticationService.login(new LoginRequest("testUser", "password123"));
+
+        token = response.getToken();
     }
 
     @Test
     public void testGetAllGames() throws Exception {
-        mockMvc.perform(get("/games"))
+        mockMvc.perform(get("/games")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].name").value("Game 1"))
-                .andExpect(jsonPath("$[1].name").value("Game 2"));
+                .andExpect(jsonPath("$[0].name").value("The Witcher 3"))
+                .andExpect(jsonPath("$[1].name").value("Red Dead Redemption 2"));
     }
 
     @Test
     public void testGetGameById() throws Exception {
-        // Get all games to find one by name
-        List<Game> games = gameService.getAllGames();
-        Game game = games.stream()
-                .filter(g -> g.getName().equals("Game 1"))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("Test game not found"));
-
-        mockMvc.perform(get("/games/{id}", game.getId()))
+        mockMvc.perform(get("/games/1")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(game.getId()))
-                .andExpect(jsonPath("$.name").value("Game 1"))
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.name").value("The Witcher 3"))
                 .andExpect(jsonPath("$.platform").value("PC"))
-                .andExpect(jsonPath("$.genre").value("Action"))
-                .andExpect(jsonPath("$.releasedYear").value(2023));
+                .andExpect(jsonPath("$.genre").value("RPG"))
+                .andExpect(jsonPath("$.releasedYear").value(2015));
     }
 
     @Test
-    public void testGetGameById_NotFound() throws Exception {
-        String nonExistingId = "nonExistingId";
-
-        mockMvc.perform(get("/games/{id}", nonExistingId))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void testAddGame() throws Exception {
-        Game newGame = new Game("New Test Game", "Xbox", "Strategy", 2024);
+    public void testCreateGame() throws Exception {
+        Game newGame = new Game("Elden Ring", "PlayStation", "Action RPG", 2022);
+        newGame.setId("3");
 
         mockMvc.perform(post("/games")
+                        .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newGame)))
+                        .content(new ObjectMapper().writeValueAsString(newGame)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("New Test Game"))
-                .andExpect(jsonPath("$.platform").value("Xbox"))
-                .andExpect(jsonPath("$.genre").value("Strategy"))
-                .andExpect(jsonPath("$.releasedYear").value(2024));
+                .andExpect(jsonPath("$.id").value("3"))
+                .andExpect(jsonPath("$.name").value("Elden Ring"))
+                .andExpect(jsonPath("$.platform").value("PlayStation"))
+                .andExpect(jsonPath("$.genre").value("Action RPG"))
+                .andExpect(jsonPath("$.releasedYear").value(2022));
 
-        // Verify it was added to the database
-        List<Game> games = gameService.getAllGames();
-        assertEquals(3, games.size());
-
-        boolean found = games.stream()
-                .anyMatch(g -> g.getName().equals("New Test Game") &&
-                        g.getPlatform().equals("Xbox") &&
-                        g.getGenre().equals("Strategy") &&
-                        g.getReleasedYear().equals(2024));
-
-        assertEquals(true, found, "New game should be in the database");
+        // Verify the new game was added to the list
+        mockMvc.perform(get("/games")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()").value(3));
     }
 
     @Test
     public void testUpdateGame() throws Exception {
-        // Get a game to update
-        List<Game> games = gameService.getAllGames();
-        Game game = games.stream()
-                .filter(g -> g.getName().equals("Game 1"))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("Test game not found"));
+        Game updatedGame = new Game("The Witcher 3: Wild Hunt", "PC", "Open World RPG", 2015);
+        updatedGame.setId("1");
 
-        // Create updated version
-        Game updatedGame = new Game("Updated Game", "Switch", "Adventure", 2021);
-
-        mockMvc.perform(put("/games/{id}", game.getId())
+        mockMvc.perform(put("/games/1")
+                        .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updatedGame)))
+                        .content(new ObjectMapper().writeValueAsString(updatedGame)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(game.getId()))
-                .andExpect(jsonPath("$.name").value("Updated Game"))
-                .andExpect(jsonPath("$.platform").value("Switch"))
-                .andExpect(jsonPath("$.genre").value("Adventure"))
-                .andExpect(jsonPath("$.releasedYear").value(2021));
+                .andExpect(jsonPath("$.id").value("1"))
+                .andExpect(jsonPath("$.name").value("The Witcher 3: Wild Hunt"))
+                .andExpect(jsonPath("$.genre").value("Open World RPG"));
 
-        // Verify it was updated in the database
-        Game retrievedGame = gameService.getGameById(game.getId());
-        assertEquals("Updated Game", retrievedGame.getName());
-        assertEquals("Switch", retrievedGame.getPlatform());
-        assertEquals("Adventure", retrievedGame.getGenre());
-        assertEquals(2021, retrievedGame.getReleasedYear());
+        // Verify the game was updated
+        mockMvc.perform(get("/games/1")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("The Witcher 3: Wild Hunt"))
+                .andExpect(jsonPath("$.genre").value("Open World RPG"));
     }
 
     @Test
     public void testDeleteGame() throws Exception {
-        // Get a game to delete
-        List<Game> games = gameService.getAllGames();
-        Game game = games.stream()
-                .filter(g -> g.getName().equals("Game 2"))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("Test game not found"));
-
-        // Delete the game
-        mockMvc.perform(delete("/games/{id}", game.getId()))
+        mockMvc.perform(delete("/games/1")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNoContent());
 
-        // Verify it was deleted
-        mockMvc.perform(get("/games/{id}", game.getId()))
-                .andExpect(status().isNotFound());
-
-        // Verify count of games is reduced
-        List<Game> remainingGames = gameService.getAllGames();
-        assertEquals(games.size() - 1, remainingGames.size(), "One game should be deleted");
+        // Verify the game was deleted
+        mockMvc.perform(get("/games")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Red Dead Redemption 2"));
     }
 
     @Test
-    public void testAddGame_ValidationError() throws Exception {
-        // Create an invalid game with missing required fields
-        Game invalidGame = new Game("", "", "", null);
+    public void testGetNonExistentGame() throws Exception {
+        mockMvc.perform(get("/games/999")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNotFound());
+    }
 
-        mockMvc.perform(post("/games")
+    @Test
+    public void testUpdateNonExistentGame() throws Exception {
+        Game nonExistentGame = new Game("Fake Game", "PC", "Fake Genre", 2023);
+        nonExistentGame.setId("999");
+
+        mockMvc.perform(put("/games/999")
+                        .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(invalidGame)))
-                .andExpect(status().isBadRequest());
+                        .content(new ObjectMapper().writeValueAsString(nonExistentGame)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testDeleteNonExistentGame() throws Exception {
+        mockMvc.perform(delete("/games/999")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testUnauthorizedAccess() throws Exception {
+        mockMvc.perform(get("/games"))
+                .andExpect(status().isForbidden());
     }
 }

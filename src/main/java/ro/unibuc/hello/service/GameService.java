@@ -46,4 +46,8 @@ public class GameService {
         Game game = getGameById(id);
         gameRepository.delete(game);
     }
+
+    public void deleteAllGames() {
+        gameRepository.deleteAll();
+    }
 }
