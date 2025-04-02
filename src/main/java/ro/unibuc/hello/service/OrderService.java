@@ -74,23 +74,14 @@ public class OrderService {
         return null;
     }
 
-    public List<String> getTop5MostSoldProducts() {
-        Map<String, Long> productSales = new HashMap<>();
-
-        orderRepository.findAll().forEach(order -> {
-            if (order.getProductOrders() != null) {
-                for (ProductOrderEntity productOrder : order.getProductOrders()) {
-                    String productId = productOrder.getProduct().getId();
-                    long quantity = productOrder.getQuantity();
-                    productSales.put(productId, productSales.getOrDefault(productId, 0L) + quantity);
-                }
-            }
-        });
-
-        return productSales.entrySet().stream()
+    public List<String> getTop5UsersByOrderCount() {
+        return orderRepository.findAll().stream()
+                .collect(Collectors.groupingBy(order -> order.getUser().getId(), Collectors.counting()))
+                .entrySet().stream()
                 .sorted((a, b) -> Long.compare(b.getValue(), a.getValue()))
                 .limit(5)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 }
+
