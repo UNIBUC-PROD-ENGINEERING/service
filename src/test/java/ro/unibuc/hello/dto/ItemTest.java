@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ro.unibuc.hello.data.Category;
+
 class ItemTest {
 
     private Item item;
@@ -48,5 +50,12 @@ class ItemTest {
 
         item.setHighestBidder("bidder@example.com");
         assertEquals("bidder@example.com", item.getHighestBidder());
+    }
+
+    @Test
+    void testCategorySetterAndGetter() {
+        Category category = Category.ELECTRONICS;
+        item.setCategory(category);
+        assertEquals(category, item.getCategory());
     }
 }
