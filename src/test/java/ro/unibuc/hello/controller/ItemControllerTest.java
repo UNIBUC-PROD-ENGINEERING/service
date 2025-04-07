@@ -88,4 +88,50 @@ class ItemControllerTest {
         ResponseEntity<Void> response = itemController.deleteItem("99");
         assertEquals(404, response.getStatusCode().value());
     }
+
+    @Test
+    void getAllItems_ActiveOnly_ShouldReturnList() {
+        when(itemService.getActiveItems()).thenReturn(Collections.singletonList(sampleItem));
+        ResponseEntity<List<Item>> response = itemController.getAllItems(true);
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(1, response.getBody().size());
+    }
+
+    @Test
+    void searchItemByName_ShouldReturnItem() {
+        when(itemService.searchItemByName("Test Item")).thenReturn(sampleItem);
+        ResponseEntity<Item> response = itemController.searchItemByName("Test Item");
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+    }
+
+    @Test
+    void searchItemByName_ShouldReturnNotFound() {
+        when(itemService.searchItemByName("Unknown")).thenThrow(new EntityNotFoundException("Unknown"));
+        ResponseEntity<Item> response = itemController.searchItemByName("Unknown");
+        assertEquals(404, response.getStatusCode().value());
+    }
+
+    @Test
+    void updateItem_ShouldReturnUpdatedItem() {
+        when(itemService.updateItem("1", sampleItem)).thenReturn(sampleItem);
+        ResponseEntity<Item> response = itemController.updateItem("1", sampleItem);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+    }
+
+    @Test
+    void updateItem_ShouldReturnNotFound() {
+        when(itemService.updateItem("99", sampleItem)).thenThrow(new EntityNotFoundException("99"));
+        ResponseEntity<Item> response = itemController.updateItem("99", sampleItem);
+        assertEquals(404, response.getStatusCode().value());
+    }
+
+    @Test
+    void updateItem_ShouldReturnBadRequest() {
+        when(itemService.updateItem("1", sampleItem)).thenThrow(new IllegalArgumentException("Invalid data"));
+        ResponseEntity<Item> response = itemController.updateItem("1", sampleItem);
+        assertEquals(400, response.getStatusCode().value());
+    }
+
 }

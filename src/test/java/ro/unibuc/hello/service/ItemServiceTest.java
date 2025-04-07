@@ -9,6 +9,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,8 +73,10 @@ class ItemServiceTest {
     @Test
     void getItemById_ShouldThrowException() {
         when(itemRepository.findById("99")).thenReturn(Optional.empty());
+
         Exception exception = assertThrows(EntityNotFoundException.class, () -> itemService.getItemById("99"));
-        assertEquals("99", exception.getMessage());
+
+        assertEquals("Entity: 99 was not found", exception.getMessage());
     }
 
     @Test
@@ -87,8 +90,10 @@ class ItemServiceTest {
     @Test
     void createItem_ShouldFailWithInvalidEmail() {
         Item newItem = new Item(null, "Invalid Item", "Description", 100.0, LocalDateTime.now().plusDays(1), true, "invalid-email", null);
-        Exception exception = assertThrows(EntityNotFoundException.class, () -> itemService.getItemById("99"));
-        assertEquals("99", exception.getMessage());
+        
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> itemService.createItem(newItem));
+        
+        assertEquals("Invalid email format for creator", exception.getMessage());
     }
 
     @Test
@@ -103,5 +108,105 @@ class ItemServiceTest {
 
         assertFalse(sampleItem.isActive());
         verify(itemRepository, times(1)).save(sampleItem);
+    }
+
+    @Test
+    void getActiveItems_ShouldReturnList() {
+        when(itemRepository.findByActive(true)).thenReturn(Collections.singletonList(sampleItem));
+        
+        List<Item> items = itemService.getActiveItems();
+        
+        assertEquals(1, items.size());
+        assertEquals("Test Item", items.get(0).getName());
+    }
+
+    @Test
+    void searchItemByName_ShouldReturnItem() {
+        when(itemRepository.findByNameContainingIgnoreCase("Test")).thenReturn(Collections.singletonList(sampleItem));
+        
+        Item item = itemService.searchItemByName("Test");
+        
+        assertEquals("Test Item", item.getName());
+    }
+
+    @Test
+    void searchItemByName_ShouldThrowException() {
+        when(itemRepository.findByNameContainingIgnoreCase("Unknown"))
+            .thenReturn(Collections.emptyList());
+
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> 
+            itemService.searchItemByName("Unknown"));
+
+        assertTrue(exception.getMessage().contains("Entity: Unknown was not found"));
+    }
+
+    @Test
+    void createItem_ShouldFailWithPastEndTime() {
+        Item newItem = new Item(null, "Expired Item", "Description", 100.0, 
+            LocalDateTime.now().minusDays(1), true, "test@example.com", null);
+        
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> 
+            itemService.createItem(newItem));
+        
+        assertEquals("End time must be in the future", exception.getMessage());
+    }
+
+    @Test
+    void updateItem_ShouldUpdateAndReturnItem() {
+        when(itemRepository.findById("1")).thenReturn(Optional.of(sampleItem));
+        when(itemRepository.save(any(ItemEntity.class))).thenReturn(sampleItem);
+        
+        Item updatedItem = new Item("1", "Updated Item", "Updated Description", 
+            150.0, LocalDateTime.now().plusDays(2), true, "test@example.com", null);
+        
+        Item result = itemService.updateItem("1", updatedItem);
+        
+        assertEquals("Updated Item", result.getName());
+        assertEquals(150.0, result.getInitialPrice());
+    }
+
+    @Test
+    void updateItem_ShouldFailWithInvalidEmail() {
+        when(itemRepository.findById("1")).thenReturn(Optional.of(sampleItem));
+        
+        Item updatedItem = new Item("1", "Updated Item", "Updated Description", 
+            150.0, LocalDateTime.now().plusDays(2), true, "invalid-email", null);
+        
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> 
+            itemService.updateItem("1", updatedItem));
+        
+        assertEquals("Invalid email format for creator", exception.getMessage());
+    }
+
+    @Test
+    void updateItem_ShouldFailWithPastEndTimeForActiveItem() {
+        when(itemRepository.findById("1")).thenReturn(Optional.of(sampleItem));
+        
+        Item updatedItem = new Item("1", "Updated Item", "Updated Description", 
+            150.0, LocalDateTime.now().minusDays(1), true, "test@example.com", null);
+        
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> 
+            itemService.updateItem("1", updatedItem));
+        
+        assertEquals("End time must be in the future for active items", exception.getMessage());
+    }
+
+    @Test
+    void deleteItem_ShouldRemoveItem() {
+        when(itemRepository.findById("1")).thenReturn(Optional.of(sampleItem));
+        
+        itemService.deleteItem("1");
+        
+        verify(itemRepository, times(1)).delete(sampleItem);
+    }
+
+    @Test
+    void deleteItem_ShouldThrowExceptionIfNotFound() {
+        when(itemRepository.findById("99")).thenReturn(Optional.empty());
+        
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> 
+            itemService.deleteItem("99"));
+        
+        assertEquals("Entity: 99 was not found", exception.getMessage());
     }
 }
