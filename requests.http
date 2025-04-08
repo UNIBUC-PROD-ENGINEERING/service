@@ -81,8 +81,8 @@ POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-    "username": "testuserv13",
-    "password": "testpasswordv13"
+    "username": "testuserv14",
+    "password": "testpasswordv14"
 }
 
 ### Admin user login
@@ -106,7 +106,7 @@ GET http://localhost:8080/api/auth/users/adminuserv8
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJ2OCIsImlhdCI6MTc0MjgxNDg0NCwiZXhwIjoxNzQyOTAxMjQ0LCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl19.TnY5HQTw9x2MnvK637iGfGDyRokZ9EG3T-S9fX5kz-o
 
 ### Try to delete a user as admin (admin token required)
-DELETE http://localhost:8080/api/auth/users/testuserv10
+DELETE http://localhost:8080/api/auth/users/testuserv14
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbnVzZXJ2OCIsImlhdCI6MTc0MjgxNDg0NCwiZXhwIjoxNzQyOTAxMjQ0LCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl19.TnY5HQTw9x2MnvK637iGfGDyRokZ9EG3T-S9fX5kz-o
 
 ### Try to delete a user as non-admin (should fail)
