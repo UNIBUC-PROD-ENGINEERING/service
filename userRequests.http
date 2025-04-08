@@ -12,7 +12,7 @@ GET http://localhost:8080/users/{{userId}}
 GET http://localhost:8080/users/info?username={{username}}
 
 ### Create a new user
-@postUsername = andrei
+@postUsername = andrei01
 @postPassword = parola
 POST http://localhost:8080/users
 Content-Type: application/json
