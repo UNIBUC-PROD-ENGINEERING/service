@@ -21,11 +21,6 @@ public class NotificareController {
     @Autowired
     private NotificareService notificareService;
 
-    // @GetMapping("/notificare")
-    // @ResponseBody
-    // public List<Notificare> notificare(@RequestParam(name="eventId", required=false, defaultValue="0") String eventId) {
-    //     return notificareService.getNotificariByEventId(eventId);
-    // }
 
     @PostMapping("/addNotificare")
     @ResponseBody

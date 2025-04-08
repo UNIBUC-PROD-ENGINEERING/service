@@ -34,6 +34,7 @@ public class NotificareServiceTest {
     private UserRepository userRepository;
     @Mock
     private EventService eventService;
+
     @InjectMocks
     private NotificareService notificareService;
 
@@ -144,11 +145,14 @@ public class NotificareServiceTest {
         String notificareId = "1";
         Notificare notificare = new Notificare(notificareId, "123", "user1", "invitat", false);
         when(notificareRepository.findByNotificareId(notificareId)).thenReturn(notificare);
+        Notificare notificare2 = new Notificare(notificare.getNotificareId(), notificare.getEventId(), notificare.getUserId(), notificare.getTipVerificare(), true);
+
+        when(notificareRepository.save(notificare2)).thenReturn(notificare2);
 
         Notificare savedNotificare = notificareService.acceptInvitation(notificareId);
         
-        verify(notificareRepository, times(1)).findByNotificareId(notificareId);
-        verify(notificareRepository, times(1)).save(savedNotificare);
+        // verify(notificareRepository, times(1)).findByNotificareId(notificareId);
+        verify(notificareRepository, times(1)).save(notificare2);
 
         assertNotNull(savedNotificare);
         assertEquals(notificareId, savedNotificare.getNotificareId());

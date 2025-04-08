@@ -116,15 +116,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcnYxMyIsImlhdCI6M
 
 
 ### Create a new notificare
-POST http://localhost:8080/notificare
+POST http://localhost:8080/api/notificare/addNotificare
 Content-Type: application/json
 
 {
-  "notificareId": 1,
-  "eventId": 123,
-  "tipVerificare": "Sample Tip",
-  "verificare": true
+    "notificareId": "1",
+    "eventId": "123",
+    "userId": "user1",
+    "tipVerificare": "invitat",
+    "verificare": false
 }
+
 
 ### Get a notificare by eventId
 GET http://localhost:8080/notificare/123
@@ -152,3 +154,24 @@ GET http://localhost:8080/api/event/userId/u1
 
 ### Get event by username
 GET http://localhost:8080/api/event/username/user2
+
+
+### Create another notificare
+POST http://localhost:8080/api/notificare/addNotificare
+Content-Type: application/json
+
+{
+    "notificareId": "2",
+    "eventId": "456",
+    "userId": "user1",
+    "tipVerificare": "invitat",
+    "verificare": false
+}
+
+
+### Get notificari for a user
+GET http://localhost:8080/api/notificare/notificariByUserId/user1
+
+### Accept invitation for a notificare
+POST http://localhost:8080/api/notificare/acceptInvitation/1
+Content-Type: application/json
