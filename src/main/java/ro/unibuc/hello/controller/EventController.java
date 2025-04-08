@@ -30,9 +30,10 @@ public class EventController {
         return eventService.deleteEvent(eventId)
             ? "Event deleted successfully!"
             : "Event not found!";
-    }
+}   
 
-    @GetMapping("/user/{userId}")
+
+    @GetMapping("/userId/{userId}")
     public List<Event> getEventsByUserId(@PathVariable String userId) {
         return eventService.getEventsByUserId(userId);
     }

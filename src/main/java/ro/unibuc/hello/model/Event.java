@@ -61,3 +61,5 @@ public class Event {
         this.usernames.add(username);
     }
 }
+
+//getevenimente cu cele mai multe accepturi

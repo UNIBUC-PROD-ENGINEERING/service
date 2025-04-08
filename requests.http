@@ -128,3 +128,27 @@ Content-Type: application/json
 
 ### Get a notificare by eventId
 GET http://localhost:8080/notificare/123
+
+### Add event
+POST http://localhost:8080/api/event/add
+Content-Type: application/json
+
+{
+    "eventId": "e1",
+    "userId": "u1",
+    "name": "test",
+    "description": "test",
+    "usernames": ["user2", "user3"]
+}
+
+### Get event by eventId
+GET http://localhost:8080/api/event/eventId/e1
+
+### Delete event
+DELETE http://localhost:8080/api/event/delete/e1>
+
+### Get event by userId
+GET http://localhost:8080/api/event/userId/u1
+
+### Get event by username
+GET http://localhost:8080/api/event/username/user2
