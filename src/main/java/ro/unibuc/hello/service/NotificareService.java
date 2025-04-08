@@ -75,6 +75,7 @@ public class NotificareService {
 
     public Notificare acceptInvitation(String notificareId) {
         Notificare notificare = notificareRepository.findByNotificareId(notificareId);
+        System.out.println("Notificare: " + notificare);
         if (notificare != null) {
             notificare.setVerificare(true);
             Notificare savedNotificare = notificareRepository.save(notificare);
