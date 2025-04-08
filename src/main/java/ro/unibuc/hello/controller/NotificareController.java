@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController
+@Controller
 @RequestMapping("/api/notificare")
 public class NotificareController {
 
+    @Autowired
     private NotificareService notificareService;
 
     // @GetMapping("/notificare")

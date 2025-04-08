@@ -1,13 +1,16 @@
 package ro.unibuc.hello.model;
 import java.util.List;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "notificari")
 public class Notificare {
     @Id
     private String notificareId;
+    @Indexed
     private String eventId;
+    @Indexed
     private String userId;
     private String tipVerificare;
     private boolean verificare;
