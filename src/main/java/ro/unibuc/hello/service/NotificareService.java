@@ -7,25 +7,31 @@ import ro.unibuc.hello.model.Notificare;
 import ro.unibuc.hello.model.User;
 import ro.unibuc.hello.repository.NotificareRepository;
 import ro.unibuc.hello.repository.UserRepository;
+import ro.unibuc.hello.service.EventService;
+import org.springframework.stereotype.Component;
+
 
 import java.util.List;
 
-@Service
+@Component
 public class NotificareService {
+    @Autowired
     private final NotificareRepository notificareRepository;
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final EventService eventService;
 
-    @Autowired
+    
     public NotificareService(NotificareRepository notificareRepository, UserRepository userRepository, EventService eventService) {
         this.notificareRepository = notificareRepository;
         this.userRepository = userRepository;
         this.eventService = eventService;
     }
 
-    // public List<Notificare> getNotificariByEventId(String eventId) {
-    //     return notificareRepository.findByEventId(eventId);
-    // }
+    public List<Notificare> getNotificariByEventId(String eventId) {
+        return notificareRepository.findByEventId(eventId);
+    }
 
     public List<Notificare> getNotificareByUserId(String userId) {
         return notificareRepository.findByUserId(userId);
@@ -67,11 +73,17 @@ public class NotificareService {
         return notificareRepository.findByUserId(userId);
     }
 
-    public void acceptInvitation(String notificareId) {
-        Notificare notificare = notificareRepository.findById(notificareId).orElse(null);
+    public Notificare acceptInvitation(String notificareId) {
+        Notificare notificare = notificareRepository.findByNotificareId(notificareId);
         if (notificare != null) {
             notificare.setVerificare(true);
-            notificareRepository.save(notificare);
+            Notificare savedNotificare = notificareRepository.save(notificare);
+            return savedNotificare;
         }
+        return notificare;
+    }
+
+    public void deleteAllNotificari() {
+        notificareRepository.deleteAll();
     }
 }

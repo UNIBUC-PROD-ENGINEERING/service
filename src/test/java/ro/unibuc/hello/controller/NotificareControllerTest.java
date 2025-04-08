@@ -15,6 +15,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class NotificareControllerTest {
     
@@ -39,7 +42,7 @@ public class NotificareControllerTest {
         Notificare notificare = new Notificare("1", "123", "user1", "tip1", true);
         when(notificareService.createNotificare(any(Notificare.class))).thenReturn(notificare);
 
-        mockMvc.perform(post("/notificare")
+        mockMvc.perform(post("/api/addNotificare")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"notificareId\":\"1\",\"eventId\":\"123\",\"userId\":\"user1\",\"tipVerificare\":\"tip1\",\"verificare\":true}"))
                 .andExpect(status().isOk())
@@ -52,22 +55,22 @@ public class NotificareControllerTest {
         verify(notificareService, times(1)).createNotificare(any(Notificare.class));
     }
 
-    // @Test
-    // public void testGetNotificariByEventId() throws Exception {
-    //     String eventId = "123";
-    //     List<Notificare> notificari = new ArrayList<>();
-    //     notificari.add(new Notificare("1", eventId, "user1", "tip1", false));
-    //     notificari.add(new Notificare("2", eventId, "user2", "tip2", true));
-    //     when(notificareService.getNotificariByEventId(eventId)).thenReturn(notificari);
+    @Test
+    public void testGetNotificariByEventId() throws Exception {
+        String eventId = "123";
+        List<Notificare> notificari = new ArrayList<>();
+        notificari.add(new Notificare("1", eventId, "user1", "tip1", false));
+        notificari.add(new Notificare("2", eventId, "user2", "tip2", true));
+        when(notificareService.getNotificariByEventId(eventId)).thenReturn(notificari);
 
-    //     mockMvc.perform(get("/notificare/event/{eventId}", eventId))
-    //             .andExpect(status().isOk())
-    //             .andExpect(jsonPath("$.length()").value(2))
-    //             .andExpect(jsonPath("$[0].eventId").value("123"))
-    //             .andExpect(jsonPath("$[1].eventId").value("123"));
+        mockMvc.perform(get("/api/notificare/notificariByEventId/{eventId}", eventId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].eventId").value("123"))
+                .andExpect(jsonPath("$[1].eventId").value("123"));
 
-    //     verify(notificareService, times(1)).getNotificariByEventId(eventId);
-    // }
+        verify(notificareService, times(1)).getNotificariByEventId(eventId);
+    }
 
 
     @Test
@@ -78,7 +81,7 @@ public class NotificareControllerTest {
         notificari.add(new Notificare("2", "124", userId, "tip2", true));
         when(notificareService.getNotificariByUserId(userId)).thenReturn(notificari);
 
-        mockMvc.perform(get("/notificare/user/{userId}", userId))
+        mockMvc.perform(get("/api/notificare/notificariByUserId/{userId}", userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].eventId").value("123"))
@@ -92,7 +95,7 @@ public class NotificareControllerTest {
         String notificareId = "1";
         doNothing().when(notificareService).acceptInvitation(notificareId);
 
-        mockMvc.perform(put("/notificare/{notificareId}/accept", notificareId))
+        mockMvc.perform(put("/api/notificare//acceptInvitation/{notificareId}", notificareId))
                 .andExpect(status().isOk());
 
         verify(notificareService, times(1)).acceptInvitation(notificareId);

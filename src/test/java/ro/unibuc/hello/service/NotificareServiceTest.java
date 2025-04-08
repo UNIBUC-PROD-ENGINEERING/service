@@ -5,21 +5,25 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.ArgumentCaptor;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.unibuc.hello.model.Notificare;
+import ro.unibuc.hello.model.Event;
+import ro.unibuc.hello.model.User;
 import ro.unibuc.hello.repository.NotificareRepository;
 import ro.unibuc.hello.repository.UserRepository;
 import ro.unibuc.hello.service.EventService;
 
+
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 public class NotificareServiceTest {
@@ -31,26 +35,26 @@ public class NotificareServiceTest {
     @Mock
     private EventService eventService;
     @InjectMocks
-    private NotificareService notificareService = new NotificareService();
+    private NotificareService notificareService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
-    // @Test
-    // public void testGetNotificariByEventId() {
-    //     String eventId = "123";
-    //     List<Notificare> notificari = new ArrayList<>();
-    //     notificari.add(new Notificare("1", eventId, "user1", "tip1", false));
-    //     when(notificareRepository.findByEventId(eventId)).thenReturn(notificari);
+    @Test
+    public void testGetNotificariByEventId() {
+        String eventId = "123";
+        List<Notificare> notificari = new ArrayList<>();
+        notificari.add(new Notificare("1", eventId, "user1", "tip1", false));
+        when(notificareRepository.findByEventId(eventId)).thenReturn(notificari);
         
-    //     List<Notificare> result = notificareService.getNotificariByEventId(eventId);
+        List<Notificare> result = notificareService.getNotificariByEventId(eventId);
 
-    //     assertEquals(1, result.size());
-    //     assertEquals(eventId, result.get(0).getEventId());
-    //     verify(notificareRepository, times(1)).findByEventId(eventId);
-    // }
+        assertEquals(1, result.size());
+        assertEquals(eventId, result.get(0).getEventId());
+        verify(notificareRepository, times(1)).findByEventId(eventId);
+    }
 
     @Test
     public void testCreateNotificare() {
@@ -79,12 +83,12 @@ public class NotificareServiceTest {
         when(eventService.getEventsByUserId(userId)).thenReturn(events);
 
         User user2 = new User();
-        user.setUserId("user2");
-        user.setUsername("username2");
+        user2.setId("user2");
+        user2.setUsername("username2");
 
         User user3 = new User();
-        user.setUserId("user3");
-        user.setUsername("username3");
+        user3.setId("user3");
+        user3.setUsername("username3");
 
         when(userRepository.findByUsername("username2")).thenReturn(Optional.of(user2));
         when(userRepository.findByUsername("username3")).thenReturn(Optional.of(user3));
@@ -141,11 +145,14 @@ public class NotificareServiceTest {
         Notificare notificare = new Notificare(notificareId, "123", "user1", "invitat", false);
         when(notificareRepository.findByNotificareId(notificareId)).thenReturn(notificare);
 
-        notificareService.acceptInvitation(notificareId);
-
-        assertEquals(true, notificare.getVerificare());
+        Notificare savedNotificare = notificareService.acceptInvitation(notificareId);
+        
         verify(notificareRepository, times(1)).findByNotificareId(notificareId);
-        verify(notificareRepository, times(1)).save(notificare);
+        verify(notificareRepository, times(1)).save(savedNotificare);
+
+        assertNotNull(savedNotificare);
+        assertEquals(notificareId, savedNotificare.getNotificareId());
+        assertEquals(true, savedNotificare.getVerificare());
     }
 
 
