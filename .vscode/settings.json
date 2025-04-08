@@ -2,7 +2,5 @@
     "java.server.launchMode": "Standard",
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.debug.settings.onBuildFailureProceed": true,
-    "java.project.sourcePaths": [
-        "src"
-    ]
+    "java.project.sourcePaths": []
 }
