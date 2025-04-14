@@ -1,5 +1,6 @@
 global:
-  scrape_interval: 5s
+  scrape_interval: 30s
+  scrape_timeout: 30s
 
 scrape_configs:
   - job_name: 'prometheus'
