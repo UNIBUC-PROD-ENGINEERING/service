@@ -1,19 +1,39 @@
+# global:
+#   resolve_timeout: 1m
+
+# route:
+#   group_by: ['alertname']
+#   group_wait: 10s
+#   group_interval: 10s
+#   repeat_interval: 1m
+#   receiver: 'email'
+  
+# receivers:
+# - name: 'email'
+#   email_configs:
+#   - to: 'EMAIL@gmail.com'
+#     from: 'EMAIL@gmail.com'
+#     smarthost: smtp.gmail.com:587
+#     auth_username: 'EMAIL@gmail.com'
+#     auth_identity: 'EMAIL@gmail.com'
+#     auth_password: 'GENERATE ONE FROM https://security.google.com/settings/security/apppasswords'
+
+
 global:
-  resolve_timeout: 1m
+  smtp_smarthost: 'sandbox.smtp.mailtrap.io:587'
+  smtp_from: 'alert@yourapp.dev'
+  smtp_auth_username: '50a86314e07ec7'
+  smtp_auth_password: '746ac1ab195ef3'  
 
 route:
   group_by: ['alertname']
   group_wait: 10s
-  group_interval: 10s
+  group_interval: 30s
   repeat_interval: 1m
-  receiver: 'email'
-  
+  receiver: 'mailtrap'
+
 receivers:
-- name: 'email'
-  email_configs:
-  - to: 'EMAIL@gmail.com'
-    from: 'EMAIL@gmail.com'
-    smarthost: smtp.gmail.com:587
-    auth_username: 'EMAIL@gmail.com'
-    auth_identity: 'EMAIL@gmail.com'
-    auth_password: 'GENERATE ONE FROM https://security.google.com/settings/security/apppasswords'
+  - name: 'mailtrap'
+    email_configs:
+      - to: 'test@example.com'
+        send_resolved: true

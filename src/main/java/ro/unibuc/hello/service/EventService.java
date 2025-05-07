@@ -12,9 +12,9 @@ import java.util.List;
 public class EventService {
     private final EventRepository eventRepository;
 
-    private final NotificareRepository notificareRepository;
+    // private final NotificareRepository notificareRepository;
     
-    private final UserRepository userRepository;
+    // private final UserRepository userRepository;
 
     public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;

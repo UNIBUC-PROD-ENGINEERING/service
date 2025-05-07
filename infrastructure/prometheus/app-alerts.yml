@@ -18,3 +18,30 @@ groups:
         annotations:
           summary: Increased info retrieval rate {{ $labels.value}} {{ $value }}
           description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+      - alert: AppIsDown
+        expr: app_availability_status == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: " App is DOWN"
+          description: "Availability gauge reports DOWN"
+
+      - alert: AppTooSlow
+        expr: rate(custom_hello_timer_seconds_sum[1m]) / rate(custom_hello_timer_seconds_count[1m]) > 0.5
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: " App response time > 0.5s"
+          description: "Performance degradation detected"
+
+      - alert: TooManyErrors
+        expr: increase(app_error_count_total[1m]) > 3
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: " More than 3 errors in the last minute"
+          description: "Possible quality degradation"
