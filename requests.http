@@ -1,53 +1,93 @@
 
 # You can use this file to easily send requests to your API.
 # Prerequisite: humao.rest-client Vscode plugin (already present on codespace)
-# High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial?srsltid=AfmBOoppDqtkhRxj5BLZONRZFzRDmh6eP-xyTo6H4OuEHYuVbrg1d4Dm
+# High-level overview of REST API concepts used here: https://www.packtpub.com/en-us/learning/how-to-tutorials/what-are-rest-verbs-and-status-codes-tutorial
+
+# TIP: Run requests in order - later requests reference IDs from earlier responses
 
 
-# Requests for API endpoints of the sample project:
+# ==========================================
+# User Controller Endpoints
+# ==========================================
 
-### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8080/hello-world
+### Get all users
+GET http://localhost:8080/users
 
-### Hello world with a request param passed.
-# When sending the request it will ask you for the name
-# hitting enter will avoid passing the param, and do the default behaviour above
-# @prompt name The name to display in response
-GET http://localhost:8080/hello-world
-    ?name={{name}}
-
-### Save a greeting to database
-@postGreetingId = 1001
-@postGreetingContent = Hello!
-POST http://localhost:8080/greetings
+### Create a new user (run this to populate variables for other requests)
+# @name createUser
+POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-    "id": "{{postGreetingId}}",
-    "content": "{{postGreetingContent}}"
+    "name": "Jean Valjean",
+    "email": "prisoner24601@france.fr"
 }
 
-### Get all greetings
-GET http://localhost:8080/greetings
+### Get user by ID (uses ID from createUser response)
+GET http://localhost:8080/users/{{createUser.response.body.id}}
 
-### Get info for greeting with given content
-# @prompt content Greeting content to look for, defaults to "Overview"
-GET http://localhost:8080/info
-    ?title={{content}}
+### Get user by email (uses email from createUser response)
+GET http://localhost:8080/users/by-email?email={{createUser.response.body.email}}
 
-### Update an existing greeting
-@putGreetingId = 1001
-@putGreetingContent = Hello again!
-PUT http://localhost:8080/greetings/{{putGreetingId}}
+### Change user name
+PATCH http://localhost:8080/users/{{createUser.response.body.id}}/name
 Content-Type: application/json
 
 {
-    "content": "{{putGreetingContent}}"
+    "name": "Monsieur Madeleine"
 }
 
-### Delete greeting
-@deleteGreetingId = 1001
-DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
+
+# ==========================================
+# Todo Controller Endpoints
+# ==========================================
+
+### Create a new todo (run this after createUser to populate variables)
+# @name createTodo
+POST http://localhost:8080/todos
+Content-Type: application/json
+
+{
+    "description": "Rescue Cosette from the Thénardiers",
+    "assigneeEmail": "{{createUser.response.body.email}}"
+}
+
+### Get todos by assignee email
+GET http://localhost:8080/todos?assigneeEmail={{createUser.response.body.email}}
+
+### Get todo by ID (uses ID from createTodo response)
+GET http://localhost:8080/todos/{{createTodo.response.body.id}}
+
+### Mark todo as done
+PATCH http://localhost:8080/todos/{{createTodo.response.body.id}}/done
+Content-Type: application/json
+
+true
+
+### Assign todo to another user
+# Note: You'll need another user to exist for this to work
+PATCH http://localhost:8080/todos/{{createTodo.response.body.id}}/assignee
+Content-Type: application/json
+
+{
+    "newAssigneeEmail": "frodo@theshire.me"
+}
+
+### Edit todo description
+PATCH http://localhost:8080/todos/{{createTodo.response.body.id}}/description
+Content-Type: application/json
+
+{
+    "description": "Escape from Inspector Javert"
+}
 
 
-# TODO add requests for your own endpoints!
+# ==========================================
+# Cleanup (run these last)
+# ==========================================
+
+### Delete todo
+DELETE http://localhost:8080/todos/{{createTodo.response.body.id}}
+
+### Delete user
+DELETE http://localhost:8080/users/{{createUser.response.body.id}}

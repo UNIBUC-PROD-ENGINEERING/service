@@ -34,7 +34,7 @@ public class TodoController {
         return todoService.createTodo(request);
     }
 
-    @PutMapping("/{id}/done")
+    @PatchMapping("/{id}/done")
     public TodoResponse setDone(@PathVariable String id, @RequestBody boolean done) throws EntityNotFoundException {
         return todoService.setDone(id, done);
     }
