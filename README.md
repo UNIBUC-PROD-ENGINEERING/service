@@ -70,8 +70,9 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
   411475a7b596   mongo-express   "tini -- /docker-ent…"   6 seconds ago   Up 2 seconds   0.0.0.0:8090->8081/tcp     service_mongo-admin-ui_1
   ```
 * Open in your browser:
-    * http://localhost:8080/hello-world
-    * http://localhost:8080/info
+    * http://localhost:8080/users
 * You can test other API endpoints using [requests.http](requests.http)
 * You can access the MongoDB Admin UI at:
-  * http://localhost:8090 
+  * http://localhost:8090
+  * username `unibuc`, password `adobe`
+  * database `test`
