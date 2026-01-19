@@ -51,8 +51,7 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
     * ```docker-compose up -d mongo```
 * Run/debug your IntelliJ run configuration
 * Open in your browser:
-    * http://localhost:8080/hello-world
-    * http://localhost:8080/info
+    * http://localhost:8080/users
 
 # Deploy and run the code locally as docker instance
 
