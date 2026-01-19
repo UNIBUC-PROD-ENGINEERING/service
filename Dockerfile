@@ -1,5 +1,5 @@
-# Use the official OpenJDK 21 image as the base image
-FROM openjdk:21-jdk
+# Use official Amazon Corretto JDK 21 image as the base image
+FROM amazoncorretto:21-alpine-jdk
 
 # Set environment variable to configure Java to open debug port 5005
 ENV JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n
