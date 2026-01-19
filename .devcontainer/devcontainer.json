@@ -1,9 +1,11 @@
 {
   "name": "production-eng-service",
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "image": "mcr.microsoft.com/devcontainers/java:dev-21-jdk-trixie",
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
-      "version": "21"
+      "version": "none",
+      "installGradle": "true",
+      "gradleVersion": "8.12"
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
