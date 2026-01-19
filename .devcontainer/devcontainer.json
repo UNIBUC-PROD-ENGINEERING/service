@@ -7,7 +7,9 @@
       "installGradle": "true",
       "gradleVersion": "8.12"
     },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": false // Install Docker CE instead of OSS Moby build; not part of Trixie distribution
+    }
   },
   "customizations": {
     "vscode": {
