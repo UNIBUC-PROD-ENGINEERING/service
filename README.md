@@ -73,5 +73,5 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
 * You can test other API endpoints using [requests.http](requests.http)
 * You can access the MongoDB Admin UI at:
   * http://localhost:8090
-  * username `unibuc`, password `adobe`
-  * database `test`
+  * default credentials: username `unibuc`, password `adobe`
+  * database `test` contains application entities
