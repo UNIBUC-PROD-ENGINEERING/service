@@ -128,13 +128,13 @@ public class TodoControllerIntegrationTest {
         createUser("Alice", "alice@example.com");
         String todoId = createTodo("Buy milk", "alice@example.com");
 
-        mockMvc.perform(put("/todos/" + todoId + "/done")
+        mockMvc.perform(patch("/todos/" + todoId + "/done")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("true"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.done").value(true));
 
-        mockMvc.perform(put("/todos/" + todoId + "/done")
+        mockMvc.perform(patch("/todos/" + todoId + "/done")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("false"))
             .andExpect(status().isOk())
