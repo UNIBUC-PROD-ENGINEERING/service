@@ -112,7 +112,7 @@ public class TodoSteps {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Boolean> entity = new HttpEntity<>(true, headers);
 
-        restTemplate.put(BASE_URL + "/todos/" + lastCreatedTodoId + "/done", entity);
+        restTemplate.patchForObject(BASE_URL + "/todos/" + lastCreatedTodoId + "/done", entity, String.class);
     }
 
     @Then("the todo {string} for {word} is marked as done")
