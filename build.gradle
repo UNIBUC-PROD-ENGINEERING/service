@@ -24,7 +24,7 @@ ext {
 dependencies {
 	def cucumberVersion = "7.20.1"
 	def junitVersion = "5.11.4"
-	def testcontainersVersion = "1.20.4"
+	def testcontainersVersion = "2.0.3"
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -45,7 +45,7 @@ dependencies {
 
 	// Integration tests - test containers dependencies
     testImplementation "org.testcontainers:testcontainers:$testcontainersVersion"
-    testImplementation "org.testcontainers:mongodb:$testcontainersVersion"
+    testImplementation "org.testcontainers:testcontainers-mongodb:$testcontainersVersion"
 
 	//	E2E tests
 	runtimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
