@@ -12,7 +12,7 @@
         },
         {
             "type": "java",
-            "name": "Debug Service (from Docker)",
+            "name": "Debug Service (if already running)",
             "request": "attach",
             "hostName": "localhost",
             "port": "5005"
