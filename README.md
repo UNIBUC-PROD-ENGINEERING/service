@@ -15,13 +15,6 @@ Follow the [./PREREQUISITES.md](./PREREQUISITES.md) instructions to configure a 
 * Make sure that the Github repository is forked under your account / Organization
 * Create a new Codespace from your forked repository
 * Wait for the Codespace to be up and running
-* Check java version
-  * ```java -version``` should return 21
-  * Validate Java version is properly configured in devcontainer.json
-  * If the correct Java version is set in devcontainer.json, but the command returns a different version:
-    * Open Command Palette (Ctrl+Shift+P) and run `Rebuild Container`
-    * Wait for the container to be rebuilt, and if the Java version is still incorrect, try a full rebuild or set it manually in the terminal:
-      * ```sdk default java 21.0.5-ms```
 * Make sure that Docker service has been started
     * ```docker ps``` should return no error
 * For running all services in docker:
