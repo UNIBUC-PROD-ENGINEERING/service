@@ -1,4 +1,4 @@
-# Use official Amazon Corretto JDK 21 image as the base image
+# Use a prebuilt image providing Java 21 and a minimal OS (Alpine) the app will run on inside Docker
 FROM amazoncorretto:21-alpine-jdk
 
 # Set environment variable to configure Java to open debug port 5005
