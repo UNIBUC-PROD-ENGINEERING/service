@@ -1,5 +1,5 @@
 #Readme change lab1
-
+git add README.md
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
