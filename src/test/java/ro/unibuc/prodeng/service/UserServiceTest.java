@@ -62,6 +62,7 @@ class UserServiceTest {
         assertNotNull(result);
         assertEquals("Alice", result.name());
         assertEquals("alice@example.com", result.email());
+        
     }
 
     @Test
