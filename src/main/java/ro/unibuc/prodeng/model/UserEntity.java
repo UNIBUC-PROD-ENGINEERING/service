@@ -8,5 +8,8 @@ public record UserEntity(
     @Id
     String id,
     String name,
-    String email
+    String email,
+    String group,
+    Boolean isAdmin
+
 ) {}
