@@ -33,7 +33,6 @@ public class ComponentService {
             int page, 
             int size
     ) {
-        // 1. Setăm paginarea
         Pageable pageable = PageRequest.of(page, size);
         Query query = new Query().with(pageable);
 
