@@ -1,9 +1,8 @@
 package ro.unibuc.prodeng.response;
 
-public record UserResponse(
-    String id,
+public record LoginResponse(
+    String token,
     String name,
     String email,
-    String group,
     Boolean isAdmin
 ) {}

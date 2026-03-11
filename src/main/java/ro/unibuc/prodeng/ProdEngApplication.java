@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 import ro.unibuc.prodeng.repository.UserRepository;
 import ro.unibuc.prodeng.request.CreateTodoRequest;
-import ro.unibuc.prodeng.request.CreateUserRequest;
+import ro.unibuc.prodeng.request.RegisterRequest;
 import ro.unibuc.prodeng.service.TodoService;
 import ro.unibuc.prodeng.service.UserService;
 
@@ -33,8 +33,8 @@ public class ProdEngApplication {
 	@PostConstruct
 	public void runAfterObjectCreated() {
 		if (userRepository.findByEmail("frodo@theshire.me").isEmpty()) {
-			CreateUserRequest userRequest = new CreateUserRequest("Frodo Baggins", "frodo@theshire.me");
-			userService.createUser(userRequest);
+			RegisterRequest userRequest = new RegisterRequest("Frodo Baggins", "frodo@theshire.me", "shire123", null, false);
+			userService.registerUser(userRequest);
 			todoService.createTodo(new CreateTodoRequest("Take the ring to Mordor", "frodo@theshire.me"));
 		}
 	}
