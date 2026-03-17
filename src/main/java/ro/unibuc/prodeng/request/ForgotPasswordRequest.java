@@ -1,10 +1,9 @@
 package ro.unibuc.prodeng.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-
-public record ChangePasswordRequest(
-    @NotBlank String currentPassword,
+public record ForgotPasswordRequest(
+    @Email @NotBlank String email,
     @NotBlank String newPassword
 ) {}
-

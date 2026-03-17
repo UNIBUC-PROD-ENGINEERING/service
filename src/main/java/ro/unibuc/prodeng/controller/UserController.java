@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import ro.unibuc.prodeng.request.ChangeNameRequest;
-import ro.unibuc.prodeng.request.LoginRequest;
-import ro.unibuc.prodeng.request.RegisterRequest;
-import ro.unibuc.prodeng.response.LoginResponse;
+import ro.unibuc.prodeng.request.CreateUserRequest;
 import ro.unibuc.prodeng.response.UserResponse;
 import ro.unibuc.prodeng.exception.EntityNotFoundException;
 import ro.unibuc.prodeng.service.UserService;
@@ -22,17 +20,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse register(@Valid @RequestBody RegisterRequest req){
-        return userService.registerUser(req);
-    }
-
-    @PostMapping("/login")
-    public LoginResponse login(@Valid @RequestBody LoginRequest req){
-        return userService.login(req);
-    }
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
@@ -46,11 +33,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    // @PostMapping
-    // public ResponseEntity<UserResponse> createUser(@Valid @RequestBody RegisterRequest request) {
-    //     UserResponse user = userService.registerUser(request);
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(user);
-    // }
+    @PostMapping
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
+        UserResponse user = userService.createUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(
