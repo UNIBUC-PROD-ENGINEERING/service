@@ -69,3 +69,24 @@ NOTE: for a live demo, please check out [this youtube video](https://youtu.be/-9
   * http://localhost:8090
   * default credentials: username `unibuc`, password `adobe`
   * database `test` contains application entities
+
+
+
+---
+## 🍽️ Restaurant Management (Feature)
+Implementat de: Sava Antonia
+
+### Endpoint-uri API:
+* `GET /api/restaurants` - Listare restaurante.
+* `GET /api/restaurants/{id}` - Vizualizare detalii restaurant.
+* `POST /api/restaurants` - Creare restaurant (Business Logic: Validare rating 1-5).
+* `DELETE /api/restaurants/{id}` - Ștergere restaurant.
+
+### Business Logic:
+- **Validarea datelor:** Folosirea adnotărilor `@NotBlank` în DTO pentru a asigura prezența numelui și adresei.
+- **Validarea rating-ului:** Logica în Service care verifică intervalul [1.0 - 5.0] și aruncă eroare dacă nu e respectat.
+- **Gestionarea erorilor:** Utilizarea `ResponseStatusException` pentru a returna coduri HTTP corecte:
+    * `400 Bad Request` (pentru rating invalid sau date lipsă)
+    * `404 Not Found` (dacă ID-ul nu există în baza de date)
+    * `201 Created` (confirmare succes creare)
+    * `204 No Content` (confirmare succes ștergere)
