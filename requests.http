@@ -98,3 +98,62 @@ DELETE http://localhost:8080/api/todos/{{createTodo.response.body.id}}
 
 ### Delete user
 DELETE http://localhost:8080/api/users/{{createUser.response.body.id}}
+
+
+# ==========================================
+# Masini Controller Endpoints (Lab 3 & 4)
+# ==========================================
+
+### 1. GET - Listarea tuturor masinilor
+GET http://localhost:8080/api/masini
+
+### 2. POST - Creare masina cu succes (Happy Path)
+# @name createMasina
+POST http://localhost:8080/api/masini
+Content-Type: application/json
+
+{
+    "marca": "Tesla",
+    "model": "Model 3",
+    "an": 2023,
+    "pret": 45000.0
+}
+
+### 3. GET - Cautarea unei masini dupa ID
+GET http://localhost:8080/api/masini/{{createMasina.response.body.id}}
+
+### 4. POST - Eroare de an invalid (Prea vechi)
+POST http://localhost:8080/api/masini
+Content-Type: application/json
+
+{
+    "marca": "Ford",
+    "model": "Model T",
+    "an": 1850,
+    "pret": 15000.0
+}
+
+### 5. POST - Eroare de pret negativ
+POST http://localhost:8080/api/masini
+Content-Type: application/json
+
+{
+    "marca": "Dacia",
+    "model": "Logan",
+    "an": 2020,
+    "pret": -500.0
+}
+
+### 6. POST - Eroare de duplicat (Rulati din nou testul 2 si apoi acest test)
+POST http://localhost:8080/api/masini
+Content-Type: application/json
+
+{
+    "marca": "Tesla",
+    "model": "Model 3",
+    "an": 2023,
+    "pret": 45000.0
+}
+
+### 7. DELETE - Stergerea unei masini dupa ID
+DELETE http://localhost:8080/api/masini/{{createMasina.response.body.id}}

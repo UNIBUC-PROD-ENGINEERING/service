@@ -23,4 +23,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("error", ex.getMessage()));
     }
+
+    @ExceptionHandler(DuplicateMasinaException.class)
+    public ResponseEntity<Map<String, String>> handleDuplicateMasina(DuplicateMasinaException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(Map.of("error", ex.getMessage()));
+    }
 }

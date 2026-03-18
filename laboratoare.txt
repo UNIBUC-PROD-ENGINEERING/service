@@ -1,0 +1,2435 @@
+Lab 1 - Project Setup & Git Workflow
+
+Introduction and Resources
+
+Welcome to the Production Engineering course! This course will help you understand how to build, test, deploy, and monitor production-ready applications. Throughout this semester, you will work on a real-world project, implementing core functionality and the entire ecosystem around it: testing, monitoring, alerting, CI/CD pipelines, and more.
+
+This first lab is about setting up your project, understanding the development workflow, and getting familiar with the tools and practices you'll use throughout the semester.
+
+Objectives
+
+The objectives of this introductory lab are:
+
+Form teams and select projects for the semester
+Understand the project requirements
+Learn and practice Git workflow and collaboration best practices
+Important Notes
+
+Note: We encourage an informal, collaborative atmosphere. Ask questions, help your colleagues, and discuss with your teaching assistants. Learning is a team effort!
+Warning: Throughout the semester, each team member must own and contribute to a distinct feature/component of the project. Individual contributions will be evaluated based on pull requests and code reviews.
+Part 1: Team Organization (Can be completed as homework)
+
+This entire section can be started in the lab and completed as homework before Lab 2. Take the time you need to form teams, discuss project options, and plan your work distribution carefully.
+
+Task 1.1: Team Formation and Registration
+
+Objective: Form teams and register your team information.
+
+This task can be started in the lab and finalized as homework before Lab 2.
+
+Steps:
+
+Form your team
+
+Organize into teams of 3 people
+Choose a creative team name that reflects your project or team spirit
+Fill in the teams assignment form
+
+Choose your lab time slot
+
+All team members must attend the same lab session
+Available slots:
+Gr_1, Miercuri, 08:00-10:00 (L-404)
+Gr_2, Miercuri, 10:00-12:00 (L-404)
+Gr_3, Marti, 08:00-10:00 (L-509)
+Gr_4, Marti, 10:00-12:00 (L-404)
+Task 1.2: Project Selection
+
+Objective: Choose a project that you'll work on throughout the semester.
+
+Requirements:
+
+Your project should be:
+
+A Software-as-a-Service (SaaS) application exposing functionality through REST APIs (frontend is not required)
+Moderately complex - not too simple, but not overly complicated. Application should contain some business logic (to test starting Lab 4) and multiple entities.
+Connected to a persistent database (MongoDB)
+Something you're interested in building!
+Examples:
+
+Book library with borrowing system
+Restaurant ordering system with menu management
+Before Lab 2, ensure your team has:
+
+Agreed on a final project choice
+Updated the team assignment form with the project name
+Discussed the main features to implement
+Task 1.3: Contribution Planning
+
+Objective: Plan how each team member will contribute to the project.
+
+Each team member must own distinct features or components.
+
+Example for a Book Library:
+
+Member 1: Book catalog management (add, search, update books)
+Member 2: Member management (register, update member info)
+Member 3: Borrowing system and reservation features
+Key considerations:
+
+Equal distribution of work
+Relatively independent features to avoid blocking
+Identify dependencies between features early
+Important: By the end of the semester, you must specify your individual contributions in the team assignment form.
+Part 2: GitHub Setup and Repository Configuration
+
+Task 2.1: Create GitHub Organization
+
+Objective: Set up a GitHub organization for your team.
+
+Why an organization? Organizations allow better team management, shared repositories, and team-based permissions.
+
+Steps:
+
+Navigate to GitHub new organization page
+Name your organization (can match your team name)
+Fill in the required information
+Task 2.2: Create a Team within the Organization
+
+Steps:
+
+Go to your organization page on GitHub
+Click on Teams tab
+Click New team
+Name your team (e.g., "Core Developers")
+Add all team members to this team (they will need to accept the invitation sent to their email)
+Set appropriate permissions (Owner role)
+Task 2.3: Fork the Starter Repository
+
+Objective: Create a copy of the starter project in your organization.
+
+Steps:
+
+Go to the starter repository: UNIBUC-PROD-ENGINEERING/service
+Click the Fork button (top right)
+Important: Select your organization as the owner (not your personal account)
+Keep the repository name as service or change it to match your project
+Click Create fork
+Task 2.4: Configure Team Access
+
+Steps:
+
+Go to your forked repository
+Navigate to Settings → Collaborators and teams
+Click Add teams
+Select the team you created
+Grant Admin role to the team
+Save changes
+Checkpoint: All team members should now have admin access to the forked repository. Verify by having each member access the repository.
+Part 3: Understanding the Development Environment
+
+Task 3.1: GitHub Codespaces Introduction
+
+What is GitHub Codespaces?
+
+GitHub Codespaces provides a complete, cloud-based development environment. It's essentially VS Code running in the cloud with all dependencies pre-installed.
+
+Why use Codespaces?
+
+Consistent environment for all team members
+No local setup required
+Works on any machine with a browser
+Pre-configured with all necessary tools
+Fast to spin up and tear down
+Video Tutorial:
+
+Watch this quick introduction to GitHub Codespaces for this course:
+
+GitHub Codespaces intro
+
+Only difference is that the /hello-world endpoint in the video is no longer present, but you can test the app after starting it by navigating to /api/users instead.
+
+Note: Lab support for local development will be offered on a best-effort basis due to the complexity of different local setups. We strongly recommend using Codespaces.
+Task 3.2: Creating Your First Codespace
+
+Steps:
+
+Navigate to your forked repository on GitHub
+Click the green Code button
+Select the Codespaces tab
+Click Create codespace on main
+Wait for the environment to initialize (first time takes 2-3 minutes)
+Your VS Code environment will open in the browser
+What you'll see:
+
+File explorer on the left
+Editor in the center
+Terminal at the bottom
+Extensions pre-installed
+Tip: You can create multiple codespaces if needed, but remember to delete codespaces after using them to avoid hitting storage and compute limits.
+Task 3.3: Local Development Setup (Optional)
+
+Follow PREREQUISITES.md describing local setup for OS-X / Ubuntu or inside WSL / a virtual machine.
+
+Recommended: We encourage students to set up local development environments. Local development is typically faster than Codespaces and provides a better development experience. However, this may require solving some setup issues on your own. We can help if you encounter problems, but support will be provided on a best-effort basis.
+Part 4: Git Workflow and Best Practices
+
+Task 4.1: Understanding Trunk-Based Development
+
+What is Trunk-Based Development?
+
+Trunk-based development is a branching model where developers collaborate on code in a single branch called main (the trunk), using short-lived feature branches that are merged frequently.
+
+Key Principles:
+
+Small, frequent commits to the main branch
+Short-lived feature branches (ideally 1-2 days max)
+Continuous integration
+Always keep main branch in a working state
+Benefits:
+
+Reduces merge conflicts
+Encourages continuous integration
+Faster feedback loops
+Simplifies collaboration
+Workflow Diagram:
+
+main branch (trunk):  ●━━━━━●━━━━━●━━━━━●━━━━━●
+                           ╱      ╱      ╱
+feature branches:      ●━●    ●━●    ●━●
+                      (short-lived)
+Task 4.2: Git Branch Naming Conventions
+
+Use descriptive names with prefixes:
+
+✅ Good examples:
+
+feature/add-user-authentication
+bugfix/correct-date-formatting
+❌ Bad examples:
+
+my-branch
+test
+Task 4.3: Creating and Working with Branches
+
+Tutorial: Create a feature branch
+
+Let's practice by creating a branch to update the README file.
+
+Steps:
+
+Ensure you're on the main branch:
+git checkout main
+git pull origin main
+Create a new feature branch:
+git checkout -b feature/update-readme
+The -b flag creates and switches to the new branch in one command.
+
+Verify you're on the new branch:
+git branch
+You should see * feature/update-readme (the asterisk indicates current branch).
+
+Make your changes:
+Open README.md in the editor and make a small change.
+
+Check what files have changed:
+git status
+Stage your changes:
+# Stage all changes
+git add .
+
+# Or stage specific files
+git add README.md
+
+# Check status again and note the difference - changes now staged for commit
+git status
+Commit your changes with a clear message:
+git commit -m "[DOC] Update README with project description"
+Task 4.4: Commit Message Conventions
+
+Format:
+
+[TYPE] Short descriptive message
+
+Optional longer description if needed
+Common Types:
+
+[DOC] - Documentation changes
+[FEAT] - New features
+[FIX] - Bug fixes
+[TEST] - Adding or updating tests
+[REFACTOR] - Code refactoring
+[STYLE] - Code style changes (formatting, etc.)
+[CHORE] - Maintenance tasks
+✅ Good commit messages:
+
+[FEAT] Add user login endpoint
+[FIX] Fix null pointer exception in todo service
+❌ Bad commit messages:
+
+fix bug
+wip
+Task 4.5: Keeping Your Branch Up to Date
+
+Before creating a PR, always sync with main:
+
+# Make sure you have latest changes from main
+git fetch origin
+git pull origin main:main
+
+# Rebase your feature branch on top of main
+git checkout feature/update-readme
+git rebase main 
+What does rebase do?
+
+Rebase rewrites your branch's history to appear as if you created it from the current state of main. This creates a clean, linear history.
+
+If conflicts occur:
+
+# Git will pause and show conflicts
+# Edit the conflicting files to resolve
+
+# After resolving, stage the changes
+git add <resolved-files>
+
+# Continue the rebase
+git rebase --continue
+
+# If you want to abort
+git rebase --abort
+Task 4.6: Pushing Your Branch
+
+Push to GitHub:
+
+git push origin feature/update-readme
+If you've rebased (rewritten history):
+
+git push origin feature/update-readme --force-with-lease
+Warning: Never force push to the main branch! Only use force push on your own feature branches.
+Task 4.7: Creating a Pull Request
+
+Steps:
+
+Push your feature branch to GitHub
+Navigate to your repository on GitHub
+Click Pull requests tab
+Click New pull request
+Set:
+Base and Head repository your organization's repo (not in UNIBUC-PROD-ENGINEERING - this is the original template project which was forked)
+Base branch: main
+Compare branch: your feature branch
+Fill in the PR template:
+Title: Clear, descriptive title
+Description:
+What changes were made?
+Why were they made?
+Any special considerations?
+Screenshots if relevant
+Click Create pull request
+Good PR Template Example:
+
+## Description
+This PR implements the user authentication feature including:
+- User registration endpoint
+- Login endpoint with JWT tokens
+- Password hashing using BCrypt
+
+## Changes
+- Added `UserController` with registration and login endpoints
+- Implemented `AuthService` for authentication logic
+- Added JWT token generation and validation
+- Created unit tests for all new functionality
+
+## Testing
+- All unit tests pass
+- Manual testing completed with Postman
+- Test coverage: 85%
+Task 4.8: Code Review Process
+
+All PRs must be reviewed before merging!
+
+As a PR author:
+
+Create a clear, focused PR
+Request review from at least one team member
+Be responsive to feedback
+Make requested changes
+Mark conversations as resolved when addressed
+As a reviewer:
+
+Review code thoroughly
+Check for:
+Code correctness
+Following coding standards
+Clear variable/function names
+No commented-out code
+Provide constructive feedback
+Approve if everything looks good
+Request changes if issues found
+GitHub Review Options:
+
+Comment: General feedback
+Approve: Code looks good, ready to merge
+Request changes: Issues that must be addressed
+Task 4.9: Merging Pull Requests
+
+Before merging, ensure:
+
+At least one approval from a team member
+All discussions resolved
+Branch is up to date with main
+Merge methods:
+
+The following merge options are available on GitHub (at bottom of PR page - green arrow to the right of "Merge pull request" button):
+
+Squash and merge:
+
+Combines all commits into one
+Keeps main branch history clean
+Rebase and merge:
+
+Replays commits on top of main
+Maintains individual commit history
+Create a merge commit:
+
+Creates a merge commit
+Preserves complete branch history - all commits from the feature branch are kept as they are
+We recommend using Squash and merge for feature branches to keep the main branch history clean and isolate each PR to a single commit.
+
+This can be configured as the default in the repository settings under Settings → General → Pull Requests → Leave only Allow squash merging checked.
+
+After merging:
+
+# Switch to main and pull latest changes
+git checkout main
+git pull origin main
+
+# Delete the feature branch locally
+git branch -d feature/update-readme
+
+# Delete the remote branch (optional, GitHub itself will prompt you to delete the remote branch after merging)
+git push origin --delete feature/update-readme
+Github can be configured to automatically delete the remote branch in the repository settings under Settings → General → Check Automatically delete head branches.
+
+Part 5: Project Documentation
+
+Task 5.1: Write Project Description
+
+Objective: Document your project in the README.md file.
+
+Now that you've practiced Git workflow, let's create a real PR to update your project's README.
+
+Steps:
+
+Create a feature branch:
+git checkout main
+git pull origin main
+git checkout -b feature/add-project-description
+Edit README.md:
+Update the README with your project description. Add this template before the existing README content:
+
+# [Your Project Name]
+
+## Team
+- **Team Name:** [Your team name]
+- **Members:**
+  - [Member 1 Name] - [Primary responsibilities]
+  - [Member 2 Name] - [Primary responsibilities]
+  - [Member 3 Name] - [Primary responsibilities]
+
+## Project Description
+
+[Write 2-3 paragraphs describing your project]
+
+### Key Features
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
+- [Feature 4]
+
+### Technical Stack
+- **Backend:** Spring Boot (Java 21)
+- **Database:** MongoDB
+- **API:** RESTful
+- **Testing:** JUnit, Mockito, Cucumber
+- **Monitoring:** Prometheus, Grafana
+- **Deployment:** Docker
+
+## Contributing
+
+All team members follow trunk-based development:
+1. Create feature branch from `main`
+2. Make changes and commit with clear messages
+3. Create PR and request review
+4. Address feedback
+5. Merge after approval
+Save and commit:
+git add README.md
+git commit -m "[DOC] Add project description"
+Push and create PR:
+git push origin feature/add-project-description
+Go to GitHub and create a Pull Request
+
+Request review from team members
+
+After approval, merge the PR
+
+Homework Assignment
+
+Requirements
+
+Before the next lab, you must:
+
+Complete all mandatory tasks in this lab
+
+Team formed and registered
+GitHub organization and repository set up
+All team members have access
+Project description added to README (can use placeholder if project not finalized)
+Finalize project selection (Task 1.2)
+
+Have thorough team discussions about project options
+Research similar projects for inspiration
+Make a final decision on which project to build
+Update the team assignment form with final project choice
+Complete contribution planning (Task 1.3)
+
+Discuss and agree on feature division among team members
+Document who will implement which features
+Identify dependencies between features
+Update the team assignment form with preliminary contributions
+
+Lab 2 - Code Walkthrough & First Implementation
+
+Introduction
+
+Welcome to Lab 2! In the previous lab, you set up your project, learned Git workflows, and documented your project goals. Now it's time to dive into the actual code!
+
+In this lab, you'll get a detailed understanding of how the Spring Boot application works, how to interact with MongoDB, and how to build REST API endpoints. By the end of this lab, you'll start implementing your own application functionality.
+
+Objectives
+
+Understand the Spring Boot project structure
+Understand how build.gradle manages dependencies and build tasks
+Learn REST API development with Spring Boot
+Understand database integration with MongoDB
+Practice running the application
+Test APIs using tools such as REST Client
+Start implementing your project's core features
+Prerequisites
+
+To complete this lab, you need:
+
+A browser to access GitHub Codespaces
+Completed Lab 1 (repository set up, team formed)
+Access to your team's repository
+Part 1: Understanding the Starter Project
+
+Task 1.1: Explore the Project Structure
+
+Let's understand what's in the starter project.
+
+Main directories:
+
+service/
+├── src/
+│   ├── main/
+│   │   ├── java/ro/unibuc/prodeng/
+│   │   │   ├── config/             # Configuration classes
+│   │   │   ├── controller/         # REST API endpoints
+│   │   │   ├── exception/          # Custom exceptions
+│   │   │   ├── model/              # Database entities
+│   │   │   ├── repository/         # Interaction with database
+│   │   │   ├── request/            # Controller request definitions
+│   │   │   ├── response/           # Controller response definitions
+│   │   │   ├── service/            # Business logic
+│   │   │   └── ProdEngApplication  # Application startup code
+│   │   └── resources/
+│   │       └── application.properties  # Configuration
+│   └── test/
+│       ├── java/...             # Unit tests integration tests and end-to-end tests (Starting lab 4)
+│       └── resources/           # Test resources, used here for end-to-end tests (lab 5)
+├── infrastructure/              # Monitoring, CI/CD configs (Starting lab 8)
+├── gradle/                      # Gradle wrapper - script used to execute Gradle tasks
+├── build.gradle                 # Dependencies and build config
+├── Dockerfile                   # Container image definition for running the application
+└── docker-compose.yml          # Local development stack
+Exercise:
+
+Using the file explorer in Codespaces (or your IDE), browse through these directories. Get familiar with where different types of files are located.
+
+Task 1.2: Key Files to Understand
+
+1. build.gradle
+
+Defines project dependencies
+Configures build tasks
+We'll explore this in detail further
+2. application.properties
+
+Application configuration
+Database connection settings
+Server port configuration
+3. docker-compose.yml
+
+Defines services (MongoDB, your app)
+Configures networking
+Used for local development
+Exercise:
+
+Open these files and skim through them. Don't worry if you don't understand everything yet - we'll cover them in detail further.
+
+Part 2: Understanding the Build System
+
+Task 2.1: Exploring build.gradle
+
+What is Gradle?
+
+Gradle is a build automation tool used in Java projects. It manages:
+
+Project dependencies (libraries your project needs)
+Build tasks (compile, test, run, package)
+Plugins that add functionality
+Project configuration
+Let's explore the build.gradle file:
+
+Open build.gradle in your Codespaces editor.
+
+Section 1: Plugins
+
+plugins {
+	id 'org.springframework.boot' version '3.4.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.asciidoctor.jvm.convert' version '2.4.0'
+	id 'java'
+	id 'jacoco'
+}
+Main plugins
+
+java - Enables Java compilation and build tasks
+org.springframework.boot - Adds Spring Boot specific tasks
+io.spring.dependency-management - Manages dependency versions
+Section 2: Project Metadata
+
+group = 'ro.unibuc'
+version = '0.0.1-SNAPSHOT'
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
+}
+ group - Your project's group ID (like a package namespace)
+version - Current version of your project
+sourceCompatibility - Java version required
+Section 3: Repositories
+
+repositories {
+    mavenCentral()
+}
+This tells Gradle where to download dependencies from. Maven Central is the main repository for Java libraries.
+
+Section 4: Dependencies
+
+This is where you declare all the libraries your project needs:
+
+dependencies {
+	def cucumberVersion = "7.20.1"
+	def junitVersion = "5.11.4"
+	def testcontainersVersion = "2.0.3"
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    ...
+
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	
+	...
+	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+Key dependency types:
+
+implementation - Needed for both compile and runtime
+testImplementation - Only needed for tests
+compileOnly - Only needed at compile time
+runtimeOnly - Only needed at runtime
+Common Spring Boot Starters:
+
+spring-boot-starter-web - REST API support
+spring-boot-starter-data-mongodb - MongoDB integration
+spring-boot-starter-test - Testing framework
+Section 5: Tasks
+
+Gradle allows you to define custom tasks / commands or configure existing ones. For example:
+
+test {
+	outputs.dir snippetsDir
+	useJUnitPlatform {
+		excludeTags ("IntegrationTest", "E2E")
+	}
+	finalizedBy jacocoTestReport
+}
+This configures how tests are run (will be expanded upon in Lab 4).
+
+Task 1.2: Building the Project
+
+Let's build the project to make sure everything works.
+
+Using Gradle Wrapper
+
+The Gradle Wrapper (gradlew) ensures everyone uses the same Gradle version.
+
+# On Linux/Mac
+./gradlew build
+
+# On Windows
+gradlew.bat build
+What happens during build?
+
+Downloads dependencies
+Compiles Java code
+Runs unit tests
+Packages application into a JAR file
+Expected output:
+
+BUILD SUCCESSFUL in 17s
+9 actionable tasks: 9 up-to-date
+Exercise:
+
+Run the build command in your terminal
+Check the build/ directory that gets created
+Find the JAR files in build/libs/ - prod-eng-0.0.1-SNAPSHOT-plain.jar (application code without any dependencies), prod-eng-0.0.1-SNAPSHOT.jar (application code with dependencies - "uber jar")
+Task 2.3: Common Gradle Tasks
+
+Here are useful Gradle tasks you'll use frequently:
+
+# Clean build artifacts - removes build folder, so future builds can start from scratch
+./gradlew clean
+
+# Compile without running tests
+./gradlew compileJava
+
+# Run tests only
+./gradlew test
+
+# Build without tests (faster)
+./gradlew build -x test
+
+# View all available tasks
+./gradlew tasks
+Exercise:
+
+Try running each of these commands and observe the output.
+
+Part 3: Application Configuration
+
+Task 3.1: Understanding application.properties
+
+Open src/main/resources/application.properties. This file contains environment-specific application settings.
+
+Example configuration:
+
+# Server Configuration
+server.port=8080
+spring.application.name=prod-eng-service
+mongodb.connection.url=${MONGODB_CONECTION_URL:mongodb://root:example@localhost:27017}
+ mongodb.connection.url will be picked up from the environment variable MONGODB_CONECTION_URL if it is set, otherwise using the default value afterwards, mongodb://root:example@localhost:27017.
+
+More information on application properties can be found here.
+
+Part 4: MongoDB Setup and Configuration
+
+Task 4.1: Understanding MongoDB
+
+What is MongoDB?
+
+MongoDB is a NoSQL document database. Instead of tables and rows (like SQL databases), it uses:
+
+Collections (like tables)
+Documents (like rows, but in JSON format)
+Why MongoDB for this project?
+
+Flexible schema (easy to change data structure)
+JSON-like documents (natural for REST APIs)
+Good for rapid development
+Key concepts:
+
+// A MongoDB document (similar to a JSON object)
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "todos": [
+    { 
+        "title": "Task 1", 
+        "completed": false 
+    }
+  ]
+}
+Task 4.2: Starting MongoDB
+
+Using Docker Compose (Recommended):
+
+The project includes a docker-compose.yml file that configures MongoDB.
+
+# Start MongoDB only
+./start_mongo_only.sh
+Verify MongoDB is running:
+
+# Check running containers
+docker ps
+
+# You should see an output like below
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                             NAMES
+24452e97a491   mongo:6.0.20    "docker-entrypoint.s…"   3 seconds ago   Up 2 seconds   0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp   service-mongo-1
+3d9449559403   mongo-express   "/sbin/tini -- /dock…"   3 seconds ago   Up 2 seconds   0.0.0.0:8090->8081/tcp, [::]:8090->8081/tcp       service-mongo-admin-ui-1
+
+# Stop MongoDB when done
+./stop_mongo_only.sh
+
+# Check containers again to confirm it's stopped
+docker ps
+
+# Expected output
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+Task 4.3: MongoDB Admin Interface
+
+Accessing MongoDB:
+
+You can interact with MongoDB using:
+
+Mongo Express (Web UI):
+
+Mongo Express starts automatically with ./start_mongo_only.sh
+If running locally, access at http://localhost:8090
+If running in Codespaces, go to Ports -> 8090 -> Open in Browser (globe icon)
+Log in with default username unibuc, password adobe
+Browse databases, collections, and documents visually. Database test is where we will store our application data (will be created after starting application).
+Exercise:
+
+Start MongoDB using the script
+Browse through the Mongo Express interface to view created databases and collections
+Task 4.4: Understanding MongoConfig.java
+
+Open src/main/java/ro/unibuc/prodeng/config/MongoConfig.java
+
+This class configures the MongoDB connection for Spring Boot:
+
+@Configuration
+public class MongoConfig extends AbstractMongoClientConfiguration {
+
+   @Value("${mongodb.connection.url}")
+   private String connectionURL;
+
+   @Override
+   protected String getDatabaseName() {
+      return "test";
+   }
+
+   @Override
+   public MongoClient mongoClient() {
+      MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+              .applyConnectionString(new ConnectionString(connectionURL))
+              .build();
+
+      return MongoClients.create(mongoClientSettings);
+   }
+
+   @Override
+   public Collection<String> getMappingBasePackages() {
+      return Collections.singleton("ro.unibuc.prodeng.model");
+   }
+}
+Key points:
+
+@Configuration - Marks this as a configuration class
+@Value - Injects property values from application.properties
+getMappingBasePackages - Classes under the provided package will be picked up as MongoDB collections (database entities)
+Part 5: Docker Compose setup
+
+What is Docker?
+
+Docker is a platform that packages applications and their dependencies into lightweight, portable containers that can run consistently across different environments.
+
+What is Docker Compose?
+
+Docker Compose is a tool for defining and running multi-container Docker applications using a YAML configuration file, allowing you to manage multiple services (like our application and database) together.
+
+MongoDB Configuration Example:
+
+The project's docker-compose.yml includes MongoDB configuration:
+
+  mongo:
+    image: mongo:6.0.20
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    profiles:
+      - "mongo"
+  mongo-admin-ui:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8090:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: unibuc
+      ME_CONFIG_BASICAUTH_PASSWORD: adobe
+    profiles:
+      - "mongo"
+This configuration defines two services:
+
+mongo - The MongoDB database server running on port 27017
+mongo-admin-ui - Mongo Express web interface for database management on port 8090
+The script start_mongo_only.sh contains this line:
+
+docker compose --profile mongo up -d 
+ docker compose up starts Docker services from a Docker Compose file
+--profile mongo ensure only services with this profile defined in Docker Compose (MongoDB and Mongo Express) will start
+-d makes services start in detached mode (running in background instead of in the current terminal)
+Similarly, stop_mongo_only.sh contains the below to shut down Mongo services:
+
+docker compose --profile mongo down
+Part 6: Understanding the Application Architecture
+
+Task 6.1: Spring Boot Layers
+
+Spring Boot applications typically follow a layered architecture:
+
+┌─────────────────────────────────────┐
+│         Controller Layer            │  ← HTTP Endpoints (REST API)
+│  (UserController, TodoController)   │
+└─────────────────────────────────────┘
+           ↓ calls
+┌─────────────────────────────────────┐
+│          Service Layer              │  ← Business Logic
+│  (UserService, TodoService)         │
+└─────────────────────────────────────┘
+           ↓ calls
+┌─────────────────────────────────────┐
+│        Repository Layer             │  ← Database Access
+│  (UserRepository, TodoRepository)   │
+└─────────────────────────────────────┘
+           ↓ queries
+┌─────────────────────────────────────┐
+│      Database (such as MongoDB)     │  ← Data Storage
+└─────────────────────────────────────┘
+Layer responsibilities:
+
+Controller Layer:
+
+Handles HTTP requests
+Validates input
+Returns HTTP responses
+NO business logic here!
+Service Layer:
+
+Contains business logic
+Coordinates between multiple repositories
+Handles transactions
+Throws business exceptions
+Repository Layer:
+
+Direct database access
+CRUD operations
+Custom queries
+Task 6.2: Data Flow Example
+
+Let's trace a request through all layers:
+
+Request: POST /api/users with body {"name": "John", "email": "john@example.com"}
+
+1. Controller UserController receives request:
+
+@PostMapping
+public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest request) {
+    // Validate input (Spring does basic validation)
+    UserEntity user = userService.createUser(request);
+    return ResponseEntity.ok(new UserResponse(user));
+}
+2. Service processes business logic:
+
+    public UserResponse createUser(CreateUserRequest request) {
+        if (userRepository.findByEmail(request.email()).isPresent()) {
+            throw new IllegalArgumentException("Email already exists: " + request.email());
+        }
+        UserEntity user = new UserEntity(
+                null, // ID will be generated by the repository
+                request.name(),
+                request.email()
+        );
+        UserEntity saved = userRepository.save(user);
+        return toResponse(saved);
+    }
+3. Repository saves to database:
+
+@Repository
+public interface UserRepository extends MongoRepository<UserEntity, String> {
+
+   Optional<UserEntity> findByEmail(String email);
+}
+4. MongoDB stores the document
+
+5. Response flows back up:
+
+Repository → Service → Controller → HTTP Response
+Part 7: Building REST API Endpoints
+
+Task 7.1: Understanding REST APIs
+
+REST (REpresentational State Transfer) is an architectural style for APIs.
+
+Key principles:
+
+Resources identified by URLs
+Standard HTTP methods (GET, POST, PUT, DELETE)
+Stateless (each request is independent)
+JSON format for data exchange
+Common HTTP methods:
+
+Method	Purpose	Example
+GET	Retrieve data	GET /api/users - Get all users
+POST	Create new resource	POST /api/users - Create user
+PUT	Update entire resource	PUT /api/users/123 - Update user entirely
+PATCH	Partial update	PATCH /api/users/123 - Update user name only
+DELETE	Delete resource	DELETE /api/users/123 - Delete user
+HTTP Status Codes:
+
+Code	Meaning	Usage
+200	OK	Successful GET, PUT, PATCH
+201	Created	Successful POST
+204	No Content	Successful DELETE
+400	Bad Request	Invalid input
+404	Not Found	Resource doesn't exist
+500	Server Error	Something went wrong on server
+Task 7.2: Analyzing UserController
+
+Open src/main/java/ro/unibuc/prodeng/controller/UserController.java
+
+Let's break down each endpoint:
+
+GET /api/users - List all users
+
+@GetMapping
+public ResponseEntity<List<UserResponse>> getAllUsers() {
+   List<UserResponse> users = userService.getAllUsers();
+   return ResponseEntity.ok(users);
+}
+ @GetMapping - Maps HTTP GET requests to this method
+ResponseEntity<T> - Wraps response with status code
+What it does:
+
+Calls service to get all users
+Returns 200 OK with list of users
+UserResponse is defined as below:
+
+public record UserResponse(
+    String id,
+    String name,
+    String email
+) {}
+Each UserResponse will be serialized into a JSON object, and the list of user responses will be serialized into a JSON array inside the HTTP response.
+
+POST /api/users - Create a user
+
+@PostMapping
+public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
+   UserResponse user = userService.createUser(request);
+   return ResponseEntity.status(HttpStatus.CREATED).body(user);
+}
+Annotations explained:
+
+@PostMapping - Maps HTTP POST requests
+@Valid - applies Jakarta validation constraints defined in the CreateUserRequest class. If the request body does not respect those constraints, the API will return 400 Bad Request for invalid input.
+@RequestBody - Deserializes JSON from request body into Java object
+CreateUserRequest is defined like below:
+
+public record CreateUserRequest(
+    @NotBlank(message = "Name is required")
+    String name,
+
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
+    String email
+) {}
+So 400 will be returned if name / email are blank, or if email is not in a valid email format.
+
+What controller does:
+
+Receives CreateUserRequest from JSON body
+Calls service to create user
+Returns 201 CREATED with created user
+GET /api/users/{id} - Get one user
+
+@GetMapping("/{id}")
+public ResponseEntity<UserResponse> getUserById(@PathVariable String id) throws EntityNotFoundException {
+   UserResponse user = userService.getUserById(id);
+   return ResponseEntity.ok(user);
+}
+Annotations explained:
+
+@PathVariable - Extracts value from URL path
+Example: GET /api/users/abc123 → id = "abc123"
+
+PUT /api/users/{id} - Update user
+
+@PutMapping("/{id}")
+public ResponseEntity<UserResponse> updateUser(
+        @PathVariable String id,
+        @Valid @RequestBody ChangeNameRequest request) throws EntityNotFoundException {
+   UserResponse user = userService.changeName(id, request.name());
+   return ResponseEntity.ok(user);
+}
+What it does:
+
+Extracts user ID from URL
+Gets new name from request body after validating it
+Updates user
+Returns updated user
+DELETE /api/users/{id} - Delete user
+
+@DeleteMapping("/{id}")
+public ResponseEntity<Void> deleteUser(@PathVariable String id) throws EntityNotFoundException {
+   userService.deleteUser(id);
+   return ResponseEntity.noContent().build();
+}
+What it does:
+
+Deletes user
+Returns 204 NO CONTENT (successful deletion)
+Task 7.3: Understanding DTOs (Data Transfer Objects)
+
+Open src/main/java/ro/unibuc/prodeng/request/ and src/main/java/ro/unibuc/prodeng/response/
+
+Why use DTOs?
+
+Instead of exposing entity classes directly, we use DTOs (request / response objects):
+
+✅ Benefits:
+
+Control exactly what data is exposed
+Different representations for input vs output
+Validation logic separate from entities
+API changes don't affect database structure, or the other way around.
+Example: CreateUserRequest.java (see above)
+
+Example validation annotations:
+
+@NotBlank - Field cannot be null or empty
+@Email - Must be valid email format
+@NotNull - Field cannot be null
+@Size(min=, max=) - String length constraints
+@Min, @Max - Number range constraints
+Task 7.4: General error handling
+
+Spring Boot provides a centralized way to handle exceptions across all controllers using @RestControllerAdvice. This ensures consistent error responses throughout your API.
+
+Understanding GlobalExceptionHandler:
+
+Open src/main/java/ro/unibuc/prodeng/exception/GlobalExceptionHandler.java
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleEntityNotFound(EntityNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", ex.getMessage()));
+    }
+}
+How it works:
+
+@RestControllerAdvice - Marks this class as a global exception handler for all REST controllers
+@ExceptionHandler - Specifies which exception type this method handles
+When any controller throws an exception, Spring automatically routes it to the appropriate handler
+Exception handling examples:
+
+IllegalArgumentException → 400 Bad Request
+
+Used for invalid business logic (e.g., duplicate email, invalid ISBN)
+Returns error message in JSON format: {"error": "Email already exists"}
+EntityNotFoundException → 404 Not Found
+
+Used when a requested resource doesn't exist (e.g., user ID not found)
+Returns error message in JSON format: {"error": "User not found with id: 123"}
+Example flow:
+
+// In UserService.java
+public UserResponse getUserById(String id) throws EntityNotFoundException {
+   UserEntity user = userRepository.findById(id)
+           .orElseThrow(() -> new EntityNotFoundException(id));
+   return toResponse(user);
+}
+When a user with the given ID doesn't exist:
+
+Service throws EntityNotFoundException
+GlobalExceptionHandler catches it
+Returns 404 Not Found with {"error": "User not found with id: 123"}
+Task 7.5: Creating Your First Endpoint
+
+Let's create a simple "health check" endpoint together.
+
+Step 1: Create a new controller
+
+Create src/main/java/ro/unibuc/prodeng/controller/HealthController.java:
+
+package ro.unibuc.prodeng.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/health")
+public class HealthController {
+    
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> healthCheck() {
+        Map<String, Object> health = new HashMap<>();
+        health.put("status", "UP");
+        health.put("timestamp", LocalDateTime.now());
+        health.put("service", "Production Engineering Service");
+        
+        return ResponseEntity.ok(health);
+    }
+}
+Step 2: Test the endpoint
+
+We'll test this in the next section!
+
+Part 8: Running and Testing the Application
+
+Task 8.1: Starting the Application
+
+Using Gradle
+
+# Make sure MongoDB is running
+./start_mongo_only.sh
+
+# Run the application
+./gradlew bootRun
+Expected output (task will keep running continuously):
+
+<==========---> 80% EXECUTING [48s]
+> :bootRun
+You can also run the application like below in Codespaces / VS Code:
+
+Open the Run and Debug view (Ctrl+Shift+D / Cmd+Shift+D)
+Select "Run & Debug Service" configuration and click the green play button (F5)
+Expected output:
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v3.2.0)
+
+2024-01-19 10:30:15.123  INFO --- [main] ProdEngApplication : Starting ProdEngApplication
+2024-01-19 10:30:15.456  INFO --- [main] ProdEngApplication : Started ProdEngApplication in 2.543 seconds
+You can now access Mongo Express again to inspect the newly created test database, which will contain collections for application entities and some sample data.
+
+Task 8.2: Testing with cURL
+
+cURL is a command-line tool to make HTTP requests.
+
+Test the health endpoint:
+
+curl -i http://localhost:8080/api/health
+Expected response:
+
+{
+   "service": "Production Engineering Service",
+   "status": "UP",
+   "timestamp": "2024-01-19T10:30:00"
+}
+Create a user:
+
+curl -i -X POST http://localhost:8080/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Doe", "email": "john@example.com"}'
+Get all users:
+
+curl -i http://localhost:8080/api/users
+Get specific user (replace {id} with actual ID from one of the users):
+
+curl -i http://localhost:8080/api/users/{id}
+Update user:
+
+curl -i -X PUT http://localhost:8080/api/users/{id} \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Jane Doe"}'
+Delete user:
+
+curl -i -X DELETE http://localhost:8080/api/users/{id}
+Task 8.3: Testing with REST Client (VS Code)
+
+REST Client is a VS Code extension for testing APIs directly in your editor.
+
+Installation:
+
+The extension is pre-installed in Codespaces. For local setup:
+
+Open VS Code
+Go to Extensions (Ctrl+Shift+X)
+Search for "REST Client"
+Install extension by Huachao Mao
+Using REST Client:
+
+Open requests.http in the project root:
+
+### Health Check
+GET http://localhost:8080/api/health
+
+### Create a user
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+
+### Get all users
+GET http://localhost:8080/api/users
+
+...
+How to use:
+
+Click "Send Request" link above each request
+Response appears in a split panel
+Status code and headers are shown
+Tip: Use ### to separate different requests. You can click "Send Request" on any of them.
+Part 9: Debugging the Application
+
+Task 9.1: Debugging in VS Code/Codespaces
+
+The repository already includes .vscode/launch.json with the debug configuration.
+
+Step 1: Set breakpoints
+
+Open a controller file (e.g., UserController.java)
+Click left of line number to set breakpoint (red dot appears). Set a breakpoint inside the below line in getAllUsers:
+List<UserResponse> users = userService.getAllUsers();
+Step 2: Start debugging
+
+Start application via VS Code (see task 7.1)
+Make a request to trigger the breakpoint (GET /api/users)
+Use debug controls:
+Continue (F5): Run to next breakpoint
+Step Over (F10): Execute current line
+Step Into (F11): Enter function call
+Step Out (Shift+F11): Exit current function
+Task 9.2: Common Issues and Solutions
+
+Issue 1: Port already in use
+
+Port 8080 was already in use
+Solution:
+
+# Find process using port 8080
+lsof -i :8080
+
+# Kill the process (replace PID)
+kill -9 <PID>
+Issue 2: MongoDB connection refused
+
+MongoSocketOpenException: Exception opening socket
+Solution:
+
+# Check if MongoDB is running
+docker ps | grep mongo
+
+# If not running, start it
+./start_mongo_only.sh
+Issue 3: Build fails
+
+BUILD FAILED
+Solution:
+
+# Clean and rebuild
+./gradlew clean build
+
+# Check Java version
+java -version  # Should be 21
+
+# Clear Gradle cache if needed
+rm -rf ~/.gradle/caches
+Part 10: Implementing Your Project Features
+
+Task 10.1: Planning Your Implementation
+
+Before coding, plan your features:
+
+Step 1: Define your entities
+
+Example for a Book Library project:
+
+// BookEntity
+- id: String
+- title: String
+- author: String
+- isbn: String
+- available: boolean
+
+// MemberEntity
+- id: String
+- name: String
+- email: String
+- borrowedBooks: List<String>
+Step 2: Define your API endpoints
+
+Endpoint	Method	Purpose
+/api/books	GET	List all books
+/api/books	POST	Add new book
+/api/books/{id}	GET	Get book details
+/api/books/{id}	PUT	Update book
+/api/books/{id}	DELETE	Delete book
+/api/books/{id}/borrow	POST	Borrow a book
+/api/books/{id}/return	POST	Return a book
+Step 3: Create DTOs
+
+// CreateBookRequest
+- title: String
+- author: String
+- isbn: String
+
+// BorrowBookRequest
+- memberId: String
+
+// BookResponse
+- id: String
+- title: String
+- author: String
+- isbn: String
+Task 10.2: Implementation Checklist
+
+For each feature, follow this order:
+
+✅ Create Entity class (model/ package)
+
+Define fields
+Add @Document annotation
+✅ Create Repository interface (repository/ package)
+
+Extend MongoRepository
+Add custom query methods if needed
+✅ Create DTOs (request/ and response/ packages)
+
+Request DTOs (for input)
+Response DTOs (for output)
+Add validation annotations for Request DTOs
+✅ Create Service class (service/ package)
+
+Add @Service annotation
+Implement business logic
+Handle exceptions
+✅ Create Controller class (controller/ package)
+
+Add @RestController and @RequestMapping
+Create endpoint methods
+Add proper HTTP methods and status codes
+✅ Test with REST Client
+
+Add requests to code repo (for example to requests.http)
+Test all endpoints
+Verify responses
+Task 10.3: Example Implementation Walkthrough (optional)
+
+Click to expand: Complete Book Feature Example
+Homework Assignment
+
+Requirements
+
+By the next lab, each team must have:
+
+✅ Begun work on implementing one feature per member (to be finalised in lab 4)
+
+Aim to implement partial functionality (IE at least one endpoint) by lab 3, which will mainly be meant for code / project review and feedback. End goal by lab 4 will be at least 4 endpoints per feature
+All layers: Entity, Repository, Service, Controller
+Proper validation and error handling
+✅ Working application
+
+Code committed to main branch through PRs
+Application starts without errors
+MongoDB connected and working
+✅ API testing setup
+
+requests.http file (or equivalent) with all endpoints
+Each endpoint tested and working
+✅ Individual contributions
+
+Each team member implemented distinct features
+Pull requests created and reviewed
+Clear commit history following conventions
+Evaluation Criteria
+
+You'll be evaluated on:
+
+Functionality: Does it work correctly?
+Code quality: Clean, readable, well-structured?
+API design: RESTful, consistent naming, proper status codes?
+Testing: Can you demonstrate all operations?
+Individual contributions: Clear PR history showing each member's work?
+Git workflow: Proper branching, commits, PR reviews?
+Part 11: Team Discussion and Planning
+
+Task 11.1: Team Sync (During Lab)
+
+Allocate ~5 minutes per team to discuss with the teaching assistant:
+
+Discussion points:
+
+Project clarification:
+
+Is the project scope appropriate?
+Are the features well-defined?
+Any technical concerns?
+Work division:
+
+How are features divided among members?
+Any overlap or conflicts?
+
+Lab 3 - Homework Evaluation & Code Review
+
+Introduction
+
+Welcome to Lab 3! By now, each team member should have begun implementing new functionality. This lab is dedicated to evaluating your work, learning from each other, and discussing the challenges you encountered.
+
+You'll demonstrate your work, receive feedback, and ensure everyone is on track before Lab 4, where we will do a final evaluation of functionality and move on to the testing phase.
+
+Objectives
+
+Demonstrate your implemented features
+Receive feedback on your implementation
+Practice explaining your code and design decisions
+Ensure all team members understand the codebase
+Address any technical blockers before testing phase
+Part 1: Team Evaluation Preparation
+
+Pre-Evaluation Checklist
+
+Before your team's evaluation, ensure:
+
+ You have your application running (see lab 2).
+ Each team member can explain their code and contributions.
+ Features work and can be demonstrated with test data.
+ README up to date with project description and current API documentation.
+ Pull requests are available to show individual contributions.
+Demo tips:
+
+Start with application already running
+Have requests.http file (or equivalent) open and ready
+Show both success and error scenarios
+Highlight any unique features or complex logic
+Part 2: Evaluation Criteria
+
+What We're Looking For
+
+Your implementation will be evaluated on the following:
+
+1. Implemented Functionality correctly
+
+"Walk me through this feature"
+"What happens if...?" (edge cases)
+2. Code Quality and Organization
+
+Clear separation of layers (Controller, Service, Repository)
+Appropriate use of DTOs
+Clean, readable code
+Consistent naming conventions
+No commented-out code
+No debug statements in production code
+3. API Design
+
+RESTful endpoint design
+Appropriate HTTP methods (GET, POST, PUT, DELETE)
+Correct status codes (200, 201, 204, 400, 404, 500)
+Consistent endpoint naming
+Proper request/response formats
+4. Individual Contributions
+
+Each member can explain their code
+Pull requests show individual work
+Code reviews were performed
+Part 3: Code Review
+
+The teaching assistant will:
+
+Browse through your code
+Ask about specific implementations
+Check code organization
+Review pull requests
+Be prepared to:
+
+Explain design decisions
+Discuss alternative approaches
+Address code smells if found
+Common code review points:
+
+Controller layer:
+
+Proper annotations (@RestController, @RequestMapping)
+Appropriate HTTP status codes
+No business logic in controllers
+Service layer:
+
+Business logic properly implemented
+Exceptions handled correctly
+No direct database access from controllers
+Repository layer:
+
+Custom queries if needed
+Proper use of Spring Data MongoDB (or equivalent for your DB)
+DTOs:
+
+Validation annotations present
+Appropriate for use case
+Clear naming
+Part 4: This Week's Assignments
+
+Before Lab 4:
+
+Address feedback from evaluation
+
+Complete any missing functionality
+
+All planned endpoints implemented (have a total of 4 endpoints per feature / team member)
+Error handling complete
+Validation working
+Documentation
+
+Update README with latest changes
+Document all API endpoints
+Team sync
+
+Ensure all members understand the codebase
+Review each other's code
+
+Lab 4 - Unit Testing
+
+Introduction
+
+Welcome to Lab 4! Now that your application is working and you've received feedback on your implementation, it's time to add a crucial component to your project: tests.
+
+Testing, besides finding bugs, builds confidence in your code, enabling safe refactoring, documenting behavior and ensuring quality. In production, tests are as important as the code itself.
+
+In this lab, you'll learn to write unit tests for your application and achieve substantial test coverage.
+
+Objectives
+
+Understand unit testing principles
+Use JUnit 5 for writing test cases
+Learn Mockito for mocking dependencies
+Write effective unit tests for all layers
+Achieve >80% code coverage
+Run and analyze test results
+Generate coverage reports
+Prerequisites
+
+✅ Completed Labs 1-3 (application has features implemented)
+✅ IntelliJ IDEA or VS Code with Java extensions
+Part 1: Understanding Testing
+
+Task 1.1: The Testing Pyramid
+
+Software testing follows a pyramid structure:
+
+Testing Pyramid
+
+The Testing Pyramid consists of three layers:
+
+Unit Tests (Base - Many): Test individual units in isolation. Fast, cheap, highest count.
+Integration Tests (Middle - Some): Test multiple components together. Medium speed and cost.
+E2E Tests (Top - Few): Test the entire system end-to-end. Slow, expensive, most realistic.
+Today's focus: Unit Tests!
+
+Task 1.2: What is Unit Testing?
+
+Unit Testing means testing individual "units" of code in isolation.
+
+A unit is:
+
+A single method
+A single class
+A small, independent piece of functionality
+Key characteristics:
+
+Fast - Runs in milliseconds
+Isolated - No external dependencies (DB, network, files)
+Repeatable - Same result every time
+Self-checking - Automatically verifies results
+Focused - Tests one thing at a time
+Example:
+
+// This is a unit
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+// This is a unit test
+class CalculatorTest {
+    @Test
+    void testAdd() {
+        Calculator calc = new Calculator();
+        int result = calc.add(2, 3);
+        assertEquals(5, result);
+    }
+}
+Task 1.3: Why Write Tests?
+
+Benefits of testing:
+
+Catch bugs early - Find issues before production
+Enable refactoring - Change code with confidence
+Documentation - Tests show how code should be used
+Design feedback - Hard-to-test code is often poorly designed
+Regression prevention - Ensure old bugs don't come back
+Team confidence - Know your code works
+Industry perspective: Most professional software development requires test coverage above a certain threshold, like 80%.
+Part 2: Testing Infrastructure
+
+Task 2.1: Verify Test Dependencies
+
+Open your build.gradle file and note these dependencies:
+
+dependencies {
+    // ... your other dependencies
+
+    // Testing dependencies
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+}
+
+test {
+	outputs.dir snippetsDir
+	useJUnitPlatform {
+		excludeTags ("IntegrationTest", "E2E")
+	}
+	finalizedBy jacocoTestReport
+}
+The test task is configured to run unit tests only, excluding integration tests and end-to-end tests (determined by tags placed on these tests).
+
+At the end of this task, a JaCoCo test report will be generated to measure test coverage (we'll expand on this further in this lab).
+
+Task 2.2: Understanding Test Structure
+
+Tests live in src/test/java/ mirroring your main code structure:
+
+src/
+├── main/
+│   └── java/
+│       └── ro/unibuc/prodeng/
+│           ├── controller/
+│           │   └── UserController.java
+│           └── service/
+│               └── UserService.java
+└── test/
+    └── java/
+        └── ro/unibuc/prodeng/
+            ├── controller/
+            │   └── UserControllerTest.java
+            └── service/
+                └── UserServiceTest.java
+Naming convention:
+
+Test class: [ClassName]Test
+Test method: test[MethodName]_[scenario]_[expectedOutcome]
+Example:
+
+testGetUserById_whenUserExists_returnsUser()
+testGetUserById_whenUserNotFound_throwsException()
+testCreateUser_withValidData_savesUser()
+testCreateUser_withDuplicateEmail_throwsException()
+Part 3: JUnit 5 Fundamentals
+
+JUnit is the most widely-used testing framework for Java, providing a modern and flexible platform for writing and running unit tests. We'll use its latest major version, Junit 5.
+
+When searching for documentation online, be aware that JUnit 4 and JUnit 5 have significant differences in their APIs and annotations - always ensure you're using JUnit 5 resources for this project.
+Task 3.1: Basic JUnit Annotations
+
+Essential annotations:
+
+import org.junit.jupiter.api.*;
+
+class MyTest {
+    
+    @BeforeAll  // Runs once before all tests
+    static void setupClass() {
+        // Initialize expensive resources
+    }
+    
+    @BeforeEach  // Runs before each test
+    void setup() {
+        // Initialize test data
+    }
+    
+    @Test  // Marks a test method
+    void testSomething() {
+        // Your test code
+    }
+    
+    @AfterEach  // Runs after each test
+    void cleanup() {
+        // Clean up test data
+    }
+    
+    @AfterAll  // Runs once after all tests
+    static void cleanupClass() {
+        // Clean up expensive resources
+    }
+    
+    @Disabled  // Skip this test
+    @Test
+    void testNotReady() {
+        // Not implemented yet
+    }
+}
+Task 3.2: Assertions
+
+Assertions verify expected outcomes:
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@Test
+void demonstrateAssertions() {
+    // Equality
+    assertEquals(expected, actual);
+    assertEquals(expected, actual, "Custom failure message");
+    assertNotEquals(unexpected, actual);
+    
+    // Boolean conditions
+    assertTrue(condition);
+    assertFalse(condition);
+    
+    // Null checks
+    assertNull(object);
+    assertNotNull(object);
+    
+    // Object identity
+    assertSame(expected, actual);  // Same reference
+    assertNotSame(obj1, obj2);
+    
+    // Exceptions
+    assertThrows(ExceptionType.class, () -> {
+        // Code that should throw
+    });
+    
+    Exception ex = assertThrows(IllegalArgumentException.class, () -> {
+        service.doSomething();
+    });
+    assertEquals("Expected message", ex.getMessage());
+    
+    // Collection assertions
+    assertIterableEquals(expectedList, actualList);
+    assertArrayEquals(expectedArray, actualArray);
+    
+    // Multiple assertions
+    assertAll(
+        () -> assertEquals(expected1, actual1),
+        () -> assertEquals(expected2, actual2),
+        () -> assertTrue(condition)
+    );
+}
+Task 3.3: Your First Test (Example)
+
+Let's write a simple test together.
+
+Step 1: Create a test class
+
+Create src/test/java/ro/unibuc/prodeng/service/TodoServiceTest.java:
+
+package ro.unibuc.prodeng.service;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import ro.unibuc.prodeng.model.TodoEntity;
+import ro.unibuc.prodeng.model.UserEntity;
+import ro.unibuc.prodeng.repository.TodoRepository;
+import ro.unibuc.prodeng.request.CreateTodoRequest;
+import ro.unibuc.prodeng.response.TodoResponse;
+import ro.unibuc.prodeng.exception.EntityNotFoundException;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(SpringExtension.class)
+class TodoServiceTest {
+
+   @Mock
+   private TodoRepository todoRepository;
+
+   @Mock
+   private UserService userService;
+
+   @InjectMocks
+   private TodoService todoService;
+
+   @Test
+   void testGetTodoById_existingTodoRequested_returnsTodo() throws EntityNotFoundException {
+      // Arrange
+      UserEntity user = new UserEntity("1", "Alice", "alice@example.com");
+      TodoEntity todo = new TodoEntity("todo-1", "Complete project", false, "1");
+
+      when(todoRepository.findById("todo-1")).thenReturn(Optional.of(todo));
+      when(userService.getUserEntityById("1")).thenReturn(user);
+
+      // Act
+      TodoResponse result = todoService.getTodoById("todo-1");
+
+      // Assert
+      assertNotNull(result);
+      assertEquals("todo-1", result.id());
+      assertEquals("Complete project", result.description());
+      assertFalse(result.done());
+      assertEquals("Alice", result.assigneeName());
+      assertEquals("alice@example.com", result.assigneeEmail());
+   }
+
+   @Test
+   void testGetTodoById_nonExistingTodoRequested_throwsEntityNotFoundException() {
+      // Arrange
+      when(todoRepository.findById("non-existing")).thenReturn(Optional.empty());
+
+      // Act & Assert
+      assertThrows(EntityNotFoundException.class, () -> todoService.getTodoById("non-existing"));
+   }
+}
+Step 2: Run the test
+
+# Run all tests
+./gradlew test
+Expected output:
+
+BUILD SUCCESSFUL in 9s
+You can temporarily add this line inside one of the tests to simulate a test failure:
+
+assertTrue(false); // checks if the input resolves to true, but it is hardcoded as false
+Then
+
+./gradlew test
+Expected output:
+
+TodoServiceTest > testGetTodoById_existingTodoRequested_returnsTodo() FAILED
+    org.opentest4j.AssertionFailedError at TodoServiceTest.java:33
+
+10 tests completed, 1 failed
+
+> Task :test FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> There were failing tests. See the report at: file:///workspaces/service/build/reports/tests/test/index.html
+The line of code where the expected behavior differed (assertion failed) is outlined in the error message (line 33).
+
+Part 4: Mocking with Mockito
+
+Task 4.1: Why Mocking?
+
+Problem: Unit tests should be isolated, but services depend on repositories, and repositories need databases.
+
+Solution: Mocking - Creating fake objects that simulate real behavior.
+
+Real flow:
+Service → Repository → Database
+  ↓          ↓          ↓
+Slow      Slow       Slow
+
+Mocked flow:
+Service → Mock Repository (in memory)
+  ↓          ↓
+Fast      Fast
+Task 4.2: Creating Mocks
+
+Mocks can be created via annotations like below:
+
+import org.mockito.Mock;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(SpringExtension.class)
+class UserServiceTest {
+    
+    @Mock  // Creates a mock
+    private UserRepository userRepository;
+    
+    @InjectMocks  // Injects all defined mocks into this object
+    private UserService userService;
+    
+    @Test
+    void testSomething() {
+        // userService already has mockRepository injected
+    }
+}
+Task 4.3: Stubbing (Defining Behavior)
+
+Stubbing tells mocks what to return:
+
+import static org.mockito.Mockito.*;
+
+// Return a value
+when(mockRepo.findById("123"))
+    .thenReturn(Optional.of(user));
+
+// Return different values on successive calls
+when(mockRepo.count())
+    .thenReturn(5L)
+    .thenReturn(6L);
+
+// Throw an exception
+when(mockRepo.findById("invalid"))
+    .thenThrow(new IllegalArgumentException("Invalid ID"));
+
+// Return based on any argument
+when(mockRepo.findById(anyString()))
+    .thenReturn(Optional.of(user));
+
+// Return based on argument matcher
+when(mockRepo.findByEmail(startsWith("admin")))
+    .thenReturn(Optional.of(adminUser));
+
+// Do nothing (for void methods)
+doNothing().when(mockRepo).deleteById(anyString());
+
+// Custom logic with Answer
+when(mockRepo.save(any(UserEntity.class)))
+    .thenAnswer(invocation -> {
+        UserEntity user = invocation.getArgument(0);
+        user.setId("generated-id");
+        return user;
+    });
+Task 4.4: Verification
+
+Verification ensures methods were called correctly:
+
+// Verify method was called with expected parameters
+verify(mockRepo).findById("123");
+
+// Verify call count
+verify(mockRepo, times(2)).findAll();
+verify(mockRepo, atLeastOnce()).save(any());
+verify(mockRepo, atMost(3)).findById(anyString());
+verify(mockRepo, never()).deleteById(anyString());
+
+// Verify with argument matchers
+verify(mockRepo).save(argThat(user -> 
+    user.getEmail().contains("@example.com")
+));
+
+// Verify order of calls
+InOrder inOrder = inOrder(mockRepo);
+inOrder.verify(mockRepo).findById("123");
+inOrder.verify(mockRepo).save(any());
+
+// Verify no more interactions
+verify(mockRepo).findById("123");
+verifyNoMoreInteractions(mockRepo);
+Part 5: Testing Service Layer
+
+Task 5.1: Testing Service Methods
+
+Sample test for Create Todo method (Happy Path):
+
+@Test
+void testCreateTodo_newTodoWithValidData_createsAndReturnsTodo() throws EntityNotFoundException {
+   // Arrange
+   UserEntity assignee = new UserEntity("1", "Alice", "alice@example.com");
+   CreateTodoRequest request = new CreateTodoRequest("Finish unit tests", "alice@example.com");
+
+   when(userService.getUserEntityByEmail("alice@example.com")).thenReturn(assignee);
+   when(todoRepository.save(any(TodoEntity.class))).thenAnswer(invocation -> {
+      TodoEntity entity = invocation.getArgument(0);
+      // Simulate MongoDB generating an ID for new entities
+      String id = "generated-todo-id-123";
+      return new TodoEntity(id, entity.description(), entity.done(), entity.assignedUserId());
+   });
+
+   // Act
+   TodoResponse result = todoService.createTodo(request);
+
+   // Assert
+   assertNotNull(result);
+   assertNotNull(result.id());
+   assertEquals("Finish unit tests", result.description());
+   assertFalse(result.done());
+   assertEquals("Alice", result.assigneeName());
+   assertEquals("alice@example.com", result.assigneeEmail());
+   verify(todoRepository, times(1)).save(any(TodoEntity.class));
+}
+Other Examples (Click to expand)
+Part 6: Testing Controller Layer
+
+Task 6.1: Controller Test Setup
+
+Controllers need special testing setup to test HTTP behavior.
+
+Note the use of MockMvc for simulating HTTP requests and responses.
+
+Create src/test/java/ro/unibuc/prodeng/controller/TodoControllerTest.java:
+
+package ro.unibuc.prodeng.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ro.unibuc.prodeng.exception.EntityNotFoundException;
+import ro.unibuc.prodeng.request.AssignTodoRequest;
+import ro.unibuc.prodeng.request.CreateTodoRequest;
+import ro.unibuc.prodeng.request.EditTodoRequest;
+import ro.unibuc.prodeng.response.TodoResponse;
+import ro.unibuc.prodeng.service.TodoService;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.*;
+
+@ExtendWith(SpringExtension.class)
+class TodoControllerTest {
+
+   @Mock
+   private TodoService todoService;
+
+   @InjectMocks
+   private TodoController todoController;
+
+   private MockMvc mockMvc;
+
+   private ObjectMapper objectMapper = new ObjectMapper();
+
+   private TodoResponse testTodo1 = new TodoResponse("todo-1", "Complete project", false, "Alice", "alice@example.com");
+   private TodoResponse testTodo2 = new TodoResponse("todo-2", "Write documentation", true, "Alice", "alice@example.com");
+   private CreateTodoRequest createTodoRequest = new CreateTodoRequest("Complete project", "alice@example.com");
+   private AssignTodoRequest assignTodoRequest = new AssignTodoRequest("bob@example.com");
+   private EditTodoRequest editTodoRequest = new EditTodoRequest("Updated description");
+
+   @BeforeEach
+   void setUp() {
+      mockMvc = MockMvcBuilders.standaloneSetup(todoController).build();
+   }
+
+   @Test
+   void testGetTodosByUserEmail_withMultipleTodos_returnsList() throws Exception {
+      // Arrange
+      List<TodoResponse> todos = Arrays.asList(testTodo1, testTodo2);
+      when(todoService.getTodosByUserEmail("alice@example.com")).thenReturn(todos);
+
+      // Act & Assert
+      mockMvc.perform(get("/api/todos")
+                      .param("assigneeEmail", "alice@example.com")
+                      .contentType(MediaType.APPLICATION_JSON))
+              .andExpect(status().isOk())
+              .andExpect(jsonPath("$", hasSize(2)))
+              .andExpect(jsonPath("$[0].id", is("todo-1")))
+              .andExpect(jsonPath("$[0].description", is("Complete project")))
+              .andExpect(jsonPath("$[0].done", is(false)))
+              .andExpect(jsonPath("$[0].assigneeName", is("Alice")))
+              .andExpect(jsonPath("$[0].assigneeEmail", is("alice@example.com")))
+              .andExpect(jsonPath("$[1].id", is("todo-2")))
+              .andExpect(jsonPath("$[1].description", is("Write documentation")))
+              .andExpect(jsonPath("$[1].done", is(true)))
+              .andExpect(jsonPath("$[1].assigneeName", is("Alice")))
+              .andExpect(jsonPath("$[1].assigneeEmail", is("alice@example.com")));
+
+      verify(todoService, times(1)).getTodosByUserEmail("alice@example.com");
+   }
+
+   @Test
+   void testGetTodosByUserEmail_withNoTodos_returnsEmptyList() throws Exception {
+      // Arrange
+      when(todoService.getTodosByUserEmail("alice@example.com")).thenReturn(Arrays.asList());
+
+      // Act & Assert
+      mockMvc.perform(get("/api/todos")
+                      .param("assigneeEmail", "alice@example.com")
+                      .contentType(MediaType.APPLICATION_JSON))
+              .andExpect(status().isOk())
+              .andExpect(jsonPath("$", hasSize(0)));
+
+      verify(todoService, times(1)).getTodosByUserEmail("alice@example.com");
+   }
+   
+   // Further tests go here
+Task 6.2: Sample tests for endpoints
+
+Examples (Click to expand)
+Part 7: Running Tests and Coverage
+
+Task 7.1: Running Tests
+
+From command line:
+
+# Run all tests
+./gradlew test
+
+# Run tests from specific package
+./gradlew test --tests "ro.unibuc.prodeng.service.*"
+
+# Run specific test class
+./gradlew test --tests UserServiceTest
+
+# Run specific test method
+./gradlew test --tests UserServiceTest.testGetAllUsers_withMultipleUsers_returnsAllUsers
+
+# Run tests continuously (re-run on code change)
+./gradlew test --continuous
+From IntelliJ IDEA:
+
+Right-click on test class → Run
+Keyboard shortcut: Ctrl+Shift+F10 (Windows/Linux) or ⌃⇧R (Mac)
+Run all tests: Right-click on test folder → Run Tests
+From VS Code:
+
+Use Testing sidebar
+Click play button next to test method
+Run all tests from command palette
+Task 7.2: Understanding Test Reports
+
+After running tests, view the HTML report: open build/reports/tests/test/index.html (in Codespaces: Right Click HTML -> Open with Live Server).
+
+Report sections:
+
+Test Summary: Total tests, failed, ignored
+Packages: Tests organized by package
+Classes: Individual test classes
+Tests: Select a class to see each test method inside it, with duration and result
+Task 7.3: Test Coverage with JaCoCo
+
+JaCoCo is a code coverage library that integrates with Gradle to measure what percentage of your code is covered by tests.
+
+Generally, the higher code coverage is, the more safe the code is considered, due to being secured by tests.
+
+Note JaCoCo plugin in build.gradle:
+
+test {
+	outputs.dir snippetsDir
+	useJUnitPlatform {
+		excludeTags ("IntegrationTest", "E2E")
+	}
+	finalizedBy jacocoTestReport
+}
+
+jacoco {
+	toolVersion = "0.8.9"
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		html.required = true
+	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+				'**/config/**',
+				'**/exception/**',
+				'**/model/**',
+				'**/repository/**',
+				'**/request/**',
+				'**/response/**',
+				'**/*Application.class'
+			])
+		}))
+	}
+}
+The task jacocoTestReport is configured to generate coverage reports both in HTML format (human readable) and XML format, which can be more easily interpreted by automated checks (CI/CD).
+
+afterEvaluate is configured to exclude specific packages from coverage evaluation. These packages are considered to either not be testable or not bring value in unit testing, since when tested by themselves in isolation, without interacting with other components (as opposed to integration testing - lab 5), these classes do not contain much logic to test.
+
+Unit test coverage should concentrate on pieces of code where unit tests bring value (such as services, controllers).
+
+Generate coverage report:
+
+./gradlew jacocoTestReport
+View coverage report: open build/reports/jacoco/test/html/index.html
+
+Report shows:
+
+Overall coverage percentage
+Coverage by package
+Coverage by class
+Line-by-line coverage (green = covered, red = not covered, yellow = partially covered)
+Task 7.4: Improving Coverage
+
+Coverage metrics:
+
+Line coverage: % of code lines executed
+Branch coverage: % of decision branches (if/else) tested
+Goal: >80% coverage on:
+
+Lines
+Branches
+Finding uncovered code:
+
+Open coverage report
+Click on a package
+Click on a class with low coverage
+See which lines are red (not covered)
+Write tests to cover those lines
+Example:
+
+// This method has 2 branches
+public String getUserStatus(UserEntity user) {
+    if (user.isActive()) {
+        return "Active";  // Branch 1
+    } else {
+        return "Inactive";  // Branch 2
+    }
+}
+
+// To get 100% branch coverage, test both:
+@Test
+void testGetUserStatus_whenActive_returnsActive() {
+    user.setActive(true);
+    assertEquals("Active", service.getUserStatus(user));
+}
+
+@Test
+void testGetUserStatus_whenInactive_returnsInactive() {
+    user.setActive(false);
+    assertEquals("Inactive", service.getUserStatus(user));
+}
+Part 8: Best Practices and Common Patterns
+
+Task 8.1: Test Naming Conventions
+
+Use descriptive names that explain the test:
+
+✅ Good:
+
+testCreateUser_withValidData_savesUserSuccessfully()
+testCreateUser_withDuplicateEmail_throwsIllegalArgumentException()
+testGetUserById_whenUserExists_returnsUser()
+testGetUserById_whenUserNotFound_throwsEntityNotFoundException()
+❌ Bad:
+
+testCreate()
+testUser()
+test1()
+testMethod()
+Pattern:
+
+test[MethodName]_[Scenario]_[ExpectedResult]
+Task 8.2: AAA Pattern (Arrange-Act-Assert)
+
+Structure every test with AAA:
+
+@Test
+void testExample() {
+    // ARRANGE - Set up test data and expectations
+    UserEntity user = new UserEntity();
+    user.setId("123");
+    when(repository.findById("123")).thenReturn(Optional.of(user));
+    
+    // ACT - Execute the method being tested
+    UserEntity result = service.getUserById("123");
+    
+    // ASSERT - Verify the results
+    assertNotNull(result);
+    assertEquals("123", result.getId());
+    verify(repository).findById("123");
+}
+Task 8.3: Parametrized Tests
+
+Where relevant, test same logic with multiple inputs:
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
+
+@ParameterizedTest
+@ValueSource(strings = {"", " ", "  ", "\t", "\n"})
+void testCreateUser_withBlankName_throwsException(String blankName) {
+    CreateUserRequest request = new CreateUserRequest();
+    request.setName(blankName);
+    request.setEmail("test@example.com");
+    
+    assertThrows(ValidationException.class, 
+        () -> service.createUser(request));
+}
+
+@ParameterizedTest
+@CsvSource({
+    "john@example.com, true",
+    "invalid-email, false",
+    "@example.com, false",
+    "john@, false"
+})
+void testEmailValidation(String email, boolean expected) {
+    assertEquals(expected, validator.isValidEmail(email));
+}
+Homework Assignment
+
+Requirements
+
+By the next lab, your team must:
+
+Achieve >80% test coverage
+
+Lines: >80%
+Branches: >80%
+Follow best practices
+
+AAA pattern used consistently
+Descriptive test names
+Proper use of mocks
+No test dependencies (unit tests run independently)
+Deliverables
+
+ All tests pass (./gradlew test succeeds)
+ Coverage report generated (./gradlew jacocoTestReport)
+ Coverage exceeds 80% for all metrics
+ Tests committed and merged to main branch
+ Each team member wrote tests for their features
+ Pull requests show test additions

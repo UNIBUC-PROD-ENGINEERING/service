@@ -1,7 +1,6 @@
 HELP.md
 .gradle
 build/
-target/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -15,8 +14,6 @@ target/
 .springBeans
 .sts4-cache
 bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
 .idea
@@ -24,8 +21,6 @@ bin/
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
 ### NetBeans ###
 /nbproject/private/
@@ -35,15 +30,19 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/**
-!.vscode/launch.json
-!.vscode/settings.json
+.vscode/
 
-### Durable Prom store
-infrastructure/prometheus/durable
+### Mac/OSX ###
+.DS_Store
 
-### Durable Loki store
-infrastructure/loki/durable/
-
-### Claude Code ###
-.claude/
+### Others ###
+*.log
+/logs/
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar

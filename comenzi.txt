@@ -1,0 +1,41 @@
+// Crearea unei masini
+curl -X POST http://localhost:8080/api/masini \
+-H "Content-Type: application/json" \
+-d '{"marca":"Tesla", "model":"X", "an":2024, "pret":2000.0, "kilometri":0, "combustibil":"Electric", "putereCp":1000, "ownerEmail":"alex@test.ro"}'
+
+// Crearea unei masini Pret Foarte Mic pt Dacia
+curl -X POST http://localhost:8080/api/masini \
+-H "Content-Type: application/json" \
+-d '{"marca":"Dacia", "model":"Logan", "an":2018, "pret":2000.0, "kilometri":150000, "combustibil":"Benzina", "putereCp":90, "ownerEmail":"vasile@test.ro"}'
+
+// Creare Masina cu eroare de Rulaj (an curent, km > 1000)
+curl -X POST http://localhost:8080/api/masini \
+-H "Content-Type: application/json" \
+-d '{"marca":"Tesla", "model":"Model 3", "an":2024, "pret":45000.0, "kilometri":5000, "combustibil":"Electric", "putereCp":283, "ownerEmail":"elon@test.ro"}'
+
+// Cautarea tuturor masinilor (Poti observa campul isSuspectLowPrice la Dacia cu pret 2000 daca mai exista una de 15000)
+curl -X GET http://localhost:8080/api/masini
+
+// Cautarea unei masini specifice dupa ID (inlocuieste cu ID-ul real de la POST)
+curl -X GET http://localhost:8080/api/masini/69b9cf93d83e1510f5a99652
+
+// Actualizare status in RESERVAT (pentru testul de stergere) (inlocuieste ID)
+curl -X PATCH http://localhost:8080/api/masini/69b9cf93d83e1510f5a99652/status \
+-H "Content-Type: application/json" \
+-d '{"status":"RESERVAT"}'
+
+// Incearca stergerea unei masini RESERVATA (trebuie sa dea eroare)
+curl -X DELETE http://localhost:8080/api/masini/69b9cf93d83e1510f5a99652
+
+// Actualizare status in VANDUT
+curl -X PATCH http://localhost:8080/api/masini/69b9cf93d83e1510f5a99652/status \
+-H "Content-Type: application/json" \
+-d '{"status":"VANDUT"}'
+
+// Incearca editarea (PUT) unei masini VANDUTE (trebuie sa dea eroare)
+curl -X PUT http://localhost:8080/api/masini/69b9cf93d83e1510f5a99652 \
+-H "Content-Type: application/json" \
+-d '{"marca":"Dacia", "model":"Duster", "an":2020, "pret":14000.0, "kilometri":50000, "combustibil":"Diesel", "putereCp":115, "ownerEmail":"ion@test.ro"}'
+
+// Stergere masina valida (status DISPONIBIL sau VANDUT)
+curl -X DELETE http://localhost:8080/api/masini/69b9cf93d83e1510f5a99652
