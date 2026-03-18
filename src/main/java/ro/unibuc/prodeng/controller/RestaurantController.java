@@ -3,6 +3,8 @@ package ro.unibuc.prodeng.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 import ro.unibuc.prodeng.response.RestaurantResponse;
 import ro.unibuc.prodeng.service.RestaurantService;
 
@@ -27,7 +29,7 @@ public class RestaurantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestaurantResponse create(@RequestBody RestaurantResponse restaurant) {
+    public RestaurantResponse create(@Valid @RequestBody RestaurantResponse restaurant) {
         return restaurantService.create(restaurant);
     }
 
