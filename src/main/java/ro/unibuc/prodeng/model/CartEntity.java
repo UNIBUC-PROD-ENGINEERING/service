@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @Document(collection = "cart")
 public class CartEntity {
-
     @Id
     private String id;
     private String userID;
@@ -19,15 +18,12 @@ public class CartEntity {
     private CartStatus status;
     private Instant createdAt = Instant.now();
 
-    public enum CartStatus {
-        OPEN, SUBMITTED
-    }
+    public enum CartStatus { OPEN, SUBMITTED }
 
     @Data
     public static class CartItem {
         private String componentId;
         private int quantity;
-        
         public CartItem() {}
         public CartItem(String componentId, int quantity) {
             this.componentId = componentId;
