@@ -18,22 +18,14 @@ import java.util.Optional;
 @Service
 public class CartService {
 
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private ComponentRepository componentRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private CartRepository cartRepository;
+    @Autowired private ComponentRepository componentRepository;
+    @Autowired private UserRepository userRepository;
 
     public CartResponse getActiveCart(String userId) throws EntityNotFoundException {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-
+        userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         CartEntity cart = cartRepository.findByUserIDAndStatus(userId, CartEntity.CartStatus.OPEN)
                 .orElseGet(() -> createNewCart(userId));
-
         return toResponse(cart);
     }
 
@@ -42,15 +34,14 @@ public class CartService {
                 .orElseThrow(() -> new EntityNotFoundException("Component not found"));
 
         if (component.getAvailableQuantity() < request.quantity()) {
-            throw new IllegalArgumentException("Not enough components in stock. Available: " + component.getAvailableQuantity());
+            throw new IllegalArgumentException("Not enough components in stock.");
         }
 
         CartEntity cart = cartRepository.findByUserIDAndStatus(userId, CartEntity.CartStatus.OPEN)
                 .orElseGet(() -> createNewCart(userId));
 
         Optional<CartEntity.CartItem> existingItem = cart.getItems().stream()
-                .filter(item -> item.getComponentId().equals(request.componentId()))
-                .findFirst();
+                .filter(item -> item.getComponentId().equals(request.componentId())).findFirst();
 
         if (existingItem.isPresent()) {
             int newQuantity = existingItem.get().getQuantity() + request.quantity();
@@ -62,35 +53,38 @@ public class CartService {
             cart.getItems().add(new CartEntity.CartItem(request.componentId(), request.quantity()));
         }
 
-        CartEntity savedCart = cartRepository.save(cart);
-        return toResponse(savedCart);
+        return toResponse(cartRepository.save(cart));
+    }
+
+    public CartResponse removeFromCart(String userId, String componentId) throws EntityNotFoundException {
+        CartEntity cart = cartRepository.findByUserIDAndStatus(userId, CartEntity.CartStatus.OPEN)
+                .orElseThrow(() -> new EntityNotFoundException("No active cart found"));
+
+        boolean removed = cart.getItems().removeIf(item -> item.getComponentId().equals(componentId));
+        if (!removed) throw new EntityNotFoundException("Component not found in cart");
+
+        return toResponse(cartRepository.save(cart));
     }
 
     public CartResponse submitCart(String userId) throws EntityNotFoundException {
         CartEntity cart = cartRepository.findByUserIDAndStatus(userId, CartEntity.CartStatus.OPEN)
-                .orElseThrow(() -> new EntityNotFoundException("No active cart found for this user"));
+                .orElseThrow(() -> new EntityNotFoundException("No active cart found"));
 
-        if (cart.getItems().isEmpty()) {
-            throw new IllegalArgumentException("Cart is empty. Cannot submit.");
-        }
+        if (cart.getItems().isEmpty()) throw new IllegalArgumentException("Cart is empty.");
 
         for (CartEntity.CartItem item : cart.getItems()) {
             ComponentEntity component = componentRepository.findById(item.getComponentId())
-                    .orElseThrow(() -> new EntityNotFoundException("Component " + item.getComponentId() + " not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("Component not found"));
             
             int remainingStock = component.getAvailableQuantity() - item.getQuantity();
-            if (remainingStock < 0) {
-                throw new IllegalArgumentException("Component " + component.getName() + " is out of stock!");
-            }
+            if (remainingStock < 0) throw new IllegalArgumentException("Component out of stock!");
             
             component.setAvailableQuantity(remainingStock);
             componentRepository.save(component);
         }
 
         cart.setStatus(CartEntity.CartStatus.SUBMITTED);
-        CartEntity savedCart = cartRepository.save(cart);
-
-        return toResponse(savedCart);
+        return toResponse(cartRepository.save(cart));
     }
 
     private CartEntity createNewCart(String userId) {
@@ -102,18 +96,11 @@ public class CartService {
 
     private CartResponse toResponse(CartEntity entity) {
         List<CartItemResponse> items = entity.getItems().stream().map(item -> {
-            String componentName = componentRepository.findById(item.getComponentId())
-                    .map(ComponentEntity::getName)
-                    .orElse("Unknown Component");
-            return new CartItemResponse(item.getComponentId(), componentName, item.getQuantity());
+            String compName = componentRepository.findById(item.getComponentId())
+                    .map(ComponentEntity::getName).orElse("Unknown");
+            return new CartItemResponse(item.getComponentId(), compName, item.getQuantity());
         }).toList();
 
-        return new CartResponse(
-                entity.getId(),
-                entity.getUserID(),
-                items,
-                entity.getStatus().name(),
-                entity.getCreatedAt()
-        );
+        return new CartResponse(entity.getId(), entity.getUserID(), items, entity.getStatus().name(), entity.getCreatedAt());
     }
 }
