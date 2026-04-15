@@ -52,7 +52,19 @@ Content-Type: application/json
 # FLOW COMPLET: Teams, Members, Folders
 # ==========================================
 
-###0. Login another admin user (Mihai) to test permissions
+###0. Create another admin user (Mihai) - needed for permission tests
+# @name createMihai
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "name": "Mihai",
+    "email": "mihait@gmail.com",
+    "password": "password",
+    "role": "admin"
+}
+
+###0.1. Login another admin user (Mihai) to test permissions
 # @name loginMihai
 POST http://localhost:8080/api/users/login
 Content-Type: application/json
