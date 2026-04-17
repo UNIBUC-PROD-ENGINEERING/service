@@ -5,12 +5,14 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import ro.unibuc.prodeng.exception.EntityNotFoundException;
+import ro.unibuc.prodeng.exception.InvalidCredentialsException;
 import ro.unibuc.prodeng.model.AppUserEntity;
 import ro.unibuc.prodeng.repository.AppUserRepository;
 import ro.unibuc.prodeng.request.ForgotPasswordRequest;
 import ro.unibuc.prodeng.request.LoginRequest;
 import ro.unibuc.prodeng.request.RegisterRequest;
 import ro.unibuc.prodeng.response.LoginResponse;
+import ro.unibuc.prodeng.response.UserProfileResponse;
 import ro.unibuc.prodeng.utils.JwtUtil;
 
 @Service
@@ -38,9 +40,9 @@ public class AppUserService {
 
     public LoginResponse login(LoginRequest req) {
         AppUserEntity user = appUserRepository.findByEmail(req.email())
-            .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+            .orElseThrow(InvalidCredentialsException::new);
         if (!passwordEncoder.matches(req.password(), user.getPasswordHash())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new InvalidCredentialsException();
         }
         String token = jwtUtil.generateToken(user.getId(), user.getEmail(), Boolean.TRUE.equals(user.getIsAdmin()));
         return new LoginResponse(token, user.getName(), user.getEmail(), user.getIsAdmin());
@@ -48,9 +50,15 @@ public class AppUserService {
 
     public void forgotPassword(ForgotPasswordRequest req) {
         AppUserEntity user = appUserRepository.findByEmail(req.email())
-            .orElseThrow(() -> new RuntimeException("No account found for that email"));
+            .orElseThrow(() -> new EntityNotFoundException(req.email()));
         user.setPasswordHash(passwordEncoder.encode(req.newPassword()));
         appUserRepository.save(user);
+    }
+
+    public UserProfileResponse getProfile(String userId) throws EntityNotFoundException {
+        AppUserEntity user = appUserRepository.findById(userId)
+            .orElseThrow(() -> new EntityNotFoundException(userId));
+        return new UserProfileResponse(user.getId(), user.getName(), user.getEmail(), user.getGroup(), user.getIsAdmin());
     }
 
     public void deleteUser(String id) throws EntityNotFoundException {
