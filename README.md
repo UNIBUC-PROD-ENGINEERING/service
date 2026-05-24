@@ -1,3 +1,34 @@
+# Library Management Service
+
+## Team
+- **Team Name:** shovel
+- **Members:**
+  - Alexandru Țîncu - Everything
+
+## Project Description
+
+Library Management Service is a SaaS that enbales library managers to keep track of all of their books.
+
+### Key Features
+- Book management
+
+### Technical Stack
+- **Backend:** Spring Boot (Java 21)
+- **Database:** MongoDB
+- **API:** RESTful
+- **Testing:** JUnit, Mockito, Cucumber
+- **Monitoring:** Prometheus, Grafana
+- **Deployment:** Docker
+
+## Contributing
+
+All team members follow trunk-based development:
+1. Create feature branch from `main`
+2. Make changes and commit with clear messages
+3. Create PR and request review
+4. Address feedback
+5. Merge after approval
+
 # Prerequisites
 
 For using Github Codespaces, no prerequisites are mandatory.
