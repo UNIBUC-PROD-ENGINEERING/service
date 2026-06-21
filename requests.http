@@ -3,19 +3,12 @@
 # ==========================================
 @baseUrl = http://localhost:8080
 
-# TIP:
-# În Codespaces, dacă nu merge localhost:
-# copy URL din PORTS si înlocuiești aici o singură linie:
-# @baseUrl = https://xxxxx-8080.app.github.dev
-
-
 # ==========================================
 # USER CONTROLLER
 # ==========================================
 
 ### Get all users
 GET {{baseUrl}}/api/users
-#GET https://obscure-barnacle-r47p4rj9xxw5fxprq-8080.app.github.dev/api/users
 
 ### Create user
 # @name createUser
@@ -23,8 +16,8 @@ POST {{baseUrl}}/api/users
 Content-Type: application/json
 
 {
-    "name": "Jean Valjean",
-    "email": "prisoner24601@france.fr"
+    "name": "Andrei Liviu",
+    "email": "liviu11@yahoo.com"
 }
 
 ### Get user by ID
