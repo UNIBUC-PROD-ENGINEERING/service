@@ -15,13 +15,14 @@ import ro.unibuc.prodeng.request.AssignTodoRequest;
 import ro.unibuc.prodeng.request.CreateTodoRequest;
 import ro.unibuc.prodeng.request.EditTodoRequest;
 import ro.unibuc.prodeng.response.TodoResponse;
+import ro.unibuc.prodeng.service.MetricsService;
 import ro.unibuc.prodeng.service.TodoService;
 
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,6 +32,9 @@ class TodoControllerTest {
 
     @Mock
     private TodoService todoService;
+
+    @Mock
+    private MetricsService metricsService;
 
     @InjectMocks
     private TodoController todoController;
@@ -146,7 +150,7 @@ class TodoControllerTest {
                 "alice@example.com"
         );
 
-        when(todoService.createTodo(any(CreateTodoRequest.class))).thenReturn(todo1);
+        when(todoService.createTodo(org.mockito.ArgumentMatchers.any(CreateTodoRequest.class))).thenReturn(todo1);
 
         mockMvc.perform(post("/api/todos")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -156,7 +160,8 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$.subject", is("Lab")))
                 .andExpect(jsonPath("$.assigneeEmail", is("alice@example.com")));
 
-        verify(todoService).createTodo(any(CreateTodoRequest.class));
+        verify(todoService).createTodo(org.mockito.ArgumentMatchers.any(CreateTodoRequest.class));
+        verify(metricsService).recordTodoCreated();
     }
 
     @Test
@@ -182,6 +187,7 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$.done", is(true)));
 
         verify(todoService).setDone("todo-1", true);
+        verify(metricsService).recordTodoCompleted();
     }
 
     @Test
@@ -212,7 +218,7 @@ class TodoControllerTest {
                 "bob@example.com"
         );
 
-        when(todoService.assign(eq("todo-1"), any(AssignTodoRequest.class)))
+        when(todoService.assign(eq("todo-1"), org.mockito.ArgumentMatchers.any(AssignTodoRequest.class)))
                 .thenReturn(assignedTodo);
 
         mockMvc.perform(patch("/api/todos/{id}/assignee", "todo-1")
@@ -223,7 +229,7 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$.assigneeName", is("Bob")))
                 .andExpect(jsonPath("$.assigneeEmail", is("bob@example.com")));
 
-        verify(todoService).assign(eq("todo-1"), any(AssignTodoRequest.class));
+        verify(todoService).assign(eq("todo-1"), org.mockito.ArgumentMatchers.any(AssignTodoRequest.class));
     }
 
     @Test
@@ -246,7 +252,7 @@ class TodoControllerTest {
                 "alice@example.com"
         );
 
-        when(todoService.edit(eq("todo-1"), any(EditTodoRequest.class)))
+        when(todoService.edit(eq("todo-1"), org.mockito.ArgumentMatchers.any(EditTodoRequest.class)))
                 .thenReturn(editedTodo);
 
         mockMvc.perform(patch("/api/todos/{id}/description", "todo-1")
@@ -258,7 +264,7 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$.description", is("Updated description")))
                 .andExpect(jsonPath("$.deadline", is("2026-07-01")));
 
-        verify(todoService).edit(eq("todo-1"), any(EditTodoRequest.class));
+        verify(todoService).edit(eq("todo-1"), org.mockito.ArgumentMatchers.any(EditTodoRequest.class));
     }
 
     @Test

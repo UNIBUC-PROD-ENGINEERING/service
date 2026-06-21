@@ -14,6 +14,7 @@ import ro.unibuc.prodeng.request.EditTodoRequest;
 import ro.unibuc.prodeng.response.TodoResponse;
 import ro.unibuc.prodeng.exception.EntityNotFoundException;
 import ro.unibuc.prodeng.service.TodoService;
+import ro.unibuc.prodeng.service.MetricsService;
 
 @RestController
 @RequestMapping("/api/todos")
@@ -22,44 +23,70 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
+    @Autowired
+    private MetricsService metricsService;
+
     @GetMapping
-    public ResponseEntity<List<TodoResponse>> getTodosByUserEmail(@RequestParam String assigneeEmail) throws EntityNotFoundException {
+    public ResponseEntity<List<TodoResponse>> getTodosByUserEmail(@RequestParam String assigneeEmail)
+            throws EntityNotFoundException {
+
         List<TodoResponse> todos = todoService.getTodosByUserEmail(assigneeEmail);
         return ResponseEntity.ok(todos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TodoResponse> getTodoById(@PathVariable String id) throws EntityNotFoundException {
+    public ResponseEntity<TodoResponse> getTodoById(@PathVariable String id)
+            throws EntityNotFoundException {
+
         TodoResponse todo = todoService.getTodoById(id);
         return ResponseEntity.ok(todo);
     }
 
     @PostMapping
-    public ResponseEntity<TodoResponse> createTodo(@Valid @RequestBody CreateTodoRequest request) throws EntityNotFoundException {
+    public ResponseEntity<TodoResponse> createTodo(@Valid @RequestBody CreateTodoRequest request)
+            throws EntityNotFoundException {
+
         TodoResponse todo = todoService.createTodo(request);
+        metricsService.recordTodoCreated();
+
         return ResponseEntity.status(HttpStatus.CREATED).body(todo);
     }
 
     @PatchMapping("/{id}/done")
-    public ResponseEntity<TodoResponse> setDone(@PathVariable String id, @RequestBody boolean done) throws EntityNotFoundException {
+    public ResponseEntity<TodoResponse> setDone(@PathVariable String id, @RequestBody boolean done)
+            throws EntityNotFoundException {
+
         TodoResponse todo = todoService.setDone(id, done);
+
+        if (done) {
+            metricsService.recordTodoCompleted();
+        }
+
         return ResponseEntity.ok(todo);
     }
 
     @PatchMapping("/{id}/assignee")
-    public ResponseEntity<TodoResponse> assign(@PathVariable String id, @Valid @RequestBody AssignTodoRequest request) throws EntityNotFoundException {
+    public ResponseEntity<TodoResponse> assign(@PathVariable String id,
+                                               @Valid @RequestBody AssignTodoRequest request)
+            throws EntityNotFoundException {
+
         TodoResponse todo = todoService.assign(id, request);
         return ResponseEntity.ok(todo);
     }
 
     @PatchMapping("/{id}/description")
-    public ResponseEntity<TodoResponse> edit(@PathVariable String id, @Valid @RequestBody EditTodoRequest request) throws EntityNotFoundException {
+    public ResponseEntity<TodoResponse> edit(@PathVariable String id,
+                                             @Valid @RequestBody EditTodoRequest request)
+            throws EntityNotFoundException {
+
         TodoResponse todo = todoService.edit(id, request);
         return ResponseEntity.ok(todo);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable String id) throws EntityNotFoundException {
+    public ResponseEntity<Void> deleteTodo(@PathVariable String id)
+            throws EntityNotFoundException {
+
         todoService.deleteTodo(id);
         return ResponseEntity.noContent().build();
     }
