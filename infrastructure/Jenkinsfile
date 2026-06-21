@@ -1,14 +1,86 @@
 pipeline {
     agent any
+
+    tools {
+        jdk 'jdk21'
+        gradle 'gradle-8'
+    }
+
     environment {
-        DOCKER_PASSWORD = credentials("docker_password")
+        DOCKER_HUB_USERNAME = 'liviu11'
+        DOCKER_PASSWORD = credentials('docker_password')
+        GITHUB_TOKEN = credentials('github_token')
     }
 
     stages {
-        stage('Build & Test') {
+        stage('Build') {
             steps {
                 sh './gradlew clean build'
             }
+        }
+
+        stage('Test') {
+            steps {
+                sh './gradlew test'
+            }
+        }
+
+        stage('Version') {
+            steps {
+                script {
+                    sh 'git fetch --tags'
+
+                    env.MAJOR_VERSION = sh(
+                        script: 'git tag | sort -V | tail -1 | cut -d . -f 1',
+                        returnStdout: true
+                    ).trim()
+
+                    env.MINOR_VERSION = sh(
+                        script: 'git tag | sort -V | tail -1 | cut -d . -f 2',
+                        returnStdout: true
+                    ).trim()
+
+                    env.PATCH_VERSION = sh(
+                        script: 'git tag | sort -V | tail -1 | cut -d . -f 3',
+                        returnStdout: true
+                    ).trim()
+
+                    def minorInt = env.MINOR_VERSION.toInteger()
+                    env.IMAGE_TAG = "${env.MAJOR_VERSION}.${minorInt + 1}.${env.PATCH_VERSION}"
+
+                    echo "Building Docker image version: ${env.IMAGE_TAG}"
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_HUB_USERNAME/prod-eng-img:$IMAGE_TAG .'
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                sh '''
+                    echo $DOCKER_PASSWORD_PSW | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+                    docker push $DOCKER_HUB_USERNAME/prod-eng-img:$IMAGE_TAG
+                '''
+            }
+        }
+
+        stage('Tag Release') {
+            steps {
+                sh '''
+                    git tag $IMAGE_TAG
+                    git push https://$GITHUB_TOKEN_USR:$GITHUB_TOKEN_PSW@github.com/LiviuKHK/service.git $IMAGE_TAG
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker logout || true'
         }
     }
 }
